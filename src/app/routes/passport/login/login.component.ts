@@ -123,16 +123,20 @@ export class UserLoginComponent implements OnDestroy {
       })
       .subscribe(
         (res) => {
-          if (res.msg !== "ok") {
-            this.error = res.msg;
-            return;
-          }
           // 清空路由复用信息
           this.reuseTabService.clear();
           // 设置用户Token信息
           // TODO: Mock expired value
-          res.user.expired = +new Date() + 1000 * 60 * 5;
-          this.tokenService.set(res.user);
+          const { institution, user } = res.data;
+          user.avatar = "./assets/tmp/img/avatar.jpg";
+          const token = {
+            token: res.data.token,
+            token_type: res.data.token_type,
+          };
+          localStorage.setItem("institution", institution);
+          this.settingsService.setUser(user);
+
+          this.tokenService.set(token);
           // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
           this.startupSrv.load().then(() => {
             let url = this.tokenService.referrer.url || "/";

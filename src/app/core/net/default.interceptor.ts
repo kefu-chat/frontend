@@ -1,29 +1,43 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponseBase } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
-import { Router } from '@angular/router';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { _HttpClient } from '@delon/theme';
-import { environment } from '@env/environment';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, filter, mergeMap, switchMap, take, tap } from 'rxjs/operators';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpResponseBase,
+} from "@angular/common/http";
+import { Injectable, Injector } from "@angular/core";
+import { Router } from "@angular/router";
+import { DA_SERVICE_TOKEN, ITokenService } from "@delon/auth";
+import { _HttpClient } from "@delon/theme";
+import { environment } from "@env/environment";
+import { NzNotificationService } from "ng-zorro-antd/notification";
+import { BehaviorSubject, Observable, of, throwError } from "rxjs";
+import {
+  catchError,
+  filter,
+  mergeMap,
+  switchMap,
+  take,
+  tap,
+} from "rxjs/operators";
 
 const CODEMESSAGE = {
-  200: '服务器成功返回请求的数据。',
-  201: '新建或修改数据成功。',
-  202: '一个请求已经进入后台排队（异步任务）。',
-  204: '删除数据成功。',
-  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
-  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-  406: '请求的格式不可得。',
-  410: '请求的资源被永久删除，且不会再得到的。',
-  422: '当创建一个对象时，发生一个验证错误。',
-  500: '服务器发生错误，请检查服务器。',
-  502: '网关错误。',
-  503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
+  200: "服务器成功返回请求的数据。",
+  201: "新建或修改数据成功。",
+  202: "一个请求已经进入后台排队（异步任务）。",
+  204: "删除数据成功。",
+  400: "发出的请求有错误，服务器没有进行新建或修改数据的操作。",
+  401: "用户没有权限（令牌、用户名、密码错误）。",
+  403: "用户得到授权，但是访问是被禁止的。",
+  404: "发出的请求针对的是不存在的记录，服务器没有进行操作。",
+  406: "请求的格式不可得。",
+  410: "请求的资源被永久删除，且不会再得到的。",
+  422: "当创建一个对象时，发生一个验证错误。",
+  500: "服务器发生错误，请检查服务器。",
+  502: "网关错误。",
+  503: "服务不可用，服务器暂时过载或维护。",
+  504: "网关超时。",
 };
 
 /**
@@ -31,12 +45,12 @@ const CODEMESSAGE = {
  */
 @Injectable()
 export class DefaultInterceptor implements HttpInterceptor {
-  private refreshTokenType: 're-request' | 'auth-refresh' = 'auth-refresh';
+  private refreshTokenType: "re-request" | "auth-refresh" = "auth-refresh";
   private refreshToking = false;
   private refreshToken$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(private injector: Injector) {
-    if (this.refreshTokenType === 'auth-refresh') {
+    if (this.refreshTokenType === "auth-refresh") {
       this.buildAuthRefresh();
     }
   }
@@ -71,12 +85,18 @@ export class DefaultInterceptor implements HttpInterceptor {
    */
   private refreshTokenRequest(): Observable<any> {
     const model = this.tokenSrv.get();
-    return this.http.post(`/api/auth/refresh`, null, null, { headers: { refresh_token: model.refresh_token || '' } });
+    return this.http.post(`/api/auth/refresh`, null, null, {
+      headers: { refresh_token: model.refresh_token || "" },
+    });
   }
 
   // #region 刷新Token方式一：使用 401 重新刷新 Token
 
-  private tryRefreshToken(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
+  private tryRefreshToken(
+    ev: HttpResponseBase,
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<any> {
     // 1、若请求为刷新Token请求，表示来自刷新Token可以直接跳转登录页
     if ([`/api/auth/refresh`].some((url) => req.url.includes(url))) {
       this.toLogin();
@@ -87,7 +107,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       return this.refreshToken$.pipe(
         filter((v) => !!v),
         take(1),
-        switchMap(() => next.handle(this.reAttachToken(req))),
+        switchMap(() => next.handle(this.reAttachToken(req)))
       );
     }
     // 3、尝试调用刷新 Token
@@ -108,7 +128,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         this.refreshToking = false;
         this.toLogin();
         return throwError(err);
-      }),
+      })
     );
   }
 
@@ -138,7 +158,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         switchMap(() => {
           this.refreshToking = true;
           return this.refreshTokenRequest();
-        }),
+        })
       )
       .subscribe(
         (res) => {
@@ -147,7 +167,7 @@ export class DefaultInterceptor implements HttpInterceptor {
           this.refreshToking = false;
           this.tokenSrv.set(res);
         },
-        () => this.toLogin(),
+        () => this.toLogin()
       );
   }
 
@@ -155,10 +175,14 @@ export class DefaultInterceptor implements HttpInterceptor {
 
   private toLogin(): void {
     this.notification.error(`未登录或登录已过期，请重新登录。`, ``);
-    this.goTo('/passport/login');
+    this.goTo("/passport/login");
   }
 
-  private handleData(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
+  private handleData(
+    ev: HttpResponseBase,
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<any> {
     // 可能会因为 `throw` 导出无法执行 `_HttpClient` 的 `end()` 操作
     if (ev.status > 0) {
       this.http.end();
@@ -188,7 +212,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         // }
         break;
       case 401:
-        if (this.refreshTokenType === 're-request') {
+        if (this.refreshTokenType === "re-request") {
           return this.tryRefreshToken(ev, req, next);
         }
         this.toLogin();
@@ -201,8 +225,8 @@ export class DefaultInterceptor implements HttpInterceptor {
       default:
         if (ev instanceof HttpErrorResponse) {
           console.warn(
-            '未可知错误，大部分是由于后端不支持跨域CORS或无效配置引起，请参考 https://ng-alain.com/docs/server 解决跨域问题',
-            ev,
+            "未可知错误，大部分是由于后端不支持跨域CORS或无效配置引起，请参考 https://ng-alain.com/docs/server 解决跨域问题",
+            ev
           );
         }
         break;
@@ -214,10 +238,13 @@ export class DefaultInterceptor implements HttpInterceptor {
     }
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     // 统一加上服务端前缀
     let url = req.url;
-    if (!url.startsWith('https://') && !url.startsWith('http://') && !url.startsWith('assets')) {
+    if (!url.startsWith("assets")) {
       url = environment.apiUrl + url;
     } else {
       url = environment.SERVER_URL + url;
@@ -233,7 +260,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         // 若一切都正常，则后续操作
         return of(ev);
       }),
-      catchError((err: HttpErrorResponse) => this.handleData(err, newReq, next)),
+      catchError((err: HttpErrorResponse) => this.handleData(err, newReq, next))
     );
   }
 }
