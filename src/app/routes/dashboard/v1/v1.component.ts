@@ -1,4 +1,3 @@
-import { Platform } from "@angular/cdk/platform";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,8 +6,11 @@ import {
 } from "@angular/core";
 import { OnboardingService } from "@delon/abc/onboarding";
 import { _HttpClient } from "@delon/theme";
-// import { ConversationModel } from "../../../model/application/conversation.interface";
-// import { Res } from "../../../model/common/common.interface";
+import {
+  ConversationModel,
+  Conversation,
+} from "@model/application/conversation.interface";
+import { Res } from "@model/common/common.interface";
 
 @Component({
   selector: "app-dashboard-v1",
@@ -58,12 +60,11 @@ export class DashboardV1Component implements OnInit {
   webSite: any[];
   salesData: any[];
   offlineChartData: any[];
-
+  data: Conversation[] = [];
   constructor(
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
-    private obSrv: OnboardingService,
-    private platform: Platform
+    private obSrv: OnboardingService
   ) {
     // TODO: Wait for the page to load
     setTimeout(() => this.genOnboarding(), 1000);
@@ -80,19 +81,8 @@ export class DashboardV1Component implements OnInit {
       .get("api/conversation/list")
       .subscribe((res: Res<ConversationModel>) => {
         if (res.success) {
-          const data = res.data.conversations;
+          this.data = res.data.conversations;
         }
       });
-  }
-
-  private genOnboarding(): void {
-    const KEY = "on-boarding";
-    if (!this.platform.isBrowser || localStorage.getItem(KEY) === "1") {
-      return;
-    }
-    this.http.get(`./assets/tmp/on-boarding.json`).subscribe((res) => {
-      this.obSrv.start(res);
-      localStorage.setItem(KEY, "1");
-    });
   }
 }
