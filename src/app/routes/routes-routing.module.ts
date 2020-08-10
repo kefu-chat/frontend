@@ -19,11 +19,6 @@ const routes: Routes = [
     children: [
       { path: "", redirectTo: "dashboard/v1", pathMatch: "full" },
       { path: "dashboard", redirectTo: "dashboard/v1", pathMatch: "full" },
-      {
-        path: "widgets",
-        loadChildren: () =>
-          import("./widgets/widgets.module").then((m) => m.WidgetsModule),
-      },
       // Exception
       {
         path: "exception",
