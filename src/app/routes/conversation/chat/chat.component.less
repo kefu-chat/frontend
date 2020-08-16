@@ -1,0 +1,74 @@
+.customlist {
+  width: 260px;
+  height: 100vh;
+  overflow: auto;
+  overflow: hidden;
+  overflow-y: auto;
+  position: absolute;
+  background-color: #2c3544;
+}
+.search-wrapper {
+  padding: 14px 10px;
+  background-color: #2c3544;
+  height: 60px;
+}
+.searchInput {
+  border-radius: 16px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  background-color: #2c3544;
+  input {
+    background-color: #2c3544;
+    color: #fff;
+    padding-left: 15px;
+    height: 32px;
+  }
+  input:hover {
+    background-color: #374252;
+  }
+  input::-webkit-input-placeholder {
+    color: #8894ab;
+  }
+  input::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #8894ab;
+  }
+  input:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #8894ab;
+  }
+  input:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #8894ab;
+  }
+}
+.searchInput:hover {
+  background-color: #374252;
+  input {
+    background-color: #374252;
+  }
+}
+.ulout {
+  background-color: #2c3544;
+  color: #fff;
+}
+
+::ng-deep {
+  .ant-menu-item-group-title {
+    color: #8894ab;
+  }
+  .ant-menu .ant-menu-item-selected {
+    background-color: #374252 !important;
+    color: #fff;
+  }
+  .ant-menu-item:active,
+  .ant-menu-submenu-title:active {
+    background: #374252;
+    color: #fff;
+  }
+  .ant-menu-item:hover {
+    background: #374252;
+    color: #fff;
+  }
+}

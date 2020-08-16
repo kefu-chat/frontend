@@ -17,8 +17,20 @@ const routes: Routes = [
     canActivate: [SimpleGuard],
     canActivateChild: [SimpleGuard],
     children: [
-      { path: "", redirectTo: "dashboard/v1", pathMatch: "full" },
-      { path: "dashboard", redirectTo: "dashboard/v1", pathMatch: "full" },
+      { path: "", redirectTo: "conversation/chat", pathMatch: "full" },
+      {
+        path: "conversation",
+        redirectTo: "conversation/chat",
+        pathMatch: "full",
+      },
+      // conversation
+      {
+        path: "conversation",
+        loadChildren: () =>
+          import("./conversation/conversation.module").then(
+            (m) => m.ConversationModule
+          ),
+      },
       // Exception
       {
         path: "exception",

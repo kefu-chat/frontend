@@ -1,0 +1,31 @@
+<div class="customlist">
+  <div class="search-wrapper">
+    <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
+      <input type="text" nz-input placeholder="在这里搜索" nzSize="large" />
+    </nz-input-group>
+    <ng-template #searchTemplate
+      ><i nz-icon nz-tooltip nzType="search" style="color: #505a69;"></i
+    ></ng-template>
+  </div>
+  <div>
+    <ul nz-menu nzMode="inline" class="ulout">
+      <ng-container *ngIf="unassignedData.length > 0">
+        <li nz-menu-group nzTitle="等待中" class="typeTitle">
+          <ul>
+            <li nz-menu-item *ngFor="let item of unassignedData">
+              {{ item.visitor.name }}
+            </li>
+          </ul>
+        </li>
+      </ng-container>
+
+      <li nz-menu-group nzTitle="接待中">
+        <ul>
+          <li nz-menu-item *ngFor="let item of assignedData">
+            {{ item.visitor.name }}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
