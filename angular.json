@@ -22,13 +22,8 @@
             "main": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": [
-              "src/assets",
-              "src/favicon.ico"
-            ],
-            "styles": [
-              "src/styles.less"
-            ],
+            "assets": ["src/assets", "src/favicon.ico"],
+            "styles": ["src/styles.less"],
             "scripts": [
               "node_modules/ajv/dist/ajv.bundle.js",
               "node_modules/qrious/dist/qrious.min.js"
@@ -123,9 +118,7 @@
               "node_modules/qrious/dist/qrious.min.js"
             ],
             "styles": [],
-            "assets": [
-              "src/assets"
-            ]
+            "assets": ["src/assets"]
           }
         },
         "lint": {
@@ -136,9 +129,7 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -158,6 +149,6 @@
   },
   "defaultProject": "ng-alain",
   "cli": {
-    "analytics": "40255a03-4dc8-4466-86f9-20af2938a73c"
+    "analytics": "191e4739-95ab-4f33-97d4-e73e648ca37d"
   }
 }

@@ -20,7 +20,8 @@ import {
   Router,
 } from "@angular/router";
 import { SettingsService } from "@delon/theme";
-import { updateHostClass } from "@delon/util";
+import { updateHostClass, AlainConfigService } from "@delon/util";
+import { environment } from "@env/environment";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -31,7 +32,8 @@ import { SettingDrawerComponent } from "./setting-drawer/setting-drawer.componen
   selector: "layout-default",
   templateUrl: "./default.component.html",
 })
-export class LayoutDefaultComponent implements OnInit, OnDestroy {
+export class LayoutDefaultComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
   @ViewChild("settingHost", { read: ViewContainerRef, static: true })
   private settingHost: ViewContainerRef;
@@ -44,7 +46,8 @@ export class LayoutDefaultComponent implements OnInit, OnDestroy {
     private settings: SettingsService,
     private el: ElementRef,
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private doc: any
+    @Inject(DOCUMENT) private doc: any,
+    private configSrv: AlainConfigService
   ) {
     // scroll to top in change page
     router.events.pipe(takeUntil(this.unsubscribe$)).subscribe((evt) => {
@@ -83,12 +86,25 @@ export class LayoutDefaultComponent implements OnInit, OnDestroy {
     doc.body.classList[layout.colorWeak ? "add" : "remove"]("color-weak");
   }
 
+  ngAfterViewInit(): void {
+    // Setting componet for only developer
+    if (!environment.production) {
+      setTimeout(() => {
+        const settingFactory = this.resolver.resolveComponentFactory(
+          SettingDrawerComponent
+        );
+        this.settingHost.createComponent(settingFactory);
+      }, 22);
+    }
+  }
+
   ngOnInit(): void {
     const { settings, unsubscribe$ } = this;
     settings.notify
       .pipe(takeUntil(unsubscribe$))
       .subscribe(() => this.setClass());
     this.setClass();
+    this.configSrv.set("chart", { theme: "dark" });
   }
 
   ngOnDestroy(): void {
