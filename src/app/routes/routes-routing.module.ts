@@ -59,6 +59,11 @@ const routes: Routes = [
         component: UserRegisterResultComponent,
         data: { title: "注册结果", titleI18n: "app.register.register" },
       },
+      {
+        path: "lock",
+        component: UserLoginComponent,
+        data: { title: "锁屏", titleI18n: "app.lock" },
+      },
     ],
   },
   // 单页不包裹Layout

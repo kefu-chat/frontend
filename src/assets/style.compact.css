@@ -30155,10 +30155,14 @@ body {
 .alain-default__content {
   margin: 0;
 }
+@media (min-width: 767px) {
+  .setheight {
+    margin-left: 64px !important;
+  }
+}
 .setheight {
   height: calc(100% - 52px);
   margin-top: 52px !important;
-  margin-left: 200px !important;
 }
 .alain-default__aside {
   margin-top: 52px;

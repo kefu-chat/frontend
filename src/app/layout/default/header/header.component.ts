@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { App, SettingsService } from '@delon/theme';
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { App, SettingsService } from "@delon/theme";
 
 @Component({
-  selector: 'layout-header',
-  templateUrl: './header.component.html',
+  selector: "layout-header",
+  templateUrl: "./header.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
@@ -17,10 +17,12 @@ export class HeaderComponent {
     return this.settings.layout.collapsed;
   }
 
-  constructor(private settings: SettingsService) {}
+  constructor(private settings: SettingsService) {
+    this.settings.setLayout("collapsed", true);
+  }
 
   toggleCollapsedSidebar(): void {
-    this.settings.setLayout('collapsed', !this.settings.layout.collapsed);
+    this.settings.setLayout("collapsed", !this.settings.layout.collapsed);
   }
 
   searchToggleChange(): void {

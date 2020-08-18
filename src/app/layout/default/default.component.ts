@@ -88,14 +88,14 @@ export class LayoutDefaultComponent
 
   ngAfterViewInit(): void {
     // Setting componet for only developer
-    if (!environment.production) {
-      setTimeout(() => {
-        const settingFactory = this.resolver.resolveComponentFactory(
-          SettingDrawerComponent
-        );
-        this.settingHost.createComponent(settingFactory);
-      }, 22);
-    }
+    // if (!environment.production) {
+    //   setTimeout(() => {
+    //     const settingFactory = this.resolver.resolveComponentFactory(
+    //       SettingDrawerComponent
+    //     );
+    //     this.settingHost.createComponent(settingFactory);
+    //   }, 22);
+    // }
   }
 
   ngOnInit(): void {

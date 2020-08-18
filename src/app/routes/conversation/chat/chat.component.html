@@ -13,7 +13,12 @@
         <ng-container *ngIf="unassignedData.length > 0">
           <li nz-menu-group nzTitle="等待中" class="typeTitle">
             <ul>
-              <li nz-menu-item *ngFor="let item of unassignedData">
+              <li
+                nz-menu-item
+                *ngFor="let item of unassignedData"
+                [nzSelected]="selectId == item.id"
+                (click)="to(item)"
+              >
                 {{ item.visitor.name }}
               </li>
             </ul>
@@ -22,7 +27,12 @@
 
         <li nz-menu-group nzTitle="接待中">
           <ul>
-            <li nz-menu-item *ngFor="let item of assignedData">
+            <li
+              nz-menu-item
+              *ngFor="let item of assignedData"
+              [nzSelected]="selectId == item.id"
+              (click)="to(item)"
+            >
               {{ item.visitor.name }}
             </li>
           </ul>
@@ -30,9 +40,7 @@
       </ul>
     </div>
   </div>
-  <div nz-col nzFlex="auto">
-    <h1 style="color: #fff;">
-      121212
-    </h1>
+  <div nz-col nzFlex="auto" style="height: 100%;">
+    <router-outlet></router-outlet>
   </div>
 </div>
