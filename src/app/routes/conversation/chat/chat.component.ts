@@ -8,7 +8,7 @@ import { zip } from "rxjs";
   templateUrl: "./chat.component.html",
   styleUrls: ["./chat.component.less"],
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit {
   assignedData = [];
   unassignedData = [];
   parmaTypes = {
