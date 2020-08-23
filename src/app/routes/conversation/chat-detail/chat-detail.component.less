@@ -12,9 +12,16 @@
   box-shadow: 0 2px 2px rgba(0, 0, 60, 0.08);
   border-bottom: 1px solid transparent;
 }
+.visitor-details {
+  background: #fff;
+}
 @media (min-width: 1200px) {
   .visitor-details {
     display: block;
+    width: 380px;
+  }
+  .chat-left {
+    width: calc(100% - 380px);
   }
 }
 @media (max-width: 1200px) {
@@ -28,6 +35,180 @@
 .content-chat {
   height: calc(100% - 60px);
   .chat-left {
-    background-color: #fff;
+    height: 100%;
+    background-color: #d7dde4;
   }
+}
+[data-theme="dark"] {
+  :host ::ng-deep {
+    .ant-comment-content-author-name {
+      color: rgba(0, 0, 0, 0.45);
+    }
+    .ant-comment-content-author-time {
+      color: #aaa;
+    }
+    .ant-comment-content-detail {
+      color: #000;
+    }
+    .user {
+      .ant-comment-avatar {
+        position: absolute;
+        right: 0px;
+      }
+      // .ant-comment-content {
+      //   display: block;
+      //   position: absolute;
+      //   right: 50px;
+      // }
+      .ant-comment-content-author {
+        display: block;
+        width: 100%;
+        text-align: right;
+      }
+      .ant-comment-inner {
+        position: relative;
+        text-align: right;
+      }
+      .ant-comment-content {
+        margin-right: 50px;
+      }
+      nz-comment-content {
+        float: right;
+      }
+      .cell {
+        display: inline-block;
+        position: relative;
+        line-height: 1.8;
+        padding: 0.4em 1em;
+        background-color: #0074d9;
+        color: #fff;
+        border-radius: 1em 1em 0 1em;
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        -ms-word-break: break-all;
+        word-break: break-all;
+        word-break: break-word;
+        text-align: left;
+      }
+    }
+    .visitor {
+      .cell {
+        display: inline-block;
+        position: relative;
+        line-height: 1.8;
+        padding: 0.4em 1em;
+        background-color: rgb(119, 222, 238);
+        border-radius: 1em 1em 1em 0;
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        -ms-word-break: break-all;
+        word-break: break-all;
+        word-break: break-word;
+      }
+    }
+    .ant-divider-horizontal.ant-divider-with-text::before,
+    .ant-divider-horizontal.ant-divider-with-text::after {
+      border-top: 1px solid #ccc;
+    }
+    .ant-divider-horizontal.ant-divider-with-text {
+      margin: 10px 0;
+    }
+    .ant-input {
+      color: #333;
+      border: none;
+    }
+    .ant-input::-webkit-input-placeholder {
+      /* WebKit browsers 适配谷歌 */
+      color: #bdcada;
+    }
+    .ant-input:-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 适配火狐 */
+      color: #bdcada;
+    }
+    .ant-input::-moz-placeholder {
+      /* Mozilla Firefox 19+ 适配火狐 */
+      color: #bdcada;
+    }
+    .ant-input:-ms-input-placeholder {
+      /* Internet Explorer 10+  适配ie*/
+      color: #bdcada;
+    }
+  }
+}
+.user {
+  width: 100%;
+}
+.visitor {
+  width: 100%;
+}
+.conversation {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .message {
+    width: 100%;
+    flex: 1;
+    padding: 0 10px 10px;
+    overflow: auto;
+  }
+  .messageIupt {
+    height: 130px;
+    background: #fff;
+    border-top: 3px solid #3f88f6;
+    padding: 10px;
+
+    .input-left {
+      width: calc(100% - 130px);
+    }
+    .input-right {
+      width: 130px;
+      position: relative;
+      a {
+        font-size: 25px;
+        margin-left: 4px;
+        color: #bbc6d6;
+        transition: color 0.5s;
+        display: inline-block;
+        width: 30px;
+        text-align: center;
+        i {
+          font-size: 22px;
+          color: #bbc6d6;
+          cursor: pointer;
+        }
+      }
+      .canSend {
+        i {
+          color: #177ddc;
+        }
+      }
+      .send {
+        position: absolute;
+        bottom: 0px;
+        left: 5px;
+      }
+      .send :hover {
+        color: #177ddc;
+      }
+      a:hover {
+        i {
+          color: #555;
+        }
+      }
+    }
+  }
+  .img {
+    max-width: 90%;
+  }
+}
+.pre-more {
+  position: sticky;
+  top: 0px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.45);
+  background: #d7dde4;
+  z-index: 99;
+  padding-bottom: 10px;
 }

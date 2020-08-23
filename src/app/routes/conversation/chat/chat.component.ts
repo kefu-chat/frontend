@@ -39,7 +39,6 @@ export class ChatComponent implements OnInit {
       this.http.get("api/conversation/list", this.parmaTypes.assigned),
       this.http.get("api/conversation/list", this.parmaTypes.unassigned)
     ).subscribe(([assignedData, unassignedData]) => {
-      console.log(assignedData);
       this.assignedData = assignedData.data.conversations;
       this.unassignedData = unassignedData.data.conversations;
       this.doNav();

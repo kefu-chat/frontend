@@ -4,7 +4,8 @@
 
 export const environment = {
   SERVER_URL: `./`,
-  apiUrl: `http://localhost/`,
+  // apiUrl: `http://localhost/`,
+  apiUrl: `http://dev.fastsupport.cn/`,
   production: false,
   useHash: true,
   hmr: false,
