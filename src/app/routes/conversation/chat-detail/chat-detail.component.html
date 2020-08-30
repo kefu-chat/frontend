@@ -16,7 +16,7 @@
                   : item.sender.name
                 : item.sender.name
             "
-            [nzDatetime]="item.created_at | _date: 'yyyy-mm-dd'"
+            [nzDatetime]="item.created_at | _date: 'yyyy-mm-dd HH:mm:ss'"
           >
             <nz-comment-content style="width: 95%;">
               <div class="cell" *ngIf="item.type == 1">{{ item.content }}</div>
@@ -43,7 +43,7 @@
               nz-input
               placeholder="请输入..."
               style="height: 110px;"
-              [(ngModel)]="commit"
+              [(ngModel)]="content"
             ></textarea>
           </div>
           <div nz-col class="input-right">
@@ -56,7 +56,7 @@
             <a>
               <i nz-icon nzType="smile" nzTheme="outline"></i>
             </a>
-            <a class="send" [class.canSend]="commit">
+            <a class="send" [class.canSend]="content" (click)="sendMessage(1)">
               <i nz-icon nzType="send" nzTheme="outline"></i>
             </a>
           </div>

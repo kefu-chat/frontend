@@ -110,3 +110,8 @@ export interface MessageUser {
   updated_at: string;
   photo_url: string;
 }
+
+export interface SendMessageModel {
+  type: number;
+  content: string;
+}

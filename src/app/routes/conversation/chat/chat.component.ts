@@ -1,6 +1,7 @@
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { NavigationStart, Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
+import { ConversationService } from "@service";
 import { zip } from "rxjs";
 
 @Component({
@@ -20,7 +21,11 @@ export class ChatComponent implements OnInit {
     },
   };
   selectId: number = Number(localStorage.getItem("selectId"));
-  constructor(private http: _HttpClient, private router: Router) {
+  constructor(
+    private http: _HttpClient,
+    private router: Router,
+    private conversationSrv: ConversationService
+  ) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationStart) {
         if (evt.url === "/conversation/chat") {
@@ -36,8 +41,8 @@ export class ChatComponent implements OnInit {
 
   getConversationList(): void {
     zip(
-      this.http.get("api/conversation/list", this.parmaTypes.assigned),
-      this.http.get("api/conversation/list", this.parmaTypes.unassigned)
+      this.conversationSrv.getVistorList(this.parmaTypes.assigned),
+      this.conversationSrv.getVistorList(this.parmaTypes.unassigned)
     ).subscribe(([assignedData, unassignedData]) => {
       this.assignedData = assignedData.data.conversations;
       this.unassignedData = unassignedData.data.conversations;
