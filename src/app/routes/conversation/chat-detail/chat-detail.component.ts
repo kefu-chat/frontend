@@ -83,6 +83,9 @@ export class ChatDetailComponent implements OnInit {
       .subscribe((res: Res<any>) => {
         if (res.success) {
           this.content = "";
+          setTimeout(() => {
+            this.scrollTo();
+          }, 200);
         }
       });
   }
