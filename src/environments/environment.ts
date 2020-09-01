@@ -6,6 +6,7 @@ export const environment = {
   SERVER_URL: `./`,
   // apiUrl: `http://localhost/`,
   apiUrl: `http://dev.fastsupport.cn/`,
+  socketHost: `http://dev.fastsupport.cn:6001/`,
   production: false,
   useHash: true,
   hmr: false,

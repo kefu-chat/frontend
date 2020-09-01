@@ -2,13 +2,12 @@ import { Component, ElementRef, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
 import { SettingsService, User } from "@delon/theme";
-
 import {
   MessageData,
   MessageModel,
 } from "@model/application/conversation.interface";
 import { Res } from "@model/common/common.interface";
-import { ConversationService } from "@service";
+import { ConversationService, EchoService } from "@service";
 
 @Component({
   selector: "app-chat-detail",
@@ -33,13 +32,15 @@ export class ChatDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private settings: SettingsService,
     private el: ElementRef<HTMLElement>,
-    private conversationSrv: ConversationService
+    private conversationSrv: ConversationService,
+    private echoSrv: EchoService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
       this.getData(this.id);
+      this.echoSrv.Echo.join(`conversation.${this.id}.messaging`);
     });
   }
 
@@ -61,7 +62,6 @@ export class ChatDetailComponent implements OnInit {
           setTimeout(() => {
             this.scrollTo();
           }, 200);
-          console.log(this.messageEl);
         }
       });
   }

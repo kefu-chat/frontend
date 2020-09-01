@@ -8,6 +8,7 @@ import {
   TitleService,
 } from "@delon/theme";
 import { TranslateService } from "@ngx-translate/core";
+import { EchoService } from "@shared/service";
 import { NzIconService } from "ng-zorro-antd/icon";
 import { zip } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -29,7 +30,8 @@ export class StartupService {
     private settingService: SettingsService,
     private aclService: ACLService,
     private titleService: TitleService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private echoSrv: EchoService
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
@@ -71,6 +73,7 @@ export class StartupService {
           },
           () => {},
           () => {
+            this.echoSrv.init();
             resolve();
           }
         );
