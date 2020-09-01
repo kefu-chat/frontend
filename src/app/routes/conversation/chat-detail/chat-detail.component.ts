@@ -45,9 +45,6 @@ export class ChatDetailComponent implements OnInit {
   }
 
   getData(id: number, flagId?: number): void {
-    const api = flagId
-      ? `api/conversation/${id}/messages?offset=${flagId}`
-      : `api/conversation/${id}/messages`;
     this.conversationSrv
       .getMessages(id, flagId)
       .subscribe((res: Res<MessageData>) => {
