@@ -8,6 +8,7 @@ import {
 } from "@model/application/conversation.interface";
 import { Res } from "@model/common/common.interface";
 import { ConversationService, EchoService } from "@service";
+import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
 
 @Component({
   selector: "app-chat-detail",
@@ -20,6 +21,8 @@ export class ChatDetailComponent implements OnInit {
   channel: string;
   content = "";
   messageEl: HTMLElement;
+  fileList: NzUploadFile[] = [];
+  picUrl = "";
   get user(): User {
     return this.settings.user;
   }
@@ -85,26 +88,46 @@ export class ChatDetailComponent implements OnInit {
     this.getData(this.id, this.nowfirstMsgId);
   }
 
-  sendMessage(type: number): void {
-    let content: string;
-    type === 1 ? (content = this.content) : (content = "http://");
-    const req = {
-      type,
-      content,
+  sendMessage(): void {
+    const content = {
+      1: this.content,
+      2: this.picUrl,
     };
-    this.conversationSrv
-      .sendMessage(this.id, req)
-      .subscribe((res: Res<any>) => {
-        if (res.success) {
-          this.content = "";
-          setTimeout(() => {
-            this.scrollTo();
-          }, 200);
-        }
-      });
+    for (const i of Object.keys(content)) {
+      const j = Number(i);
+      if (content[j]) {
+        const req = {
+          type: Number(j),
+          content: content[j],
+        };
+        this.conversationSrv
+          .sendMessage(this.id, req)
+          .subscribe((res: Res<any>) => {
+            if (res.success) {
+              this.content = "";
+              this.picUrl = "";
+              this.fileList = [];
+              setTimeout(() => {
+                this.scrollTo();
+              }, 200);
+            }
+          });
+      }
+    }
   }
 
   keyEnter(e: KeyboardEvent): void {
-    this.sendMessage(1);
+    if (this.content) {
+      this.sendMessage();
+    } else {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status === "done") {
+      this.picUrl = info.file.response.data.url;
+    }
   }
 }

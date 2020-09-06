@@ -37,29 +37,40 @@
         </div>
       </div>
       <div class="messageIupt">
-        <div nz-row>
-          <div nz-col class="input-left">
-            <textarea
-              nz-input
-              placeholder="请输入..."
-              style="height: 110px;"
-              (keydown.enter)="keyEnter($evnet)"
-              [(ngModel)]="content"
-            ></textarea>
-          </div>
+        <div class="input-left">
+          <textarea
+            nz-input
+            placeholder="请输入..."
+            style="height: 110px;"
+            (keydown.enter)="keyEnter($event)"
+            [(ngModel)]="content"
+          ></textarea>
+        </div>
+        <div nz-row style="height: 40px; width: 100%; position: relative;">
           <div nz-col class="input-right">
-            <a>
-              <i nz-icon nzType="paper-clip" nzTheme="outline"></i>
-            </a>
-            <a>
-              <i nz-icon nzType="thunderbolt" nzTheme="outline"></i>
+            <a
+              class="send"
+              [class.canSend]="content || fileList.length > 0"
+              (click)="sendMessage()"
+            >
+              <i nz-icon nzType="send" nzTheme="outline"></i>
             </a>
             <a>
               <i nz-icon nzType="smile" nzTheme="outline"></i>
             </a>
-            <a class="send" [class.canSend]="content" (click)="sendMessage(1)">
-              <i nz-icon nzType="send" nzTheme="outline"></i>
+            <a>
+              <i nz-icon nzType="thunderbolt" nzTheme="outline"></i>
             </a>
+            <nz-upload
+              nzAction="api/file/upload"
+              (nzChange)="handleChange($event)"
+              style="float: right;"
+              [(nzFileList)]="fileList"
+            >
+              <a>
+                <i nz-icon nzType="paper-clip" nzTheme="outline"></i>
+              </a>
+            </nz-upload>
           </div>
         </div>
       </div>

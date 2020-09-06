@@ -57,6 +57,7 @@ export interface MessageModel {
   updated_at: string;
   sender_type_text: string;
   sender: Sender;
+  loading?: boolean;
 }
 
 export interface Sender {

@@ -154,23 +154,23 @@
     overflow: auto;
   }
   .messageIupt {
-    height: 130px;
+    height: 170px;
     background: #fff;
     border-top: 3px solid #3f88f6;
     padding: 10px;
 
     .input-left {
-      width: calc(100% - 130px);
+      width: 100%;
     }
     .input-right {
-      width: 130px;
       position: relative;
+      width: 100%;
       a {
+        float: right;
         font-size: 25px;
         margin-left: 4px;
         color: #bbc6d6;
         transition: color 0.5s;
-        display: inline-block;
         width: 30px;
         text-align: center;
         i {
@@ -185,9 +185,7 @@
         }
       }
       .send {
-        position: absolute;
-        bottom: 0px;
-        left: 5px;
+        display: inline-block;
       }
       .send :hover {
         color: #177ddc;
@@ -201,6 +199,21 @@
   }
   .img {
     max-width: 90%;
+  }
+  ::ng-deep {
+    .ant-upload-list-item {
+      position: absolute;
+      top: 0;
+      left: 10px;
+      color: #333;
+      width: 300px;
+      i {
+        color: rgba(0, 0, 0, 0.45);
+      }
+      .ant-btn-icon-only.ant-btn-sm[title~="下载文件"] {
+        display: none;
+      }
+    }
   }
 }
 .pre-more {
