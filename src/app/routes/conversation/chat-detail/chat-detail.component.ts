@@ -17,6 +17,7 @@ import { ConversationService, EchoService } from "@service";
 export class ChatDetailComponent implements OnInit {
   messageList: MessageModel[] = [];
   id: number;
+  channel: string;
   content = "";
   messageEl: HTMLElement;
   get user(): User {
@@ -39,8 +40,21 @@ export class ChatDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
+      this.channel = `conversation.${this.id}.messaging`;
       this.getData(this.id);
-      this.echoSrv.Echo.join(`conversation.${this.id}.messaging`);
+      for (const i of Object.keys(this.echoSrv.Echo.connector.channels)) {
+        this.echoSrv.Echo.leave(i);
+      }
+      this.echoSrv.Echo.join(this.channel)
+        .here()
+        .joining()
+        .leaving()
+        .listen(".message.created", (e) => {
+          this.messageList.push(e);
+          setTimeout(() => {
+            this.scrollTo();
+          }, 200);
+        });
     });
   }
 
@@ -88,5 +102,9 @@ export class ChatDetailComponent implements OnInit {
           }, 200);
         }
       });
+  }
+
+  keyEnter(e: KeyboardEvent): void {
+    this.sendMessage(1);
   }
 }

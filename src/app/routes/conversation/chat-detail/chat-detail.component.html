@@ -43,6 +43,7 @@
               nz-input
               placeholder="请输入..."
               style="height: 110px;"
+              (keydown.enter)="keyEnter($evnet)"
               [(ngModel)]="content"
             ></textarea>
           </div>
