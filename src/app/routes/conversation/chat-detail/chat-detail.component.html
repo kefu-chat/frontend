@@ -1,80 +1,169 @@
-<div class="content-header"></div>
-<div nz-row class="content-chat">
-  <div nz-col class="chat-left">
-    <div class="conversation">
-      <div class="message">
-        <nz-divider *ngIf="has_previous" [nzText]="previous"></nz-divider>
-        <ng-template #previous>
-          <a (click)="loadPreMore()" style="font-size: 13px;">显示更早的消息</a>
-        </ng-template>
-        <div *ngFor="let item of messageList" [ngClass]="item.sender_type_text">
-          <nz-comment
-            [nzAuthor]="
-              item.sender_type_text == 'user'
-                ? item.sender_id == user.id
-                  ? '你'
-                  : item.sender.name
-                : item.sender.name
-            "
-            [nzDatetime]="item.created_at | _date: 'yyyy-mm-dd HH:mm:ss'"
+<div
+  *ngIf="id == 0; else other"
+  nz-row
+  nzAlign="middle"
+  style="height: 100%; background: #eee;"
+>
+  <div style="text-align: center; width: 100%;">
+    <img src="./assets/tmp/img/empty.svg" alt="" />
+    <h1 style="color: #333; width: 100%;">当前没有接待中的客户</h1>
+  </div>
+</div>
+<ng-template #other>
+  <div class="content-header"></div>
+  <div nz-row class="content-chat">
+    <div nz-col class="chat-left">
+      <div class="conversation">
+        <div class="message">
+          <nz-divider *ngIf="has_previous" [nzText]="previous"></nz-divider>
+          <ng-template #previous>
+            <a (click)="loadPreMore()" style="font-size: 13px;"
+              >显示更早的消息</a
+            >
+          </ng-template>
+          <div
+            *ngFor="let item of messageList"
+            [ngClass]="item.sender_type_text"
           >
-            <nz-comment-content style="width: 95%;">
-              <div class="cell" *ngIf="item.type == 1">{{ item.content }}</div>
-              <div *ngIf="item.type == 2">
-                <img [src]="item.content" alt="" class="img" />
-              </div>
-            </nz-comment-content>
-            <nz-avatar
-              nz-comment-avatar
-              nzIcon="user"
-              [nzSrc]="
+            <nz-comment
+              [nzAuthor]="
                 item.sender_type_text == 'user'
-                  ? item.sender.photo_url
-                  : '//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+                  ? item.sender_id == user.id
+                    ? '你'
+                    : item.sender.name
+                  : item.sender.name
               "
-            ></nz-avatar>
-          </nz-comment>
-        </div>
-      </div>
-      <div class="messageIupt">
-        <div class="input-left">
-          <textarea
-            nz-input
-            placeholder="请输入..."
-            style="height: 110px;"
-            (keydown.enter)="keyEnter($event)"
-            [(ngModel)]="content"
-          ></textarea>
-        </div>
-        <div nz-row style="height: 40px; width: 100%; position: relative;">
-          <div nz-col class="input-right">
-            <a
-              class="send"
-              [class.canSend]="content || fileList.length > 0"
-              (click)="sendMessage()"
+              [nzDatetime]="item.created_at | _date: 'yyyy-mm-dd HH:mm:ss'"
             >
-              <i nz-icon nzType="send" nzTheme="outline"></i>
-            </a>
-            <a>
-              <i nz-icon nzType="smile" nzTheme="outline"></i>
-            </a>
-            <a>
-              <i nz-icon nzType="thunderbolt" nzTheme="outline"></i>
-            </a>
-            <nz-upload
-              nzAction="api/file/upload"
-              (nzChange)="handleChange($event)"
-              style="float: right;"
-              [(nzFileList)]="fileList"
-            >
-              <a>
-                <i nz-icon nzType="paper-clip" nzTheme="outline"></i>
+              <nz-comment-content style="width: 95%;">
+                <div class="cell" *ngIf="item.type == 1">
+                  {{ item.content }}
+                </div>
+                <div *ngIf="item.type == 2">
+                  <img [src]="item.content" class="img" />
+                </div>
+              </nz-comment-content>
+              <nz-avatar
+                nz-comment-avatar
+                nzIcon="user"
+                [nzSrc]="
+                  item.sender_type_text == 'user'
+                    ? item.sender.photo_url
+                    : '//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+                "
+              ></nz-avatar>
+            </nz-comment>
+          </div>
+        </div>
+        <div class="messageIupt">
+          <div class="input-left">
+            <textarea
+              nz-input
+              placeholder="请输入..."
+              style="height: 110px;"
+              (keydown.enter)="keyEnter($event)"
+              [(ngModel)]="content"
+            ></textarea>
+          </div>
+          <div nz-row style="height: 40px; width: 100%; position: relative;">
+            <div nz-col class="input-right">
+              <a
+                class="send"
+                [class.canSend]="content || fileList.length > 0"
+                (click)="sendMessage()"
+              >
+                <i nz-icon nzType="send" nzTheme="outline"></i>
               </a>
-            </nz-upload>
+              <a>
+                <i nz-icon nzType="smile" nzTheme="outline"></i>
+              </a>
+              <a>
+                <i nz-icon nzType="thunderbolt" nzTheme="outline"></i>
+              </a>
+              <nz-upload
+                nzAction="api/file/upload"
+                (nzChange)="handleChange($event)"
+                style="float: right;"
+                [(nzFileList)]="fileList"
+              >
+                <a>
+                  <i nz-icon nzType="paper-clip" nzTheme="outline"></i>
+                </a>
+              </nz-upload>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <div nz-col class="visitor-details">
+      <ng-container *ngIf="visitor">
+        <div class="visitor-header">
+          <nz-avatar
+            class="alain-default__aside-user-avatar"
+            nzSrc="./assets/tmp/img/4.png"
+            [nzSize]="42"
+          ></nz-avatar>
+          <span class="vistor-name">
+            {{ visitor?.name }}
+          </span>
+        </div>
+        <div class="assignd">
+          <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+            指定给..
+            <i nz-icon nzType="down"></i>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item>1st menu item</li>
+              <li nz-menu-item>2nd menu item</li>
+              <li nz-menu-divider></li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
+        <nz-divider></nz-divider>
+        <div>
+          <nz-input-group [nzPrefix]="phone" style="width: 100%;">
+            <input
+              type="text"
+              nz-input
+              [(ngModel)]="visitor.phone"
+              placeholder="添加手机号"
+            />
+          </nz-input-group>
+          <ng-template #phone
+            ><i nz-icon nzType="phone" nzTheme="outline"></i
+          ></ng-template>
+        </div>
+        <div>
+          <nz-input-group [nzPrefix]="email" style="width: 100%;">
+            <input
+              type="text"
+              nz-input
+              [(ngModel)]="visitor.email"
+              placeholder="添加电子邮箱"
+            />
+          </nz-input-group>
+          <ng-template #email>
+            <i nz-icon nzType="mail" nzTheme="outline"></i
+          ></ng-template>
+        </div>
+        <div>
+          <nz-input-group [nzPrefix]="note" style="width: 100%;">
+            <textarea
+              type="text"
+              nz-input
+              [(ngModel)]="visitor.memo"
+              placeholder="添加备注..."
+              [nzAutosize]="{ minRows: 1, maxRows: 4 }"
+              maxlength="160"
+            >
+            </textarea>
+          </nz-input-group>
+          <ng-template #note
+            ><i nz-icon nzType="comment" nzTheme="outline"></i
+          ></ng-template>
+        </div>
+      </ng-container>
+    </div>
   </div>
-  <div nz-col class="visitor-details"></div>
-</div>
+</ng-template>

@@ -5,6 +5,7 @@ import { SettingsService, User } from "@delon/theme";
 import {
   MessageData,
   MessageModel,
+  Visitor,
 } from "@model/application/conversation.interface";
 import { Res } from "@model/common/common.interface";
 import { ConversationService, EchoService } from "@service";
@@ -23,6 +24,8 @@ export class ChatDetailComponent implements OnInit {
   messageEl: HTMLElement;
   fileList: NzUploadFile[] = [];
   picUrl = "";
+  visitor: Visitor;
+  imgWidth: number;
   get user(): User {
     return this.settings.user;
   }
@@ -43,6 +46,10 @@ export class ChatDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
+      // tslint:disable-next-line: triple-equals
+      if (this.id == 0) {
+        return false;
+      }
       this.channel = `conversation.${this.id}.messaging`;
       this.getData(this.id);
       for (const i of Object.keys(this.echoSrv.Echo.connector.channels)) {
@@ -71,6 +78,7 @@ export class ChatDetailComponent implements OnInit {
           } else {
             this.messageList = res.data.messages;
           }
+          this.visitor = res.data.conversation.visitor;
           this.has_previous = res.data.has_previous;
           this.messageEl = this.el.nativeElement.querySelector(".message");
           setTimeout(() => {

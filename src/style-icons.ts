@@ -2,9 +2,11 @@
 
 import {
   BulbOutline,
+  CommentOutline,
   ExceptionOutline,
   InfoOutline,
   LinkOutline,
+  PhoneOutline,
   ProfileOutline,
   SendOutline,
   SmileOutline,
@@ -20,4 +22,6 @@ export const ICONS = [
   ThunderboltOutline,
   SmileOutline,
   SendOutline,
+  CommentOutline,
+  PhoneOutline,
 ];

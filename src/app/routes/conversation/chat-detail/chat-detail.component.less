@@ -14,6 +14,33 @@
 }
 .visitor-details {
   background: #fff;
+  padding: 20px;
+  color: #333;
+  border-left: 1px solid #e1e4e8;
+  ::ng-deep {
+    i {
+      color: #bbc6d6;
+    }
+    .ant-divider {
+      background: #f0f0f0;
+      border-top: 1px solid transparent;
+    }
+    .ant-input-affix-wrapper {
+      border: 1px solid transparent;
+      color: #bbc6d6;
+      > input.ant-input {
+        margin-left: 5px;
+      }
+    }
+  }
+  .visitor-header {
+    padding: 10px;
+    .vistor-name {
+      color: #000;
+      font-size: 16px;
+      margin-left: 10px;
+    }
+  }
 }
 @media (min-width: 1200px) {
   .visitor-details {

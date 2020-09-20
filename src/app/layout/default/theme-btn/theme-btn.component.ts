@@ -28,7 +28,6 @@ export class LayoutThemeBtnComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initTheme();
-    console.log(1111);
   }
 
   private initTheme(): void {
@@ -36,7 +35,6 @@ export class LayoutThemeBtnComponent implements OnInit, OnDestroy {
       return;
     }
     this.theme = (localStorage.getItem("site-theme") as SiteTheme) || "dark";
-    console.log(this.theme);
     this.updateChartTheme();
     this.onThemeChange(this.theme);
   }
