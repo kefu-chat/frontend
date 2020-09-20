@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
 import { SettingsService, User } from "@delon/theme";
 import {
+  Conversation,
   MessageData,
   MessageModel,
   Visitor,
@@ -24,6 +25,7 @@ export class ChatDetailComponent implements OnInit {
   messageEl: HTMLElement;
   fileList: NzUploadFile[] = [];
   picUrl = "";
+  conversation: Conversation;
   visitor: Visitor;
   imgWidth: number;
   get user(): User {
@@ -78,7 +80,10 @@ export class ChatDetailComponent implements OnInit {
           } else {
             this.messageList = res.data.messages;
           }
-          this.visitor = res.data.conversation.visitor;
+          this.conversation = res.data.conversation;
+          const url = new URL(this.conversation.url);
+          this.conversation.hostname = url.hostname;
+          this.visitor = this.conversation.visitor;
           this.has_previous = res.data.has_previous;
           this.messageEl = this.el.nativeElement.querySelector(".message");
           setTimeout(() => {

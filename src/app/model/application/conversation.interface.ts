@@ -3,9 +3,9 @@ export interface ConversationModel {
 }
 export interface Conversation {
   id: number;
-  institution_id: number;
+  institution_id?: number;
   visitor_id: number;
-  user_id: number;
+  user_id?: number;
   ip: string;
   url: string;
   first_reply_at: string;
@@ -15,6 +15,8 @@ export interface Conversation {
   ended_at?: any;
   visitor: Visitor;
   user: User;
+  hostname?: string;
+  geo: Geo;
 }
 
 export interface User {
@@ -86,6 +88,7 @@ export interface MessageConversation {
   updated_at: string;
   user: MessageUser;
   visitor: MessageVisitor;
+  geo: Geo;
 }
 
 export interface MessageVisitor {
@@ -115,4 +118,20 @@ export interface MessageUser {
 export interface SendMessageModel {
   type: number;
   content: string;
+}
+
+export interface Geo {
+  ip: string;
+  iso_code: string;
+  country: string;
+  city: string;
+  state: string;
+  state_name: string;
+  postal_code: string;
+  lat: number;
+  lon: number;
+  timezone: string;
+  continent: string;
+  currency: string;
+  default: boolean;
 }

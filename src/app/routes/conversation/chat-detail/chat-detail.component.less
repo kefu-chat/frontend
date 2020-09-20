@@ -13,6 +13,7 @@
   border-bottom: 1px solid transparent;
 }
 .visitor-details {
+  height: 100%;
   background: #fff;
   padding: 20px;
   color: #333;
@@ -32,13 +33,32 @@
         margin-left: 5px;
       }
     }
+    .ant-divider-horizontal {
+      margin: 12px 0;
+    }
   }
-  .visitor-header {
-    padding: 10px;
-    .vistor-name {
-      color: #000;
-      font-size: 16px;
-      margin-left: 10px;
+  .visitor-up {
+    height: 100px;
+    .visitor-header {
+      padding: 10px;
+      .vistor-name {
+        color: #000;
+        font-size: 16px;
+        margin-left: 10px;
+      }
+    }
+  }
+  .visitor-down {
+    overflow: auto;
+    height: calc(100% - 120px);
+  }
+
+  .info {
+    height: 150px;
+  }
+  .location {
+    div {
+      margin-bottom: 5px;
     }
   }
 }

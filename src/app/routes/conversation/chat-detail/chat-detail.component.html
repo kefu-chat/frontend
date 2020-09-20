@@ -97,71 +97,98 @@
     </div>
     <div nz-col class="visitor-details">
       <ng-container *ngIf="visitor">
-        <div class="visitor-header">
-          <nz-avatar
-            class="alain-default__aside-user-avatar"
-            nzSrc="./assets/tmp/img/4.png"
-            [nzSize]="42"
-          ></nz-avatar>
-          <span class="vistor-name">
-            {{ visitor?.name }}
-          </span>
+        <div class="visitor-up">
+          <div class="visitor-header">
+            <nz-avatar
+              class="alain-default__aside-user-avatar"
+              nzSrc="./assets/tmp/img/4.png"
+              [nzSize]="42"
+            ></nz-avatar>
+            <span class="vistor-name">
+              {{ visitor?.name }}
+            </span>
+          </div>
+          <div class="assignd">
+            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+              指定给..
+              <i nz-icon nzType="down"></i>
+            </a>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li nz-menu-item>1st menu item</li>
+                <li nz-menu-item>2nd menu item</li>
+                <li nz-menu-divider></li>
+              </ul>
+            </nz-dropdown-menu>
+          </div>
         </div>
-        <div class="assignd">
-          <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
-            指定给..
-            <i nz-icon nzType="down"></i>
-          </a>
-          <nz-dropdown-menu #menu="nzDropdownMenu">
-            <ul nz-menu>
-              <li nz-menu-item>1st menu item</li>
-              <li nz-menu-item>2nd menu item</li>
-              <li nz-menu-divider></li>
-            </ul>
-          </nz-dropdown-menu>
-        </div>
-        <nz-divider></nz-divider>
-        <div>
-          <nz-input-group [nzPrefix]="phone" style="width: 100%;">
-            <input
-              type="text"
-              nz-input
-              [(ngModel)]="visitor.phone"
-              placeholder="添加手机号"
-            />
-          </nz-input-group>
-          <ng-template #phone
-            ><i nz-icon nzType="phone" nzTheme="outline"></i
-          ></ng-template>
-        </div>
-        <div>
-          <nz-input-group [nzPrefix]="email" style="width: 100%;">
-            <input
-              type="text"
-              nz-input
-              [(ngModel)]="visitor.email"
-              placeholder="添加电子邮箱"
-            />
-          </nz-input-group>
-          <ng-template #email>
-            <i nz-icon nzType="mail" nzTheme="outline"></i
-          ></ng-template>
-        </div>
-        <div>
-          <nz-input-group [nzPrefix]="note" style="width: 100%;">
-            <textarea
-              type="text"
-              nz-input
-              [(ngModel)]="visitor.memo"
-              placeholder="添加备注..."
-              [nzAutosize]="{ minRows: 1, maxRows: 4 }"
-              maxlength="160"
-            >
-            </textarea>
-          </nz-input-group>
-          <ng-template #note
-            ><i nz-icon nzType="comment" nzTheme="outline"></i
-          ></ng-template>
+
+        <div class="visitor-down">
+          <nz-divider></nz-divider>
+          <div class="info">
+            <nz-input-group [nzPrefix]="phone" style="width: 100%;">
+              <input
+                type="text"
+                nz-input
+                [(ngModel)]="visitor.phone"
+                placeholder="添加手机号"
+              />
+            </nz-input-group>
+            <ng-template #phone
+              ><i nz-icon nzType="phone" nzTheme="outline"></i
+            ></ng-template>
+            <nz-input-group [nzPrefix]="email" style="width: 100%;">
+              <input
+                type="text"
+                nz-input
+                [(ngModel)]="visitor.email"
+                placeholder="添加电子邮箱"
+              />
+            </nz-input-group>
+            <ng-template #email>
+              <i nz-icon nzType="mail" nzTheme="outline"></i
+            ></ng-template>
+            <nz-input-group [nzPrefix]="note" style="width: 100%;">
+              <textarea
+                type="text"
+                nz-input
+                [(ngModel)]="visitor.memo"
+                placeholder="添加备注..."
+                [nzAutosize]="{ minRows: 1, maxRows: 4 }"
+                maxlength="160"
+              >
+              </textarea>
+            </nz-input-group>
+            <ng-template #note
+              ><i nz-icon nzType="comment" nzTheme="outline"></i
+            ></ng-template>
+          </div>
+          <nz-divider></nz-divider>
+          <div class="location">
+            <div nz-row>
+              <div nz-col nzSpan="5">来源</div>
+              <div nz-col nzSpan="19">
+                <a
+                  [href]="conversation.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{ conversation.hostname }}</a
+                >
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col nzSpan="5">IP</div>
+              <div nz-col nzSpan="19">{{ conversation.ip }}</div>
+            </div>
+            <div nz-row>
+              <div nz-col nzSpan="5">来自</div>
+              <div nz-col nzSpan="19">
+                {{ conversation.geo.country }},
+                {{ conversation.geo.state_name }}, {{ conversation.geo.city }}
+              </div>
+            </div>
+          </div>
         </div>
       </ng-container>
     </div>
