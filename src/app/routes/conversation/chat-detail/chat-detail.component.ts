@@ -52,7 +52,7 @@ export class ChatDetailComponent implements OnInit {
       if (this.id == 0) {
         return false;
       }
-      this.channel = `conversation.${this.id}.messaging`;
+      this.channel = `conversation.${this.id}`;
       this.getData(this.id);
       for (const i of Object.keys(this.echoSrv.Echo.connector.channels)) {
         this.echoSrv.Echo.leave(i);
