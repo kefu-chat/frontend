@@ -37,6 +37,7 @@ export class ChatDetailComponent implements OnInit {
   }
 
   has_previous: boolean;
+  typing: boolean;
   constructor(
     private route: ActivatedRoute,
     private settings: SettingsService,
@@ -66,6 +67,14 @@ export class ChatDetailComponent implements OnInit {
           setTimeout(() => {
             this.scrollTo();
           }, 200);
+        })
+        .listenForWhisper("startTyping", (evt) => {
+          console.log(evt);
+          this.typing = true;
+        })
+        .listenForWhisper("stopTyping", (evt) => {
+          console.log(evt);
+          this.typing = false;
         });
     });
   }
