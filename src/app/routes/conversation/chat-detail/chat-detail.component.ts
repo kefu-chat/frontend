@@ -38,6 +38,7 @@ export class ChatDetailComponent implements OnInit {
 
   has_previous: boolean;
   typing: boolean;
+  socket: any;
   constructor(
     private route: ActivatedRoute,
     private settings: SettingsService,
@@ -58,7 +59,7 @@ export class ChatDetailComponent implements OnInit {
       for (const i of Object.keys(this.echoSrv.Echo.connector.channels)) {
         this.echoSrv.Echo.leave(i);
       }
-      this.echoSrv.Echo.join(this.channel)
+      this.socket = this.echoSrv.Echo.join(this.channel)
         .here(console.log)
         .joining(console.log)
         .leaving(console.log)
@@ -139,12 +140,17 @@ export class ChatDetailComponent implements OnInit {
   }
 
   keyEnter(e: KeyboardEvent): void {
+    this.socket.whisper("stopTyping", { name: "" });
     if (this.content) {
       this.sendMessage();
     } else {
       e.preventDefault();
       e.stopPropagation();
     }
+  }
+
+  startTyping(e: KeyboardEvent): void {
+    this.socket.whisper("startTyping", { name: "" });
   }
 
   handleChange(info: NzUploadChangeParam): void {
