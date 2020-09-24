@@ -58,9 +58,9 @@ export class ChatDetailComponent implements OnInit {
         this.echoSrv.Echo.leave(i);
       }
       this.echoSrv.Echo.join(this.channel)
-        .here()
-        .joining()
-        .leaving()
+        .here(console.log)
+        .joining(console.log)
+        .leaving(console.log)
         .listen(".message.created", (e) => {
           this.messageList.push(e);
           setTimeout(() => {

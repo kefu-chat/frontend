@@ -1,7 +1,7 @@
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { NavigationStart, Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
-import { ConversationService } from "@service";
+import { ConversationService, EchoService } from "@service";
 import { zip } from "rxjs";
 
 @Component({
@@ -20,11 +20,15 @@ export class ChatComponent implements OnInit {
       type: "unassigned",
     },
   };
+  channel: String;
   selectId: number = Number(localStorage.getItem("selectId"));
+  institutionId: String;
+  userId: String;
   constructor(
     private http: _HttpClient,
     private router: Router,
-    private conversationSrv: ConversationService
+    private conversationSrv: ConversationService,
+    private echoSrv: EchoService
   ) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationStart) {
@@ -44,9 +48,29 @@ export class ChatComponent implements OnInit {
       this.conversationSrv.getVistorList(this.parmaTypes.assigned),
       this.conversationSrv.getVistorList(this.parmaTypes.unassigned)
     ).subscribe(([assignedData, unassignedData]) => {
+      this.institutionId = assignedData.data.institution_id;
+      this.userId = assignedData.data.user_id;
       this.assignedData = assignedData.data.conversations;
       this.unassignedData = unassignedData.data.conversations;
       this.doNav();
+
+      this.channel = `institution.${this.institutionId}.unassigned`;
+      this.echoSrv.Echo.join(this.channel)
+        .here(console.log)
+        .joining(console.log)
+        .leaving(console.log)
+        .listen(".conversation.created", (e) => {
+          this.unassignedData.unshift(e);
+        });
+
+      this.channel = `institution.${this.institutionId}.assigned.${this.userId}`;
+      this.echoSrv.Echo.join(this.channel)
+        .here(console.log)
+        .joining(console.log)
+        .leaving(console.log)
+        .listen(".conversation.created", (e) => {
+          this.assignedData.unshift(e);
+        });
     });
   }
 

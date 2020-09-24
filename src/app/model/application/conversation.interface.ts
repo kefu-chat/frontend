@@ -1,4 +1,6 @@
 export interface ConversationModel {
+  institution_id?: string;
+  user_id?: string;
   conversations: Conversation[];
 }
 export interface Conversation {

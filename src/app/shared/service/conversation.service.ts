@@ -14,7 +14,7 @@ import { Observable } from "rxjs";
 export class ConversationService {
   constructor(private http: _HttpClient) {}
 
-  // 获取访客列表
+  // 获取会话列表
   getVistorList(params: { type: string }): Observable<Res<ConversationModel>> {
     return this.http.get("api/conversation/list", params);
   }
