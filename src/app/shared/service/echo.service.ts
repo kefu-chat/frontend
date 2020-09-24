@@ -10,15 +10,18 @@ export class EchoService {
   constructor() {}
 
   init(): void {
-    const token = JSON.parse(localStorage.getItem("_token")).token;
-    this.Echo = new Echo({
-      broadcaster: "socket.io",
-      host: environment.socketHost,
-      auth: {
-        headers: {
-          Authorization: `Bearer ${token}`,
+    let store = JSON.parse(localStorage.getItem("_token"));
+    if (store) {
+      const token = store.token;
+      this.Echo = new Echo({
+        broadcaster: "socket.io",
+        host: environment.socketHost,
+        auth: {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      },
-    });
+      });
+    }
   }
 }

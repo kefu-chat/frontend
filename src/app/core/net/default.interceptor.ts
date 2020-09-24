@@ -11,6 +11,7 @@ import { Router } from "@angular/router";
 import { DA_SERVICE_TOKEN, ITokenService } from "@delon/auth";
 import { _HttpClient } from "@delon/theme";
 import { environment } from "@env/environment";
+import { NzMessageService } from "ng-zorro-antd/message";
 import { NzNotificationService } from "ng-zorro-antd/notification";
 import { BehaviorSubject, Observable, of, throwError } from "rxjs";
 import {
@@ -49,7 +50,7 @@ export class DefaultInterceptor implements HttpInterceptor {
   private refreshToking = false;
   private refreshToken$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private injector: Injector) {
+  constructor(private injector: Injector, public msg: NzMessageService) {
     if (this.refreshTokenType === "auth-refresh") {
       this.buildAuthRefresh();
     }
@@ -76,7 +77,24 @@ export class DefaultInterceptor implements HttpInterceptor {
       return;
     }
 
-    const errortext = CODEMESSAGE[ev.status] || ev.statusText;
+    let errortext = CODEMESSAGE[ev.status] || ev.statusText;
+    if ([422, 429].indexOf(ev.status) > -1) {
+      //Laravel validator 错误验证消息
+      let messages = [];
+      for (let key in ev.error.errors) {
+        let errors = ev.error.errors[key];
+        if (typeof errors == "object" && errors.length) {
+          errors = errors.join(" \n");
+        }
+        console.log(ev.error.errors, errors);
+
+        messages.push(key + ":" + errors);
+      }
+
+      errortext = messages.join(" \n");
+      this.msg.error(errortext);
+      return;
+    }
     this.notification.error(`请求错误 ${ev.status}: ${ev.url}`, errortext);
   }
 
@@ -225,7 +243,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       default:
         if (ev instanceof HttpErrorResponse) {
           console.warn(
-            "未可知错误，大部分是由于后端不支持跨域CORS或无效配置引起，请参考 https://ng-alain.com/docs/server 解决跨域问题",
+            `未可知错误`, //大部分是由于后端不支持跨域CORS或无效配置引起，请参考 https://ng-alain.com/docs/server 解决跨域问题",
             ev
           );
         }
