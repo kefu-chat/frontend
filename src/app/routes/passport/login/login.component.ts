@@ -127,7 +127,6 @@ export class UserLoginComponent implements OnDestroy {
           // 设置用户Token信息
           // TODO: Mock expired value
           const { institution, user } = res.data;
-          user.avatar = "./assets/tmp/img/avatar.jpg";
           const token = {
             token: res.data.token,
             token_type: res.data.token_type,
