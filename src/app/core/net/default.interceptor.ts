@@ -81,12 +81,13 @@ export class DefaultInterceptor implements HttpInterceptor {
     if ([422, 429].indexOf(ev.status) > -1) {
       //Laravel validator 错误验证消息
       let messages = [];
-      for (let key in ev.error.errors) {
-        let errors = ev.error.errors[key];
+      let obj = JSON.parse(JSON.stringify(ev));
+      for (let key in obj.error.errors) {
+        let errors = obj.error.errors[key];
         if (typeof errors == "object" && errors.length) {
           errors = errors.join(" \n");
         }
-        console.log(ev.error.errors, errors);
+        console.log(obj.error.errors, errors);
 
         messages.push(key + ":" + errors);
       }

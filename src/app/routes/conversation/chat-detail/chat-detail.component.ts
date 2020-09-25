@@ -140,7 +140,7 @@ export class ChatDetailComponent implements OnInit {
   }
 
   keyEnter(e: KeyboardEvent): void {
-    this.socket.whisper("stopTyping", { name: "" });
+    this.stopTyping(e);
     if (this.content) {
       this.sendMessage();
     } else {
@@ -151,6 +151,10 @@ export class ChatDetailComponent implements OnInit {
 
   startTyping(e: KeyboardEvent): void {
     this.socket.whisper("startTyping", { name: "" });
+  }
+
+  stopTyping(e: KeyboardEvent): void {
+    this.socket.whisper("stopTyping", { name: "" });
   }
 
   handleChange(info: NzUploadChangeParam): void {

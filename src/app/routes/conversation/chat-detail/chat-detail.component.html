@@ -62,6 +62,8 @@
               nz-input
               placeholder="请输入..."
               style="height: 110px;"
+              (blur)="stopTyping($event)"
+              (focus)="content && startTyping($event)"
               (keydown)="startTyping($event)"
               (keydown.enter)="keyEnter($event)"
               [(ngModel)]="content"
