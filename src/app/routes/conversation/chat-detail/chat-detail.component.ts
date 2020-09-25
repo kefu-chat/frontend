@@ -9,7 +9,11 @@ import {
   Visitor,
 } from "@model/application/conversation.interface";
 import { Res } from "@model/common/common.interface";
-import { ConversationService, EchoService } from "@service";
+import {
+  ConversationService,
+  EchoService,
+  askNotificationPermission,
+} from "@service";
 import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
 
 @Component({
@@ -48,7 +52,7 @@ export class ChatDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.askNotificationPermission().then(console.log);
+    askNotificationPermission().then(console.log);
 
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
@@ -73,7 +77,7 @@ export class ChatDetailComponent implements OnInit {
         // })
         .listenForWhisper("message", (e) => {
           this.messageList.push(e);
-          this.askNotificationPermission().then(() => {
+          askNotificationPermission().then(() => {
             const msg = e;
             let body, image;
 
@@ -111,20 +115,6 @@ export class ChatDetailComponent implements OnInit {
           console.log(evt);
           this.typing = false;
         });
-    });
-  }
-
-  askNotificationPermission() {
-    return new Promise(function (resolve, reject) {
-      const permissionResult = Notification.requestPermission(function (
-        result
-      ) {
-        resolve(result);
-      });
-
-      if (permissionResult) {
-        permissionResult.then(resolve, reject);
-      }
     });
   }
 

@@ -1,7 +1,11 @@
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { NavigationStart, Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
-import { ConversationService, EchoService } from "@service";
+import {
+  ConversationService,
+  EchoService,
+  askNotificationPermission,
+} from "@service";
 import { zip } from "rxjs";
 
 @Component({
@@ -41,6 +45,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.getConversationList();
+    askNotificationPermission().then(console.log);
   }
 
   getConversationList(): void {
@@ -54,22 +59,70 @@ export class ChatComponent implements OnInit {
       this.unassignedData = unassignedData.data.conversations;
       this.doNav();
 
-      this.channel = `institution.${this.institutionId}.unassigned`;
-      this.echoSrv.Echo.join(this.channel)
+      this.echoSrv.Echo.join(`institution.${this.institutionId}.unassigned`)
         .here(console.log)
         .joining(console.log)
         .leaving(console.log)
-        .listen(".conversation.created", (e) => {
+        .listen(`.conversation.created`, (e) => {
           this.unassignedData.unshift(e);
+          console.log(e, this.unassignedData);
         });
 
-      this.channel = `institution.${this.institutionId}.assigned.${this.userId}`;
-      this.echoSrv.Echo.join(this.channel)
+      this.echoSrv.Echo.join(
+        `institution.${this.institutionId}.assigned.${this.userId}`
+      )
         .here(console.log)
         .joining(console.log)
         .leaving(console.log)
-        .listen(".conversation.created", (e) => {
+        .listen(`.conversation.created`, (e) => {
           this.assignedData.unshift(e);
+          askNotificationPermission().then(() => {
+            const msg = e;
+            let body = "";
+
+            const notify = new Notification("新会话接入", {
+              body,
+              vibrate: 1,
+            });
+
+            notify.onclick = () => {
+              window.focus();
+              this.to(e);
+
+              setTimeout(() => {
+                notify.close();
+              }, 200);
+            };
+          });
+        })
+        .listen(`.message.created`, (e) => {
+          askNotificationPermission().then(() => {
+            const msg = e;
+            let body, image;
+
+            if (msg.type == 1) {
+              body = msg.content;
+            }
+            if (msg.type == 2) {
+              body = "[图片消息]";
+              image = msg.content;
+            }
+
+            const notify = new Notification("您收到新消息", {
+              body,
+              image,
+              vibrate: 1,
+            });
+
+            notify.onclick = () => {
+              window.focus();
+              this.to(e.conversation);
+
+              setTimeout(() => {
+                notify.close();
+              }, 200);
+            };
+          });
         });
     });
   }
