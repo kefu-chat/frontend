@@ -22,8 +22,8 @@ export interface Conversation {
 }
 
 export interface User {
-  id: number;
-  institution_id: number;
+  id: any;
+  institution_id: any;
   name: string;
   email: string;
   email_verified_at?: any;
@@ -33,8 +33,8 @@ export interface User {
 }
 
 export interface Visitor {
-  id: number;
-  institution_id: number;
+  id: any;
+  institution_id: any;
   unique_id: string;
   name: string;
   email: string;
@@ -65,14 +65,14 @@ export interface MessageModel {
 }
 
 export interface Sender {
-  id: any;
-  institution_id: any;
-  name: string;
-  email: string;
+  id?: any;
+  institution_id?: any;
+  name?: string;
+  email?: string;
   email_verified_at?: any;
-  created_at: string;
-  updated_at: string;
-  photo_url?: string;
+  created_at?: string;
+  updated_at?: string;
+  title?: string;
   unique_id?: string;
   phone?: string;
   avatar?: any;
