@@ -48,6 +48,8 @@ export class ChatDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.askNotificationPermission().then(console.log);
+
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
       // tslint:disable-next-line: triple-equals
@@ -71,6 +73,32 @@ export class ChatDetailComponent implements OnInit {
         // })
         .listenForWhisper("message", (e) => {
           this.messageList.push(e);
+          this.askNotificationPermission().then(() => {
+            const msg = e;
+            let body, image;
+
+            if (msg.type == 1) {
+              body = msg.content;
+            }
+            if (msg.type == 2) {
+              body = "[图片消息]";
+              image = msg.content;
+            }
+
+            const notify = new Notification("您收到新消息", {
+              body,
+              image,
+              vibrate: 1,
+            });
+
+            notify.onclick = () => {
+              window.focus();
+
+              setTimeout(() => {
+                notify.close();
+              }, 200);
+            };
+          });
           setTimeout(() => {
             this.scrollTo();
           }, 200);
@@ -83,6 +111,20 @@ export class ChatDetailComponent implements OnInit {
           console.log(evt);
           this.typing = false;
         });
+    });
+  }
+
+  askNotificationPermission() {
+    return new Promise(function (resolve, reject) {
+      const permissionResult = Notification.requestPermission(function (
+        result
+      ) {
+        resolve(result);
+      });
+
+      if (permissionResult) {
+        permissionResult.then(resolve, reject);
+      }
     });
   }
 
