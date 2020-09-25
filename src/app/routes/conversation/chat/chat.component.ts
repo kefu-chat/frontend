@@ -131,7 +131,7 @@ export class ChatComponent implements OnInit {
 
             notify.onclick = () => {
               window.focus();
-              this.to(e.conversation);
+              this.to({ id: e.conversation_id });
 
               setTimeout(() => {
                 notify.close();
@@ -163,13 +163,13 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  to(item: { id: number }): void {
+  to(item: { id: any }): void {
     this.selectId = item.id;
     localStorage.setItem("selectId", JSON.stringify(item.id));
     this.navigate(item.id);
   }
 
-  navigate(id: number): void {
+  navigate(id: any): void {
     const url = `/conversation/chat/${id}`;
     this.router.navigateByUrl(url);
   }
