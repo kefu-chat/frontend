@@ -63,7 +63,13 @@ export class ChatDetailComponent implements OnInit {
         .here(console.log)
         .joining(console.log)
         .leaving(console.log)
-        .listen(".message.created", (e) => {
+        // .listen(".message.created", (e) => {
+        //   this.messageList.push(e);
+        //   setTimeout(() => {
+        //     this.scrollTo();
+        //   }, 200);
+        // })
+        .listenForWhisper("message", (e) => {
           this.messageList.push(e);
           setTimeout(() => {
             this.scrollTo();
@@ -135,6 +141,17 @@ export class ChatDetailComponent implements OnInit {
               }, 200);
             }
           });
+
+        this.socket.whisper("message", {
+          ...req,
+          id: parseInt((Math.random() * 9999999).toString()).toString(),
+          sender_id: this.user.id,
+          sender_type: "App\\Models\\User",
+          sender_type_text: "user",
+          sender: this.user,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
       }
     }
   }
