@@ -63,7 +63,9 @@ export class ChatDetailComponent implements OnInit {
       this.channel = `conversation.${this.id}`;
       this.getData(this.id);
       for (const i of Object.keys(this.echoSrv.Echo.connector.channels)) {
-        this.echoSrv.Echo.leave(i);
+        if (i.indexOf("presence-conversation.") == 0) {
+          this.echoSrv.Echo.leave(i);
+        }
       }
       this.socket = this.echoSrv.Echo.join(this.channel)
         .here(console.log)
