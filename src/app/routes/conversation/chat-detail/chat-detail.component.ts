@@ -150,7 +150,7 @@ export class ChatDetailComponent implements OnInit {
   }
 
   startTyping(e: KeyboardEvent): void {
-    this.socket.whisper("startTyping", { name: "" });
+    this.socket.whisper("startTyping", this.user);
   }
 
   stopTyping(e: KeyboardEvent): void {
