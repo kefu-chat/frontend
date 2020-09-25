@@ -20,6 +20,7 @@
                 (click)="to(item)"
               >
                 {{ item.visitor.name }}
+                {{ item.online_status == 0 ? "(已离线)" : "" }}
               </li>
             </ul>
           </li>
@@ -34,6 +35,7 @@
               (click)="to(item)"
             >
               {{ item.visitor.name }}
+              {{ item.online_status == 0 ? "(已离线)" : "" }}
             </li>
           </ul>
         </li>

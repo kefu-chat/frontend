@@ -77,7 +77,6 @@ export class ChatComponent implements OnInit {
         .listen(`.conversation.created`, (e) => {
           this.assignedData.unshift(e);
           askNotificationPermission().then(() => {
-            const msg = e;
             let body = "";
 
             const notify = new Notification("新会话接入", {
