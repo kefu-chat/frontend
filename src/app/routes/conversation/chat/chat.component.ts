@@ -59,13 +59,29 @@ export class ChatComponent implements OnInit {
       this.unassignedData = unassignedData.data.conversations;
       this.doNav();
 
-      this.echoSrv.Echo.join(`institution.${this.institutionId}.unassigned`)
+      this.echoSrv.Echo.join(`institution.${this.institutionId}`)
         .here(console.log)
         .joining(console.log)
         .leaving(console.log)
         .listen(`.conversation.created`, (e) => {
           this.unassignedData.unshift(e);
-          console.log(e, this.unassignedData);
+          askNotificationPermission().then(() => {
+            let body = "";
+
+            const notify = new Notification("新会话接入", {
+              body,
+              vibrate: 1,
+            });
+
+            notify.onclick = () => {
+              window.focus();
+              this.to(e);
+
+              setTimeout(() => {
+                notify.close();
+              }, 200);
+            };
+          });
         });
 
       this.echoSrv.Echo.join(
