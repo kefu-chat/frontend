@@ -4,7 +4,7 @@ export interface ConversationModel {
   conversations: Conversation[];
 }
 export interface Conversation {
-  id: number;
+  id: any;
   institution_id?: number;
   visitor_id: number;
   user_id?: number;
@@ -52,21 +52,21 @@ export interface MessageData {
 }
 
 export interface MessageModel {
-  id: number;
-  sender_id: number;
-  conversation_id: number;
+  id: any;
+  sender_id: any;
+  conversation_id: any;
   type: number;
   content: string;
   created_at: string;
   updated_at: string;
   sender_type_text: string;
-  sender: Sender;
+  sender?: Sender;
   loading?: boolean;
 }
 
 export interface Sender {
-  id: number;
-  institution_id: number;
+  id: any;
+  institution_id: any;
   name: string;
   email: string;
   email_verified_at?: any;
@@ -80,8 +80,8 @@ export interface Sender {
 }
 
 export interface MessageConversation {
-  id: number;
-  visitor_id: number;
+  id: any;
+  visitor_id: any;
   ip: string;
   url: string;
   first_reply_at: string;
@@ -94,8 +94,8 @@ export interface MessageConversation {
 }
 
 export interface MessageVisitor {
-  id: number;
-  institution_id: number;
+  id: any;
+  institution_id: any;
   unique_id: string;
   name: string;
   email: string;
@@ -107,8 +107,8 @@ export interface MessageVisitor {
 }
 
 export interface MessageUser {
-  id: number;
-  institution_id: number;
+  id: any;
+  institution_id: any;
   name: string;
   email: string;
   email_verified_at?: any;

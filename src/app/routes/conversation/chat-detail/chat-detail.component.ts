@@ -117,6 +117,10 @@ export class ChatDetailComponent implements OnInit {
     this.getData(this.id, this.nowfirstMsgId);
   }
 
+  whisper(message): void {
+    this.socket.whisper("message", message);
+  }
+
   sendMessage(): void {
     const content = {
       1: this.content,
@@ -129,6 +133,19 @@ export class ChatDetailComponent implements OnInit {
           type: Number(j),
           content: content[j],
         };
+        const message = {
+          ...req,
+          id: parseInt((Math.random() * 9999999).toString()).toString(),
+          sender_id: this.user.id,
+          sender_type: "App\\Models\\User",
+          sender_type_text: "user",
+          sender: this.user,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          conversation_id: this.conversation.id.toString(),
+        };
+        console.log(message);
+
         this.conversationSrv
           .sendMessage(this.id, req)
           .subscribe((res: Res<any>) => {
@@ -142,16 +159,8 @@ export class ChatDetailComponent implements OnInit {
             }
           });
 
-        this.socket.whisper("message", {
-          ...req,
-          id: parseInt((Math.random() * 9999999).toString()).toString(),
-          sender_id: this.user.id,
-          sender_type: "App\\Models\\User",
-          sender_type_text: "user",
-          sender: this.user,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        });
+        this.whisper(message);
+        this.messageList.push(message);
       }
     }
   }
