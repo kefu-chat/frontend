@@ -17,7 +17,7 @@ type SiteTheme = "default" | "dark" | "compact";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutThemeBtnComponent implements OnInit, OnDestroy {
-  theme: SiteTheme = "dark";
+  theme: SiteTheme = "default";
   private el: HTMLLinkElement;
 
   constructor(
@@ -34,7 +34,7 @@ export class LayoutThemeBtnComponent implements OnInit, OnDestroy {
     if (!this.platform.isBrowser) {
       return;
     }
-    this.theme = (localStorage.getItem("site-theme") as SiteTheme) || "dark";
+    this.theme = (localStorage.getItem("site-theme") as SiteTheme) || "default";
     this.updateChartTheme();
     this.onThemeChange(this.theme);
   }

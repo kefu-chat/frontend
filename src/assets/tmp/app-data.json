@@ -5,18 +5,6 @@
   },
   "menu": [
     {
-      "i18n": "menu.main",
-      "group": true,
-      "hideInBreadcrumb": true,
-      "children": [
-        {
-          "i18n": "menu.index",
-          "icon": "anticon-home",
-          "link": "/conversation/chat"
-        }
-      ]
-    },
-    {
       "i18n": "menu.feature",
       "group": true,
       "hideInBreadcrumb": true,
@@ -38,6 +26,16 @@
       "group": true,
       "i18n": "menu.account",
       "children": [
+        {
+          "i18n": "menu.account.settings.enterprise",
+          "icon": "anticon-user",
+          "link": "/pro/account/settings"
+        },
+        {
+          "i18n": "menu.account.settings",
+          "icon": "anticon-user",
+          "link": "/pro/account/settings"
+        },
         {
           "i18n": "menu.account.settings",
           "icon": "anticon-user",

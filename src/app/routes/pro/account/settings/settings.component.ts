@@ -4,9 +4,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Inject,
   OnDestroy,
 } from "@angular/core";
 import { ActivationEnd, Router } from "@angular/router";
+import { DA_SERVICE_TOKEN, ITokenService } from "@delon/auth";
 import { _HttpClient } from "@delon/theme";
 import { fromEvent, Subscription } from "rxjs";
 import { debounceTime, filter } from "rxjs/operators";
@@ -39,11 +41,16 @@ export class ProAccountSettingsComponent implements AfterViewInit, OnDestroy {
       key: "notification",
       title: "新消息通知",
     },
+    {
+      key: "logout",
+      title: "退出登录",
+    },
   ];
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private el: ElementRef<HTMLElement>
+    private el: ElementRef<HTMLElement>,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
   ) {
     this.router$ = this.router.events
       .pipe(filter((e) => e instanceof ActivationEnd))
@@ -59,6 +66,11 @@ export class ProAccountSettingsComponent implements AfterViewInit, OnDestroy {
   }
 
   to(item: { key: string }): void {
+    if (item.key == "logout") {
+      this.tokenService.clear();
+      this.router.navigateByUrl(this.tokenService.login_url);
+      return;
+    }
     this.router.navigateByUrl(`/pro/account/settings/${item.key}`);
   }
 

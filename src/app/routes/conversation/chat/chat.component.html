@@ -1,9 +1,4 @@
-<div
-  nz-row
-  nzJustify="center"
-  nzAlign="top"
-  style="height: 100%; width: 100%; background: #141414; margin-top: 24px;"
->
+<div nz-row nzJustify="center" nzAlign="top" style="height: 100%; width: 100%;">
   <div class="customlist" nz-col>
     <!--
     <div class="search-wrapper">
@@ -16,10 +11,21 @@
     </div>
     -->
     <div>
+      <div
+        style="
+          background: #fff;
+          color: #24292e;
+          font-size: 18px;
+          font-weight: 700;
+          padding: 20px 20px 10px;
+        "
+      >
+        客服工作台
+      </div>
       <ul nz-menu nzMode="inline" class="ulout">
-        <ng-container *ngIf="unassignedData.length > 0">
-          <li nz-menu-group nzTitle="等待中" class="typeTitle">
-            <ul>
+        <nz-tabset>
+          <nz-tab nzTitle="等待中">
+            <ul *ngIf="unassignedData.length > 0">
               <li
                 nz-menu-item
                 *ngFor="let item of unassignedData"
@@ -30,22 +36,21 @@
                 {{ item.online_status == 0 ? "(已离线)" : "" }}
               </li>
             </ul>
-          </li>
-        </ng-container>
-
-        <li nz-menu-group nzTitle="接待中">
-          <ul>
-            <li
-              nz-menu-item
-              *ngFor="let item of assignedData"
-              [nzSelected]="selectId == item.id"
-              (click)="to(item)"
-            >
-              {{ item.visitor.name }}
-              {{ item.online_status == 0 ? "(已离线)" : "" }}
-            </li>
-          </ul>
-        </li>
+          </nz-tab>
+          <nz-tab nzTitle="我的">
+            <ul>
+              <li
+                nz-menu-item
+                *ngFor="let item of assignedData"
+                [nzSelected]="selectId == item.id"
+                (click)="to(item)"
+              >
+                {{ item.visitor.name }}
+                {{ item.online_status == 0 ? "(已离线)" : "" }}
+              </li>
+            </ul>
+          </nz-tab>
+        </nz-tabset>
       </ul>
     </div>
   </div>
