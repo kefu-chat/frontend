@@ -4,26 +4,38 @@
   justify-content: flex-start;
   flex-direction: row;
   height: 60px;
-  background-color: #fff;
+  background-color: #1890ff;
+  color: #fff;
   z-index: 12;
   position: relative;
   padding-left: 20px;
   padding-right: 20px;
   box-shadow: 0 2px 2px rgba(0, 0, 60, 0.08);
   border-bottom: 1px solid transparent;
+  .name,
+  .seeing {
+    display: block;
+    width: 100%;
+  }
+  .name {
+    font-weight: bold;
+  }
+  .seeing,
+  .seeing a {
+    color: #b1d8ff;
+  }
 }
 .visitor-details {
   height: 100%;
-  background: #fff;
+  background: #000;
   padding: 20px;
-  color: #333;
-  border-left: 1px solid #e1e4e8;
+  color: #fff;
   ::ng-deep {
     i {
       color: #bbc6d6;
     }
     .ant-divider {
-      background: #f0f0f0;
+      background: #333;
       border-top: 1px solid transparent;
     }
     .ant-input-affix-wrapper {
@@ -42,7 +54,7 @@
     .visitor-header {
       padding: 10px;
       .vistor-name {
-        color: #000;
+        color: #ffffff;
         font-size: 16px;
         margin-left: 10px;
       }
@@ -65,10 +77,10 @@
 @media (min-width: 1200px) {
   .visitor-details {
     display: block;
-    width: 380px;
+    width: 240px;
   }
   .chat-left {
-    width: calc(100% - 380px);
+    width: calc(100% - 240px);
   }
 }
 @media (max-width: 1200px) {
@@ -83,16 +95,16 @@
   height: calc(100% - 60px);
   .chat-left {
     height: 100%;
-    background-color: #d7dde4;
+    background-color: #177cdc;
   }
 }
 [data-theme="dark"] {
   :host ::ng-deep {
     .ant-comment-content-author-name {
-      color: rgba(0, 0, 0, 0.45);
+      color: #b1d8ff;
     }
     .ant-comment-content-author-time {
-      color: #aaa;
+      color: #b1d8ff;
     }
     .ant-comment-content-detail {
       color: #000;
@@ -127,8 +139,8 @@
         position: relative;
         line-height: 1.8;
         padding: 0.4em 1em;
-        background-color: #0074d9;
-        color: #fff;
+        background-color: #ffffff;
+        color: #000;
         border-radius: 1em 1em 0 1em;
         white-space: pre-wrap;
         overflow-wrap: break-word;
@@ -145,7 +157,7 @@
         position: relative;
         line-height: 1.8;
         padding: 0.4em 1em;
-        background-color: rgb(119, 222, 238);
+        background-color: #fff;
         border-radius: 1em 1em 1em 0;
         white-space: pre-wrap;
         overflow-wrap: break-word;

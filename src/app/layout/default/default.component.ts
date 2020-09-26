@@ -79,8 +79,8 @@ export class LayoutDefaultComponent
     const layout = settings.layout;
     updateHostClass(el.nativeElement, renderer, {
       ["alain-default"]: true,
-      [`alain-default__fixed`]: layout.fixed,
-      [`alain-default__collapsed`]: layout.collapsed,
+      [`alain-default__fixed`]: false, //layout.fixed,
+      [`alain-default__collapsed`]: false, //layout.collapsed,
     });
 
     doc.body.classList[layout.colorWeak ? "add" : "remove"]("color-weak");

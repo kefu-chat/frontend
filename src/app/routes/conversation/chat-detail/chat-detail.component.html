@@ -10,9 +10,25 @@
   </div>
 </div>
 <ng-template #other>
-  <div class="content-header"></div>
   <div nz-row class="content-chat">
     <div nz-col class="chat-left">
+      <div class="content-header">
+        <div>
+          <div class="name" *ngIf="visitor && visitor.name">
+            {{ visitor.name }} ({{ visitor.unique_id }})
+          </div>
+          <div class="seeing" *ngIf="conversation && conversation.url">
+            正在访问:
+            <a
+              [href]="conversation.url"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ conversation.hostname }}</a
+            >
+          </div>
+        </div>
+      </div>
       <div class="conversation">
         <div class="message">
           <nz-divider *ngIf="has_previous" [nzText]="previous"></nz-divider>

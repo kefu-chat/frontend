@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from "@angular/core";
+import { Component, ElementRef, EventEmitter, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
 import { SettingsService, User } from "@delon/theme";
@@ -44,7 +44,7 @@ export class ChatDetailComponent implements OnInit {
   typing: boolean;
   socket: any;
   constructor(
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private settings: SettingsService,
     private el: ElementRef<HTMLElement>,
     private conversationSrv: ConversationService,
