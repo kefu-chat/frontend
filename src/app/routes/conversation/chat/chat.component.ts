@@ -49,7 +49,7 @@ export class ChatComponent implements OnInit {
     askNotificationPermission().then(console.log);
 
     try {
-      this.selectId = this.route.children[0].params.getValue().id;
+      this.selectId = (this.route.children[0].params as any).getValue().id;
     } catch (e) {}
   }
 
