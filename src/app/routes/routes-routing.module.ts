@@ -31,6 +31,11 @@ const routes: Routes = [
             (m) => m.ConversationModule
           ),
       },
+      // Settings
+      {
+        path: "pro",
+        loadChildren: () => import("./pro/pro.module").then((m) => m.ProModule),
+      },
       // Exception
       {
         path: "exception",

@@ -29766,7 +29766,7 @@ body {
   background-color: #141414;
 }
 .alain-default__header-logo {
-  width: 200px;
+  width: 150px;
   margin-left: -16px;
   transition: width 0.2s cubic-bezier(0.25, 0, 0.15, 1);
 }
@@ -29830,7 +29830,7 @@ body {
   display: flex;
   flex: 1;
   align-items: center;
-  margin: 0 24px;
+  margin: 0 0;
 }
 .alain-default__search .ant-input {
   padding-left: 0;
@@ -29842,7 +29842,7 @@ body {
 .alain-default__search .ant-input-affix-wrapper,
 .alain-default__search .ant-input-group-addon {
   color: #fff;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgb(255 255 255 / 0.08);
   border: none;
 }
 .alain-default__search .ant-input-affix-wrapper::placeholder,

@@ -5,22 +5,43 @@
   },
   "menu": [
     {
-      "text": "主导航",
       "i18n": "menu.main",
       "group": true,
       "hideInBreadcrumb": true,
       "children": [
         {
-          "text": "对话",
+          "i18n": "menu.index",
+          "icon": "anticon-home",
+          "link": "/conversation/chat"
+        }
+      ]
+    },
+    {
+      "i18n": "menu.feature",
+      "group": true,
+      "hideInBreadcrumb": true,
+      "children": [
+        {
           "i18n": "menu.conversation",
-          "icon": "anticon-user",
+          "icon": "anticon-comment",
           "link": "/conversation/chat"
         },
         {
-          "text": "访客",
+          "i18n": "menu.conversation.ungreeted-visitor",
+          "icon": "anticon-alert",
+          "link": "/conversation/visitor"
+        }
+      ]
+    },
+    {
+      "text": "Account",
+      "group": true,
+      "i18n": "menu.account",
+      "children": [
+        {
+          "i18n": "menu.account.settings",
           "icon": "anticon-user",
-          "link": "/conversation/visitor",
-          "i18n": "menu.conversation.ungreeted-visitor"
+          "link": "/pro/account/settings"
         }
       ]
     }

@@ -18,16 +18,12 @@ import { SettingsService, User } from "@delon/theme";
     <nz-dropdown-menu #userMenu="nzDropdownMenu">
       <div nz-menu class="width-sm">
         <div nz-menu-item routerLink="/pro/account/center">
-          <i nz-icon nzType="user" class="mr-sm"></i>
-          {{ "menu.account.center" | translate }}
+          <i nz-icon nzType="setting" class="mr-sm"></i>
+          {{ "menu.enterprise.setting" | translate }}
         </div>
         <div nz-menu-item routerLink="/pro/account/settings">
-          <i nz-icon nzType="setting" class="mr-sm"></i>
+          <i nz-icon nzType="user" class="mr-sm"></i>
           {{ "menu.account.settings" | translate }}
-        </div>
-        <div nz-menu-item routerLink="/exception/trigger">
-          <i nz-icon nzType="close-circle" class="mr-sm"></i>
-          {{ "menu.account.trigger" | translate }}
         </div>
         <li nz-menu-divider></li>
         <div nz-menu-item (click)="logout()">
