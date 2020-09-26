@@ -23,7 +23,7 @@ import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
 })
 export class ChatDetailComponent implements OnInit {
   messageList: MessageModel[] = [];
-  id: number;
+  id: any;
   channel: string;
   content = "";
   messageEl: HTMLElement;
@@ -36,7 +36,7 @@ export class ChatDetailComponent implements OnInit {
     return this.settings.user;
   }
 
-  get nowfirstMsgId(): number {
+  get nowfirstMsgId(): string {
     return this.messageList[0].id;
   }
 
@@ -94,12 +94,12 @@ export class ChatDetailComponent implements OnInit {
     });
   }
 
-  getData(id: number, flagId?: number): void {
+  getData(id: string, offset?: string): void {
     this.conversationSrv
-      .getMessages(id, flagId)
+      .getMessages(id, offset)
       .subscribe((res: Res<MessageData>) => {
         if (res.success) {
-          if (flagId) {
+          if (offset) {
             this.messageList = [...res.data.messages, ...this.messageList];
           } else {
             this.messageList = res.data.messages;

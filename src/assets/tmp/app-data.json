@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Fast Support",
+    "name": "客服系统",
     "description": "Customer Service Support"
   },
   "menu": [
@@ -14,12 +14,13 @@
           "text": "对话",
           "i18n": "menu.conversation",
           "icon": "anticon-user",
-          "children": [
-            {
-              "link": "/conversation/chat",
-              "i18n": "menu.conversation.chating"
-            }
-          ]
+          "link": "/conversation/chat"
+        },
+        {
+          "text": "访客",
+          "icon": "anticon-user",
+          "link": "/conversation/visitor",
+          "i18n": "menu.conversation.ungreeted-visitor"
         }
       ]
     }

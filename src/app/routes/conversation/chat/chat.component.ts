@@ -50,8 +50,8 @@ export class ChatComponent implements OnInit {
 
   getConversationList(): void {
     zip(
-      this.conversationSrv.getVistorList(this.parmaTypes.assigned),
-      this.conversationSrv.getVistorList(this.parmaTypes.unassigned)
+      this.conversationSrv.getConversationList(this.parmaTypes.assigned),
+      this.conversationSrv.getConversationList(this.parmaTypes.unassigned)
     ).subscribe(([assignedData, unassignedData]) => {
       this.institutionId = assignedData.data.institution_id;
       this.userId = assignedData.data.user_id;
@@ -76,6 +76,7 @@ export class ChatComponent implements OnInit {
 
   doNav(): void {
     if (this.assignedData.length > 0) {
+      return; //不要自动选择
       if (this.selectId) {
         const arr = [...this.assignedData, ...this.unassignedData];
         for (const i of arr) {
