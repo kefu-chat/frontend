@@ -75,19 +75,19 @@ export class HeaderComponent {
 
             notify.onclick = () => {
               window.focus();
-              console.log(e);
-              this.router.navigateByUrl(`/conversation/chat/${e.id}`);
-              window.focus();
 
               setTimeout(() => {
+                this.router.navigateByUrl(`/conversation/chat/${e.id}`);
                 notify.close();
-              }, 200);
+              }, 1000);
             };
           });
         })
-        .listen(`.message.created`, (e) => {
+        .listen(`.message.created`, (msg) => {
+          if (msg.sender_type_text == "user") {
+            return;
+          }
           askNotificationPermission().then(() => {
-            const msg = e;
             let body, image;
 
             if (msg.type == 1) {
@@ -105,15 +105,14 @@ export class HeaderComponent {
             });
 
             notify.onclick = () => {
-              console.log(e);
-              this.router.navigateByUrl(
-                `/conversation/chat/${e.conversation_id}`
-              );
               window.focus();
 
               setTimeout(() => {
+                this.router.navigateByUrl(
+                  `/conversation/chat/${msg.conversation_id}`
+                );
                 notify.close();
-              }, 200);
+              }, 1000);
             };
           });
         });
