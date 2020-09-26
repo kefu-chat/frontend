@@ -59,86 +59,18 @@ export class ChatComponent implements OnInit {
       this.unassignedData = unassignedData.data.conversations;
       this.doNav();
 
-      this.echoSrv.Echo.join(`institution.${this.institutionId}`)
-        .here(console.log)
-        .joining(console.log)
-        .leaving(console.log)
-        .listen(`.conversation.created`, (e) => {
+      this.echoSrv.Echo.join(`institution.${this.institutionId}`).listen(
+        `.conversation.created`,
+        (e) => {
           this.unassignedData.unshift(e);
-          askNotificationPermission().then(() => {
-            let body = "";
-
-            const notify = new Notification("新会话接入", {
-              body,
-              vibrate: 1,
-            });
-
-            notify.onclick = () => {
-              window.focus();
-              this.to(e);
-
-              setTimeout(() => {
-                notify.close();
-              }, 200);
-            };
-          });
-        });
+        }
+      );
 
       this.echoSrv.Echo.join(
         `institution.${this.institutionId}.assigned.${this.userId}`
-      )
-        .here(console.log)
-        .joining(console.log)
-        .leaving(console.log)
-        .listen(`.conversation.created`, (e) => {
-          this.assignedData.unshift(e);
-          askNotificationPermission().then(() => {
-            let body = "";
-
-            const notify = new Notification("新会话接入", {
-              body,
-              vibrate: 1,
-            });
-
-            notify.onclick = () => {
-              window.focus();
-              this.to(e);
-
-              setTimeout(() => {
-                notify.close();
-              }, 200);
-            };
-          });
-        })
-        .listen(`.message.created`, (e) => {
-          askNotificationPermission().then(() => {
-            const msg = e;
-            let body, image;
-
-            if (msg.type == 1) {
-              body = msg.content;
-            }
-            if (msg.type == 2) {
-              body = "[图片消息]";
-              image = msg.content;
-            }
-
-            const notify = new Notification("您收到新消息", {
-              body,
-              image,
-              vibrate: 1,
-            });
-
-            notify.onclick = () => {
-              window.focus();
-              this.to({ id: e.conversation_id });
-
-              setTimeout(() => {
-                notify.close();
-              }, 200);
-            };
-          });
-        });
+      ).listen(`.conversation.created`, (e) => {
+        this.assignedData.unshift(e);
+      });
     });
   }
 

@@ -79,32 +79,6 @@ export class ChatDetailComponent implements OnInit {
         // })
         .listenForWhisper("message", (e) => {
           this.messageList.push(e);
-          askNotificationPermission().then(() => {
-            const msg = e;
-            let body, image;
-
-            if (msg.type == 1) {
-              body = msg.content;
-            }
-            if (msg.type == 2) {
-              body = "[图片消息]";
-              image = msg.content;
-            }
-
-            const notify = new Notification("您收到新消息", {
-              body,
-              image,
-              vibrate: 1,
-            });
-
-            notify.onclick = () => {
-              window.focus();
-
-              setTimeout(() => {
-                notify.close();
-              }, 200);
-            };
-          });
           setTimeout(() => {
             this.scrollTo();
           }, 200);
