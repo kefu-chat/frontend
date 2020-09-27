@@ -1,135 +1,137 @@
-.customlist {
-  width: 350px;
-  height: 100%;
-  padding-right: 10px;
-  overflow: hidden;
-  overflow-y: auto;
+:host {
+  .customlist {
+    width: 350px;
+    height: 100%;
+    padding-right: 10px;
+    overflow: hidden;
+    overflow-y: auto;
 
-  nz-tabset {
-    margin-left: 20px;
-  }
+    nz-tabset {
+      margin-left: 20px;
+    }
 
-  li {
-    .last-message {
-      color: #bbc6d6;
-      font-size: 12px;
-      font-weight: 300;
-      line-height: 12px;
+    li {
+      .last-message {
+        color: #bbc6d6;
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 12px;
+      }
     }
   }
-}
-.ant-menu-inline {
-  .ant-menu-item {
-    padding: 15px 15px !important;
-    padding-left: 15px !important;
-    border-radius: 5px;
-    height: 76px;
-  }
+  .ant-menu-inline {
+    .ant-menu-item {
+      padding: 15px 15px !important;
+      padding-left: 15px !important;
+      border-radius: 5px;
+      height: 76px;
+    }
 
-  .ant-menu-item-selected {
-    .last-message {
-      color: #fff;
+    .ant-menu-item-selected {
+      .last-message {
+        color: #fff;
+      }
+    }
+
+    .ant-menu-item-selected:after {
+      display: none;
     }
   }
-
-  .ant-menu-item-selected:after {
-    display: none;
-  }
-}
-.search-wrapper {
-  padding: 14px 10px;
-  background-color: #000;
-  height: 60px;
-  position: relative;
-  top: 0;
-}
-.searchInput {
-  border-radius: 16px;
-  width: 100%;
-  border: none;
-  cursor: pointer;
-  background-color: #000;
-  input {
+  .search-wrapper {
+    padding: 14px 10px;
     background-color: #000;
-    color: #fff;
-    padding-left: 15px;
-    height: 26px;
+    height: 60px;
+    position: relative;
+    top: 0;
   }
-  input:hover {
-    background-color: #374252;
-  }
-  input::-webkit-input-placeholder {
-    color: #8894ab;
-  }
-  input::-moz-placeholder {
-    /* Mozilla Firefox 19+ */
-    color: #8894ab;
-  }
-  input:-moz-placeholder {
-    /* Mozilla Firefox 4 to 18 */
-    color: #8894ab;
-  }
-  input:-ms-input-placeholder {
-    /* Internet Explorer 10-11 */
-    color: #8894ab;
-  }
-}
-.searchInput:hover {
-  background-color: #374252;
-  input {
-    background-color: #374252;
-  }
-}
-.ulout {
-  color: #fff;
-}
-
-::ng-deep {
-  .ant-menu-item-group-title {
-    color: #8894ab;
-  }
-
-  .ant-menu-item:active,
-  .ant-menu-submenu-title:active {
-    background: #e6e6e6;
-    color: #595959;
-  }
-  .ant-menu-item:hover {
-    background: #e6e6e6;
-    color: #595959;
-  }
-
-  .ant-menu {
-    .ant-menu-item-selected,
-    .ant-menu-item-selected:hover {
-      background-color: #177cdc !important;
+  .searchInput {
+    border-radius: 16px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    background-color: #000;
+    input {
+      background-color: #000;
       color: #fff;
+      padding-left: 15px;
+      height: 26px;
+    }
+    input:hover {
+      background-color: #374252;
+    }
+    input::-webkit-input-placeholder {
+      color: #8894ab;
+    }
+    input::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      color: #8894ab;
+    }
+    input:-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 */
+      color: #8894ab;
+    }
+    input:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #8894ab;
     }
   }
-}
-.chat-right {
-  height: 100%;
-  width: calc(100% - 350px);
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
-}
-
-.conversation-item {
-  nz-avatar {
-    display: inline-block;
-    vertical-align: middle;
+  .searchInput:hover {
+    background-color: #374252;
+    input {
+      background-color: #374252;
+    }
+  }
+  .ulout {
+    color: #fff;
   }
 
-  .conversation-list-content {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 20px;
-
-    .conversation-visitor-name {
-      line-height: 24px;
+  ::ng-deep {
+    .ant-menu-item-group-title {
+      color: #8894ab;
     }
 
-    .last-message {
-      line-height: 18px;
+    .ant-menu-item:active,
+    .ant-menu-submenu-title:active {
+      background: #e6e6e6;
+      color: #595959;
+    }
+    .ant-menu-item:hover {
+      background: #e6e6e6;
+      color: #595959;
+    }
+
+    .ant-menu {
+      .ant-menu-item-selected,
+      .ant-menu-item-selected:hover {
+        background-color: #177cdc !important;
+        color: #fff;
+      }
+    }
+  }
+  .chat-right {
+    height: 100%;
+    width: calc(100% - 350px);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
+  }
+
+  .conversation-item {
+    nz-avatar {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .conversation-list-content {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 20px;
+
+      .conversation-visitor-name {
+        line-height: 24px;
+      }
+
+      .last-message {
+        line-height: 18px;
+      }
     }
   }
 }
