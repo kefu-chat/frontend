@@ -14,6 +14,15 @@ import { ProAccountSettingsSecurityComponent } from "./account/settings/security
 import { ProAccountSettingsComponent } from "./account/settings/settings.component";
 import { ProProfileAdvancedComponent } from "./profile/advanced/advanced.component";
 import { ProProfileBaseComponent } from "./profile/basic/basic.component";
+import { ProEnterpriseCenterApplicationsComponent } from "./enterprise/center/applications/applications.component";
+import { ProEnterpriseCenterArticlesComponent } from "./enterprise/center/articles/articles.component";
+import { ProEnterpriseCenterComponent } from "./enterprise/center/center.component";
+import { ProEnterpriseCenterProjectsComponent } from "./enterprise/center/projects/projects.component";
+import { ProEnterpriseSettingsBaseComponent } from "./enterprise/settings/base/base.component";
+import { ProEnterpriseSettingsBindingComponent } from "./enterprise/settings/binding/binding.component";
+import { ProEnterpriseSettingsNotificationComponent } from "./enterprise/settings/notification/notification.component";
+import { ProEnterpriseSettingsSecurityComponent } from "./enterprise/settings/security/security.component";
+import { ProEnterpriseSettingsComponent } from "./enterprise/settings/settings.component";
 
 const COMPONENTS = [
   ProProfileBaseComponent,
@@ -27,6 +36,15 @@ const COMPONENTS = [
   ProAccountSettingsSecurityComponent,
   ProAccountSettingsBindingComponent,
   ProAccountSettingsNotificationComponent,
+  ProEnterpriseCenterComponent,
+  ProEnterpriseCenterArticlesComponent,
+  ProEnterpriseCenterProjectsComponent,
+  ProEnterpriseCenterApplicationsComponent,
+  ProEnterpriseSettingsComponent,
+  ProEnterpriseSettingsBaseComponent,
+  ProEnterpriseSettingsSecurityComponent,
+  ProEnterpriseSettingsBindingComponent,
+  ProEnterpriseSettingsNotificationComponent,
 ];
 
 const COMPONENTS_NOROUNT = [];

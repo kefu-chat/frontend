@@ -12,6 +12,15 @@ import { ProAccountSettingsSecurityComponent } from "./account/settings/security
 import { ProAccountSettingsComponent } from "./account/settings/settings.component";
 import { ProProfileAdvancedComponent } from "./profile/advanced/advanced.component";
 import { ProProfileBaseComponent } from "./profile/basic/basic.component";
+import { ProEnterpriseCenterApplicationsComponent } from "./enterprise/center/applications/applications.component";
+import { ProEnterpriseCenterArticlesComponent } from "./enterprise/center/articles/articles.component";
+import { ProEnterpriseCenterComponent } from "./enterprise/center/center.component";
+import { ProEnterpriseCenterProjectsComponent } from "./enterprise/center/projects/projects.component";
+import { ProEnterpriseSettingsBaseComponent } from "./enterprise/settings/base/base.component";
+import { ProEnterpriseSettingsBindingComponent } from "./enterprise/settings/binding/binding.component";
+import { ProEnterpriseSettingsNotificationComponent } from "./enterprise/settings/notification/notification.component";
+import { ProEnterpriseSettingsSecurityComponent } from "./enterprise/settings/security/security.component";
+import { ProEnterpriseSettingsComponent } from "./enterprise/settings/settings.component";
 
 const routes: Routes = [
   {
@@ -70,6 +79,60 @@ const routes: Routes = [
             path: "notification",
             component: ProAccountSettingsNotificationComponent,
             data: { titleI18n: "pro-account-settings" },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "enterprise",
+    children: [
+      {
+        path: "center",
+        component: ProEnterpriseCenterComponent,
+        children: [
+          { path: "", redirectTo: "articles", pathMatch: "full" },
+          {
+            path: "articles",
+            component: ProEnterpriseCenterArticlesComponent,
+            data: { titleI18n: "pro-enterprise-center" },
+          },
+          {
+            path: "projects",
+            component: ProEnterpriseCenterProjectsComponent,
+            data: { titleI18n: "pro-enterprise-center" },
+          },
+          {
+            path: "applications",
+            component: ProEnterpriseCenterApplicationsComponent,
+            data: { titleI18n: "pro-enterprise-center" },
+          },
+        ],
+      },
+      {
+        path: "settings",
+        component: ProEnterpriseSettingsComponent,
+        children: [
+          { path: "", redirectTo: "base", pathMatch: "full" },
+          {
+            path: "base",
+            component: ProEnterpriseSettingsBaseComponent,
+            data: { titleI18n: "pro-enterprise-settings" },
+          },
+          {
+            path: "security",
+            component: ProEnterpriseSettingsSecurityComponent,
+            data: { titleI18n: "pro-enterprise-settings" },
+          },
+          {
+            path: "binding",
+            component: ProEnterpriseSettingsBindingComponent,
+            data: { titleI18n: "pro-enterprise-settings" },
+          },
+          {
+            path: "notification",
+            component: ProEnterpriseSettingsNotificationComponent,
+            data: { titleI18n: "pro-enterprise-settings" },
           },
         ],
       },

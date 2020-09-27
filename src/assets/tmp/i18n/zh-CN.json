@@ -57,7 +57,7 @@
   "menu.exception.server-error": "500",
   "menu.account": "账户管理",
   "menu.account.center": "个人中心",
-  "menu.account.settings.enterprise": "企业管理",
+  "menu.enterprise.settings": "企业管理",
   "menu.account.settings": "个人设置",
   "menu.account.trigger": "触发错误",
   "menu.account.logout": "退出登录",
