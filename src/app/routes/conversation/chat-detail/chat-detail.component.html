@@ -14,6 +14,7 @@
     <div nz-col class="chat-left">
       <div class="content-header">
         <div>
+          <div class="closer" (click)="toList()"></div>
           <div class="name" *ngIf="visitor && visitor.name">
             <div *ngIf="visitor.name != visitor.unique_id">
               {{ visitor.name }} ({{ visitor.unique_id }})

@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
 import { SettingsService, User } from "@delon/theme";
 import {
@@ -46,6 +46,7 @@ export class ChatDetailComponent implements OnInit {
   socket: any;
   constructor(
     public route: ActivatedRoute,
+    private router: Router,
     private settings: SettingsService,
     private el: ElementRef<HTMLElement>,
     private conversationSrv: ConversationService,
@@ -201,5 +202,10 @@ export class ChatDetailComponent implements OnInit {
 
   selectEmoji(evt): void {
     console.log(evt.emoji.native);
+  }
+
+  toList(): void {
+    const url = `/conversation/chat`;
+    this.router.navigateByUrl(url);
   }
 }

@@ -21,15 +21,7 @@
     </div>
     -->
     <div>
-      <div
-        style="
-          background: #fff;
-          color: #24292e;
-          font-size: 18px;
-          font-weight: 700;
-          padding: 20px 20px 10px;
-        "
-      >
+      <div class="content-title">
         客服工作台
       </div>
       <ul nz-menu nzMode="inline" class="ulout">
@@ -124,7 +116,7 @@
       </ul>
     </div>
   </div>
-  <div nz-col class="chat-right">
+  <div nz-col class="chat-right" *ngIf="selectId">
     <router-outlet [id]="selectId"></router-outlet>
   </div>
 </div>
