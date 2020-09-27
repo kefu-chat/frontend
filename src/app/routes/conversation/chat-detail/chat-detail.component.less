@@ -3,25 +3,31 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
-  height: 60px;
   color: #333;
   z-index: 12;
   position: relative;
   padding-left: 20px;
   padding-right: 20px;
-  box-shadow: 0 2px 2px rgba(0, 0, 60, 0.08);
   border-bottom: 1px solid transparent;
+  margin-bottom: 10px;
+
   .name,
   .seeing {
     display: block;
     width: 100%;
+    margin: 10px 0;
+
+    a {
+      color: #959da5;
+      font-weight: 300;
+
+      &:hover {
+        color: #24292e;
+      }
+    }
   }
   .name {
     font-weight: bold;
-  }
-  .seeing,
-  .seeing a {
-    color: #b1d8ff;
   }
 }
 .visitor-details {
@@ -206,16 +212,29 @@
   .message {
     width: 100%;
     flex: 1;
-    padding: 0 10px 10px;
+    padding: 0;
     overflow: auto;
   }
   .messageIupt {
     height: 170px;
-    border-top: 3px solid #3f88f6;
-    padding: 10px;
+    margin: 30px 15px 15px 15px;
+    border: 1px solid #e1e4e8;
+    border-radius: 10px;
+    overflow: hidden;
 
     .input-left {
       width: 100%;
+
+      textarea {
+        border-radius: 5px;
+        height: 125px;
+        resize: none;
+
+        &:hover,
+        &:focus {
+          outline: none;
+        }
+      }
     }
     .input-right {
       position: relative;
@@ -279,4 +298,18 @@
   background: #d7dde4;
   z-index: 99;
   padding-bottom: 10px;
+}
+
+.message-item {
+  padding: 15px 0;
+
+  nz-comment {
+    padding: 0 15px;
+  }
+}
+
+.message-item.visitor {
+  nz-comment {
+    border-left: 3px solid #177cdc;
+  }
 }

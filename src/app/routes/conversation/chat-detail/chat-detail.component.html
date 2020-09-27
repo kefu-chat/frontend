@@ -15,17 +15,21 @@
       <div class="content-header">
         <div>
           <div class="name" *ngIf="visitor && visitor.name">
-            {{ visitor.name }} ({{ visitor.unique_id }})
+            <div *ngIf="visitor.name != visitor.unique_id">
+              {{ visitor.name }} ({{ visitor.unique_id }})
+            </div>
+            <div *ngIf="visitor.name == visitor.unique_id">
+              {{ visitor.name }}
+            </div>
           </div>
           <div class="seeing" *ngIf="conversation && conversation.url">
-            正在访问:
             <a
               [href]="conversation.url"
               target="_blank"
               rel="noopener noreferrer"
             >
-              {{ conversation.hostname }}</a
-            >
+              正在访问: {{ conversation.hostname }}
+            </a>
           </div>
         </div>
       </div>
@@ -38,6 +42,7 @@
             >
           </ng-template>
           <div
+            class="message-item"
             *ngFor="let item of messageList"
             [ngClass]="item.sender_type_text"
           >
@@ -46,10 +51,10 @@
                 item.sender_type_text == 'user'
                   ? item.sender_id == user.id
                     ? '你'
-                    : item.sender.name
+                    : item.sender.name + '(客服)'
                   : item.sender.name
               "
-              [nzDatetime]="item.created_at | _date: 'yyyy-mm-dd HH:mm:ss'"
+              [nzDatetime]="item.created_at | _date: 'yyyy-MM-dd HH:mm:ss'"
             >
               <nz-comment-content style="width: 95%;">
                 <div class="cell" *ngIf="item.type == 1">
@@ -77,7 +82,7 @@
             <textarea
               nz-input
               placeholder="请输入..."
-              style="height: 110px;"
+              class="border-0"
               autofocus
               (blur)="stopTyping($event)"
               (focus)="content && startTyping($event)"

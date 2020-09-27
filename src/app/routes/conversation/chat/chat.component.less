@@ -1,18 +1,23 @@
 .customlist {
-  width: 220px;
+  width: 350px;
   height: 100%;
+  padding-right: 10px;
   overflow: hidden;
   overflow-y: auto;
   nz-tabset {
     margin-left: 20px;
   }
 }
-.ant-menu-inline .ant-menu-item {
-  padding: 5px 15px !important;
-  padding-left: 15px !important;
-  height: auto !important;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+.ant-menu-inline {
+  .ant-menu-item {
+    padding: 5px 15px !important;
+    padding-left: 15px !important;
+    border-radius: 5px;
+    height: 76px;
+  }
+  .ant-menu-item-selected:after {
+    display: none;
+  }
 }
 .search-wrapper {
   padding: 14px 10px;
@@ -82,6 +87,6 @@
 }
 .chat-right {
   height: 100%;
-  width: calc(100% - 220px);
+  width: calc(100% - 350px);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
 }
