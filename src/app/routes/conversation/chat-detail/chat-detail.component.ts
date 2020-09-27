@@ -119,6 +119,7 @@ export class ChatDetailComponent implements OnInit {
   }
 
   scrollTo(): void {
+    if (!this.messageEl) return;
     this.messageEl.scrollTop = this.messageEl.scrollHeight;
   }
 

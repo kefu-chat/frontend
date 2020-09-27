@@ -209,17 +209,32 @@
             ></ng-template>
           </div>
           <nz-divider></nz-divider>
-          <div class="location">
+          <div
+            class="location"
+            *ngIf="conversation.hostname || conversation.url"
+          >
             <div nz-row>
-              <div nz-col nzSpan="5">来源</div>
+              <div nz-col nzSpan="5">URL</div>
               <div nz-col nzSpan="19">
                 <a
                   [href]="conversation.url"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {{ conversation.hostname }}</a
+                  {{ conversation.hostname }}
+                </a>
+              </div>
+            </div>
+            <div nz-row *ngIf="conversation.referer">
+              <div nz-col nzSpan="5">流量来源</div>
+              <div nz-col nzSpan="19">
+                <a
+                  [href]="conversation.referer"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
+                  {{ conversation.referer }}
+                </a>
               </div>
             </div>
             <div nz-row>
