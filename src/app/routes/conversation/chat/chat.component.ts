@@ -25,7 +25,7 @@ export class ChatComponent implements OnInit {
     },
   };
   channel: String;
-  selectId: any = localStorage.getItem("selectId");
+  selectId: any = null;
   institutionId: String;
   userId: String;
 
