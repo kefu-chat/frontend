@@ -15,6 +15,7 @@ import {
   askNotificationPermission,
 } from "@service";
 import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
+import { EmojiModule } from "@ctrl/ngx-emoji-mart/ngx-emoji";
 
 @Component({
   selector: "app-chat-detail",
@@ -195,5 +196,9 @@ export class ChatDetailComponent implements OnInit {
     if (info.file.status === "done") {
       this.picUrl = info.file.response.data.url;
     }
+  }
+
+  selectEmoji(evt): void {
+    console.log(evt.emoji.native);
   }
 }

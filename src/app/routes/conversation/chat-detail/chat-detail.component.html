@@ -104,8 +104,22 @@
               >
                 <i nz-icon nzType="send" nzTheme="outline"></i>
               </a>
-              <a>
+              <a
+                nz-popconfirm
+                nzPopconfirmPlacement="top"
+                [nzIcon]="iconTpl"
+                [nzPopconfirmTitle]="cont"
+              >
                 <i nz-icon nzType="smile" nzTheme="outline"></i>
+                <ng-template #iconTpl></ng-template>
+                <ng-template #cont>
+                  <emoji-mart
+                    title="选择表情"
+                    emoji="joy"
+                    [showPreview]="false"
+                    (emojiClick)="selectEmoji($event)"
+                  ></emoji-mart>
+                </ng-template>
               </a>
               <a>
                 <i nz-icon nzType="thunderbolt" nzTheme="outline"></i>

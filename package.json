@@ -49,6 +49,7 @@
     "@angular/router": "~10.0.4",
     "@antv/data-set": "^0.11.4",
     "@antv/g2": "^4.0.13",
+    "@ctrl/ngx-emoji-mart": "^4.0.2",
     "@delon/abc": "^10.0.0-beta.3",
     "@delon/acl": "^10.0.0-beta.3",
     "@delon/auth": "^10.0.0-beta.3",

@@ -28,7 +28,7 @@
       "children": [
         {
           "i18n": "menu.account.settings.enterprise",
-          "icon": "anticon-user",
+          "icon": "anticon-bank",
           "link": "/pro/account/settings"
         },
         {

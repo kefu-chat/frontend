@@ -1,14 +1,33 @@
 <div class="main">
   <div class="menu">
     <ul nz-menu [nzMode]="mode">
-      <li
-        *ngFor="let m of menus"
-        nz-menu-item
-        [nzSelected]="m.selected"
-        (click)="to(m)"
-      >
-        {{ m.title }}
-      </li>
+      <ng-container *ngFor="let m of menus">
+        <li
+          nz-menu-item
+          [nzSelected]="m.selected"
+          (click)="to(m)"
+          *ngIf="m.key != 'logout'"
+        >
+          {{ m.title }}
+        </li>
+        <li
+          nz-menu-item
+          [nzSelected]="m.selected"
+          nz-popconfirm
+          nzPopconfirmTitle="确认退出?"
+          nzOkText="仍要退出"
+          nzOkType="danger"
+          nzPopconfirmPlacement="right"
+          [nzIcon]="iconTpl"
+          (nzOnConfirm)="to(m)"
+          *ngIf="m.key == 'logout'"
+        >
+          <ng-template #iconTpl>
+            <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+          </ng-template>
+          {{ m.title }}
+        </li>
+      </ng-container>
     </ul>
   </div>
   <div class="content">
