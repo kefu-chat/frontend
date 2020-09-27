@@ -25,7 +25,7 @@ export class ChatComponent implements OnInit {
     },
   };
   channel: String;
-  selectId: number = Number(localStorage.getItem("selectId"));
+  selectId: any = localStorage.getItem("selectId");
   institutionId: String;
   userId: String;
 
@@ -44,6 +44,7 @@ export class ChatComponent implements OnInit {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationStart) {
         if (evt.url === "/conversation/chat") {
+          this.selectId = 0;
           this.doNav();
         }
       }
@@ -103,6 +104,7 @@ export class ChatComponent implements OnInit {
         );
       }
     } else {
+      this.selectId = 0;
       this.navigate(0);
     }
   }

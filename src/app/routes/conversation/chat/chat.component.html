@@ -5,7 +5,11 @@
   *ngIf="assignedData.length + unassignedData.length > 0"
   style="height: 100%; width: 100%;"
 >
-  <div class="customlist" nz-col>
+  <div
+    class="customlist"
+    nz-col
+    [style]="selectId ? '_width: auto;' : 'width: 100%;'"
+  >
     <!--
     <div class="search-wrapper">
       <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
