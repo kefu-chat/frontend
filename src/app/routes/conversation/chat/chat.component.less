@@ -7,10 +7,18 @@
   nz-tabset {
     margin-left: 20px;
   }
+  li {
+    .last-message {
+      color: #bbc6d6;
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 12px;
+    }
+  }
 }
 .ant-menu-inline {
   .ant-menu-item {
-    padding: 5px 15px !important;
+    padding: 15px 15px !important;
     padding-left: 15px !important;
     border-radius: 5px;
     height: 76px;
@@ -89,4 +97,25 @@
   height: 100%;
   width: calc(100% - 350px);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
+}
+
+.conversation-item {
+  nz-avatar {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .conversation-list-content {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+
+    .conversation-visitor-name {
+      line-height: 24px;
+    }
+
+    .last-message {
+      line-height: 18px;
+    }
+  }
 }

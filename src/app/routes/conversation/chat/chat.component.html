@@ -24,29 +24,89 @@
       </div>
       <ul nz-menu nzMode="inline" class="ulout">
         <nz-tabset>
-          <nz-tab nzTitle="等待中">
+          <nz-tab nzTitle="未接待">
             <ul *ngIf="unassignedData.length > 0">
               <li
                 nz-menu-item
+                class="conversation-item"
                 *ngFor="let item of unassignedData"
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
-                {{ item.visitor.name }}
-                {{ item.online_status == 0 ? "(已离线)" : "" }}
+                <nz-avatar
+                  nz-comment-avatar
+                  nzIcon="user"
+                  [nzSrc]="item.icon"
+                  [style]="
+                    item.online_status == 0 ? 'filter: grayscale(1)' : ''
+                  "
+                ></nz-avatar>
+                <div class="conversation-list-content">
+                  <div class="conversation-visitor-name">
+                    {{ item.visitor.name }}
+                    {{ item.online_status == 0 ? "(已离线)" : "" }}
+                  </div>
+                  <div class="last-message" *ngIf="item.last_message">
+                    <span>
+                      {{
+                        item.last_message.sender_type_text == "user"
+                          ? item.last_message.sender_id == user.id
+                            ? "你"
+                            : item.last_message.sender.name + "(客服)"
+                          : item.last_message.sender.name
+                      }}:
+                      <span *ngIf="item.last_message.type == 1">
+                        {{ item.last_message.content }}
+                      </span>
+                      <span *ngIf="item.last_message.type == 2">
+                        [图片消息]
+                      </span>
+                    </span>
+                  </div>
+                </div>
               </li>
             </ul>
           </nz-tab>
-          <nz-tab nzTitle="我的">
+          <nz-tab nzTitle="我接待的">
             <ul>
               <li
                 nz-menu-item
+                class="conversation-item"
                 *ngFor="let item of assignedData"
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
-                {{ item.visitor.name }}
-                {{ item.online_status == 0 ? "(已离线)" : "" }}
+                <nz-avatar
+                  nz-comment-avatar
+                  nzIcon="user"
+                  [nzSrc]="item.icon"
+                  [style]="
+                    item.online_status == 0 ? 'filter: grayscale(1)' : ''
+                  "
+                ></nz-avatar>
+                <div class="conversation-list-content">
+                  <div class="conversation-visitor-name">
+                    {{ item.visitor.name }}
+                    {{ item.online_status == 0 ? "(已离线)" : "" }}
+                  </div>
+                  <div class="last-message" *ngIf="item.last_message">
+                    <span>
+                      {{
+                        item.last_message.sender_type_text == "user"
+                          ? item.last_message.sender_id == user.id
+                            ? "你"
+                            : item.last_message.sender.name + "(客服)"
+                          : item.last_message.sender.name
+                      }}:
+                      <span *ngIf="item.last_message.type == 1">
+                        {{ item.last_message.content }}
+                      </span>
+                      <span *ngIf="item.last_message.type == 2">
+                        [图片消息]
+                      </span>
+                    </span>
+                  </div>
+                </div>
               </li>
             </ul>
           </nz-tab>

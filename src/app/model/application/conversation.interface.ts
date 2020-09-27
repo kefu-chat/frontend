@@ -19,6 +19,9 @@ export interface Conversation {
   user: User;
   hostname?: string;
   geo: Geo;
+  color?: string;
+  icon?: string;
+  last_message?: MessageModel;
 }
 
 export interface User {

@@ -54,6 +54,10 @@
                     : item.sender.name + '(客服)'
                   : item.sender.name
               "
+              [ngStyle]="{
+                'border-left-color':
+                  item.sender_type_text == 'visitor' ? conversation.color : ''
+              }"
               [nzDatetime]="item.created_at | _date: 'yyyy-MM-dd HH:mm:ss'"
             >
               <nz-comment-content style="width: 95%;">
@@ -69,8 +73,8 @@
                 nzIcon="user"
                 [nzSrc]="
                   item.sender_type_text == 'user'
-                    ? item.sender.photo_url
-                    : '//zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+                    ? item.sender.avatar
+                    : conversation.icon
                 "
               ></nz-avatar>
             </nz-comment>
