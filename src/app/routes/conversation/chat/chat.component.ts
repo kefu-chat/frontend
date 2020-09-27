@@ -1,6 +1,7 @@
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { SettingsService, User, _HttpClient } from "@delon/theme";
+import { Conversation } from "@model/application/conversation.interface";
 import {
   ConversationService,
   EchoService,
@@ -28,6 +29,7 @@ export class ChatComponent implements OnInit {
   selectId: any = null;
   institutionId: String;
   userId: String;
+  currentTab: Number;
 
   get user(): User {
     return this.settings.user;
@@ -46,6 +48,12 @@ export class ChatComponent implements OnInit {
         if (evt.url === "/conversation/chat") {
           this.selectId = 0;
           this.doNav();
+        } else if (evt.url.indexOf("/conversation/chat/") == 0) {
+          try {
+            this.selectId = evt.url.split("/conversation/chat/")[1];
+          } catch (e) {
+            console.error(e);
+          }
         }
       }
     });
@@ -70,6 +78,14 @@ export class ChatComponent implements OnInit {
       this.assignedData = assignedData.data.conversations;
       this.unassignedData = unassignedData.data.conversations;
       this.doNav();
+
+      if (
+        this.assignedData.filter(
+          (conversation: Conversation) => conversation.id == this.selectId
+        ).length
+      ) {
+        this.currentTab = 2;
+      }
 
       this.echoSrv.Echo.join(`institution.${this.institutionId}`).listen(
         `.conversation.created`,

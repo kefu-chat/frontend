@@ -79,7 +79,7 @@ export class HeaderComponent {
               setTimeout(() => {
                 this.router.navigateByUrl(`/conversation/chat/${e.id}`);
                 notify.close();
-              }, 1000);
+              }, 200);
             };
           });
         })
@@ -112,7 +112,7 @@ export class HeaderComponent {
                   `/conversation/chat/${msg.conversation_id}`
                 );
                 notify.close();
-              }, 1000);
+              }, 200);
             };
           });
         });

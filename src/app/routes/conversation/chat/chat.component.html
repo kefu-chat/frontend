@@ -25,7 +25,7 @@
         客服工作台
       </div>
       <ul nz-menu nzMode="inline" class="ulout">
-        <nz-tabset>
+        <nz-tabset [nzSelectedIndex]="currentTab">
           <nz-tab nzTitle="未接待">
             <ul *ngIf="unassignedData.length > 0">
               <li
