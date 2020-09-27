@@ -131,7 +131,7 @@
           <div class="visitor-header">
             <nz-avatar
               class="alain-default__aside-user-avatar"
-              nzSrc="./assets/tmp/img/4.png"
+              [nzSrc]="conversation.icon"
               [nzSize]="42"
             ></nz-avatar>
             <span class="vistor-name">
@@ -181,6 +181,7 @@
             <nz-input-group [nzPrefix]="note" style="width: 100%;">
               <textarea
                 type="text"
+                class="border-0"
                 nz-input
                 [(ngModel)]="visitor.memo"
                 placeholder="添加备注..."
