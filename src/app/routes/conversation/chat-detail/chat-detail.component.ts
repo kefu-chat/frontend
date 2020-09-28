@@ -194,6 +194,14 @@ export class ChatDetailComponent implements OnInit {
     this.socket.whisper("stopTyping", { name: "" });
   }
 
+  paste(e: ClipboardEvent): void {
+    console.log(e);
+  }
+
+  drag(e): void {
+    console.log(e);
+  }
+
   handleChange(info: NzUploadChangeParam): void {
     if (info.file.status === "done") {
       this.picUrl = info.file.response.data.url;

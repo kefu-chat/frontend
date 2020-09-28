@@ -94,6 +94,7 @@
               (blur)="stopTyping($event)"
               (focus)="content && startTyping($event)"
               (keydown)="startTyping($event)"
+              (paste)="paste($event)"
               (keydown.enter)="keyEnter($event)"
               [(ngModel)]="content"
             ></textarea>
