@@ -1,32 +1,75 @@
-<div
-  nz-row
-  nzJustify="center"
-  nzAlign="top"
-  *ngIf="assignedData.length + unassignedData.length > 0"
-  style="height: 100%; width: 100%;"
->
+<div nz-row nzJustify="center" nzAlign="top" style="height: 100%; width: 100%;">
   <div
     class="customlist"
     nz-col
     [style]="selectId ? '_width: auto;' : 'width: 100%;'"
   >
-    <!--
-    <div class="search-wrapper">
-      <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
-        <input type="text" nz-input placeholder="在这里搜索" nzSize="large" />
-      </nz-input-group>
-      <ng-template #searchTemplate
-        ><i nz-icon nz-tooltip nzType="search" style="color: #505a69;"></i
-      ></ng-template>
-    </div>
-    -->
     <div>
       <div class="content-title">
-        客服工作台
+        <span>客服工作台</span>
+        <div
+          class="search-wrapper"
+          *ngIf="!selectId"
+          style="width: 200px; height: 28px;"
+        >
+          <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
+            <input
+              type="text"
+              nz-input
+              placeholder="在这里搜索"
+              nzSize="large"
+            />
+          </nz-input-group>
+        </div>
       </div>
+      <ng-template #searchTemplate
+        ><i nz-icon nz-tooltip nzType="search" style="color: #888888;"></i
+      ></ng-template>
       <ul nz-menu nzMode="inline" class="ulout">
         <nz-tabset [nzSelectedIndex]="currentTab" [nzAnimated]="false">
-          <nz-tab nzTitle="未接待">
+          <ng-template #titleUnassigned>
+            未接待
+            <nz-badge
+              [nzCount]="unassignedData.length"
+              [nzStyle]="{ backgroundColor: '#dddddd' }"
+            ></nz-badge>
+          </ng-template>
+          <ng-template #titleAssigned>
+            我接待的
+            <nz-badge
+              [nzCount]="assignedData.length"
+              [nzStyle]="{ backgroundColor: '#dddddd' }"
+            ></nz-badge>
+          </ng-template>
+          <nz-tab [nzTitle]="titleUnassigned">
+            <div
+              *ngIf="assignedData.length + unassignedData.length == 0"
+              nz-row
+              nzAlign="middle"
+              style="width: 100%; height: calc(100vh - 121px);"
+            >
+              <div style="text-align: center; width: 100%;">
+                <img src="./assets/tmp/img/empty.svg" alt="" />
+                <h1 style="color: #7e7e7e; width: 100%; font-size: 16px;">
+                  当前没有未接待的咨询
+                </h1>
+              </div>
+            </div>
+            <div class="search-wrapper" *ngIf="selectId">
+              <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
+                <input
+                  type="text"
+                  nz-input
+                  placeholder="在这里搜索"
+                  nzSize="large"
+                />
+              </nz-input-group>
+            </div>
+            <div class="ul-thead" *ngIf="!selectId">
+              <div>名字</div>
+              <div>最后时间</div>
+              <div>渠道</div>
+            </div>
             <ul *ngIf="unassignedData.length > 0">
               <li
                 nz-menu-item
@@ -35,41 +78,77 @@
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
-                <nz-avatar
-                  nz-comment-avatar
-                  nzIcon="user"
-                  [nzSrc]="item.icon"
-                  [style]="
-                    item.online_status == 0 ? 'filter: grayscale(1)' : ''
-                  "
-                ></nz-avatar>
-                <div class="conversation-list-content">
-                  <div class="conversation-visitor-name">
-                    {{ item.visitor.name }}
-                    {{ item.online_status == 0 ? "(已离线)" : "" }}
-                  </div>
-                  <div class="last-message" *ngIf="item.last_message">
-                    <span>
-                      {{
-                        item.last_message.sender_type_text == "user"
-                          ? item.last_message.sender_id == user.id
-                            ? "你"
-                            : item.last_message.sender.name + "(客服)"
-                          : item.last_message.sender.name
-                      }}:
-                      <span *ngIf="item.last_message.type == 1">
-                        {{ item.last_message.content }}
+                <div>
+                  <nz-avatar
+                    nz-comment-avatar
+                    nzIcon="user"
+                    [nzSrc]="item.icon"
+                    [style]="
+                      item.online_status == 0 ? 'filter: grayscale(1)' : ''
+                    "
+                  ></nz-avatar>
+                  <div class="conversation-list-content">
+                    <div class="conversation-visitor-name">
+                      {{ item.visitor.name }}
+                      {{ item.online_status == 0 ? "(已离线)" : "" }}
+                    </div>
+                    <div class="last-message" *ngIf="item.last_message">
+                      <span>
+                        {{
+                          item.last_message.sender_type_text == "user"
+                            ? item.last_message.sender_id == user.id
+                              ? "你"
+                              : item.last_message.sender.name + "(客服)"
+                            : item.last_message.sender.name
+                        }}:
+                        <span *ngIf="item.last_message.type == 1">
+                          {{ item.last_message.content }}
+                        </span>
+                        <span *ngIf="item.last_message.type == 2">
+                          [图片消息]
+                        </span>
                       </span>
-                      <span *ngIf="item.last_message.type == 2">
-                        [图片消息]
-                      </span>
-                    </span>
+                    </div>
                   </div>
+                </div>
+                <div *ngIf="!selectId">
+                  {{ item.last_reply_at }}
+                </div>
+                <div *ngIf="!selectId">
+                  {{ item.url }}
                 </div>
               </li>
             </ul>
           </nz-tab>
-          <nz-tab nzTitle="我接待的">
+          <nz-tab [nzTitle]="titleAssigned">
+            <div
+              *ngIf="assignedData.length + unassignedData.length == 0"
+              nz-row
+              nzAlign="middle"
+              style="width: 100%; height: calc(100vh - 121px);"
+            >
+              <div style="text-align: center; width: 100%;">
+                <img src="./assets/tmp/img/empty.svg" alt="" />
+                <h1 style="color: #7e7e7e; width: 100%; font-size: 16px;">
+                  当前没有接待中的咨询
+                </h1>
+              </div>
+            </div>
+            <div class="search-wrapper" *ngIf="selectId">
+              <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
+                <input
+                  type="text"
+                  nz-input
+                  placeholder="在这里搜索"
+                  nzSize="large"
+                />
+              </nz-input-group>
+            </div>
+            <div class="ul-thead" *ngIf="!selectId">
+              <div>名字</div>
+              <div>最后时间</div>
+              <div>渠道</div>
+            </div>
             <ul>
               <li
                 nz-menu-item
@@ -78,36 +157,44 @@
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
-                <nz-avatar
-                  nz-comment-avatar
-                  nzIcon="user"
-                  [nzSrc]="item.icon"
-                  [style]="
-                    item.online_status == 0 ? 'filter: grayscale(1)' : ''
-                  "
-                ></nz-avatar>
-                <div class="conversation-list-content">
-                  <div class="conversation-visitor-name">
-                    {{ item.visitor.name }}
-                    {{ item.online_status == 0 ? "(已离线)" : "" }}
-                  </div>
-                  <div class="last-message" *ngIf="item.last_message">
-                    <span>
-                      {{
-                        item.last_message.sender_type_text == "user"
-                          ? item.last_message.sender_id == user.id
-                            ? "你"
-                            : item.last_message.sender.name + "(客服)"
-                          : item.last_message.sender.name
-                      }}:
-                      <span *ngIf="item.last_message.type == 1">
-                        {{ item.last_message.content }}
+                <div>
+                  <nz-avatar
+                    nz-comment-avatar
+                    nzIcon="user"
+                    [nzSrc]="item.icon"
+                    [style]="
+                      item.online_status == 0 ? 'filter: grayscale(1)' : ''
+                    "
+                  ></nz-avatar>
+                  <div class="conversation-list-content">
+                    <div class="conversation-visitor-name">
+                      {{ item.visitor.name }}
+                      {{ item.online_status == 0 ? "(已离线)" : "" }}
+                    </div>
+                    <div class="last-message" *ngIf="item.last_message">
+                      <span>
+                        {{
+                          item.last_message.sender_type_text == "user"
+                            ? item.last_message.sender_id == user.id
+                              ? "你"
+                              : item.last_message.sender.name + "(客服)"
+                            : item.last_message.sender.name
+                        }}:
+                        <span *ngIf="item.last_message.type == 1">
+                          {{ item.last_message.content }}
+                        </span>
+                        <span *ngIf="item.last_message.type == 2">
+                          [图片消息]
+                        </span>
                       </span>
-                      <span *ngIf="item.last_message.type == 2">
-                        [图片消息]
-                      </span>
-                    </span>
+                    </div>
                   </div>
+                </div>
+                <div *ngIf="!selectId">
+                  {{ item.last_reply_at }}
+                </div>
+                <div *ngIf="!selectId">
+                  {{ item.url }}
                 </div>
               </li>
             </ul>
@@ -118,16 +205,5 @@
   </div>
   <div nz-col class="chat-right" *ngIf="selectId">
     <router-outlet [id]="selectId"></router-outlet>
-  </div>
-</div>
-<div
-  *ngIf="assignedData.length + unassignedData.length == 0"
-  nz-row
-  nzAlign="middle"
-  style="width: 100%; height: 100;"
->
-  <div style="text-align: center; width: 100%;">
-    <img src="./assets/tmp/img/empty.svg" alt="" />
-    <h1 style="color: #333; width: 100%;">当前没有接待中的客户</h1>
   </div>
 </div>

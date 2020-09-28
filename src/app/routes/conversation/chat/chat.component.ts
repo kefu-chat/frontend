@@ -2,6 +2,7 @@ import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { SettingsService, User, _HttpClient } from "@delon/theme";
 import { Conversation } from "@model/application/conversation.interface";
+import { NzBadgeModule } from "ng-zorro-antd/badge";
 import {
   ConversationService,
   EchoService,
@@ -121,7 +122,7 @@ export class ChatComponent implements OnInit {
       }
     } else {
       this.selectId = 0;
-      this.navigate(0);
+      //this.navigate(0);
     }
   }
 

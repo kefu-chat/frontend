@@ -1,4 +1,9 @@
 :host {
+  .content-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .customlist {
     width: 350px;
     height: 100%;
@@ -38,47 +43,36 @@
     }
   }
   .search-wrapper {
-    padding: 14px 10px;
-    background-color: #000;
     height: 60px;
     position: relative;
     top: 0;
   }
   .searchInput {
-    border-radius: 16px;
+    border-radius: 5px;
     width: 100%;
     border: none;
     cursor: pointer;
-    background-color: #000;
+    background-color: #eeeeee;
     input {
-      background-color: #000;
+      background-color: #eeeeee;
       color: #fff;
-      padding-left: 15px;
+      padding-left: 3px;
       height: 26px;
     }
-    input:hover {
-      background-color: #374252;
-    }
     input::-webkit-input-placeholder {
-      color: #8894ab;
+      color: #888888;
     }
     input::-moz-placeholder {
       /* Mozilla Firefox 19+ */
-      color: #8894ab;
+      color: #888888;
     }
     input:-moz-placeholder {
       /* Mozilla Firefox 4 to 18 */
-      color: #8894ab;
+      color: #888888;
     }
     input:-ms-input-placeholder {
       /* Internet Explorer 10-11 */
-      color: #8894ab;
-    }
-  }
-  .searchInput:hover {
-    background-color: #374252;
-    input {
-      background-color: #374252;
+      color: #888888;
     }
   }
   .ulout {
@@ -113,8 +107,20 @@
     width: calc(100% - 350px);
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
   }
+  .ul-thead {
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
 
+    div {
+      vertical-align: middle;
+      line-height: 60px;
+    }
+  }
   .conversation-item {
+    display: flex;
+    justify-content: space-between;
+
     nz-avatar {
       display: inline-block;
       vertical-align: middle;
