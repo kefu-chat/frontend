@@ -78,7 +78,7 @@
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
-                <div>
+                <div [style]="selectId ? '' : 'width: 33%'">
                   <nz-avatar
                     nz-comment-avatar
                     nzIcon="user"
@@ -111,11 +111,12 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="!selectId">
+                <div *ngIf="!selectId" style="width: 33%;">
                   {{ item.last_reply_at }}
                 </div>
-                <div *ngIf="!selectId">
-                  {{ item.url }}
+                <div *ngIf="!selectId" style="width: 33%;">
+                  <div>{{ item.url }}</div>
+                  <div *ngIf="item.title">{{ item.title }}</div>
                 </div>
               </li>
             </ul>
@@ -157,7 +158,7 @@
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
-                <div>
+                <div [style]="selectId ? '' : 'width: 33%'">
                   <nz-avatar
                     nz-comment-avatar
                     nzIcon="user"
@@ -190,11 +191,12 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="!selectId">
+                <div *ngIf="!selectId" style="width: 33%;">
                   {{ item.last_reply_at }}
                 </div>
-                <div *ngIf="!selectId">
-                  {{ item.url }}
+                <div *ngIf="!selectId" style="width: 33%;">
+                  <div>{{ item.url }}</div>
+                  <div *ngIf="item.title">{{ item.title }}</div>
                 </div>
               </li>
             </ul>
