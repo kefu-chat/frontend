@@ -57,8 +57,8 @@
   "menu.exception.server-error": "500",
   "menu.account": "账户管理",
   "menu.account.center": "个人中心",
-  "menu.enterprise.settings": "企业管理",
-  "menu.account.settings": "个人设置",
+  "menu.enterprise.settings": "管理",
+  "menu.account.settings": "我的",
   "menu.account.trigger": "触发错误",
   "menu.account.logout": "退出登录",
   "menu.more": "更多",
@@ -156,5 +156,5 @@
   "menu.conversation.ungreeted-visitor": "访客",
   "menu.feature": "功能",
   "menu.index": "首页",
-  "menu.conversation.robot": "机器人"
+  "menu.conversation.robot": "自动"
 }
