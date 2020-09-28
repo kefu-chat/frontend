@@ -8,7 +8,7 @@ export const environment = {
   apiUrl: `http://dev.fastsupport.cn/`,
   socketHost: `http://dev.fastsupport.cn:6001/`,
   production: false,
-  useHash: true,
+  useHash: false,
   hmr: false,
 };
 
