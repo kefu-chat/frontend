@@ -17,10 +17,12 @@
           <div class="closer" (click)="toList()"></div>
           <div class="name" *ngIf="visitor && visitor.name">
             <div *ngIf="visitor.name != visitor.unique_id">
-              {{ visitor.name }} ({{ visitor.unique_id }})
+              {{ visitor.name }} ({{ visitor.unique_id
+              }}{{ conversation.online_status == 0 ? ", 已离线" : "" }})
             </div>
             <div *ngIf="visitor.name == visitor.unique_id">
               {{ visitor.name }}
+              {{ conversation.online_status == 0 ? "(已离线)" : "" }}
             </div>
           </div>
           <div class="seeing" *ngIf="conversation && conversation.url">
