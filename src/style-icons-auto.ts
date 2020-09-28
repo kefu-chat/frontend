@@ -54,6 +54,7 @@ import {
   AlertOutline,
   CommentOutline,
   BankOutline,
+  RobotOutline,
 } from "@ant-design/icons-angular/icons";
 
 export const ICONS_AUTO = [
@@ -107,4 +108,5 @@ export const ICONS_AUTO = [
   AlertOutline,
   CommentOutline,
   BankOutline,
+  RobotOutline,
 ];

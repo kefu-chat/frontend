@@ -155,5 +155,6 @@
   "menu.conversation.waiting": "未分配对话",
   "menu.conversation.ungreeted-visitor": "访客",
   "menu.feature": "功能",
-  "menu.index": "首页"
+  "menu.index": "首页",
+  "menu.conversation.robot": "机器人"
 }

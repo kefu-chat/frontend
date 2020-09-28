@@ -18,6 +18,11 @@
           "i18n": "menu.conversation.ungreeted-visitor",
           "icon": "anticon-alert",
           "link": "/conversation/visitor"
+        },
+        {
+          "i18n": "menu.conversation.robot",
+          "icon": "anticon-robot",
+          "link": "/conversation/visitor"
         }
       ]
     },
