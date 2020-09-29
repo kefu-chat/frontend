@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
 import { SettingsService, User } from "@delon/theme";
+import { NzModalService } from "ng-zorro-antd/modal";
 import {
   Conversation,
   MessageData,
@@ -50,7 +51,8 @@ export class ChatDetailComponent implements OnInit {
     private settings: SettingsService,
     private el: ElementRef<HTMLElement>,
     private conversationSrv: ConversationService,
-    private echoSrv: EchoService
+    private echoSrv: EchoService,
+    private modal: NzModalService
   ) {}
 
   ngOnInit(): void {
@@ -221,5 +223,16 @@ export class ChatDetailComponent implements OnInit {
   toList(): void {
     const url = `/conversation/chat`;
     this.router.navigateByUrl(url);
+  }
+
+  terminateConversation(): void {
+    this.modal.confirm({
+      nzTitle: "确认终止会话?",
+      nzOkText: "终止",
+      nzOkType: "danger",
+      nzOnOk: () => console.log("OK"),
+      nzCancelText: "不终止",
+      nzAutofocus: "ok",
+    });
   }
 }

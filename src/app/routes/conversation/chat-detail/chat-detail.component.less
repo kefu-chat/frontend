@@ -5,7 +5,7 @@
   .content-header {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-around;
     flex-direction: row;
     color: #333;
     z-index: 12;
@@ -16,39 +16,51 @@
     margin-bottom: 10px;
     margin-top: 10px;
 
-    .name,
-    .seeing {
-      display: block;
+    .name-wrap {
       width: 100%;
-      margin: 10px 0;
 
-      a {
-        color: #959da5;
-        font-weight: 300;
+      .name,
+      .seeing {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
 
-        &:hover {
-          color: #24292e;
+        a {
+          color: #959da5;
+          font-weight: 300;
+
+          &:hover {
+            color: #24292e;
+          }
         }
       }
+      .name {
+        font-weight: bold;
+      }
+      .closer {
+        display: inline-block;
+        width: 24px;
+        height: 40px;
+        position: absolute;
+        margin-left: -40px;
+        margin-top: 10px;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%20%20%3Cg%20fill%3D%22none%22%20fill-rule%3D%22nonzero%22%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20stroke%3D%22%23367FEE%22%20stroke-width%3D%222%22%20d%3D%22M8%203l5%205-5%205%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20fill%3D%22%23367FEE%22%20d%3D%22M2%207h10v2H2z%22%2F%3E%0A%20%20%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
+        background-position: 8px center;
+        background-repeat: no-repeat;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        box-shadow: -10px 0 10px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+      }
     }
-    .name {
-      font-weight: bold;
-    }
-    .closer {
-      display: inline-block;
-      width: 24px;
-      height: 40px;
-      position: absolute;
-      margin-left: -40px;
-      margin-top: 10px;
-      background-color: #fff;
-      background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%20%20%3Cg%20fill%3D%22none%22%20fill-rule%3D%22nonzero%22%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20stroke%3D%22%23367FEE%22%20stroke-width%3D%222%22%20d%3D%22M8%203l5%205-5%205%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20fill%3D%22%23367FEE%22%20d%3D%22M2%207h10v2H2z%22%2F%3E%0A%20%20%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
-      background-position: 8px center;
-      background-repeat: no-repeat;
-      border-top-left-radius: 5px;
-      border-bottom-left-radius: 5px;
-      box-shadow: -10px 0 10px rgba(0, 0, 0, 0.05);
-      cursor: pointer;
+
+    nz-button-group {
+      width: auto;
+
+      button.ant-btn.btn-leave {
+        border-width: 1px;
+      }
     }
   }
   .visitor-details {
@@ -102,10 +114,10 @@
   @media (min-width: 1200px) {
     .visitor-details {
       display: block;
-      width: 240px;
+      width: 300px;
     }
     .chat-left {
-      width: calc(100% - 240px);
+      width: calc(100% - 300px);
     }
   }
   @media (max-width: 1200px) {

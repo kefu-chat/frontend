@@ -2,18 +2,18 @@
   *ngIf="id == 0; else other"
   nz-row
   nzAlign="middle"
-  style="height: 100%; background: #eee;"
+  style="height: 100%; background: #eee"
 >
-  <div style="text-align: center; width: 100%;">
+  <div style="text-align: center; width: 100%">
     <img src="./assets/tmp/img/empty.svg" alt="" />
-    <h1 style="color: #333; width: 100%;">当前没有接待中的客户</h1>
+    <h1 style="color: #333; width: 100%">当前没有接待中的客户</h1>
   </div>
 </div>
 <ng-template #other>
   <div nz-row class="content-chat">
     <div nz-col class="chat-left">
       <div class="content-header">
-        <div>
+        <div class="name-wrap">
           <div class="closer" (click)="toList()"></div>
           <div class="name" *ngIf="visitor && visitor.name">
             <div *ngIf="visitor.name != visitor.unique_id">
@@ -35,12 +35,22 @@
             </a>
           </div>
         </div>
+        <nz-button-group>
+          <button class="btn-leave" nz-button (click)="terminateConversation()">
+            <i nz-icon nzType="lock"></i>
+            结束
+          </button>
+          <button class="btn-leave" nz-button (click)="transferConversation()">
+            <i nz-icon nzType="contacts"></i>
+            转移
+          </button>
+        </nz-button-group>
       </div>
       <div class="conversation">
         <div class="message">
           <nz-divider *ngIf="has_previous" [nzText]="previous"></nz-divider>
           <ng-template #previous>
-            <a (click)="loadPreMore()" style="font-size: 13px;"
+            <a (click)="loadPreMore()" style="font-size: 13px"
               >显示更早的消息</a
             >
           </ng-template>
@@ -63,7 +73,7 @@
               }"
               [nzDatetime]="item.created_at | _date: 'yyyy-MM-dd HH:mm:ss'"
             >
-              <nz-comment-content style="width: 95%;">
+              <nz-comment-content style="width: 95%">
                 <div class="cell" *ngIf="item.type == 1">
                   {{ item.content }}
                 </div>
@@ -99,7 +109,7 @@
               [(ngModel)]="content"
             ></textarea>
           </div>
-          <div nz-row style="height: 40px; width: 100%; position: relative;">
+          <div nz-row style="height: 40px; width: 100%; position: relative">
             <div nz-col class="input-right">
               <a
                 class="send"
@@ -131,7 +141,7 @@
               <nz-upload
                 nzAction="api/file/upload"
                 (nzChange)="handleChange($event)"
-                style="float: right;"
+                style="float: right"
                 [(nzFileList)]="fileList"
               >
                 <a>
@@ -156,25 +166,11 @@
               {{ visitor?.name }}
             </span>
           </div>
-          <div class="assignd">
-            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
-              指定给..
-              <i nz-icon nzType="down"></i>
-            </a>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-              <ul nz-menu>
-                <li nz-menu-item>1st menu item</li>
-                <li nz-menu-item>2nd menu item</li>
-                <li nz-menu-divider></li>
-              </ul>
-            </nz-dropdown-menu>
-          </div>
         </div>
 
         <div class="visitor-down">
-          <nz-divider></nz-divider>
           <div class="info">
-            <nz-input-group [nzPrefix]="phone" style="width: 100%;">
+            <nz-input-group class="px0" [nzPrefix]="phone" style="width: 100%">
               <input
                 type="text"
                 nz-input
@@ -185,7 +181,7 @@
             <ng-template #phone
               ><i nz-icon nzType="phone" nzTheme="outline"></i
             ></ng-template>
-            <nz-input-group [nzPrefix]="email" style="width: 100%;">
+            <nz-input-group class="px0" [nzPrefix]="email" style="width: 100%">
               <input
                 type="text"
                 nz-input
@@ -196,7 +192,7 @@
             <ng-template #email>
               <i nz-icon nzType="mail" nzTheme="outline"></i
             ></ng-template>
-            <nz-input-group [nzPrefix]="note" style="width: 100%;">
+            <nz-input-group class="px0" [nzPrefix]="note" style="width: 100%">
               <textarea
                 type="text"
                 class="border-0"
@@ -212,7 +208,6 @@
               ><i nz-icon nzType="comment" nzTheme="outline"></i
             ></ng-template>
           </div>
-          <nz-divider></nz-divider>
           <div
             class="location"
             *ngIf="conversation.hostname || conversation.url"
