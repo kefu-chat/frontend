@@ -1,4 +1,4 @@
-<div nz-row nzJustify="center" nzAlign="top" style="height: 100%; width: 100%;">
+<div nz-row nzJustify="center" nzAlign="top" style="height: 100%; width: 100%">
   <div
     class="customlist"
     nz-col
@@ -10,7 +10,7 @@
         <div
           class="search-wrapper"
           *ngIf="!selectId"
-          style="width: 200px; height: 28px;"
+          style="width: 200px; height: 28px"
         >
           <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
             <input
@@ -24,7 +24,7 @@
         </div>
       </div>
       <ng-template #searchTemplate
-        ><i nz-icon nz-tooltip nzType="search" style="color: #888888;"></i
+        ><i nz-icon nz-tooltip nzType="search" style="color: #888888"></i
       ></ng-template>
       <ul nz-menu nzMode="inline" class="ulout">
         <nz-tabset [nzSelectedIndex]="currentTab" [nzAnimated]="false">
@@ -47,9 +47,9 @@
               *ngIf="assignedData.length + unassignedData.length == 0"
               nz-row
               nzAlign="middle"
-              style="width: 100%; height: calc(100vh - 121px);"
+              style="width: 100%; height: calc(100vh - 121px)"
             >
-              <div style="text-align: center; width: 100%;">
+              <div style="text-align: center; width: 100%">
                 <img src="./assets/tmp/img/empty.svg" alt="" />
                 <h1
                   style="
@@ -120,10 +120,10 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="!selectId" style="width: 33%;">
+                <div *ngIf="!selectId" style="width: 33%">
                   {{ item.last_reply_at }}
                 </div>
-                <div *ngIf="!selectId" style="width: 33%;">
+                <div *ngIf="!selectId" style="width: 33%">
                   <div>{{ item.url }}</div>
                   <div *ngIf="item.title">{{ item.title }}</div>
                 </div>
@@ -135,9 +135,9 @@
               *ngIf="assignedData.length + unassignedData.length == 0"
               nz-row
               nzAlign="middle"
-              style="width: 100%; height: calc(100vh - 121px);"
+              style="width: 100%; height: calc(100vh - 121px)"
             >
-              <div style="text-align: center; width: 100%;">
+              <div style="text-align: center; width: 100%">
                 <img src="./assets/tmp/img/empty.svg" alt="" />
                 <h1
                   style="
@@ -167,7 +167,7 @@
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul" ()>
+            <ul class="conversation-list-ul">
               <li
                 nz-menu-item
                 class="conversation-item"
@@ -208,10 +208,10 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="!selectId" style="width: 33%;">
+                <div *ngIf="!selectId" style="width: 33%">
                   {{ item.last_reply_at }}
                 </div>
-                <div *ngIf="!selectId" style="width: 33%;">
+                <div *ngIf="!selectId" style="width: 33%">
                   <div>{{ item.url }}</div>
                   <div *ngIf="item.title">{{ item.title }}</div>
                 </div>

@@ -33,7 +33,6 @@ export class HeaderComponent {
 
   ngOnInit(): void {
     zip(this.http.get("api/user", {})).subscribe(([{ data }]) => {
-      console.log(data);
       this.institutionId = data.institution.id;
       this.userId = data.user.id;
 
