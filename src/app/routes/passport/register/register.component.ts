@@ -1,23 +1,49 @@
-import { Component, OnDestroy } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { _HttpClient } from '@delon/theme';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { Component, OnDestroy } from "@angular/core";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { Router } from "@angular/router";
+import { _HttpClient } from "@delon/theme";
+import { NzMessageService } from "ng-zorro-antd/message";
 
 @Component({
-  selector: 'passport-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.less'],
+  selector: "passport-register",
+  templateUrl: "./register.component.html",
+  styleUrls: ["./register.component.less"],
 })
 export class UserRegisterComponent implements OnDestroy {
-  constructor(fb: FormBuilder, private router: Router, public http: _HttpClient, public msg: NzMessageService) {
+  constructor(
+    fb: FormBuilder,
+    private router: Router,
+    public http: _HttpClient,
+    public msg: NzMessageService
+  ) {
     this.form = fb.group({
-      mail: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.checkPassword.bind(this)]],
-      confirm: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.passwordEquar]],
-      mobilePrefix: ['+86'],
-      mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
-      captcha: [null, [Validators.required]],
+      name: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+      password: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(6),
+          UserRegisterComponent.checkPassword.bind(this),
+        ],
+      ],
+      password_confirmation: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(6),
+          UserRegisterComponent.passwordEquar,
+        ],
+      ],
+      //mobilePrefix: ['+86'],
+      //mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
+      //captcha: [null, [Validators.required]],
     });
   }
 
@@ -39,15 +65,15 @@ export class UserRegisterComponent implements OnDestroy {
     return this.form.controls.captcha;
   }
   form: FormGroup;
-  error = '';
+  error = "";
   type = 0;
   visible = false;
-  status = 'pool';
+  status = "pool";
   progress = 0;
   passwordProgressMap = {
-    ok: 'success',
-    pass: 'normal',
-    pool: 'exception',
+    ok: "success",
+    pass: "normal",
+    pool: "exception",
   };
 
   // #endregion
@@ -64,15 +90,16 @@ export class UserRegisterComponent implements OnDestroy {
     const self: any = this;
     self.visible = !!control.value;
     if (control.value && control.value.length > 9) {
-      self.status = 'ok';
+      self.status = "ok";
     } else if (control.value && control.value.length > 5) {
-      self.status = 'pass';
+      self.status = "pass";
     } else {
-      self.status = 'pool';
+      self.status = "pool";
     }
 
     if (self.visible) {
-      self.progress = control.value.length * 10 > 100 ? 100 : control.value.length * 10;
+      self.progress =
+        control.value.length * 10 > 100 ? 100 : control.value.length * 10;
     }
   }
 
@@ -80,7 +107,7 @@ export class UserRegisterComponent implements OnDestroy {
     if (!control || !control.parent) {
       return null;
     }
-    if (control.value !== control.parent.get('password').value) {
+    if (control.value !== control.parent.get("password").value) {
       return { equar: true };
     }
     return null;
@@ -104,7 +131,7 @@ export class UserRegisterComponent implements OnDestroy {
   // #endregion
 
   submit(): void {
-    this.error = '';
+    this.error = "";
     Object.keys(this.form.controls).forEach((key) => {
       this.form.controls[key].markAsDirty();
       this.form.controls[key].updateValueAndValidity();
@@ -114,8 +141,8 @@ export class UserRegisterComponent implements OnDestroy {
     }
 
     const data = this.form.value;
-    this.http.post('/register', data).subscribe(() => {
-      this.router.navigateByUrl('/passport/register-result', {
+    this.http.post("api/register?_allow_anonymous=true", data).subscribe(() => {
+      this.router.navigateByUrl("/passport/register-result", {
         queryParams: { email: data.mail },
       });
     });

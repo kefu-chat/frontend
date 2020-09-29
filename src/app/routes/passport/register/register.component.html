@@ -1,14 +1,39 @@
-<h3>{{ 'app.register.register' | translate }}</h3>
+<h3>{{ "app.register.register" | translate }}</h3>
 <form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
-  <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+  <nz-alert
+    *ngIf="error"
+    [nzType]="'error'"
+    [nzMessage]="error"
+    [nzShowIcon]="true"
+    class="mb-lg"
+  ></nz-alert>
   <nz-form-item>
-    <nz-form-control [nzErrorTip]="mailErrorTip">
+    <nz-form-control [nzErrorTip]="nameErrorTip">
       <nz-input-group nzSize="large" nzAddonBeforeIcon="user">
-        <input nz-input formControlName="mail" placeholder="Email" />
+        <input nz-input formControlName="name" placeholder="Nickname" />
       </nz-input-group>
-      <ng-template #mailErrorTip let-i>
-        <ng-container *ngIf="i.errors?.required">{{ 'validation.email.required' | translate }}</ng-container>
-        <ng-container *ngIf="i.errors?.email">{{ 'validation.email.wrong-format' | translate }}</ng-container>
+      <ng-template #nameErrorTip let-i>
+        <ng-container *ngIf="i.errors?.required">{{
+          "validation.email.required" | translate
+        }}</ng-container>
+        <ng-container *ngIf="i.errors?.email">{{
+          "validation.email.wrong-format" | translate
+        }}</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="emailErrorTip">
+      <nz-input-group nzSize="large" nzAddonBeforeIcon="user">
+        <input nz-input formControlName="email" placeholder="Email" />
+      </nz-input-group>
+      <ng-template #emailErrorTip let-i>
+        <ng-container *ngIf="i.errors?.required">{{
+          "validation.email.required" | translate
+        }}</ng-container>
+        <ng-container *ngIf="i.errors?.email">{{
+          "validation.email.wrong-format" | translate
+        }}</ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
@@ -25,14 +50,25 @@
         [nzOverlayStyle]="{ 'width.px': 240 }"
         [nzPopoverContent]="pwdCdkTpl"
       >
-        <input nz-input type="password" formControlName="password" placeholder="Password" />
+        <input
+          nz-input
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+        />
       </nz-input-group>
       <ng-template #pwdCdkTpl>
         <div style="padding: 4px 0;">
           <ng-container [ngSwitch]="status">
-            <div *ngSwitchCase="'ok'" class="success">{{ 'validation.password.strength.strong' | translate }}</div>
-            <div *ngSwitchCase="'pass'" class="warning">{{ 'validation.password.strength.medium' | translate }}</div>
-            <div *ngSwitchDefault class="error">{{ 'validation.password.strength.short' | translate }}</div>
+            <div *ngSwitchCase="'ok'" class="success">
+              {{ "validation.password.strength.strong" | translate }}
+            </div>
+            <div *ngSwitchCase="'pass'" class="warning">
+              {{ "validation.password.strength.medium" | translate }}
+            </div>
+            <div *ngSwitchDefault class="error">
+              {{ "validation.password.strength.short" | translate }}
+            </div>
           </ng-container>
           <div class="progress-{{ status }}">
             <nz-progress
@@ -42,7 +78,9 @@
               [nzShowInfo]="false"
             ></nz-progress>
           </div>
-          <p class="mt-sm">{{ 'validation.password.strength.msg' | translate }}</p>
+          <p class="mt-sm">
+            {{ "validation.password.strength.msg" | translate }}
+          </p>
         </div>
       </ng-template>
     </nz-form-control>
@@ -50,14 +88,24 @@
   <nz-form-item>
     <nz-form-control [nzErrorTip]="confirmErrorTip">
       <nz-input-group nzSize="large" nzAddonBeforeIcon="lock">
-        <input nz-input type="password" formControlName="confirm" placeholder="Confirm Password" />
+        <input
+          nz-input
+          type="password"
+          formControlName="password_confirmation"
+          placeholder="Confirm Password"
+        />
       </nz-input-group>
       <ng-template #confirmErrorTip let-i>
-        <ng-container *ngIf="i.errors?.required">{{ 'validation.confirm-password.required' | translate }}</ng-container>
-        <ng-container *ngIf="i.errors?.equar">{{ 'validation.password.twice' | translate }}</ng-container>
+        <ng-container *ngIf="i.errors?.required">{{
+          "validation.confirm-password.required" | translate
+        }}</ng-container>
+        <ng-container *ngIf="i.errors?.equar">{{
+          "validation.password.twice" | translate
+        }}</ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
+  <!--
   <nz-form-item>
     <nz-form-control [nzErrorTip]="mobileErrorTip">
       <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate">
@@ -91,10 +139,20 @@
       </nz-row>
     </nz-form-control>
   </nz-form-item>
+  -->
   <nz-form-item>
-    <button nz-button nzType="primary" nzSize="large" type="submit" [nzLoading]="http.loading" class="submit">
-      {{ 'app.register.register' | translate }}
+    <button
+      nz-button
+      nzType="primary"
+      nzSize="large"
+      type="submit"
+      [nzLoading]="http.loading"
+      class="submit"
+    >
+      {{ "app.register.register" | translate }}
     </button>
-    <a class="login" routerLink="/passport/login">{{ 'app.register.sign-in' | translate }}</a>
+    <a class="login" routerLink="/passport/login">{{
+      "app.register.sign-in" | translate
+    }}</a>
   </nz-form-item>
 </form>
