@@ -8,8 +8,6 @@
     width: 350px;
     height: 100%;
     padding-right: 10px;
-    overflow: hidden;
-    overflow-y: auto;
 
     nz-tabset {
       margin-left: 20px;
@@ -116,26 +114,31 @@
       line-height: 60px;
     }
   }
-  .conversation-item {
-    display: flex;
-    justify-content: space-between;
+  .conversation-list-ul {
+    height: calc(100vh - 185px);
+    overflow-y: scroll;
 
-    nz-avatar {
-      display: inline-block;
-      vertical-align: middle;
-    }
+    .conversation-item {
+      display: flex;
+      justify-content: space-between;
 
-    .conversation-list-content {
-      display: inline-block;
-      vertical-align: middle;
-      margin-left: 20px;
-
-      .conversation-visitor-name {
-        line-height: 24px;
+      nz-avatar {
+        display: inline-block;
+        vertical-align: middle;
       }
 
-      .last-message {
-        line-height: 18px;
+      .conversation-list-content {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 20px;
+
+        .conversation-visitor-name {
+          line-height: 24px;
+        }
+
+        .last-message {
+          line-height: 18px;
+        }
       }
     }
   }

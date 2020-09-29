@@ -18,19 +18,12 @@ import { zip } from "rxjs";
 export class ChatComponent implements OnInit {
   assignedData = [];
   unassignedData = [];
-  parmaTypes = {
-    assigned: {
-      type: "assigned",
-    },
-    unassigned: {
-      type: "unassigned",
-    },
-  };
   channel: String;
   selectId: any = null;
   institutionId: String;
   userId: String;
   currentTab: Number;
+  keyword: string;
 
   get user(): User {
     return this.settings.user;
@@ -61,7 +54,8 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getConversationList();
+    this.initAssignedConversation();
+    this.initUnassignedConversation();
     askNotificationPermission().then(console.log);
 
     try {
@@ -69,15 +63,19 @@ export class ChatComponent implements OnInit {
     } catch (e) {}
   }
 
-  getConversationList(): void {
+  initAssignedConversation(): void {
+    let offset = "";
+    if (this.assignedData.length) {
+      offset = this.assignedData[this.assignedData.length - 1].id;
+    }
     zip(
-      this.conversationSrv.getConversationList(this.parmaTypes.assigned),
-      this.conversationSrv.getConversationList(this.parmaTypes.unassigned)
-    ).subscribe(([assignedData, unassignedData]) => {
+      this.conversationSrv.getConversationList("assigned", this.keyword, offset)
+    ).subscribe(([assignedData]) => {
       this.institutionId = assignedData.data.institution_id;
       this.userId = assignedData.data.user_id;
-      this.assignedData = assignedData.data.conversations;
-      this.unassignedData = unassignedData.data.conversations;
+      this.assignedData = this.assignedData.concat(
+        assignedData.data.conversations
+      );
       this.doNav();
 
       if (
@@ -100,6 +98,33 @@ export class ChatComponent implements OnInit {
       ).listen(`.conversation.created`, (e) => {
         this.assignedData.unshift(e);
       });
+    });
+  }
+
+  initUnassignedConversation(): void {
+    let offset = "";
+    if (this.unassignedData.length) {
+      offset = this.unassignedData[this.unassignedData.length - 1].id;
+    }
+    zip(
+      this.conversationSrv.getConversationList(
+        "unassigned",
+        this.keyword,
+        offset
+      )
+    ).subscribe(([unassignedData]) => {
+      this.institutionId = unassignedData.data.institution_id;
+      this.userId = unassignedData.data.user_id;
+      this.unassignedData = this.unassignedData.concat(
+        unassignedData.data.conversations
+      );
+
+      this.echoSrv.Echo.join(`institution.${this.institutionId}`).listen(
+        `.conversation.created`,
+        (e) => {
+          this.unassignedData.unshift(e);
+        }
+      );
     });
   }
 

@@ -18,6 +18,7 @@
               nz-input
               placeholder="在这里搜索"
               nzSize="large"
+              [(ngModel)]="keyword"
             />
           </nz-input-group>
         </div>
@@ -50,7 +51,14 @@
             >
               <div style="text-align: center; width: 100%;">
                 <img src="./assets/tmp/img/empty.svg" alt="" />
-                <h1 style="color: #7e7e7e; width: 100%; font-size: 16px;">
+                <h1
+                  style="
+                    color: #7e7e7e;
+                    width: 100%;
+                    font-size: 16px;
+                    font-weight: 300;
+                  "
+                >
                   当前没有未接待的咨询
                 </h1>
               </div>
@@ -62,6 +70,7 @@
                   nz-input
                   placeholder="在这里搜索"
                   nzSize="large"
+                  [(ngModel)]="keyword"
                 />
               </nz-input-group>
             </div>
@@ -70,7 +79,7 @@
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul *ngIf="unassignedData.length > 0">
+            <ul class="conversation-list-ul" *ngIf="unassignedData.length > 0">
               <li
                 nz-menu-item
                 class="conversation-item"
@@ -130,7 +139,14 @@
             >
               <div style="text-align: center; width: 100%;">
                 <img src="./assets/tmp/img/empty.svg" alt="" />
-                <h1 style="color: #7e7e7e; width: 100%; font-size: 16px;">
+                <h1
+                  style="
+                    color: #7e7e7e;
+                    width: 100%;
+                    font-size: 16px;
+                    font-weight: 300;
+                  "
+                >
                   当前没有接待中的咨询
                 </h1>
               </div>
@@ -142,6 +158,7 @@
                   nz-input
                   placeholder="在这里搜索"
                   nzSize="large"
+                  [(ngModel)]="keyword"
                 />
               </nz-input-group>
             </div>
@@ -150,7 +167,7 @@
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul>
+            <ul class="conversation-list-ul" ()>
               <li
                 nz-menu-item
                 class="conversation-item"

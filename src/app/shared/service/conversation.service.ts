@@ -15,11 +15,16 @@ export class ConversationService {
   constructor(private http: _HttpClient) {}
 
   // 获取会话列表
-  getConversationList(params: {
-    type: string;
-    offset?: string;
-  }): Observable<Res<ConversationModel>> {
-    return this.http.get("api/conversation/list", params);
+  getConversationList(
+    type: string,
+    keyword?: string,
+    offset?: string
+  ): Observable<Res<ConversationModel>> {
+    return this.http.get("api/conversation/list", {
+      type,
+      offset: offset || "",
+      keyword: keyword || "",
+    });
   }
 
   // 获取聊天记录
