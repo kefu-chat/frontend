@@ -63,7 +63,10 @@ export class ChatDetailComponent implements OnInit {
         return false;
       }
       this.channel = `conversation.${this.id}`;
-      this.getData(this.id);
+      this.getData(this.id, "", () => {
+        if (!this.messageEl) return;
+        this.messageEl.scrollTop = this.messageEl.scrollHeight;
+      });
       for (const i of Object.keys(this.echoSrv.Echo.connector.channels)) {
         if (i.indexOf("presence-conversation.") == 0) {
           this.echoSrv.Echo.leave(i);
@@ -96,7 +99,7 @@ export class ChatDetailComponent implements OnInit {
     });
   }
 
-  getData(id: string, offset?: string): void {
+  getData(id: string, offset?: string, callback?: Function): void {
     this.conversationSrv
       .getMessages(id, offset)
       .subscribe((res: Res<MessageData>) => {
@@ -113,7 +116,7 @@ export class ChatDetailComponent implements OnInit {
           this.has_previous = res.data.has_previous;
           this.messageEl = this.el.nativeElement.querySelector(".message");
           setTimeout(() => {
-            this.scrollTo();
+            callback();
           }, 200);
         }
       });
@@ -125,7 +128,10 @@ export class ChatDetailComponent implements OnInit {
   }
 
   loadPreMore(): void {
-    this.getData(this.id, this.nowfirstMsgId);
+    this.getData(this.id, this.nowfirstMsgId, () => {
+      if (!this.messageEl) return;
+      this.messageEl.scrollTop = 0;
+    });
   }
 
   whisper(message): void {
