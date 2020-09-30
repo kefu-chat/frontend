@@ -17,6 +17,7 @@ import {
 } from "@service";
 import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
 import { EmojiModule } from "@ctrl/ngx-emoji-mart/ngx-emoji";
+import { zip } from "rxjs";
 
 @Component({
   selector: "app-chat-detail",
@@ -70,7 +71,8 @@ export class ChatDetailComponent implements OnInit {
     private el: ElementRef<HTMLElement>,
     private conversationSrv: ConversationService,
     private echoSrv: EchoService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private http: _HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -248,7 +250,14 @@ export class ChatDetailComponent implements OnInit {
       nzTitle: "确认终止会话?",
       nzOkText: "终止",
       nzOkType: "danger",
-      nzOnOk: () => console.log("OK"),
+      nzOnOk: () => {
+        zip(
+          this.http.post(`api/conversation/${this.conversation.id}/terminate`)
+        ).subscribe((terminate) => {
+          // @todo: after terminated
+          this.toList();
+        });
+      },
       nzCancelText: "不终止",
       nzAutofocus: "ok",
     });
