@@ -16,13 +16,9 @@
         <div class="name-wrap">
           <div class="closer" (click)="toList()"></div>
           <div class="name" *ngIf="visitor && visitor.name">
-            <div *ngIf="visitor.name != visitor.unique_id">
-              {{ visitor.name }} ({{ visitor.unique_id
-              }}{{ conversation.online_status == 0 ? ", 已离线" : "" }})
-            </div>
-            <div *ngIf="visitor.name == visitor.unique_id">
+            <div>
               {{ visitor.name }}
-              {{ conversation.online_status == 0 ? "(已离线)" : "" }}
+              <span>{{ userAnnotation }}</span>
             </div>
           </div>
           <div class="seeing" *ngIf="conversation && conversation.url">
@@ -92,7 +88,21 @@
               ></nz-avatar>
             </nz-comment>
           </div>
-          <ng-container *ngIf="typing">对方正在输入中</ng-container>
+          <div class="message-item visitor" *ngIf="typing">
+            <nz-comment
+              [nzAuthor]="visitor.name"
+              [ngStyle]="{ 'border-left-color': conversation.colo }"
+            >
+              <nz-comment-content style="width: 95%">
+                <div class="cell">对方正在输入中</div>
+              </nz-comment-content>
+              <nz-avatar
+                nz-comment-avatar
+                nzIcon="user"
+                [nzSrc]="conversation.icon"
+              ></nz-avatar>
+            </nz-comment>
+          </div>
         </div>
         <div class="messageIupt">
           <div class="input-left">

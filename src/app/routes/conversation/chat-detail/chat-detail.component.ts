@@ -42,6 +42,24 @@ export class ChatDetailComponent implements OnInit {
     return this.messageList[0].id;
   }
 
+  get userAnnotation(): string {
+    let arr = [];
+    if (this.visitor.unique_id != this.visitor.name) {
+      arr.push(this.visitor.unique_id);
+    }
+    if (this.typing) {
+      arr.push("对方正在输入中");
+    }
+    if (!this.conversation.online_status) {
+      arr.push("已离线");
+    }
+    let annotation = arr.join(", ");
+    if (annotation) {
+      annotation = "(" + annotation + ")";
+    }
+    return annotation;
+  }
+
   has_previous: boolean;
   typing: boolean;
   socket: any;

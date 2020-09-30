@@ -22,6 +22,7 @@ export interface Conversation {
   color?: string;
   icon?: string;
   last_message?: MessageModel;
+  online_status?: boolean;
 }
 
 export interface User {
