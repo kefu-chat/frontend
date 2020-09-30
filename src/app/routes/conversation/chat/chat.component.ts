@@ -86,13 +86,6 @@ export class ChatComponent implements OnInit {
         this.currentTab = 2;
       }
 
-      this.echoSrv.Echo.join(`institution.${this.institutionId}`).listen(
-        `.conversation.created`,
-        (e) => {
-          this.unassignedData.unshift(e);
-        }
-      );
-
       this.echoSrv.Echo.join(
         `institution.${this.institutionId}.assigned.${this.userId}`
       ).listen(`.conversation.created`, (e) => {
