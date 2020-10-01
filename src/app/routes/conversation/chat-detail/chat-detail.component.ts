@@ -183,7 +183,6 @@ export class ChatDetailComponent implements OnInit {
           updated_at: new Date().toISOString(),
           conversation_id: this.conversation.id.toString(),
         };
-        console.log(message);
 
         this.conversationSrv
           .sendMessage(this.id, req)
@@ -192,14 +191,14 @@ export class ChatDetailComponent implements OnInit {
               this.content = "";
               this.picUrl = "";
               this.fileList = [];
+              this.whisper(message);
+              this.messageList.push(message);
+
               setTimeout(() => {
                 this.scrollTo();
               }, 200);
             }
           });
-
-        this.whisper(message);
-        this.messageList.push(message);
       }
     }
   }
