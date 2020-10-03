@@ -94,6 +94,10 @@ export class ChatComponent implements OnInit {
         `institution.${this.institutionId}.assigned.${this.userId}`
       )
         .listen(`.conversation.created`, (conversation: Conversation) => {
+          let assigned = this.assignedData;
+          this.assignedData = assigned.filter(
+            (each) => each.id != conversation.id
+          );
           this.assignedData.unshift(conversation);
         })
         .listen(`.message.created`, (message: MessageModel) => {
@@ -132,6 +136,16 @@ export class ChatComponent implements OnInit {
 
       this.echoSrv.Echo.join(`institution.${this.institutionId}`)
         .listen(`.conversation.created`, (conversation: Conversation) => {
+          let unassigned = this.unassignedData;
+          this.unassignedData = unassigned.filter(
+            (each) => each.id != conversation.id
+          );
+          if (
+            this.assignedData.filter((each) => each.id == conversation.id)
+              .length > 0
+          ) {
+            return;
+          }
           this.unassignedData.unshift(conversation);
         })
         .listen(`.message.created`, (message: MessageModel) => {
