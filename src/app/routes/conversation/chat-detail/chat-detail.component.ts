@@ -97,7 +97,13 @@ export class ChatDetailComponent implements OnInit {
       this.socket = this.echoSrv.Echo.join(this.channel)
         .here(console.log)
         .joining(console.log)
-        .leaving(console.log)
+        .leaving((user) => {
+          if (user.id != this.visitor.id) {
+            return;
+          }
+
+          this.conversation.online_status = false;
+        })
         // .listen(".message.created", (e) => {
         //   this.messageList.push(e);
         //   setTimeout(() => {
