@@ -1,7 +1,11 @@
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { SettingsService, User, _HttpClient } from "@delon/theme";
-import { Conversation } from "@model/application/conversation.interface";
+import {
+  Conversation,
+  ConversationModel,
+  MessageModel,
+} from "@model/application/conversation.interface";
 import { NzBadgeModule } from "ng-zorro-antd/badge";
 import {
   ConversationService,
@@ -16,8 +20,8 @@ import { zip } from "rxjs";
   styleUrls: ["./chat.component.less"],
 })
 export class ChatComponent implements OnInit {
-  assignedData = [];
-  unassignedData = [];
+  assignedData: Conversation[] = [];
+  unassignedData: Conversation[] = [];
   channel: String;
   selectId: any = null;
   institutionId: String;
@@ -88,9 +92,23 @@ export class ChatComponent implements OnInit {
 
       this.echoSrv.Echo.join(
         `institution.${this.institutionId}.assigned.${this.userId}`
-      ).listen(`.conversation.created`, (e) => {
-        this.assignedData.unshift(e);
-      });
+      )
+        .listen(`.conversation.created`, (conversation: Conversation) => {
+          this.assignedData.unshift(conversation);
+        })
+        .listen(`.message.created`, (message: MessageModel) => {
+          let conversations = this.assignedData.filter(
+            (conversation) => conversation.id == message.conversation_id
+          );
+          let conversation = conversations[0];
+          if (!conversation) {
+            return;
+          }
+
+          conversation.last_message = message;
+          conversation.updated_at = conversation.last_reply_at =
+            message.created_at;
+        });
     });
   }
 
@@ -112,12 +130,23 @@ export class ChatComponent implements OnInit {
         unassignedData.data.conversations
       );
 
-      this.echoSrv.Echo.join(`institution.${this.institutionId}`).listen(
-        `.conversation.created`,
-        (e) => {
-          this.unassignedData.unshift(e);
-        }
-      );
+      this.echoSrv.Echo.join(`institution.${this.institutionId}`)
+        .listen(`.conversation.created`, (conversation: Conversation) => {
+          this.unassignedData.unshift(conversation);
+        })
+        .listen(`.message.created`, (message: MessageModel) => {
+          let conversations = this.unassignedData.filter(
+            (conversation) => conversation.id == message.conversation_id
+          );
+          let conversation = conversations[0];
+          if (!conversation) {
+            return;
+          }
+
+          conversation.last_message = message;
+          conversation.updated_at = conversation.last_reply_at =
+            message.created_at;
+        });
     });
   }
 
