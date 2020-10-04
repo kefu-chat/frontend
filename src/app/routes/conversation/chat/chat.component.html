@@ -50,7 +50,7 @@
           </ng-template>
           <nz-tab [nzTitle]="titleUnassigned">
             <div
-              *ngIf="assignedData.length + unassignedData.length == 0"
+              *ngIf="assignedCount + unassignedCount == 0"
               nz-row
               nzAlign="middle"
               style="width: 100%; height: calc(100vh - 121px)"
@@ -85,7 +85,7 @@
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="unassignedData.length > 0">
+            <ul class="conversation-list-ul" *ngIf="unassignedCount > 0">
               <li
                 nz-menu-item
                 class="conversation-item"
@@ -138,7 +138,7 @@
           </nz-tab>
           <nz-tab [nzTitle]="titleAssigned">
             <div
-              *ngIf="assignedData.length + unassignedData.length == 0"
+              *ngIf="assignedCount + unassignedCount == 0"
               nz-row
               nzAlign="middle"
               style="width: 100%; height: calc(100vh - 121px)"
@@ -173,7 +173,7 @@
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul">
+            <ul class="conversation-list-ul" *ngIf="assignedCount > 0">
               <li
                 nz-menu-item
                 class="conversation-item"

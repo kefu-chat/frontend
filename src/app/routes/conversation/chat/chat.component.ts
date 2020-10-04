@@ -25,7 +25,7 @@ export class ChatComponent implements OnInit {
   assignedCount: Number = 0;
   unassignedCount: Number = 0;
   channel: String;
-  selectId: any = null;
+  selectId: String;
   institutionId: String;
   userId: String;
   currentTab: Number;
@@ -46,14 +46,9 @@ export class ChatComponent implements OnInit {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationStart) {
         if (evt.url === "/conversation/chat") {
-          this.selectId = 0;
-          this.doNav();
+          this.selectId = "";
         } else if (evt.url.indexOf("/conversation/chat/") == 0) {
-          try {
-            this.selectId = evt.url.split("/conversation/chat/")[1];
-          } catch (e) {
-            console.error(e);
-          }
+          this.selectId = evt.url.split("/conversation/chat/")[1];
         }
       }
     });
@@ -65,9 +60,7 @@ export class ChatComponent implements OnInit {
     this.initCount();
     askNotificationPermission().then(console.log);
 
-    try {
-      this.selectId = (this.route.children[0].params as any).getValue().id;
-    } catch (e) {}
+    this.selectId = (this.route.children[0].params as any).getValue().id;
   }
 
   initCount(): void {
@@ -96,7 +89,6 @@ export class ChatComponent implements OnInit {
       this.assignedData = this.assignedData.concat(
         assignedData.data.conversations
       );
-      this.doNav();
 
       if (
         this.assignedData.filter(
@@ -181,7 +173,7 @@ export class ChatComponent implements OnInit {
   }
 
   doNav(): void {
-    if (this.assignedData.length > 0) {
+    if (this.assignedCount > 0) {
       return; //不要自动选择
       if (this.selectId) {
         const arr = [...this.assignedData, ...this.unassignedData];
@@ -198,14 +190,14 @@ export class ChatComponent implements OnInit {
         );
       }
     } else {
-      this.selectId = 0;
+      this.selectId = "";
       //this.navigate(0);
     }
   }
 
   to(item: { id: any }): void {
     this.selectId = item.id;
-    localStorage.setItem("selectId", JSON.stringify(item.id));
+    //localStorage.setItem("selectId", JSON.stringify(item.id));
     this.navigate(item.id);
   }
 
