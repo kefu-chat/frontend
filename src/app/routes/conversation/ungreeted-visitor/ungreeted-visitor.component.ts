@@ -31,8 +31,8 @@ export class UngreetedVisitorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getConversationList();
     this.initCount();
+    this.initVisitorList();
     askNotificationPermission().then(console.log);
   }
 
@@ -48,7 +48,7 @@ export class UngreetedVisitorComponent implements OnInit {
     // @TODO: 关闭会话后, this.assignedCount --
   }
 
-  getConversationList(): void {
+  initVisitorList(): void {
     zip(this.conversationSrv.getVisitorList({ type: this.type })).subscribe(
       ([visitors]) => {
         console.log(visitors);
@@ -57,7 +57,7 @@ export class UngreetedVisitorComponent implements OnInit {
         this.conversations = visitors.data.conversations;
 
         this.echoSrv.Echo.join(`institution.${this.institutionId}`).listen(
-          `.visitors.arrival`,
+          `.visitor.arrival`,
           (e) => {
             this.conversations.unshift(e);
           }

@@ -60,6 +60,9 @@ export class ChatComponent implements OnInit {
     this.initCount();
     askNotificationPermission().then(console.log);
 
+    if (!this.route.children.length) {
+      return;
+    }
     this.selectId = (this.route.children[0].params as any).getValue().id;
   }
 
