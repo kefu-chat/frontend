@@ -22,6 +22,8 @@ import { zip } from "rxjs";
 export class ChatComponent implements OnInit {
   assignedData: Conversation[] = [];
   unassignedData: Conversation[] = [];
+  assignedCount: Number = 0;
+  unassignedCount: Number = 0;
   channel: String;
   selectId: any = null;
   institutionId: String;
@@ -60,11 +62,25 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.initAssignedConversation();
     this.initUnassignedConversation();
+    this.initCount();
     askNotificationPermission().then(console.log);
 
     try {
       this.selectId = (this.route.children[0].params as any).getValue().id;
     } catch (e) {}
+  }
+
+  initCount(): void {
+    this.http
+      .get("api/conversation/count")
+      .subscribe(({ data: { assigned_count, unassigned_count } }) => {
+        this.assignedCount = assigned_count;
+        this.unassignedCount = unassigned_count;
+      });
+
+    // @TODO: 新会话进来的 socket, 更新统计数字.
+    // @TODO: 接待回复后, 从 this.unassignedCount 更新到 this.assignedCount
+    // @TODO: 关闭会话后, this.assignedCount --
   }
 
   initAssignedConversation(): void {

@@ -22,7 +22,7 @@
         {
           "i18n": "menu.conversation.robot",
           "icon": "anticon-robot",
-          "link": "/conversation/visitor"
+          "link": "/bot"
         }
       ]
     },

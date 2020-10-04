@@ -29,18 +29,24 @@
       <ul nz-menu nzMode="inline" class="ulout">
         <nz-tabset [nzSelectedIndex]="currentTab" [nzAnimated]="false">
           <ng-template #titleUnassigned>
-            未接待
-            <nz-badge
-              [nzCount]="unassignedData.length"
-              [nzStyle]="{ backgroundColor: '#dddddd' }"
-            ></nz-badge>
+            <div class="tab-title">
+              <span>未接待</span>
+              <nz-badge
+                [nzCount]="unassignedCount"
+                [nzStyle]="{ backgroundColor: '#dddddd' }"
+                [nzShowZero]="true"
+              ></nz-badge>
+            </div>
           </ng-template>
           <ng-template #titleAssigned>
-            我接待的
-            <nz-badge
-              [nzCount]="assignedData.length"
-              [nzStyle]="{ backgroundColor: '#dddddd' }"
-            ></nz-badge>
+            <div class="tab-title">
+              <span>我接待的</span>
+              <nz-badge
+                [nzCount]="assignedCount"
+                [nzStyle]="{ backgroundColor: '#dddddd' }"
+                [nzShowZero]="true"
+              ></nz-badge>
+            </div>
           </ng-template>
           <nz-tab [nzTitle]="titleUnassigned">
             <div

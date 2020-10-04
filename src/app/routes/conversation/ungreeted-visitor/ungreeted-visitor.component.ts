@@ -8,14 +8,16 @@ import {
   askNotificationPermission,
 } from "@service";
 import { zip } from "rxjs";
+import { Conversation } from "@model/application/conversation.interface";
 
 @Component({
   selector: "app-chat",
   templateUrl: "./ungreeted-visitor.component.html",
-  styleUrls: ["./ungreeted-visitor.component.less"],
+  styleUrls: ["./../chat/chat.component.less"],
 })
 export class UngreetedVisitorComponent implements OnInit {
-  conversations = [];
+  conversations: Conversation[] = [];
+  conversationsCount: Number = 0;
   channel: String;
   selectId: number = Number(localStorage.getItem("selectId"));
   institutionId: String;
@@ -30,7 +32,20 @@ export class UngreetedVisitorComponent implements OnInit {
 
   ngOnInit(): void {
     this.getConversationList();
+    this.initCount();
     askNotificationPermission().then(console.log);
+  }
+
+  initCount(): void {
+    this.http
+      .get("api/conversation/count")
+      .subscribe(({ data: { online_visitor_count } }) => {
+        this.conversationsCount = online_visitor_count;
+      });
+
+    // @TODO: 新会话进来的 socket, 更新统计数字.
+    // @TODO: 接待回复后, 从 this.unassignedCount 更新到 this.assignedCount
+    // @TODO: 关闭会话后, this.assignedCount --
   }
 
   getConversationList(): void {

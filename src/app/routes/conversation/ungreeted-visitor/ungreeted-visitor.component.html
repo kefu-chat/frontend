@@ -1,31 +1,136 @@
-<div
-  nz-row
-  nzJustify="center"
-  nzAlign="top"
-  style="height: 100%; width: 100%; background: #141414; margin-top: 24px;"
->
-  <div class="customlist" nz-col>
+<div nz-row nzJustify="center" nzAlign="top" style="height: 100%; width: 100%">
+  <div
+    class="customlist"
+    nz-col
+    [style]="selectId ? '_width: auto;' : 'width: 100%;'"
+  >
     <div>
+      <div class="content-title">
+        <span>访客</span>
+        <div
+          class="search-wrapper"
+          *ngIf="!selectId"
+          style="width: 200px; height: 28px"
+        >
+          <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
+            <input
+              type="text"
+              nz-input
+              placeholder="在这里搜索"
+              nzSize="large"
+              [(ngModel)]="keyword"
+            />
+          </nz-input-group>
+        </div>
+      </div>
+      <ng-template #searchTemplate
+        ><i nz-icon nz-tooltip nzType="search" style="color: #888888"></i
+      ></ng-template>
       <ul nz-menu nzMode="inline" class="ulout">
-        <ng-container>
-          <li nz-menu-group nzTitle="在线访客" class="typeTitle">
-            <ul>
+        <nz-tabset [nzSelectedIndex]="currentTab" [nzAnimated]="false">
+          <ng-template #ungreetedVisitor>
+            <div class="tab-title">
+              <span>当前在线</span>
+              <nz-badge
+                [nzCount]="conversationsCount"
+                [nzStyle]="{ backgroundColor: '#dddddd' }"
+                [nzShowZero]="true"
+              ></nz-badge>
+            </div>
+          </ng-template>
+          <nz-tab [nzTitle]="ungreetedVisitor">
+            <div
+              *ngIf="conversations.length == 0"
+              nz-row
+              nzAlign="middle"
+              style="width: 100%; height: calc(100vh - 121px)"
+            >
+              <div style="text-align: center; width: 100%">
+                <img src="./assets/tmp/img/empty.svg" alt="" />
+                <h1
+                  style="
+                    color: #7e7e7e;
+                    width: 100%;
+                    font-size: 16px;
+                    font-weight: 300;
+                  "
+                >
+                  当前没有未接待的咨询
+                </h1>
+              </div>
+            </div>
+            <div class="search-wrapper" *ngIf="selectId">
+              <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
+                <input
+                  type="text"
+                  nz-input
+                  placeholder="在这里搜索"
+                  nzSize="large"
+                  [(ngModel)]="keyword"
+                />
+              </nz-input-group>
+            </div>
+            <div class="ul-thead" *ngIf="!selectId">
+              <div>名字</div>
+              <div>最后时间</div>
+              <div>渠道</div>
+            </div>
+            <ul class="conversation-list-ul" *ngIf="conversations.length > 0">
               <li
                 nz-menu-item
+                class="conversation-item"
                 *ngFor="let item of conversations"
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
-                {{ item.visitor.name }}
-                {{ item.online_status == 0 ? "(已离线)" : "" }}
+                <div [style]="selectId ? '' : 'width: 33%'">
+                  <nz-avatar
+                    nz-comment-avatar
+                    nzIcon="user"
+                    [nzSrc]="item.icon"
+                    [style]="
+                      item.online_status == 0 ? 'filter: grayscale(1)' : ''
+                    "
+                  ></nz-avatar>
+                  <div class="conversation-list-content">
+                    <div class="conversation-visitor-name">
+                      {{ item.visitor.name }}
+                      {{ item.online_status == 0 ? "(已离线)" : "" }}
+                    </div>
+                    <div class="last-message" *ngIf="item.last_message">
+                      <span>
+                        {{
+                          item.last_message.sender_type_text == "user"
+                            ? item.last_message.sender_id == user.id
+                              ? "你"
+                              : item.last_message.sender.name + "(客服)"
+                            : item.last_message.sender.name
+                        }}:
+                        <span *ngIf="item.last_message.type == 1">
+                          {{ item.last_message.content }}
+                        </span>
+                        <span *ngIf="item.last_message.type == 2">
+                          [图片消息]
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="!selectId" style="width: 33%">
+                  {{ item.last_reply_at }}
+                </div>
+                <div *ngIf="!selectId" style="width: 33%">
+                  <div>{{ item.url }}</div>
+                  <div *ngIf="item.title">{{ item.title }}</div>
+                </div>
               </li>
             </ul>
-          </li>
-        </ng-container>
+          </nz-tab>
+        </nz-tabset>
       </ul>
     </div>
   </div>
-  <div nz-col class="chat-right">
-    <router-outlet></router-outlet>
+  <div nz-col class="chat-right" *ngIf="selectId">
+    <router-outlet [id]="selectId"></router-outlet>
   </div>
 </div>
