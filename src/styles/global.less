@@ -35,6 +35,29 @@
   }
 }
 
+@tab-prefix-cls: ~"@{ant-prefix}-tabs";
+
+.@{tab-prefix-cls} {
+  // ========================== Top & Bottom ==========================
+  &-top,
+  &-bottom {
+    > .@{tab-prefix-cls}-nav,
+    > div > .@{tab-prefix-cls}-nav {
+      &::before {
+        border-bottom: 0 !important;
+      }
+    }
+  }
+}
+
+@menu-prefix-cls: ~"@{ant-prefix}-menu";
+
+.@{menu-prefix-cls} {
+  &-inline {
+    border-right: 0 !important;
+  }
+}
+
 @media (min-width: @mobile-min) {
   @{alain-default-prefix}__collapsed {
     @{sidebar-nav-prefix}:not(@{sidebar-nav-prefix}__sub) {
