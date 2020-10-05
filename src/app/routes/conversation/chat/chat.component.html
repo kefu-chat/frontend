@@ -50,7 +50,7 @@
           </ng-template>
           <nz-tab [nzTitle]="titleUnassigned">
             <div
-              *ngIf="assignedCount + unassignedCount == 0"
+              *ngIf="!unassignedCount"
               nz-row
               nzAlign="middle"
               style="width: 100%; height: calc(100vh - 121px)"
@@ -138,7 +138,7 @@
           </nz-tab>
           <nz-tab [nzTitle]="titleAssigned">
             <div
-              *ngIf="assignedCount + unassignedCount == 0"
+              *ngIf="!assignedCount"
               nz-row
               nzAlign="middle"
               style="width: 100%; height: calc(100vh - 121px)"

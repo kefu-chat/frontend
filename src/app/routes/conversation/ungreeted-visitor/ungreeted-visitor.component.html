@@ -40,7 +40,7 @@
           </ng-template>
           <nz-tab [nzTitle]="ungreetedVisitor">
             <div
-              *ngIf="conversations.length == 0"
+              *ngIf="!conversationsCount"
               nz-row
               nzAlign="middle"
               style="width: 100%; height: calc(100vh - 121px)"
@@ -55,7 +55,7 @@
                     font-weight: 300;
                   "
                 >
-                  当前没有未接待的咨询
+                  当前没有在线的访客
                 </h1>
               </div>
             </div>
@@ -72,7 +72,7 @@
             </div>
             <div class="ul-thead" *ngIf="!selectId">
               <div>名字</div>
-              <div>最后时间</div>
+              <div>落地时间</div>
               <div>渠道</div>
             </div>
             <ul class="conversation-list-ul" *ngIf="conversations.length > 0">
@@ -117,7 +117,7 @@
                   </div>
                 </div>
                 <div *ngIf="!selectId" style="width: 33%">
-                  {{ item.last_reply_at }}
+                  {{ item.created_at }}
                 </div>
                 <div *ngIf="!selectId" style="width: 33%">
                   <div>{{ item.url }}</div>

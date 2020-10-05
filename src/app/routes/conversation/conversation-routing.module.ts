@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { ChatDetailComponent } from "./chat-detail/chat-detail.component";
 import { ChatComponent } from "./chat/chat.component";
 import { UngreetedVisitorComponent } from "./ungreeted-visitor/ungreeted-visitor.component";
+import { UngreetedVisitorDetailComponent } from "./ungreeted-visitor-detail/ungreeted-visitor-detail.component";
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
   {
     path: "visitor",
     component: UngreetedVisitorComponent,
-    children: [{ path: ":id", component: ChatDetailComponent }],
+    children: [{ path: ":id", component: UngreetedVisitorDetailComponent }],
   },
 ];
 

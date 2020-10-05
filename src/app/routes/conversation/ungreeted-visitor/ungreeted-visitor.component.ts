@@ -68,12 +68,11 @@ export class UngreetedVisitorComponent implements OnInit {
 
   to(item: { id: any }): void {
     this.selectId = item.id;
-    localStorage.setItem("selectId", JSON.stringify(item.id));
     this.navigate(item.id);
   }
 
   navigate(id: any): void {
-    const url = `/conversation/chat/${id}`;
+    const url = `/conversation/visitor/${id}`;
     this.router.navigateByUrl(url);
   }
 }
