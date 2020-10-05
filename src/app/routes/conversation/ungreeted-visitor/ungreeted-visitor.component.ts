@@ -19,7 +19,7 @@ export class UngreetedVisitorComponent implements OnInit {
   conversations: Conversation[] = [];
   conversationsCount: Number = 0;
   channel: String;
-  selectId: number = Number(localStorage.getItem("selectId"));
+  selectId: String;
   institutionId: String;
   userId: String;
   type: string = "online";
@@ -28,7 +28,17 @@ export class UngreetedVisitorComponent implements OnInit {
     private router: Router,
     private conversationSrv: ConversationService,
     private echoSrv: EchoService
-  ) {}
+  ) {
+    router.events.subscribe((evt) => {
+      if (evt instanceof NavigationStart) {
+        if (evt.url === "/conversation/visitor") {
+          this.selectId = "";
+        } else if (evt.url.indexOf("/conversation/visitor/") == 0) {
+          this.selectId = evt.url.split("/conversation/visitor/")[1];
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.initCount();
