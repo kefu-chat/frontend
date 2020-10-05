@@ -16,7 +16,7 @@ import { debounceTime, filter } from "rxjs/operators";
 @Component({
   selector: "app-enterprise-settings",
   templateUrl: "./settings.component.html",
-  styleUrls: ["./settings.component.less"],
+  styleUrls: ["./../../account/settings/settings.component.less"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProEnterpriseSettingsComponent

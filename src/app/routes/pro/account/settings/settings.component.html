@@ -1,5 +1,8 @@
 <div class="main">
   <div class="menu">
+    <div class="content-title">
+      <span>个人设置</span>
+    </div>
     <ul nz-menu [nzMode]="mode">
       <ng-container *ngFor="let m of menus">
         <li
@@ -23,7 +26,7 @@
           *ngIf="m.key == 'logout'"
         >
           <ng-template #iconTpl>
-            <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+            <i nz-icon nzType="question-circle-o" style="color: red"></i>
           </ng-template>
           {{ m.title }}
         </li>
