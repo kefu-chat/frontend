@@ -1,7 +1,7 @@
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { NavigationStart, Router } from "@angular/router";
-import { _HttpClient } from "@delon/theme";
+import { SettingsService, User, _HttpClient } from "@delon/theme";
 import {
   ConversationService,
   EchoService,
@@ -23,11 +23,17 @@ export class UngreetedVisitorComponent implements OnInit {
   institutionId: String;
   userId: String;
   type: string = "online";
+
+  get user(): User {
+    return this.settings.user;
+  }
+
   constructor(
     private http: _HttpClient,
     private router: Router,
     private conversationSrv: ConversationService,
-    private echoSrv: EchoService
+    private echoSrv: EchoService,
+    private settings: SettingsService
   ) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationStart) {
