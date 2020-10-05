@@ -75,15 +75,6 @@
         }
       }
 
-      @{sidebar-nav-prefix}__item:nth-last-child(-n + 2) {
-        position: absolute;
-        bottom: 100px;
-      }
-
-      @{sidebar-nav-prefix}__item:nth-last-child(-n + 1) {
-        bottom: 20px !important;
-      }
-
       &:hover {
         @{sidebar-nav-prefix}__item {
           &-link {
@@ -91,6 +82,17 @@
               opacity: 1;
             }
           }
+        }
+      }
+
+      @media (min-height: 400px) {
+        @{sidebar-nav-prefix}__item:nth-last-child(-n + 2) {
+          position: absolute;
+          bottom: 100px;
+        }
+
+        @{sidebar-nav-prefix}__item:nth-last-child(-n + 1) {
+          bottom: 20px !important;
         }
       }
     }
