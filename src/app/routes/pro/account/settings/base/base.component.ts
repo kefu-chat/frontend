@@ -9,13 +9,10 @@ import { NzMessageService } from "ng-zorro-antd/message";
 import { zip } from "rxjs";
 
 interface ProAccountSettingsUser {
-  email: string;
   name: string;
-  profile: string;
-  country: string;
-  address: string;
-  phone: string;
+  password: string;
   avatar: string;
+  title: string;
   geographic: {
     province: {
       key: string;

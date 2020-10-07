@@ -56,6 +56,8 @@ import {
   BankOutline,
   RobotOutline,
   ContactsOutline,
+  DingtalkOutline,
+  WechatOutline,
 } from "@ant-design/icons-angular/icons";
 
 export const ICONS_AUTO = [
@@ -111,4 +113,6 @@ export const ICONS_AUTO = [
   BankOutline,
   RobotOutline,
   ContactsOutline,
+  DingtalkOutline,
+  WechatOutline,
 ];
