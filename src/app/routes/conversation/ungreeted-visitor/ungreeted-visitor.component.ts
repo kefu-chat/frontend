@@ -22,6 +22,8 @@ export class UngreetedVisitorComponent implements OnInit {
   selectId: String;
   institutionId: String;
   userId: String;
+  currentTab: Number;
+  keyword: string = "";
   type: string = "online";
 
   get user(): User {

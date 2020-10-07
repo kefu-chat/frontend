@@ -23,6 +23,7 @@ export interface Conversation {
   icon?: string;
   last_message?: MessageModel;
   online_status?: boolean;
+  referer?: string;
 }
 
 export interface User {
@@ -95,6 +96,7 @@ export interface MessageConversation {
   user: MessageUser;
   visitor: MessageVisitor;
   geo: Geo;
+  referer?: string;
 }
 
 export interface MessageVisitor {

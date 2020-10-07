@@ -250,6 +250,8 @@ export class ChatDetailComponent implements OnInit {
     this.router.navigateByUrl(url);
   }
 
+  transferConversation(): void {}
+
   terminateConversation(): void {
     this.modal.confirm({
       nzTitle: "确认终止会话?",

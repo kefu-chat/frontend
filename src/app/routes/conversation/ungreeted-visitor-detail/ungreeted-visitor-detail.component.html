@@ -2,11 +2,11 @@
   *ngIf="id == 0; else other"
   nz-row
   nzAlign="middle"
-  style="height: 100%; background: #eee"
+  style="height: 100%; background: #eee;"
 >
-  <div style="text-align: center; width: 100%">
+  <div style="text-align: center; width: 100%;">
     <img src="./assets/tmp/img/empty.svg" alt="" />
-    <h1 style="color: #333; width: 100%">当前没有接待中的客户</h1>
+    <h1 style="color: #333; width: 100%;">当前没有接待中的客户</h1>
   </div>
 </div>
 <ng-template #other>
@@ -46,7 +46,7 @@
         <div class="message">
           <nz-divider *ngIf="has_previous" [nzText]="previous"></nz-divider>
           <ng-template #previous>
-            <a (click)="loadPreMore()" style="font-size: 13px"
+            <a (click)="loadPreMore()" style="font-size: 13px;"
               >显示更早的消息</a
             >
           </ng-template>
@@ -69,7 +69,7 @@
               }"
               [nzDatetime]="item.created_at | _date: 'yyyy-MM-dd HH:mm:ss'"
             >
-              <nz-comment-content style="width: 95%">
+              <nz-comment-content style="width: 95%;">
                 <div class="cell" *ngIf="item.type == 1">
                   {{ item.content }}
                 </div>
@@ -91,9 +91,9 @@
           <div class="message-item visitor" *ngIf="typing">
             <nz-comment
               [nzAuthor]="visitor.name"
-              [ngStyle]="{ 'border-left-color': conversation.colo }"
+              [ngStyle]="{ 'border-left-color': conversation.color }"
             >
-              <nz-comment-content style="width: 95%">
+              <nz-comment-content style="width: 95%;">
                 <div class="cell">对方正在输入中</div>
               </nz-comment-content>
               <nz-avatar
@@ -119,7 +119,7 @@
               [(ngModel)]="content"
             ></textarea>
           </div>
-          <div nz-row style="height: 40px; width: 100%; position: relative">
+          <div nz-row style="height: 40px; width: 100%; position: relative;">
             <div nz-col class="input-right">
               <a
                 class="send"
@@ -151,7 +151,7 @@
               <nz-upload
                 nzAction="api/file/upload"
                 (nzChange)="handleChange($event)"
-                style="float: right"
+                style="float: right;"
                 [(nzFileList)]="fileList"
               >
                 <a>
@@ -180,7 +180,7 @@
 
         <div class="visitor-down">
           <div class="info">
-            <nz-input-group class="px0" [nzPrefix]="phone" style="width: 100%">
+            <nz-input-group class="px0" [nzPrefix]="phone" style="width: 100%;">
               <input
                 type="text"
                 nz-input
@@ -191,7 +191,7 @@
             <ng-template #phone
               ><i nz-icon nzType="phone" nzTheme="outline"></i
             ></ng-template>
-            <nz-input-group class="px0" [nzPrefix]="email" style="width: 100%">
+            <nz-input-group class="px0" [nzPrefix]="email" style="width: 100%;">
               <input
                 type="text"
                 nz-input
@@ -202,7 +202,7 @@
             <ng-template #email>
               <i nz-icon nzType="mail" nzTheme="outline"></i
             ></ng-template>
-            <nz-input-group class="px0" [nzPrefix]="note" style="width: 100%">
+            <nz-input-group class="px0" [nzPrefix]="note" style="width: 100%;">
               <textarea
                 type="text"
                 class="border-0"
