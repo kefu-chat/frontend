@@ -36,8 +36,7 @@
     "test-coverage": "ng test --code-coverage --watch=false",
     "color-less": "ng-alain-plugin-theme -t=colorLess",
     "theme": "ng-alain-plugin-theme -t=themeCss",
-    "icon": "ng g ng-alain:plugin icon",
-    "deploy": "rsync -av dist/* root@106.75.37.99:/data/Project/nginx/kf.ssls.com.cn/dist/"
+    "icon": "ng g ng-alain:plugin icon"
   },
   "dependencies": {
     "@angular/animations": "~10.0.4",
@@ -65,6 +64,7 @@
     "ajv": "^6.12.3",
     "file-saver": "^2.0.2",
     "laravel-echo": "^1.8.1",
+    "ng-deploy-oss": "^1.0.1",
     "ng-zorro-antd": "^10.0.0-beta.4",
     "ngx-countdown": "^10.0.0",
     "ngx-tinymce": "^10.0.0",

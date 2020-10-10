@@ -147,6 +147,15 @@
               "devServerTarget": "ng-alain:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "ng-deploy-oss:deploy",
+          "options": {
+            "outputPath": "dist",
+            "type": "ali-oss",
+            "bucket": "kefuchat",
+            "buildCommand": "npm run build"
+          }
         }
       }
     }
