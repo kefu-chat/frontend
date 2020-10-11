@@ -34,7 +34,8 @@ export interface User {
   email_verified_at?: any;
   created_at: string;
   updated_at: string;
-  photo_url: string;
+  avatar: string;
+  title?: string;
 }
 
 export interface Visitor {
@@ -120,7 +121,8 @@ export interface MessageUser {
   email_verified_at?: any;
   created_at: string;
   updated_at: string;
-  photo_url: string;
+  avatar: string;
+  title?: string;
 }
 
 export interface SendMessageModel {
