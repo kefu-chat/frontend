@@ -59,9 +59,13 @@
       </form>
     </div>
     <div class="right">
-      <div class="avatar_title">Avatar</div>
+      <div class="avatar_title">头像</div>
       <div class="avatar"><img src="{{ user.avatar }}" alt="Avatar" /></div>
-      <nz-upload nzAction="/user/avatar" [nzShowUploadList]="false">
+      <nz-upload
+        nzAction="api/file/upload"
+        [nzShowUploadList]="false"
+        (nzChange)="changeAvatar($event)"
+      >
         <button nz-button class="button_view">
           <i nz-icon nzType="upload"></i>
           <span>更换头像</span>

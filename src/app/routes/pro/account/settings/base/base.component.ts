@@ -7,6 +7,7 @@ import {
 import { _HttpClient } from "@delon/theme";
 import { User } from "@model/application/conversation.interface";
 import { NzMessageService } from "ng-zorro-antd/message";
+import { NzUploadChangeParam } from "ng-zorro-antd/upload";
 import { zip } from "rxjs";
 
 interface ProAccountSettingsCity {
@@ -32,18 +33,15 @@ export class ProAccountSettingsBaseComponent implements OnInit {
 
   // #region geo
 
-  provinces: ProAccountSettingsCity[] = [];
   cities: ProAccountSettingsCity[] = [];
 
   ngOnInit(): void {
-    zip(this.http.get(`api/user`), this.http.get("/geo/province")).subscribe(
-      ([param1, province]: [any, ProAccountSettingsCity[]]) => {
-        const user: User = param1.data.user;
-        this.userLoading = false;
-        this.user = user;
-        this.cdr.detectChanges();
-      }
-    );
+    zip(this.http.get(`api/user`)).subscribe(([param1]: [any]) => {
+      const user: User = param1.data.user;
+      this.userLoading = false;
+      this.user = user;
+      this.cdr.detectChanges();
+    });
   }
 
   // #endregion
@@ -53,7 +51,20 @@ export class ProAccountSettingsBaseComponent implements OnInit {
       const user: User = param1.data.user;
       this.userLoading = false;
       this.user = user;
+
+      this.msg.success("Success!");
     });
     return false;
+  }
+
+  changeAvatar(evt: NzUploadChangeParam): void {
+    if ("success" != evt.type) {
+      console.log(evt.type);
+      return;
+    }
+
+    this.user.avatar =
+      evt.file.response.data.url +
+      "?x-oss-process=image/resize,m_mfit,w_500,h_500,limit_0/crop,h_500,w_500,g_center";
   }
 }
