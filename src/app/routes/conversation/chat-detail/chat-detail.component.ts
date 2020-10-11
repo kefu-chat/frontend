@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
+import { EmojiEvent } from "@ctrl/ngx-emoji-mart/ngx-emoji";
 import { _HttpClient } from "@delon/theme";
 import { SettingsService, User } from "@delon/theme";
 import {
@@ -237,7 +238,7 @@ export class ChatDetailComponent implements OnInit {
     console.log(e);
   }
 
-  drag(e): void {
+  drag(e: DragEvent): void {
     console.log(e);
   }
 
@@ -247,8 +248,13 @@ export class ChatDetailComponent implements OnInit {
     }
   }
 
-  selectEmoji(evt): void {
-    console.log(evt.emoji.native);
+  selectEmoji(evt: EmojiEvent): void {
+    const textarea = document.querySelector("#msgInput") as HTMLTextAreaElement;
+    const start = textarea.selectionStart;
+    const left = this.content.substr(0, start);
+    const right = this.content.substr(start);
+
+    this.content = left + evt.emoji.native + right;
   }
 
   toList(): void {
