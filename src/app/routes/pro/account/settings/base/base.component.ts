@@ -5,23 +5,9 @@ import {
   OnInit,
 } from "@angular/core";
 import { _HttpClient } from "@delon/theme";
+import { User } from "@model/application/conversation.interface";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { zip } from "rxjs";
-
-interface ProAccountSettingsUser {
-  name: string;
-  password: string;
-  avatar: string;
-  title: string;
-  geographic: {
-    province: {
-      key: string;
-    };
-    city: {
-      key: string;
-    };
-  };
-}
 
 interface ProAccountSettingsCity {
   name: string;
@@ -42,7 +28,7 @@ export class ProAccountSettingsBaseComponent implements OnInit {
   ) {}
   avatar = "";
   userLoading = true;
-  user: ProAccountSettingsUser;
+  user: User;
 
   // #region geo
 
@@ -50,37 +36,24 @@ export class ProAccountSettingsBaseComponent implements OnInit {
   cities: ProAccountSettingsCity[] = [];
 
   ngOnInit(): void {
-    zip(
-      this.http.get("/user/current"),
-      this.http.get("/geo/province")
-    ).subscribe(
-      ([user, province]: [
-        ProAccountSettingsUser,
-        ProAccountSettingsCity[]
-      ]) => {
+    zip(this.http.get(`api/user`), this.http.get("/geo/province")).subscribe(
+      ([param1, province]: [any, ProAccountSettingsCity[]]) => {
+        const user: User = param1.data.user;
         this.userLoading = false;
         this.user = user;
-        this.provinces = province;
-        this.choProvince(user.geographic.province.key, false);
         this.cdr.detectChanges();
       }
     );
   }
 
-  choProvince(pid: string, cleanCity: boolean = true): void {
-    this.http.get(`/geo/${pid}`).subscribe((res) => {
-      this.cities = res;
-      if (cleanCity) {
-        this.user.geographic.city.key = "";
-      }
-      this.cdr.detectChanges();
-    });
-  }
-
   // #endregion
 
   save(): boolean {
-    this.msg.success(JSON.stringify(this.user));
+    this.http.patch(`api/settings/profile`, this.user).subscribe((param1) => {
+      const user: User = param1.data.user;
+      this.userLoading = false;
+      this.user = user;
+    });
     return false;
   }
 }
