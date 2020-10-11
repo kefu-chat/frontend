@@ -4,13 +4,13 @@
       class="alain-default__header-logo-expanded"
       src="./assets/logo-full.svg"
       [attr.alt]="app.name"
-      style="max-height: 40px;"
+      style="max-height: 40px"
     />
     <img
       class="alain-default__header-logo-collapsed"
       src="./assets/logo.svg"
       [attr.alt]="app.name"
-      style="max-height: 30px;"
+      style="max-height: 30px"
     />
   </a>
 </div>
@@ -38,10 +38,12 @@
       </div>
     </li>
   </ul>
+  <!--
   <header-search
     class="alain-default__search"
     [toggleChange]="searchToggleStatus"
   ></header-search>
+  -->
   <ul class="alain-default__nav">
     <!-- Notify -->
     <!--
@@ -51,7 +53,9 @@
     -->
     <!-- Task -->
     <li class="hidden-mobile">
+      <!--
       <header-task></header-task>
+      -->
     </li>
     <!-- App Icons -->
     <!--
@@ -71,21 +75,21 @@
         <i nz-icon nzType="setting"></i>
       </div>
       <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
-        <div nz-menu style="width: 200px;">
+        <div nz-menu style="width: 200px">
           <div nz-menu-item>
-            <header-fullscreen></header-fullscreen>
+            <!--<header-fullscreen></header-fullscreen>-->
           </div>
           <div nz-menu-item>
-            <header-storage></header-storage>
+            <!--<header-storage></header-storage>-->
           </div>
           <div nz-menu-item>
-            <header-i18n></header-i18n>
+            <!--<header-i18n></header-i18n>-->
           </div>
         </div>
       </nz-dropdown-menu>
     </li>
     <li class="hidden-mobile">
-      <header-user></header-user>
+      <!--<header-user></header-user>-->
     </li>
   </ul>
 </div>

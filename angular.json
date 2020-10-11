@@ -166,7 +166,10 @@
             "outputPath": "dist",
             "type": "ali-oss",
             "bucket": "kefuchat",
-            "buildCommand": "npm run build"
+            "buildCommand": "npm run build",
+            "stsToken": "",
+            "noBuild": true,
+            "preClean": false
           }
         }
       }
