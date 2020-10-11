@@ -65,6 +65,6 @@ export class ProAccountSettingsBaseComponent implements OnInit {
 
     this.user.avatar =
       evt.file.response.data.url +
-      "?x-oss-process=image/resize,m_mfit,w_500,h_500,limit_0/crop,h_500,w_500,g_center";
+      "?x-oss-process=image/resize,m_mfit,w_500,h_500,limit_0/crop,h_500,w_500,r_250,g_center";
   }
 }
