@@ -65,7 +65,7 @@
     "file-saver": "^2.0.2",
     "laravel-echo": "^1.8.1",
     "ng-deploy-oss": "^1.0.1",
-    "ng-zorro-antd": "^10.0.0-beta.4",
+    "ng-zorro-antd": "^10.0.1",
     "ngx-countdown": "^10.0.0",
     "ngx-tinymce": "^10.0.0",
     "ngx-ueditor": "^10.0.0",
