@@ -1,14 +1,14 @@
-import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { NavigationStart, Router } from "@angular/router";
 import { SettingsService, User, _HttpClient } from "@delon/theme";
+import { Conversation } from "@model/application/conversation.interface";
 import {
+  askNotificationPermission,
   ConversationService,
   EchoService,
-  askNotificationPermission,
 } from "@service";
 import { zip } from "rxjs";
-import { Conversation } from "@model/application/conversation.interface";
 
 @Component({
   selector: "app-chat",
@@ -17,14 +17,14 @@ import { Conversation } from "@model/application/conversation.interface";
 })
 export class UngreetedVisitorComponent implements OnInit {
   conversations: Conversation[] = [];
-  conversationsCount: Number = 0;
-  channel: String;
-  selectId: String;
-  institutionId: String;
-  userId: String;
-  currentTab: Number;
-  keyword: string = "";
-  type: string = "online";
+  conversationsCount = 0;
+  channel: string;
+  selectId: string;
+  institutionId: string;
+  userId: string;
+  currentTab: number;
+  keyword = "";
+  type = "online";
 
   get user(): User {
     return this.settings.user;

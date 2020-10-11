@@ -2,21 +2,21 @@ import { Component, ElementRef, EventEmitter, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
 import { SettingsService, User } from "@delon/theme";
-import { NzModalService } from "ng-zorro-antd/modal";
 import {
   Conversation,
   MessageData,
   MessageModel,
+  MessageUser,
   Visitor,
 } from "@model/application/conversation.interface";
 import { Res } from "@model/common/common.interface";
 import {
+  askNotificationPermission,
   ConversationService,
   EchoService,
-  askNotificationPermission,
 } from "@service";
+import { NzModalService } from "ng-zorro-antd/modal";
 import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
-import { EmojiModule } from "@ctrl/ngx-emoji-mart/ngx-emoji";
 import { zip } from "rxjs";
 
 @Component({
@@ -44,8 +44,8 @@ export class UngreetedVisitorDetailComponent implements OnInit {
   }
 
   get userAnnotation(): string {
-    let arr = [];
-    if (this.visitor.unique_id != this.visitor.name) {
+    const arr = [];
+    if (this.visitor.unique_id !== this.visitor.name) {
       arr.push(this.visitor.unique_id);
     }
     if (this.typing) {
@@ -86,19 +86,21 @@ export class UngreetedVisitorDetailComponent implements OnInit {
       }
       this.channel = `conversation.${this.id}`;
       this.getData(this.id, "", () => {
-        if (!this.messageEl) return;
+        if (!this.messageEl) {
+          return;
+        }
         this.messageEl.scrollTop = this.messageEl.scrollHeight;
       });
       for (const i of Object.keys(this.echoSrv.Echo.connector.channels)) {
-        if (i.indexOf("presence-conversation.") == 0) {
+        if (i.indexOf("presence-conversation.") === 0) {
           this.echoSrv.Echo.leave(i);
         }
       }
       this.socket = this.echoSrv.Echo.join(this.channel)
         .here(console.log)
         .joining(console.log)
-        .leaving((user) => {
-          if (user.id != this.visitor.id) {
+        .leaving((user: MessageUser) => {
+          if (user.id !== this.visitor.id) {
             return;
           }
 
@@ -110,7 +112,7 @@ export class UngreetedVisitorDetailComponent implements OnInit {
         //     this.scrollTo();
         //   }, 200);
         // })
-        .listenForWhisper("message", (e) => {
+        .listenForWhisper("message", (e: MessageModel) => {
           this.messageList.push(e);
           setTimeout(() => {
             this.scrollTo();
@@ -127,7 +129,7 @@ export class UngreetedVisitorDetailComponent implements OnInit {
     });
   }
 
-  getData(id: string, offset?: string, callback?: Function): void {
+  getData(id: string, offset?: string, callback?: () => void): void {
     this.conversationSrv
       .getMessages(id, offset)
       .subscribe((res: Res<MessageData>) => {
@@ -151,18 +153,22 @@ export class UngreetedVisitorDetailComponent implements OnInit {
   }
 
   scrollTo(): void {
-    if (!this.messageEl) return;
+    if (!this.messageEl) {
+      return;
+    }
     this.messageEl.scrollTop = this.messageEl.scrollHeight;
   }
 
   loadPreMore(): void {
     this.getData(this.id, this.nowfirstMsgId, () => {
-      if (!this.messageEl) return;
+      if (!this.messageEl) {
+        return;
+      }
       this.messageEl.scrollTop = 0;
     });
   }
 
-  whisper(message): void {
+  whisper(message: MessageModel): void {
     this.socket.whisper("message", message);
   }
 
@@ -180,7 +186,7 @@ export class UngreetedVisitorDetailComponent implements OnInit {
         };
         const message = {
           ...req,
-          id: parseInt((Math.random() * 9999999).toString()).toString(),
+          id: parseInt((Math.random() * 9999999).toString(), null).toString(),
           sender_id: this.user.id,
           sender_type: "App\\Models\\User",
           sender_type_text: "user",

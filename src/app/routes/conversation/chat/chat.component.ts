@@ -3,15 +3,14 @@ import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { SettingsService, User, _HttpClient } from "@delon/theme";
 import {
   Conversation,
-  ConversationModel,
   MessageModel,
 } from "@model/application/conversation.interface";
-import { NzBadgeModule } from "ng-zorro-antd/badge";
 import {
+  askNotificationPermission,
   ConversationService,
   EchoService,
-  askNotificationPermission,
 } from "@service";
+import { NzBadgeModule } from "ng-zorro-antd/badge";
 import { zip } from "rxjs";
 
 @Component({
@@ -105,17 +104,17 @@ export class ChatComponent implements OnInit {
         `institution.${this.institutionId}.assigned.${this.userId}`
       )
         .listen(`.conversation.created`, (conversation: Conversation) => {
-          let assigned = this.assignedData;
+          const assigned = this.assignedData;
           this.assignedData = assigned.filter(
-            (each) => each.id != conversation.id
+            (each) => each.id !== conversation.id
           );
           this.assignedData.unshift(conversation);
         })
         .listen(`.message.created`, (message: MessageModel) => {
-          let conversations = this.assignedData.filter(
-            (conversation) => conversation.id == message.conversation_id
+          const conversations = this.assignedData.filter(
+            (item) => item.id === message.conversation_id
           );
-          let conversation = conversations[0];
+          const conversation = conversations[0];
           if (!conversation) {
             return;
           }
@@ -147,7 +146,7 @@ export class ChatComponent implements OnInit {
 
       this.echoSrv.Echo.join(`institution.${this.institutionId}`)
         .listen(`.conversation.created`, (conversation: Conversation) => {
-          let unassigned = this.unassignedData;
+          const unassigned = this.unassignedData;
           this.unassignedData = unassigned.filter(
             (each) => each.id != conversation.id
           );
@@ -160,10 +159,10 @@ export class ChatComponent implements OnInit {
           this.unassignedData.unshift(conversation);
         })
         .listen(`.message.created`, (message: MessageModel) => {
-          let conversations = this.unassignedData.filter(
-            (conversation) => conversation.id == message.conversation_id
+          const conversations = this.unassignedData.filter(
+            (item) => item.id == message.conversation_id
           );
-          let conversation = conversations[0];
+          const conversation = conversations[0];
           if (!conversation) {
             return;
           }
@@ -177,7 +176,7 @@ export class ChatComponent implements OnInit {
 
   doNav(): void {
     if (this.assignedCount > 0) {
-      return; //不要自动选择
+      return; // 不要自动选择
       if (this.selectId) {
         const arr = [...this.assignedData, ...this.unassignedData];
         for (const i of arr) {
@@ -194,13 +193,13 @@ export class ChatComponent implements OnInit {
       }
     } else {
       this.selectId = "";
-      //this.navigate(0);
+      // this.navigate(0);
     }
   }
 
   to(item: { id: any }): void {
     this.selectId = item.id;
-    //localStorage.setItem("selectId", JSON.stringify(item.id));
+    // localStorage.setItem("selectId", JSON.stringify(item.id));
     this.navigate(item.id);
   }
 
