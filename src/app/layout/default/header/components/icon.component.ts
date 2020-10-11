@@ -1,7 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+} from "@angular/core";
 
 @Component({
-  selector: 'header-icon',
+  selector: "header-icon",
   template: `
     <div
       class="alain-default__nav-item"
@@ -16,7 +20,12 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/
     <nz-dropdown-menu #iconMenu="nzDropdownMenu">
       <div nz-menu class="wd-xl animated jello">
         <nz-spin [nzSpinning]="loading" [nzTip]="'正在读取数据...'">
-          <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'" class="app-icons">
+          <div
+            nz-row
+            [nzJustify]="'center'"
+            [nzAlign]="'middle'"
+            class="app-icons"
+          >
             <div nz-col [nzSpan]="6">
               <i nz-icon nzType="calendar" class="bg-error text-white"></i>
               <small>Calendar</small>

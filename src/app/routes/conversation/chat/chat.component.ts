@@ -22,13 +22,13 @@ import { zip } from "rxjs";
 export class ChatComponent implements OnInit {
   assignedData: Conversation[] = [];
   unassignedData: Conversation[] = [];
-  assignedCount: Number = 0;
-  unassignedCount: Number = 0;
-  channel: String;
-  selectId: String;
-  institutionId: String;
-  userId: String;
-  currentTab: Number;
+  assignedCount = 0;
+  unassignedCount = 0;
+  channel: string;
+  selectId: string;
+  institutionId: string;
+  userId: string;
+  currentTab: number;
   keyword: string;
 
   get user(): User {

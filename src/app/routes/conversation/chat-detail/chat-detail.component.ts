@@ -151,13 +151,17 @@ export class ChatDetailComponent implements OnInit {
   }
 
   scrollTo(): void {
-    if (!this.messageEl) return;
+    if (!this.messageEl) {
+      return;
+    }
     this.messageEl.scrollTop = this.messageEl.scrollHeight;
   }
 
   loadPreMore(): void {
     this.getData(this.id, this.nowfirstMsgId, () => {
-      if (!this.messageEl) return;
+      if (!this.messageEl) {
+        return;
+      }
       this.messageEl.scrollTop = 0;
     });
   }
