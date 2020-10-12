@@ -15,6 +15,8 @@ import {
   askNotificationPermission,
   ConversationService,
   EchoService,
+  playIncomingAudio,
+  playOutcomingAudio,
 } from "@service";
 import { NzModalService } from "ng-zorro-antd/modal";
 import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
@@ -117,6 +119,7 @@ export class ChatDetailComponent implements OnInit {
           this.messageList.push(e);
           setTimeout(() => {
             this.scrollTo();
+            playIncomingAudio();
           }, 200);
         })
         .listenForWhisper("startTyping", (evt) => {
@@ -209,6 +212,7 @@ export class ChatDetailComponent implements OnInit {
 
               setTimeout(() => {
                 this.scrollTo();
+                playOutcomingAudio();
               }, 200);
             }
           });
