@@ -47,8 +47,8 @@ export class ChatDetailComponent implements OnInit {
   }
 
   get userAnnotation(): string {
-    let arr = [];
-    if (this.visitor.unique_id != this.visitor.name) {
+    const arr = [];
+    if (this.visitor.unique_id !== this.visitor.name) {
       arr.push(this.visitor.unique_id);
     }
     if (this.typing) {
@@ -212,7 +212,7 @@ export class ChatDetailComponent implements OnInit {
 
               setTimeout(() => {
                 this.scrollTo();
-                //playOutcomingAudio();
+                // playOutcomingAudio();
               }, 200);
             }
           });
