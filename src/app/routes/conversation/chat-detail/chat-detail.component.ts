@@ -117,9 +117,9 @@ export class ChatDetailComponent implements OnInit {
         // })
         .listenForWhisper("message", (e) => {
           this.messageList.push(e);
+          playIncomingAudio();
           setTimeout(() => {
             this.scrollTo();
-            playIncomingAudio();
           }, 200);
         })
         .listenForWhisper("startTyping", (evt) => {
@@ -212,7 +212,7 @@ export class ChatDetailComponent implements OnInit {
 
               setTimeout(() => {
                 this.scrollTo();
-                playOutcomingAudio();
+                //playOutcomingAudio();
               }, 200);
             }
           });
