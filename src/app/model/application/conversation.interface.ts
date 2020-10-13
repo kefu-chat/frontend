@@ -132,11 +132,11 @@ export interface SendMessageModel {
 
 export interface Geo {
   ip: string;
-  iso_code: string;
+  area: string;
   country: string;
   city: string;
-  state: string;
-  state_name: string;
+  province: string;
+  county: string;
   postal_code: string;
   lat: number;
   lon: number;

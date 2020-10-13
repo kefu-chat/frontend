@@ -102,8 +102,7 @@
             <div nz-row>
               <div nz-col nzSpan="5">来源省市</div>
               <div nz-col nzSpan="19">
-                {{ conversation.geo.country }},
-                {{ conversation.geo.state_name }}, {{ conversation.geo.city }}
+                {{ getGeoLocation() }}
               </div>
             </div>
           </div>

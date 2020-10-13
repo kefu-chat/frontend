@@ -18,6 +18,7 @@ import {
   playIncomingAudio,
   playOutcomingAudio,
 } from "@service";
+import { NzMessageService } from "ng-zorro-antd/message";
 import { NzModalService } from "ng-zorro-antd/modal";
 import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
 import { zip } from "rxjs";
@@ -75,7 +76,8 @@ export class ChatDetailComponent implements OnInit {
     private conversationSrv: ConversationService,
     private echoSrv: EchoService,
     private modal: NzModalService,
-    private http: _HttpClient
+    private http: _HttpClient,
+    private msg: NzMessageService
   ) {}
 
   ngOnInit(): void {
@@ -200,9 +202,8 @@ export class ChatDetailComponent implements OnInit {
           conversation_id: this.conversation.id.toString(),
         };
 
-        this.conversationSrv
-          .sendMessage(this.id, req)
-          .subscribe((res: Res<any>) => {
+        this.conversationSrv.sendMessage(this.id, req).subscribe(
+          (res: Res<any>) => {
             if (res.success) {
               this.content = "";
               this.picUrl = "";
@@ -215,7 +216,11 @@ export class ChatDetailComponent implements OnInit {
                 // playOutcomingAudio();
               }, 200);
             }
-          });
+          },
+          (err: { error: Res<any> }) => {
+            this.msg.error(err.error.message);
+          }
+        );
       }
     }
   }
@@ -284,5 +289,16 @@ export class ChatDetailComponent implements OnInit {
       nzCancelText: "不终止",
       nzAutofocus: "ok",
     });
+  }
+
+  getGeoLocation(): string {
+    return [
+      this.conversation.geo.country,
+      this.conversation.geo.province,
+      this.conversation.geo.city,
+      this.conversation.geo.area,
+    ]
+      .filter((a) => a)
+      .join(", ");
   }
 }

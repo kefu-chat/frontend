@@ -280,4 +280,15 @@ export class UngreetedVisitorDetailComponent implements OnInit {
     const url = `/conversation/chat/${item.id}`;
     this.router.navigateByUrl(url);
   }
+
+  getGeoLocation(): string {
+    return [
+      this.conversation.geo.country,
+      this.conversation.geo.province,
+      this.conversation.geo.city,
+      this.conversation.geo.area,
+    ]
+      .filter((a) => a)
+      .join(", ");
+  }
 }
