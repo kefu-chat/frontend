@@ -71,9 +71,9 @@
               </nz-input-group>
             </div>
             <div class="ul-thead" *ngIf="!selectId">
-              <div>名字</div>
-              <div>落地时间</div>
-              <div>渠道</div>
+              <div style="width: 70%">名字</div>
+              <div style="width: 10%">落地时间</div>
+              <div style="width: 10%">操作</div>
             </div>
             <ul class="conversation-list-ul" *ngIf="conversations.length > 0">
               <li
@@ -83,7 +83,7 @@
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
-                <div [style]="selectId ? '' : 'width: 33%'">
+                <div [style]="selectId ? '' : 'width: 70%'">
                   <nz-avatar
                     nz-comment-avatar
                     nzIcon="user"
@@ -97,8 +97,8 @@
                       {{ item.visitor.name }}
                       {{ item.online_status == 0 ? "(已离线)" : "" }}
                     </div>
-                    <div class="last-message" *ngIf="item.last_message">
-                      <span>
+                    <div class="last-message">
+                      <span *ngIf="item.last_message">
                         {{
                           item.last_message.sender_type_text == "user"
                             ? item.last_message.sender_id == user.id
@@ -113,15 +113,23 @@
                           [图片消息]
                         </span>
                       </span>
+                      <div *ngIf="item.url">
+                        正在访问:
+                        <a class="link-normal" [href]="item.url">{{
+                          item.title || item.url
+                        }}</a>
+                      </div>
+                      <div *ngIf="item.referer">来源: {{ item.referer }}</div>
                     </div>
                   </div>
                 </div>
-                <div *ngIf="!selectId" style="width: 33%">
-                  {{ item.created_at }}
+                <div *ngIf="!selectId" style="width: 10%">
+                  {{ fromNow(item.created_at) }}
                 </div>
-                <div *ngIf="!selectId" style="width: 33%">
-                  <div>{{ item.url }}</div>
-                  <div *ngIf="item.title">{{ item.title }}</div>
+                <div *ngIf="!selectId" style="width: 10%">
+                  <button nz-button nzType="primary" nzGhost (click)="to(item)">
+                    对话
+                  </button>
                 </div>
               </li>
             </ul>

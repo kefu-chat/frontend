@@ -9,6 +9,8 @@ import {
   EchoService,
 } from "@service";
 import { zip } from "rxjs";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { NzI18nService } from "ng-zorro-antd/i18n";
 
 @Component({
   selector: "app-chat",
@@ -35,7 +37,8 @@ export class UngreetedVisitorComponent implements OnInit {
     private router: Router,
     private conversationSrv: ConversationService,
     private echoSrv: EchoService,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private nzI18n: NzI18nService
   ) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationStart) {
@@ -92,5 +95,13 @@ export class UngreetedVisitorComponent implements OnInit {
   navigate(id: any): void {
     const url = `/conversation/visitor/${id}`;
     this.router.navigateByUrl(url);
+  }
+
+  fromNow(timeTz: Date | string) {
+    return (
+      formatDistanceToNow(new Date(timeTz), {
+        locale: this.nzI18n.getDateLocale(),
+      }) + "前"
+    );
   }
 }
