@@ -32,7 +32,7 @@
               (ngModelChange)="choProvince($event)"
               name="geographic.province.key"
               required
-              class="width-50 mr-sm"
+              [class]="'width-25 ' + (cities && cities.length ? 'mr-sm' : '')"
             >
               <nz-option
                 *ngFor="let p of provinces"
@@ -42,12 +42,41 @@
             </nz-select>
             <nz-select
               [(ngModel)]="enterprise.geographic.city.key"
+              (ngModelChange)="choCity($event)"
               name="geographic.city.key"
               required
-              class="width-50"
+              *ngIf="cities && cities.length"
+              [class]="'width-25 ' + (areas && areas.length ? 'mr-sm' : '')"
             >
               <nz-option
                 *ngFor="let p of cities"
+                [nzLabel]="p.name"
+                [nzValue]="p.id"
+              ></nz-option>
+            </nz-select>
+            <nz-select
+              [(ngModel)]="enterprise.geographic.area.key"
+              (ngModelChange)="choArea($event)"
+              name="geographic.area.key"
+              required
+              *ngIf="areas && areas.length"
+              [class]="'width-25 ' + (streets && streets.length ? 'mr-sm' : '')"
+            >
+              <nz-option
+                *ngFor="let p of areas"
+                [nzLabel]="p.name"
+                [nzValue]="p.id"
+              ></nz-option>
+            </nz-select>
+            <nz-select
+              [(ngModel)]="enterprise.geographic.street.key"
+              name="geographic.street.key"
+              required
+              class="width-25"
+              *ngIf="streets && streets.length"
+            >
+              <nz-option
+                *ngFor="let p of streets"
                 [nzLabel]="p.name"
                 [nzValue]="p.id"
               ></nz-option>

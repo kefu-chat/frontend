@@ -21,6 +21,12 @@ interface ProEnterpriseSettingsUser {
     city: {
       key: string;
     };
+    area: {
+      key: string;
+    };
+    street: {
+      key: string;
+    };
   };
 }
 
@@ -49,19 +55,21 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
 
   provinces: ProEnterpriseSettingsCity[] = [];
   cities: ProEnterpriseSettingsCity[] = [];
+  areas: ProEnterpriseSettingsCity[] = [];
+  streets: ProEnterpriseSettingsCity[] = [];
 
   ngOnInit(): void {
     zip(
       this.http.get(`api/enterprise`),
-      this.http.get("/geo/province")
+      this.http.get(`api/location/list`)
     ).subscribe(
       ([enterpriseRes, province]: [
         { data: { enterprise: any } },
-        ProEnterpriseSettingsCity[]
+        { data: { list: ProEnterpriseSettingsCity[] } }
       ]) => {
         this.enterpriseLoading = false;
         this.enterprise = enterpriseRes.data.enterprise;
-        this.provinces = province;
+        this.provinces = province.data.list;
         if (
           enterpriseRes.data.enterprise.geographic &&
           enterpriseRes.data.enterprise.geographic.province
@@ -70,26 +78,88 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
             enterpriseRes.data.enterprise.geographic.province.key,
             false
           );
+
+          if (
+            enterpriseRes.data.enterprise.geographic &&
+            enterpriseRes.data.enterprise.geographic.city
+          ) {
+            this.choCity(
+              enterpriseRes.data.enterprise.geographic.city.key,
+              false
+            );
+
+            if (
+              enterpriseRes.data.enterprise.geographic &&
+              enterpriseRes.data.enterprise.geographic.area
+            ) {
+              this.choArea(
+                enterpriseRes.data.enterprise.geographic.area.key,
+                false
+              );
+            }
+          }
         }
         this.cdr.detectChanges();
       }
     );
   }
 
-  choProvince(pid: string, cleanCity: boolean = true): void {
-    this.http.get(`/geo/${pid}`).subscribe((res) => {
-      this.cities = res;
-      if (cleanCity) {
-        this.enterprise.geographic.city.key = "";
-      }
-      this.cdr.detectChanges();
-    });
+  choProvince(parent_id: string, cleanCity: boolean = true): void {
+    this.http
+      .get(`api/location/list`, { parent_id })
+      .subscribe((res: { data: { list: ProEnterpriseSettingsCity[] } }) => {
+        this.cities = res.data.list;
+        if (!this.enterprise.geographic.city) {
+          this.enterprise.geographic.city = { key: "" };
+        }
+        if (cleanCity) {
+          this.enterprise.geographic.city.key = "";
+        }
+        this.cdr.detectChanges();
+      });
   }
 
-  // #endregion
+  choCity(parent_id: string, cleanCity: boolean = true): void {
+    this.http
+      .get(`api/location/list`, { parent_id })
+      .subscribe((res: { data: { list: ProEnterpriseSettingsCity[] } }) => {
+        this.areas = res.data.list;
+        if (!this.enterprise.geographic.area) {
+          this.enterprise.geographic.area = { key: "" };
+        }
+        if (cleanCity) {
+          this.enterprise.geographic.area.key = "";
+        }
+        this.cdr.detectChanges();
+      });
+  }
+
+  choArea(parent_id: string, cleanCity: boolean = true): void {
+    this.http
+      .get(`api/location/list`, { parent_id })
+      .subscribe((res: { data: { list: ProEnterpriseSettingsCity[] } }) => {
+        this.streets = res.data.list;
+        if (!this.enterprise.geographic.street) {
+          this.enterprise.geographic.street = { key: "" };
+        }
+        if (cleanCity) {
+          this.enterprise.geographic.street.key = "";
+        }
+        this.cdr.detectChanges();
+      });
+  }
 
   save(): boolean {
-    this.msg.success(JSON.stringify(this.enterprise));
+    this.http
+      .post(`api/enterprise/update`, this.enterprise)
+      .subscribe((res: { success: boolean; message?: string }) => {
+        if (!res.success) {
+          this.msg.error(res.message);
+          return;
+        }
+
+        this.msg.success("保存成功");
+      });
     return false;
   }
 }
