@@ -42,8 +42,8 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
     private msg: NzMessageService
   ) {}
   avatar = "";
-  userLoading = true;
-  user: ProEnterpriseSettingsUser;
+  enterpriseLoading = true;
+  enterprise: ProEnterpriseSettingsUser;
 
   // #region geo
 
@@ -52,17 +52,25 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
 
   ngOnInit(): void {
     zip(
-      this.http.get("/user/current"),
+      this.http.get(`api/enterprise`),
       this.http.get("/geo/province")
     ).subscribe(
-      ([user, province]: [
-        ProEnterpriseSettingsUser,
+      ([enterpriseRes, province]: [
+        { data: { enterprise: any } },
         ProEnterpriseSettingsCity[]
       ]) => {
-        this.userLoading = false;
-        this.user = user;
+        this.enterpriseLoading = false;
+        this.enterprise = enterpriseRes.data.enterprise;
         this.provinces = province;
-        this.choProvince(user.geographic.province.key, false);
+        if (
+          enterpriseRes.data.enterprise.geographic &&
+          enterpriseRes.data.enterprise.geographic.province
+        ) {
+          this.choProvince(
+            enterpriseRes.data.enterprise.geographic.province.key,
+            false
+          );
+        }
         this.cdr.detectChanges();
       }
     );
@@ -72,7 +80,7 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
     this.http.get(`/geo/${pid}`).subscribe((res) => {
       this.cities = res;
       if (cleanCity) {
-        this.user.geographic.city.key = "";
+        this.enterprise.geographic.city.key = "";
       }
       this.cdr.detectChanges();
     });
@@ -81,7 +89,7 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
   // #endregion
 
   save(): boolean {
-    this.msg.success(JSON.stringify(this.user));
+    this.msg.success(JSON.stringify(this.enterprise));
     return false;
   }
 }
