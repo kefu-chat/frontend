@@ -48,6 +48,16 @@
               ></nz-badge>
             </div>
           </ng-template>
+          <ng-template #titleHistory>
+            <div class="tab-title">
+              <span>历史</span>
+              <nz-badge
+                [nzCount]="historyCount"
+                [nzStyle]="{ backgroundColor: '#dddddd' }"
+                [nzShowZero]="true"
+              ></nz-badge>
+            </div>
+          </ng-template>
           <nz-tab [nzTitle]="titleUnassigned">
             <div
               *ngIf="!unassignedCount"
@@ -178,6 +188,94 @@
                 nz-menu-item
                 class="conversation-item"
                 *ngFor="let item of assignedData"
+                [nzSelected]="selectId == item.id"
+                (click)="to(item)"
+              >
+                <div [style]="selectId ? '' : 'width: 33%'">
+                  <nz-avatar
+                    nz-comment-avatar
+                    nzIcon="user"
+                    [nzSrc]="item.icon"
+                    [style]="
+                      item.online_status == 0 ? 'filter: grayscale(1)' : ''
+                    "
+                  ></nz-avatar>
+                  <div class="conversation-list-content">
+                    <div class="conversation-visitor-name">
+                      {{ item.visitor.name }}
+                      {{ item.online_status == 0 ? "(已离线)" : "" }}
+                    </div>
+                    <div class="last-message" *ngIf="item.last_message">
+                      <span>
+                        {{
+                          item.last_message.sender_type_text == "user"
+                            ? item.last_message.sender_id == user.id
+                              ? "你"
+                              : item.last_message.sender.name + "(客服)"
+                            : item.last_message.sender.name
+                        }}:
+                        <span *ngIf="item.last_message.type == 1">
+                          {{ item.last_message.content }}
+                        </span>
+                        <span *ngIf="item.last_message.type == 2">
+                          [图片消息]
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="!selectId" style="width: 33%">
+                  {{ item.last_reply_at }}
+                </div>
+                <div *ngIf="!selectId" style="width: 33%">
+                  <div>{{ item.url }}</div>
+                  <div *ngIf="item.title">{{ item.title }}</div>
+                </div>
+              </li>
+            </ul>
+          </nz-tab>
+          <nz-tab [nzTitle]="titleHistory">
+            <div
+              *ngIf="!historyCount"
+              nz-row
+              nzAlign="middle"
+              style="width: 100%; height: calc(100vh - 121px)"
+            >
+              <div style="text-align: center; width: 100%">
+                <img src="./assets/tmp/img/empty.svg" alt="" />
+                <h1
+                  style="
+                    color: #7e7e7e;
+                    width: 100%;
+                    font-size: 16px;
+                    font-weight: 300;
+                  "
+                >
+                  当前没有已结束的咨询
+                </h1>
+              </div>
+            </div>
+            <div class="search-wrapper" *ngIf="selectId">
+              <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
+                <input
+                  type="text"
+                  nz-input
+                  placeholder="在这里搜索"
+                  nzSize="large"
+                  [(ngModel)]="keyword"
+                />
+              </nz-input-group>
+            </div>
+            <div class="ul-thead" *ngIf="!selectId">
+              <div>名字</div>
+              <div>最后时间</div>
+              <div>渠道</div>
+            </div>
+            <ul class="conversation-list-ul" *ngIf="historyCount > 0">
+              <li
+                nz-menu-item
+                class="conversation-item"
+                *ngFor="let item of historyData"
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >

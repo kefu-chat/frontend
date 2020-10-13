@@ -3,8 +3,10 @@ import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { SettingsService, User, _HttpClient } from "@delon/theme";
 import {
   Conversation,
+  CountInterface,
   MessageModel,
 } from "@model/application/conversation.interface";
+import { Res } from "@model/common/common.interface";
 import {
   askNotificationPermission,
   ConversationService,
@@ -21,8 +23,10 @@ import { zip } from "rxjs";
 export class ChatComponent implements OnInit {
   assignedData: Conversation[] = [];
   unassignedData: Conversation[] = [];
+  historyData: Conversation[] = [];
   assignedCount = 0;
   unassignedCount = 0;
+  historyCount = 0;
   channel: string;
   selectId: string;
   institutionId: string;
@@ -56,6 +60,7 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.initAssignedConversation();
     this.initUnassignedConversation();
+    this.initHistoryConversation();
     this.initCount();
     askNotificationPermission().then(console.log);
 
@@ -68,9 +73,10 @@ export class ChatComponent implements OnInit {
   initCount(): void {
     this.http
       .get("api/conversation/count")
-      .subscribe(({ data: { assigned_count, unassigned_count } }) => {
-        this.assignedCount = assigned_count;
-        this.unassignedCount = unassigned_count;
+      .subscribe((res: Res<CountInterface>) => {
+        this.assignedCount = res.data.assigned_count;
+        this.unassignedCount = res.data.unassigned_count;
+        this.historyCount = res.data.history_count;
       });
 
     // @TODO: 新会话进来的 socket, 更新统计数字.
@@ -171,6 +177,22 @@ export class ChatComponent implements OnInit {
           conversation.updated_at = conversation.last_reply_at =
             message.created_at;
         });
+    });
+  }
+
+  initHistoryConversation(): void {
+    let offset = "";
+    if (this.historyData.length) {
+      offset = this.historyData[this.historyData.length - 1].id;
+    }
+    zip(
+      this.conversationSrv.getConversationList("history", this.keyword, offset)
+    ).subscribe(([historyData]) => {
+      this.institutionId = historyData.data.institution_id;
+      this.userId = historyData.data.user_id;
+      this.historyData = this.historyData.concat(
+        historyData.data.conversations
+      );
     });
   }
 

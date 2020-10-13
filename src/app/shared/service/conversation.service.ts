@@ -16,7 +16,7 @@ export class ConversationService {
 
   // 获取会话列表
   getConversationList(
-    type: "assigned" | "unassigned",
+    type: "assigned" | "unassigned" | "history",
     keyword?: string,
     offset?: string
   ): Observable<Res<ConversationModel>> {

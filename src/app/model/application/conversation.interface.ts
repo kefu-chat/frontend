@@ -145,3 +145,11 @@ export interface Geo {
   currency: string;
   default: boolean;
 }
+
+export interface CountInterface {
+  assigned_count: number;
+  unassigned_count: number;
+  history_count: number;
+  online_visitor_count: number;
+  visitor_count: number;
+}
