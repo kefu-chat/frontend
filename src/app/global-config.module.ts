@@ -18,7 +18,7 @@ const alainConfig: AlainConfig = {
   st: { modal: { size: "lg" } },
   pageHeader: { homeI18n: "home" },
   auth: {
-    login_url: "/passport/login",
+    login_url: "/login",
     token_send_key: "Authorization",
     token_send_template: "Bearer ${token}",
     token_send_place: "header",

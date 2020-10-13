@@ -156,5 +156,6 @@
   "menu.conversation.ungreeted-visitor": "访客",
   "menu.feature": "功能",
   "menu.index": "首页",
-  "menu.conversation.robot": "自动"
+  "menu.conversation.robot": "自动",
+  "app.verify": "验证"
 }

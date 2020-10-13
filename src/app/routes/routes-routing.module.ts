@@ -6,6 +6,7 @@ import { environment } from "@env/environment";
 import { LayoutDefaultComponent } from "../layout/default/default.component";
 import { LayoutFullScreenComponent } from "../layout/fullscreen/fullscreen.component";
 import { LayoutPassportComponent } from "../layout/passport/passport.component";
+import { EmailVerifyComponent } from "./passport/verify/email-verify.component";
 import { UserLoginComponent } from "./passport/login/login.component";
 import { UserRegisterResultComponent } from "./passport/register-result/register-result.component";
 import { UserRegisterComponent } from "./passport/register/register.component";
@@ -46,7 +47,7 @@ const routes: Routes = [
   },
   // passport
   {
-    path: "passport",
+    path: "",
     component: LayoutPassportComponent,
     children: [
       {
@@ -64,6 +65,16 @@ const routes: Routes = [
         component: UserRegisterResultComponent,
         data: { title: "注册结果", titleI18n: "app.register.register" },
       },
+      {
+        path: "email/verify/:id",
+        component: EmailVerifyComponent,
+        data: { title: "邮件验证", titleI18n: "app.email.verify" },
+      },
+      // {
+      //   path: "email/resend",
+      //   component: EmailResendComponent,
+      //   data: { title: "重发邮件验证", titleI18n: "app.email.verify.resend" },
+      // },
       {
         path: "lock",
         component: UserLoginComponent,

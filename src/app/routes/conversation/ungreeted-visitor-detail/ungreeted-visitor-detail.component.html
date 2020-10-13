@@ -72,7 +72,7 @@
             *ngIf="conversation.hostname || conversation.url"
           >
             <div nz-row>
-              <div nz-col nzSpan="5">URL</div>
+              <div nz-col nzSpan="5">正在访问</div>
               <div nz-col nzSpan="19">
                 <a
                   [href]="conversation.url"
@@ -96,11 +96,11 @@
               </div>
             </div>
             <div nz-row>
-              <div nz-col nzSpan="5">IP</div>
+              <div nz-col nzSpan="5">IP地址</div>
               <div nz-col nzSpan="19">{{ conversation.ip }}</div>
             </div>
             <div nz-row>
-              <div nz-col nzSpan="5">来自</div>
+              <div nz-col nzSpan="5">来源省市</div>
               <div nz-col nzSpan="19">
                 {{ conversation.geo.country }},
                 {{ conversation.geo.state_name }}, {{ conversation.geo.city }}
@@ -116,6 +116,7 @@
         nzBlock
         nzSize="large"
         (click)="toChat(conversation)"
+        *ngIf="visitor"
       >
         开启对话
       </button>

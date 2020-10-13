@@ -58,7 +58,7 @@
         />
       </nz-input-group>
       <ng-template #pwdCdkTpl>
-        <div style="padding: 4px 0;">
+        <div style="padding: 4px 0">
           <ng-container [ngSwitch]="status">
             <div *ngSwitchCase="'ok'" class="success">
               {{ "validation.password.strength.strong" | translate }}
@@ -151,7 +151,7 @@
     >
       {{ "app.register.register" | translate }}
     </button>
-    <a class="login" routerLink="/passport/login">{{
+    <a class="login" routerLink="/login">{{
       "app.register.sign-in" | translate
     }}</a>
   </nz-form-item>

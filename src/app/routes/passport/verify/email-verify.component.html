@@ -1,0 +1,15 @@
+<div class="ant-card width-lg" style="margin: 0 auto">
+  <div class="ant-card-body">
+    <form nz-form [formGroup]="f" (ngSubmit)="submit()" role="form">
+      <button
+        nz-button
+        nzBlock
+        nzSize="large"
+        nzType="primary"
+        [nzLoading]="http.loading"
+      >
+        {{ "app.verify" | translate }}
+      </button>
+    </form>
+  </div>
+</div>
