@@ -1,8 +1,7 @@
-import { Component, Inject } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
-import { Res } from "@model/common/common.interface";
 import { NzMessageService } from "ng-zorro-antd/message";
 
 @Component({
@@ -10,7 +9,7 @@ import { NzMessageService } from "ng-zorro-antd/message";
   templateUrl: "./email-verify.component.html",
   styleUrls: ["./email-verify.component.less"],
 })
-export class EmailVerifyComponent {
+export class EmailVerifyComponent implements OnInit {
   f: FormGroup;
 
   constructor(
@@ -22,6 +21,10 @@ export class EmailVerifyComponent {
     this.f = fb.group({
       email: [null, Validators.required],
     });
+  }
+
+  ngOnInit(): void {
+    this.submit();
   }
 
   submit(): void {
