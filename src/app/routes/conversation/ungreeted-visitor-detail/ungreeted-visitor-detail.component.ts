@@ -275,4 +275,9 @@ export class UngreetedVisitorDetailComponent implements OnInit {
       nzAutofocus: "ok",
     });
   }
+
+  toChat(item: { id: any }): void {
+    const url = `/conversation/chat/${item.id}`;
+    this.router.navigateByUrl(url);
+  }
 }

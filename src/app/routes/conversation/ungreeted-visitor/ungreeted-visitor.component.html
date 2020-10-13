@@ -81,7 +81,7 @@
                 class="conversation-item"
                 *ngFor="let item of conversations"
                 [nzSelected]="selectId == item.id"
-                (click)="to(item)"
+                (click)="toSee(item)"
               >
                 <div [style]="selectId ? '' : 'width: 70%'">
                   <nz-avatar
@@ -113,11 +113,10 @@
                           [图片消息]
                         </span>
                       </span>
-                      <div *ngIf="item.url">
+                      <div *ngIf="item.title || item.url">
                         正在访问:
-                        <a class="link-normal" [href]="item.url">{{
-                          item.title || item.url
-                        }}</a>
+                        {{ item.title }}
+                        <span *ngIf="item.url">({{ item.url }})</span>
                       </div>
                       <div *ngIf="item.referer">来源: {{ item.referer }}</div>
                     </div>
@@ -127,8 +126,13 @@
                   {{ fromNow(item.created_at) }}
                 </div>
                 <div *ngIf="!selectId" style="width: 10%">
-                  <button nz-button nzType="primary" nzGhost (click)="to(item)">
-                    对话
+                  <button
+                    nz-button
+                    nzType="primary"
+                    nzGhost
+                    (click)="toChat(item)"
+                  >
+                    开启对话
                   </button>
                 </div>
               </li>

@@ -1,0 +1,155 @@
+:host {
+  .content-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .tab-title {
+    height: 24px;
+
+    span {
+      vertical-align: bottom;
+      margin-right: 5px;
+    }
+  }
+
+  .customlist {
+    width: calc(100% - 350px);
+    height: 100%;
+    padding-right: 10px;
+
+    nz-tabset {
+      margin-left: 20px;
+    }
+
+    li {
+      .last-message {
+        color: #bbc6d6;
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 12px;
+      }
+    }
+  }
+  .ant-menu-inline {
+    .ant-menu-item {
+      padding: 15px 15px !important;
+      padding-left: 15px !important;
+      border-radius: 5px;
+      height: 76px;
+    }
+
+    .ant-menu-item-selected {
+      .last-message {
+        color: #fff;
+      }
+    }
+
+    .ant-menu-item-selected:after {
+      display: none;
+    }
+  }
+  .search-wrapper {
+    height: 60px;
+    position: relative;
+    top: 0;
+  }
+  .searchInput {
+    border-radius: 5px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    background-color: #eeeeee;
+    input {
+      background-color: #eeeeee;
+      padding-left: 3px;
+      height: 26px;
+    }
+    input::-webkit-input-placeholder {
+      color: #888888;
+    }
+    input::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      color: #888888;
+    }
+    input:-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 */
+      color: #888888;
+    }
+    input:-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #888888;
+    }
+  }
+  .ulout {
+    color: #fff;
+  }
+
+  ::ng-deep {
+    .ant-menu-item-group-title {
+      color: #8894ab;
+    }
+
+    .ant-menu-item:active,
+    .ant-menu-submenu-title:active {
+      background: #e6e6e6;
+      color: #595959;
+    }
+    .ant-menu-item:hover {
+      background: #e6e6e6;
+      color: #595959;
+    }
+
+    .ant-menu {
+      .ant-menu-item-selected,
+      .ant-menu-item-selected:hover {
+        background-color: #177cdc !important;
+        color: #fff;
+      }
+    }
+  }
+  .chat-right {
+    height: 100%;
+    width: 350px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
+  }
+  .ul-thead {
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+
+    div {
+      vertical-align: middle;
+      line-height: 60px;
+      width: 33%;
+    }
+  }
+  .conversation-list-ul {
+    height: calc(100vh - 185px);
+    overflow-y: scroll;
+
+    .conversation-item {
+      display: flex;
+      justify-content: space-between;
+
+      nz-avatar {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .conversation-list-content {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 20px;
+
+        .conversation-visitor-name {
+          line-height: 24px;
+        }
+
+        .last-message {
+          line-height: 18px;
+        }
+      }
+    }
+  }
+}

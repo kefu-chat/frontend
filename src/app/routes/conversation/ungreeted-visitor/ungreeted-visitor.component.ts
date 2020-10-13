@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
-import { NavigationStart, Router } from "@angular/router";
+import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { SettingsService, User, _HttpClient } from "@delon/theme";
 import { Conversation } from "@model/application/conversation.interface";
 import {
@@ -15,7 +15,7 @@ import { NzI18nService } from "ng-zorro-antd/i18n";
 @Component({
   selector: "app-chat",
   templateUrl: "./ungreeted-visitor.component.html",
-  styleUrls: ["./../chat/chat.component.less"],
+  styleUrls: ["./ungreeted-visitor.component.less"],
 })
 export class UngreetedVisitorComponent implements OnInit {
   conversations: Conversation[] = [];
@@ -38,6 +38,7 @@ export class UngreetedVisitorComponent implements OnInit {
     private conversationSrv: ConversationService,
     private echoSrv: EchoService,
     private settings: SettingsService,
+    private route: ActivatedRoute,
     private nzI18n: NzI18nService
   ) {
     router.events.subscribe((evt) => {
@@ -55,6 +56,11 @@ export class UngreetedVisitorComponent implements OnInit {
     this.initCount();
     this.initVisitorList();
     askNotificationPermission().then(console.log);
+
+    if (!this.route.children.length) {
+      return;
+    }
+    this.selectId = (this.route.children[0].params as any).getValue().id;
   }
 
   initCount(): void {
@@ -87,15 +93,19 @@ export class UngreetedVisitorComponent implements OnInit {
     );
   }
 
-  to(item: { id: any }): void {
+  toSee(item: { id: any }): void {
     this.selectId = item.id;
-    this.navigate(item.id);
-  }
-
-  navigate(id: any): void {
-    const url = `/conversation/visitor/${id}`;
+    const url = `/conversation/visitor/${item.id}`;
     this.router.navigateByUrl(url);
   }
+
+  toChat(item: { id: any }): void {
+    this.selectId = item.id;
+    const url = `/conversation/chat/${item.id}`;
+    this.router.navigateByUrl(url);
+  }
+
+  navigate(id: any): void {}
 
   fromNow(timeTz: Date | string) {
     return (
