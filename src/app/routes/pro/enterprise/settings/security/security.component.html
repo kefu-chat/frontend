@@ -1,52 +1,82 @@
-<nz-list nzItemLayout="horizontal">
-  <nz-list-item [nzActions]="[passwordOp]">
-    <ng-template #passwordOp>
-      <a (click)="msg.success('Edit')">修改</a>
+<nz-table #nestedTable [nzData]="listOfParentData" [nzPageSize]="10">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Platform</th>
+      <th>Version</th>
+      <th>Upgraded</th>
+      <th>Creator</th>
+      <th>Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+      <tr>
+        <td [(nzExpand)]="data.expand"></td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.platform }}</td>
+        <td>{{ data.version }}</td>
+        <td>{{ data.upgradeNum }}</td>
+        <td>{{ data.creator }}</td>
+        <td>{{ data.createdAt }}</td>
+        <td>
+          <a>Publish</a>
+        </td>
+      </tr>
+      <tr [nzExpand]="data.expand">
+        <nz-table
+          #innerTable
+          [nzData]="listOfChildrenData"
+          nzSize="middle"
+          [nzShowPagination]="false"
+        >
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Upgrade Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of innerTable.data">
+              <td>{{ data.date }}</td>
+              <td>{{ data.name }}</td>
+              <td>
+                <nz-badge
+                  [nzStatus]="'success'"
+                  [nzText]="'Finished'"
+                ></nz-badge>
+              </td>
+              <td>{{ data.upgradeNum }}</td>
+              <td>
+                <span class="table-operation">
+                  <a nz-dropdown class="operation" [nzDropdownMenu]="menu">
+                    Pause <i nz-icon nzType="down"></i>
+                  </a>
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item>
+                        <a>Action 1</a>
+                      </li>
+                      <li nz-menu-item>
+                        <a>Action 2</a>
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a class="operation">Stop</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a>More</a>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </tr>
     </ng-template>
-    <nz-list-item-meta nzTitle="账户密码" [nzDescription]="passwordDesc">
-      <ng-template #passwordDesc>
-        当前密码强度：<span class="text-green">强</span>
-      </ng-template>
-    </nz-list-item-meta>
-  </nz-list-item>
-  <nz-list-item [nzActions]="[phoneOp]">
-    <ng-template #phoneOp>
-      <a (click)="msg.success('Edit')">修改</a>
-    </ng-template>
-    <nz-list-item-meta nzTitle="密保手机" [nzDescription]="phoneDesc">
-      <ng-template #phoneDesc>
-        已绑定手机：159****2231
-      </ng-template>
-    </nz-list-item-meta>
-  </nz-list-item>
-  <nz-list-item [nzActions]="[questionOp]">
-    <ng-template #questionOp>
-      <a (click)="msg.success('Edit')">修改</a>
-    </ng-template>
-    <nz-list-item-meta nzTitle="密保问题" [nzDescription]="questionDesc">
-      <ng-template #questionDesc>
-        未设置密保问题，密保问题可有效保护账户安全
-      </ng-template>
-    </nz-list-item-meta>
-  </nz-list-item>
-  <nz-list-item [nzActions]="[emailOp]">
-    <ng-template #emailOp>
-      <a (click)="msg.success('Edit')">修改</a>
-    </ng-template>
-    <nz-list-item-meta nzTitle="备用邮箱" [nzDescription]="emailDesc">
-      <ng-template #emailDesc>
-        已绑定邮箱：cip*****.com
-      </ng-template>
-    </nz-list-item-meta>
-  </nz-list-item>
-  <nz-list-item [nzActions]="[mfaOp]">
-    <ng-template #mfaOp>
-      <a (click)="msg.success('Edit')">修改</a>
-    </ng-template>
-    <nz-list-item-meta nzTitle="MFA 设备" [nzDescription]="mfaDesc">
-      <ng-template #mfaDesc>
-        未绑定 MFA 设备，绑定后，可以进行二次确认
-      </ng-template>
-    </nz-list-item-meta>
-  </nz-list-item>
-</nz-list>
+  </tbody>
+</nz-table>

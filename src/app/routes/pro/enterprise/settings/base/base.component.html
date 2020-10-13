@@ -8,25 +8,16 @@
         (submit)="save()"
         se-container="1"
       >
-        <se label="邮箱" error="请输入您的邮箱!">
-          <input
-            nz-input
-            type="email"
-            [(ngModel)]="user.email"
-            name="email"
-            required
-          />
-        </se>
-        <se label="昵称" error="请输入您的昵称!">
+        <se label="公司名字" error="请输入公司名字!">
           <input nz-input [(ngModel)]="user.name" name="name" required />
         </se>
-        <se label="个人简介">
+        <se label="公司简介">
           <textarea
             nz-input
             [(ngModel)]="user.profile"
             name="profile"
             [nzAutosize]="{ minRows: 4, maxRows: 10 }"
-            placeholder="个人简介"
+            placeholder="公司简介"
           ></textarea>
         </se>
         <se label="国家/地区">
@@ -63,28 +54,18 @@
             </nz-select>
           </div>
         </se>
-        <se label="街道地址" error="请输入您的街道地址!">
+        <se label="地址" error="请输入您的地址!">
           <input nz-input [(ngModel)]="user.address" name="address" required />
         </se>
-        <se label="联系电话" error="请输入您的联系电话!">
+        <se label="联系电话" error="请输入公司的联系电话!">
           <input nz-input [(ngModel)]="user.phone" name="phone" required />
         </se>
         <se>
           <button nz-button nzType="primary" [disabled]="f.invalid">
-            更新基本信息
+            更新公司信息
           </button>
         </se>
       </form>
-    </div>
-    <div class="right">
-      <div class="avatar_title">Avatar</div>
-      <div class="avatar"><img src="{{ user.avatar }}" alt="Avatar" /></div>
-      <nz-upload nzAction="/user/avatar" [nzShowUploadList]="false">
-        <button nz-button class="button_view">
-          <i nz-icon nzType="upload"></i>
-          <span>更换头像</span>
-        </button>
-      </nz-upload>
     </div>
   </div>
 </nz-spin>

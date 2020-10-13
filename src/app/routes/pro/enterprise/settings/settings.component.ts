@@ -32,11 +32,7 @@ export class ProEnterpriseSettingsComponent
     },
     {
       key: "security",
-      title: "站点管理",
-    },
-    {
-      key: "binding",
-      title: "人员管理",
+      title: "站点/人员",
     },
     {
       key: "notification",
