@@ -140,8 +140,15 @@
                   {{ item.last_reply_at }}
                 </div>
                 <div *ngIf="!selectId" style="width: 33%">
-                  <div>{{ item.url }}</div>
-                  <div *ngIf="item.title">{{ item.title }}</div>
+                  <div class="line-height-24" *ngIf="item.url">
+                    {{ item.url }}
+                  </div>
+                  <div class="line-height-24" *ngIf="item.title">
+                    {{ item.title }}
+                  </div>
+                  <div class="line-height-24" *ngIf="item.referer">
+                    {{ item.referer }}
+                  </div>
                 </div>
               </li>
             </ul>
@@ -228,8 +235,15 @@
                   {{ item.last_reply_at }}
                 </div>
                 <div *ngIf="!selectId" style="width: 33%">
-                  <div>{{ item.url }}</div>
-                  <div *ngIf="item.title">{{ item.title }}</div>
+                  <div class="line-height-24" *ngIf="item.url">
+                    {{ item.url }}
+                  </div>
+                  <div class="line-height-24" *ngIf="item.title">
+                    {{ item.title }}
+                  </div>
+                  <div class="line-height-24" *ngIf="item.referer">
+                    {{ item.referer }}
+                  </div>
                 </div>
               </li>
             </ul>
