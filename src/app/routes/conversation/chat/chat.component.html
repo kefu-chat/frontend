@@ -109,13 +109,13 @@
                     nzIcon="user"
                     [nzSrc]="item.icon"
                     [style]="
-                      item.online_status == 0 ? 'filter: grayscale(1)' : ''
+                      !item.online_status ? 'filter: grayscale(1)' : ''
                     "
                   ></nz-avatar>
                   <div class="conversation-list-content">
                     <div class="conversation-visitor-name">
                       {{ item.visitor.name }}
-                      {{ item.online_status == 0 ? "(已离线)" : "" }}
+                      {{ !item.online_status ? "(已离线)" : "" }}
                     </div>
                     <div class="last-message" *ngIf="item.last_message">
                       <span>
@@ -204,13 +204,13 @@
                     nzIcon="user"
                     [nzSrc]="item.icon"
                     [style]="
-                      item.online_status == 0 ? 'filter: grayscale(1)' : ''
+                      !item.online_status ? 'filter: grayscale(1)' : ''
                     "
                   ></nz-avatar>
                   <div class="conversation-list-content">
                     <div class="conversation-visitor-name">
                       {{ item.visitor.name }}
-                      {{ item.online_status == 0 ? "(已离线)" : "" }}
+                      {{ !item.online_status ? "(已离线)" : "" }}
                     </div>
                     <div class="last-message" *ngIf="item.last_message">
                       <span>
@@ -299,13 +299,13 @@
                     nzIcon="user"
                     [nzSrc]="item.icon"
                     [style]="
-                      item.online_status == 0 ? 'filter: grayscale(1)' : ''
+                      !item.online_status ? 'filter: grayscale(1)' : ''
                     "
                   ></nz-avatar>
                   <div class="conversation-list-content">
                     <div class="conversation-visitor-name">
                       {{ item.visitor.name }}
-                      {{ item.online_status == 0 ? "(已离线)" : "" }}
+                      {{ !item.online_status ? "(已离线)" : "" }}
                     </div>
                     <div class="last-message" *ngIf="item.last_message">
                       <span>
