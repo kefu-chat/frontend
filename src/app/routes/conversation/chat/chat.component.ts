@@ -105,7 +105,6 @@ export class ChatComponent implements OnInit {
       ) {
         this.currentTab = 2;
       }
-
       this.echoSrv.Echo.join(
         `institution.${this.institutionId}.assigned.${this.userId}`
       )
@@ -149,7 +148,6 @@ export class ChatComponent implements OnInit {
       this.unassignedData = this.unassignedData.concat(
         unassignedData.data.conversations
       );
-
       this.echoSrv.Echo.join(`institution.${this.institutionId}`)
         .listen(`.conversation.created`, (conversation: Conversation) => {
           const unassigned = this.unassignedData;
@@ -203,11 +201,9 @@ export class ChatComponent implements OnInit {
         const arr = [...this.assignedData, ...this.unassignedData];
         for (const i of arr) {
           if (i.id === this.selectId) {
-            this.navigate(this.selectId);
           }
         }
       } else {
-        this.navigate(this.assignedData[0].id);
         localStorage.setItem(
           "selectId",
           JSON.stringify(this.assignedData[0].id)
@@ -221,12 +217,10 @@ export class ChatComponent implements OnInit {
 
   to(item: { id: any }): void {
     this.selectId = item.id;
-    // localStorage.setItem("selectId", JSON.stringify(item.id));
-    this.navigate(item.id);
   }
 
-  navigate(id: any): void {
-    const url = `/conversation/chat/${id}`;
-    this.router.navigateByUrl(url);
+  getMessageOutput(data: { id: string; message: any }): void {
+    // console.log(this.assignedData.filter((v) => v.id == data.id));
+    // console.log(data.id);
   }
 }
