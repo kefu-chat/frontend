@@ -10,7 +10,7 @@ export class EchoService {
   constructor() {}
 
   init(): void {
-    let store = JSON.parse(localStorage.getItem("_token"));
+    const store = JSON.parse(localStorage.getItem("_token"));
     if (store) {
       const token = store.token;
       this.Echo = new Echo({
