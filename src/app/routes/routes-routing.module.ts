@@ -6,10 +6,10 @@ import { environment } from "@env/environment";
 import { LayoutDefaultComponent } from "../layout/default/default.component";
 import { LayoutFullScreenComponent } from "../layout/fullscreen/fullscreen.component";
 import { LayoutPassportComponent } from "../layout/passport/passport.component";
-import { EmailVerifyComponent } from "./passport/verify/email-verify.component";
 import { UserLoginComponent } from "./passport/login/login.component";
 import { UserRegisterResultComponent } from "./passport/register-result/register-result.component";
 import { UserRegisterComponent } from "./passport/register/register.component";
+import { EmailVerifyComponent } from "./passport/verify/email-verify.component";
 
 const routes: Routes = [
   {

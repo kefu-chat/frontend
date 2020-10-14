@@ -348,6 +348,6 @@
     </div>
   </div>
   <div nz-col class="chat-right" *ngIf="selectId">
-    <router-outlet [id]="selectId"></router-outlet>
+    <app-chat-detail [sid]="selectId" (messageOutput)="getMessageOutput($event)"></app-chat-detail>
   </div>
 </div>

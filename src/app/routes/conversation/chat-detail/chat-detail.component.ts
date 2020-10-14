@@ -1,4 +1,11 @@
-import { Component, ElementRef, EventEmitter, OnInit } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { EmojiEvent } from "@ctrl/ngx-emoji-mart/ngx-emoji";
 import { _HttpClient } from "@delon/theme";
@@ -39,14 +46,19 @@ export class ChatDetailComponent implements OnInit {
   conversation: Conversation;
   visitor: Visitor;
   imgWidth: number;
+  @Input()
+  set sid(id: string) {
+    this.id = id;
+    this.initData();
+  }
+  @Output() messageOutput: EventEmitter<any> = new EventEmitter();
+
   get user(): User {
     return this.settings.user;
   }
-
   get nowfirstMsgId(): string {
     return this.messageList[0].id;
   }
-
   get userAnnotation(): string {
     const arr = [];
     if (this.visitor.unique_id !== this.visitor.name) {
@@ -82,57 +94,56 @@ export class ChatDetailComponent implements OnInit {
 
   ngOnInit(): void {
     askNotificationPermission().then(console.log);
+  }
 
-    this.route.params.subscribe((params: Params) => {
-      this.id = params.id;
-      // tslint:disable-next-line: triple-equals
-      if (this.id == 0) {
-        return false;
+  initData(): void {
+    // tslint:disable-next-line: triple-equals
+    if (this.id == 0 || !this.id) {
+      return;
+    }
+    this.channel = `conversation.${this.id}`;
+    this.getData(this.id, "", () => {
+      if (!this.messageEl) {
+        return;
       }
-      this.channel = `conversation.${this.id}`;
-      this.getData(this.id, "", () => {
-        if (!this.messageEl) {
+      this.messageEl.scrollTop = this.messageEl.scrollHeight;
+    });
+    for (const i of Object.keys(this.echoSrv.Echo.connector.channels)) {
+      if (i.indexOf("presence-conversation.") === 0) {
+        this.echoSrv.Echo.leave(i);
+      }
+    }
+    this.socket = this.echoSrv.Echo.join(this.channel)
+      .here(console.log)
+      .joining(console.log)
+      .leaving((user: MessageUser) => {
+        if (user.id !== this.visitor.id) {
           return;
         }
-        this.messageEl.scrollTop = this.messageEl.scrollHeight;
-      });
-      for (const i of Object.keys(this.echoSrv.Echo.connector.channels)) {
-        if (i.indexOf("presence-conversation.") === 0) {
-          this.echoSrv.Echo.leave(i);
-        }
-      }
-      this.socket = this.echoSrv.Echo.join(this.channel)
-        .here(console.log)
-        .joining(console.log)
-        .leaving((user: MessageUser) => {
-          if (user.id !== this.visitor.id) {
-            return;
-          }
 
-          this.conversation.online_status = false;
-        })
-        // .listen(".message.created", (e) => {
-        //   this.messageList.push(e);
-        //   setTimeout(() => {
-        //     this.scrollTo();
-        //   }, 200);
-        // })
-        .listenForWhisper("message", (e) => {
-          this.messageList.push(e);
-          playIncomingAudio();
-          setTimeout(() => {
-            this.scrollTo();
-          }, 200);
-        })
-        .listenForWhisper("startTyping", (evt) => {
-          console.log(evt);
-          this.typing = true;
-        })
-        .listenForWhisper("stopTyping", (evt) => {
-          console.log(evt);
-          this.typing = false;
-        });
-    });
+        this.conversation.online_status = false;
+      })
+      // .listen(".message.created", (e) => {
+      //   this.messageList.push(e);
+      //   setTimeout(() => {
+      //     this.scrollTo();
+      //   }, 200);
+      // })
+      .listenForWhisper("message", (e) => {
+        this.messageList.push(e);
+        playIncomingAudio();
+        setTimeout(() => {
+          this.scrollTo();
+        }, 200);
+      })
+      .listenForWhisper("startTyping", (evt) => {
+        console.log(evt);
+        this.typing = true;
+      })
+      .listenForWhisper("stopTyping", (evt) => {
+        console.log(evt);
+        this.typing = false;
+      });
   }
 
   getData(id: string, offset?: string, callback?: () => void): void {
@@ -210,6 +221,7 @@ export class ChatDetailComponent implements OnInit {
               this.fileList = [];
               this.whisper(message);
               this.messageList.push(message);
+              this.messageOutput.emit({ id: this.id, message });
 
               setTimeout(() => {
                 this.scrollTo();
