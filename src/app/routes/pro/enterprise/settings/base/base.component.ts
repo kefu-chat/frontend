@@ -5,6 +5,7 @@ import {
   OnInit,
 } from "@angular/core";
 import { _HttpClient } from "@delon/theme";
+import { NzAutocompleteOptionComponent } from 'ng-zorro-antd/auto-complete';
 import { NzMessageService } from "ng-zorro-antd/message";
 import { zip } from "rxjs";
 import { Enterprise } from "../../../../../model/application/conversation.interface";
@@ -36,6 +37,7 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
   cities: ProEnterpriseSettingsCity[] = [];
   areas: ProEnterpriseSettingsCity[] = [];
   streets: ProEnterpriseSettingsCity[] = [];
+  enterpriseSuggestion: any[] = [];
 
   ngOnInit(): void {
     zip(
@@ -140,5 +142,49 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         this.msg.success("保存成功");
       });
     return false;
+  }
+
+  search(evt: KeyboardEvent): void {
+    const name = (evt.target as HTMLInputElement).value;
+    this.http
+      .get(`api/enterprise/name-suggest`, { name })
+      .subscribe(
+        (res: {
+          success: boolean;
+          message?: string;
+          data: { list: any[] };
+        }) => {
+          if (!res.success) {
+            this.msg.error(res.message);
+            return;
+          }
+
+          this.enterpriseSuggestion = res.data.list;
+        }
+      );
+  }
+
+  autoFill(option: NzAutocompleteOptionComponent): void {
+    const pid = option.nzValue.pid;
+    this.http
+      .get(`api/enterprise/name-suggest-detail`, { pid })
+      .subscribe(
+        (res: {
+          success: boolean;
+          message?: string;
+          data: { dataInfo: any; regAddr: string; telephone: string; };
+        }) => {
+          if (!res.success) {
+            this.msg.error(res.message);
+            return;
+          }
+
+          this.enterprise.serial = res.data.dataInfo.basic.regNo;
+          this.enterprise.address = res.data.regAddr;
+          this.enterprise.phone = res.data.telephone;
+
+          this.cdr.detectChanges();
+        }
+      );
   }
 }

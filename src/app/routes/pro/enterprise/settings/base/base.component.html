@@ -1,32 +1,20 @@
 <nz-spin [nzSpinning]="enterpriseLoading">
   <div class="main" *ngIf="enterprise">
     <div class="left">
-      <form
-        nz-form
-        nzLayout="vertical"
-        #f="ngForm"
-        (submit)="save()"
-        se-container="1"
-      >
+      <form nz-form nzLayout="vertical" #f="ngForm" (submit)="save()" se-container="1">
         <se label="公司名字" error="请输入公司名字!">
-          <input nz-input [(ngModel)]="enterprise.name" name="name" required />
+          <input nz-input [(ngModel)]="enterprise.name" [nzAutocomplete]="enterpriseSuggest" (keypress)="search($event)" (change)="search($event)" name="name" autocomplete="none" required />
+          <nz-autocomplete nzBackfill #enterpriseSuggest (selectionChange)="autoFill($event)">
+            <nz-auto-option *ngFor="let enterpriseSuggestionItem of enterpriseSuggestion" [nzValue]="enterpriseSuggestionItem" [nzLabel]="enterpriseSuggestionItem.resultStr">
+              {{ enterpriseSuggestionItem.resultStr }}
+            </nz-auto-option>
+          </nz-autocomplete>
         </se>
         <se label="工商注册号" error="请输入工商注册号!">
-          <input
-            nz-input
-            [(ngModel)]="enterprise.serial"
-            name="serial"
-            placeholder="请输入工商注册号"
-          />
+          <input nz-input [(ngModel)]="enterprise.serial" name="serial" placeholder="请输入工商注册号" />
         </se>
         <se label="公司简介">
-          <textarea
-            nz-input
-            [(ngModel)]="enterprise.profile"
-            name="profile"
-            [nzAutosize]="{ minRows: 4, maxRows: 10 }"
-            placeholder="公司简介"
-          ></textarea>
+          <textarea nz-input [(ngModel)]="enterprise.profile" name="profile" [nzAutosize]="{ minRows: 4, maxRows: 10 }" placeholder="公司简介"></textarea>
         </se>
         <se label="国家/地区">
           <nz-select [(ngModel)]="enterprise.country" name="country" required>
@@ -35,77 +23,25 @@
         </se>
         <se label="所在省市">
           <div class="d-flex justify-content-between">
-            <nz-select
-              [(ngModel)]="enterprise.geographic.province.key"
-              (ngModelChange)="choProvince($event)"
-              name="geographic.province.key"
-              required
-              [class]="'width-25 ' + (cities && cities.length ? 'mr-sm' : '')"
-            >
-              <nz-option
-                *ngFor="let p of provinces"
-                [nzLabel]="p.name"
-                [nzValue]="p.id"
-              ></nz-option>
+            <nz-select [(ngModel)]="enterprise.geographic.province.key" (ngModelChange)="choProvince($event)" name="geographic.province.key" required [class]="'width-25 ' + (cities && cities.length ? 'mr-sm' : '')">
+              <nz-option *ngFor="let p of provinces" [nzLabel]="p.name" [nzValue]="p.id"></nz-option>
             </nz-select>
-            <nz-select
-              [(ngModel)]="enterprise.geographic.city.key"
-              (ngModelChange)="choCity($event)"
-              name="geographic.city.key"
-              required
-              *ngIf="cities && cities.length"
-              [class]="'width-25 ' + (areas && areas.length ? 'mr-sm' : '')"
-            >
-              <nz-option
-                *ngFor="let p of cities"
-                [nzLabel]="p.name"
-                [nzValue]="p.id"
-              ></nz-option>
+            <nz-select [(ngModel)]="enterprise.geographic.city.key" (ngModelChange)="choCity($event)" name="geographic.city.key" required *ngIf="cities && cities.length" [class]="'width-25 ' + (areas && areas.length ? 'mr-sm' : '')">
+              <nz-option *ngFor="let p of cities" [nzLabel]="p.name" [nzValue]="p.id"></nz-option>
             </nz-select>
-            <nz-select
-              [(ngModel)]="enterprise.geographic.area.key"
-              (ngModelChange)="choArea($event)"
-              name="geographic.area.key"
-              required
-              *ngIf="areas && areas.length"
-              [class]="'width-25 ' + (streets && streets.length ? 'mr-sm' : '')"
-            >
-              <nz-option
-                *ngFor="let p of areas"
-                [nzLabel]="p.name"
-                [nzValue]="p.id"
-              ></nz-option>
+            <nz-select [(ngModel)]="enterprise.geographic.area.key" (ngModelChange)="choArea($event)" name="geographic.area.key" required *ngIf="areas && areas.length" [class]="'width-25 ' + (streets && streets.length ? 'mr-sm' : '')">
+              <nz-option *ngFor="let p of areas" [nzLabel]="p.name" [nzValue]="p.id"></nz-option>
             </nz-select>
-            <nz-select
-              [(ngModel)]="enterprise.geographic.street.key"
-              name="geographic.street.key"
-              required
-              class="width-25"
-              *ngIf="streets && streets.length"
-            >
-              <nz-option
-                *ngFor="let p of streets"
-                [nzLabel]="p.name"
-                [nzValue]="p.id"
-              ></nz-option>
+            <nz-select [(ngModel)]="enterprise.geographic.street.key" name="geographic.street.key" required class="width-25" *ngIf="streets && streets.length">
+              <nz-option *ngFor="let p of streets" [nzLabel]="p.name" [nzValue]="p.id"></nz-option>
             </nz-select>
           </div>
         </se>
         <se label="地址" error="请输入您的地址!">
-          <input
-            nz-input
-            [(ngModel)]="enterprise.address"
-            name="address"
-            required
-          />
+          <input nz-input [(ngModel)]="enterprise.address" name="address" required />
         </se>
         <se label="联系电话" error="请输入公司的联系电话!">
-          <input
-            nz-input
-            [(ngModel)]="enterprise.phone"
-            name="phone"
-            required
-          />
+          <input nz-input [(ngModel)]="enterprise.phone" name="phone" required />
         </se>
         <se>
           <button nz-button nzType="primary" [disabled]="f.invalid">
