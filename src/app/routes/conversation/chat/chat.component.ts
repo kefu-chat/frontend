@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { SettingsService, User, _HttpClient } from "@delon/theme";
 import {

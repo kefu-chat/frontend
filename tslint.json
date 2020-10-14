@@ -1,9 +1,19 @@
 {
-  "extends": ["tslint:recommended", "tslint-config-prettier"],
-  "rulesDirectory": ["codelyzer", "ng-alain-codelyzer"],
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-prettier"
+  ],
+  "rulesDirectory": [
+    "codelyzer",
+    "ng-alain-codelyzer",
+    "nz-tslint-rules"
+  ],
   "rules": {
     "align": {
-      "options": ["parameters", "statements"]
+      "options": [
+        "parameters",
+        "statements"
+      ]
     },
     "array-type": false,
     "arrow-return-shorthand": true,
@@ -36,10 +46,15 @@
     ],
     "import-spacing": true,
     "indent": {
-      "options": ["spaces"]
+      "options": [
+        "spaces"
+      ]
     },
     "max-classes-per-file": false,
-    "max-line-length": [false, 140],
+    "max-line-length": [
+      false,
+      140
+    ],
     "member-ordering": [
       true,
       {
@@ -51,17 +66,35 @@
         ]
       }
     ],
-    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
+    "no-console": [
+      true,
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
+    ],
     "no-empty": false,
-    "no-inferrable-types": [true, "ignore-params"],
-    "no-non-null-assertion": true,
+    "no-inferrable-types": [
+      true,
+      "ignore-params"
+    ],
+    "no-non-null-assertion": false,
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,
     "no-var-requires": false,
-    "object-literal-key-quotes": [true, "as-needed"],
-    "quotemark": [false, "single"],
+    "object-literal-key-quotes": [
+      true,
+      "as-needed"
+    ],
+    "quotemark": [
+      false,
+      "single"
+    ],
     "semicolon": {
-      "options": ["always"]
+      "options": [
+        "always"
+      ]
     },
     "space-before-function-paren": {
       "options": {
@@ -91,7 +124,10 @@
       ]
     },
     "variable-name": {
-      "options": ["ban-keywords", "allow-pascal-case"]
+      "options": [
+        "ban-keywords",
+        "allow-pascal-case"
+      ]
     },
     "whitespace": {
       "options": [
@@ -123,9 +159,10 @@
       }
     ],
     "use-path-mapping": [true, ["@core", "@shared"]],
-    "triple-equals": [true, "allow-null-check"],
+    "triple-equals": [false, "allow-null-check"],
     "typedef": [true, "call-signature", "parameter", "property-declaration"],
     "use-isnan": true,
-    "unified-signatures": true
+    "unified-signatures": true,
+    "nz-secondary-entry-imports": true
   }
 }
