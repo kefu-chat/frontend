@@ -120,7 +120,7 @@ const routes: Routes = [
             data: { titleI18n: "pro-enterprise-settings" },
           },
           {
-            path: "security",
+            path: "structure",
             component: ProEnterpriseSettingsStructureComponent,
             data: { titleI18n: "pro-enterprise-settings" },
           },

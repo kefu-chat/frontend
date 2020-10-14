@@ -1,5 +1,5 @@
 <button nz-button nzType="primary" class="mb-md">添加站点</button>
-<nz-table #websitesTable [nzData]="websites" [nzPageSize]="10">
+<nz-table #websitesTable [nzData]="websites" [nzPageSize]="10" [nzLoading]="loading">
   <thead>
     <tr>
       <th></th>
@@ -11,7 +11,9 @@
     </tr>
   </thead>
   <tbody>
-    <ng-template ngFor let-data [ngForOf]="websitesTable.data">
+    <!-- <ng-template ngFor let-data [ngForOf]="websites" [ngForTrackBy]="trackBy"> -->
+      <ng-container *ngFor="let data of websites">
+
       <tr>
         <td [(nzExpand)]="data.expand" (nzExpandChange)="expand(data)"></td>
         <td>{{ data.name }}</td>
@@ -28,7 +30,7 @@
           #employeesTable
           [nzData]="employees"
           nzSize="middle"
-          [nzShowPagination]="false"
+          [nzShowPagination]="true"
         >
           <thead>
             <tr>
@@ -91,6 +93,8 @@
           </tbody>
         </nz-table>
       </tr>
-    </ng-template>
+    </ng-container>
+
+    <!-- </ng-template> -->
   </tbody>
 </nz-table>

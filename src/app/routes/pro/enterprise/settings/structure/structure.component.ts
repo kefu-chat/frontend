@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef} from "@angular/core";
 import { _HttpClient } from "@delon/theme";
 import { NzMessageService } from "ng-zorro-antd/message";
 import {
@@ -7,27 +7,33 @@ import {
 } from "../../../../../model/application/conversation.interface";
 
 @Component({
-  selector: "app-enterprise-settings-security",
+  selector: "app-enterprise-settings-structure",
   templateUrl: "./structure.component.html",
 })
 export class ProEnterpriseSettingsStructureComponent implements OnInit {
-  constructor(public msg: NzMessageService, private http: _HttpClient) {}
+  constructor(public msg: NzMessageService, private http: _HttpClient, private cdr: ChangeDetectorRef) {}
 
-  websites: Website[];
-  employees: User[];
+  websites: Website[] = [];
+  employees: User[] = [];
+  loading:boolean = false;
 
   ngOnInit(): void {
     this.loadInstitutionList();
   }
 
   loadInstitutionList(query?: { page?: number; per_page?: number }): void {
+    this.loading = true;
     this.http
       .get(`api/institution/list`, query)
       .subscribe((res: { data: { list: { data: Website[] } } }) => {
-        this.websites = res.data.list.data;
-        if (this.websites.length) {
-          this.loadEmployeeList(this.websites[0].id);
-        }
+        this.loading = false;
+        setTimeout(()=>{
+          this.websites = res.data.list.data;
+          if (this.websites.length) {
+            this.loadEmployeeList(this.websites[0].id);
+          }
+        })
+        
       });
   }
 
@@ -49,6 +55,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       .get(`api/institution/${siteId}/employee/list`, query)
       .subscribe((res: { data: { list: { data: User[] } } }) => {
         this.employees = res.data.list.data;
+        this.cdr.markForCheck()
       });
 
     return;
@@ -60,5 +67,10 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     }
     this.loadEmployeeList(website.id);
     return true;
+  }
+
+  trackBy(website: Website): string {
+    console.log(website)
+    return website.id;
   }
 }
