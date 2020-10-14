@@ -19,7 +19,7 @@ import { ProEnterpriseCenterProjectsComponent } from "./enterprise/center/projec
 import { ProEnterpriseSettingsBaseComponent } from "./enterprise/settings/base/base.component";
 import { ProEnterpriseSettingsBindingComponent } from "./enterprise/settings/binding/binding.component";
 import { ProEnterpriseSettingsNotificationComponent } from "./enterprise/settings/notification/notification.component";
-import { ProEnterpriseSettingsSecurityComponent } from "./enterprise/settings/security/security.component";
+import { ProEnterpriseSettingsStructureComponent } from "./enterprise/settings/structure/structure.component";
 import { ProEnterpriseSettingsComponent } from "./enterprise/settings/settings.component";
 
 const routes: Routes = [
@@ -121,7 +121,7 @@ const routes: Routes = [
           },
           {
             path: "security",
-            component: ProEnterpriseSettingsSecurityComponent,
+            component: ProEnterpriseSettingsStructureComponent,
             data: { titleI18n: "pro-enterprise-settings" },
           },
           {

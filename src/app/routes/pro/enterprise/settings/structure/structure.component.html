@@ -1,0 +1,96 @@
+<button nz-button nzType="primary" class="mb-md">添加站点</button>
+<nz-table #websitesTable [nzData]="websites" [nzPageSize]="10">
+  <thead>
+    <tr>
+      <th></th>
+      <th>网站名</th>
+      <th>域名</th>
+      <th>员工数</th>
+      <th>创建时间</th>
+      <th class="text-right">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-data [ngForOf]="websitesTable.data">
+      <tr>
+        <td [(nzExpand)]="website.expand"></td>
+        <td>{{ website.name }}</td>
+        <td>{{ website.website }}</td>
+        <td>{{ website.users_count }}</td>
+        <td>{{ website.created_at }}</td>
+        <td class="text-right">
+          <a>更改</a>
+        </td>
+      </tr>
+      <tr [nzExpand]="website.expand">
+        <button nz-button nzType="primary" class="mb-md">添加客服</button>
+        <nz-table
+          #employeesTable
+          [nzData]="employees"
+          nzSize="middle"
+          [nzShowPagination]="false"
+        >
+          <thead>
+            <tr>
+              <th>姓名</th>
+              <th>员工状态</th>
+              <th>接待会话数</th>
+              <th class="text-right">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of employeesTable.data">
+              <td>{{ data.name }}</td>
+              <td>
+                <nz-badge
+                  [nzStatus]="'success'"
+                  [nzText]="'有效'"
+                  *ngIf="data.status"
+                ></nz-badge>
+                <nz-badge
+                  [nzStatus]="'warning'"
+                  [nzText]="'已禁用'"
+                  *ngIf="!data.status"
+                ></nz-badge>
+              </td>
+              <td>{{ data.upgradeNum }}</td>
+              <td class="text-right">
+                <span class="table-operation">
+                  <a class="operation">禁用</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a nz-dropdown class="operation" [nzDropdownMenu]="menu">
+                    更多 <i nz-icon nzType="down"></i>
+                  </a>
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item>
+                        <a>修改资料</a>
+                      </li>
+                      <li nz-menu-item>
+                        <a>修改密码</a>
+                      </li>
+                      <li nz-submenu nzTitle="修改权限">
+                        <ul>
+                          <li nz-menu-item>
+                            <a>管理员</a>
+                          </li>
+                          <li nz-menu-item>
+                            <a>客服</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li nz-menu-divider></li>
+                      <li nz-menu-item>
+                        <a>穿越</a>
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </tr>
+    </ng-template>
+  </tbody>
+</nz-table>

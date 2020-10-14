@@ -11,6 +11,14 @@
         <se label="公司名字" error="请输入公司名字!">
           <input nz-input [(ngModel)]="enterprise.name" name="name" required />
         </se>
+        <se label="工商注册号" error="请输入工商注册号!">
+          <input
+            nz-input
+            [(ngModel)]="enterprise.serial"
+            name="serial"
+            placeholder="请输入工商注册号"
+          />
+        </se>
         <se label="公司简介">
           <textarea
             nz-input

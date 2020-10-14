@@ -26,6 +26,22 @@ export interface Conversation {
   referer?: string;
 }
 
+export interface Website {
+  id: string;
+  name: string;
+  website: string;
+  terminate_manual: null | string;
+  created_at?: string;
+  updated_at?: null | string;
+  users?: User[];
+  users_count: string;
+  visitors: string;
+  visitors_count: string;
+  enterprise: string;
+  public_id: string;
+  expand: boolean;
+}
+
 export interface User {
   id: any;
   institution_id: any;
@@ -36,6 +52,7 @@ export interface User {
   updated_at: string;
   avatar: string;
   title?: string;
+  conversations_count?: number;
 }
 
 export interface Visitor {
