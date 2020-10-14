@@ -30,16 +30,46 @@ export interface Website {
   id: string;
   name: string;
   website: string;
-  terminate_manual: null | string;
+  terminate_manual?: null | string;
   created_at?: string;
   updated_at?: null | string;
   users?: User[];
-  users_count: string;
-  visitors: string;
-  visitors_count: string;
-  enterprise: string;
-  public_id: string;
-  expand: boolean;
+  billing_name?: string | null;
+  billing_phone?: string | null;
+  technical_name?: string | null;
+  technical_phone?: string | null;
+  users_count?: number | null;
+  visitors?: Visitor[];
+  visitors_count?: number | null;
+  enterprise?: Enterprise;
+  public_id?: string;
+  expand?: boolean;
+  terminate_timeout?: string;
+  greeting_message?: string;
+  enterprise_id?: string | number;
+}
+
+export interface Enterprise {
+  name: string;
+  serial: string;
+  profile: string;
+  country: string;
+  address: string;
+  phone: string;
+  geographic: {
+    province: {
+      key: string;
+    };
+    city: {
+      key: string;
+    };
+    area: {
+      key: string;
+    };
+    street: {
+      key: string;
+    };
+  };
 }
 
 export interface User {
@@ -50,6 +80,7 @@ export interface User {
   email_verified_at?: any;
   created_at: string;
   updated_at: string;
+  deleted_at?: string;
   avatar: string;
   title?: string;
   conversations_count?: number;

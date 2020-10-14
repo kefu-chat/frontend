@@ -7,28 +7,7 @@ import {
 import { _HttpClient } from "@delon/theme";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { zip } from "rxjs";
-
-interface ProEnterpriseSettingsUser {
-  name: string;
-  profile: string;
-  country: string;
-  address: string;
-  phone: string;
-  geographic: {
-    province: {
-      key: string;
-    };
-    city: {
-      key: string;
-    };
-    area: {
-      key: string;
-    };
-    street: {
-      key: string;
-    };
-  };
-}
+import { Enterprise } from "../../../../../model/application/conversation.interface";
 
 interface ProEnterpriseSettingsCity {
   name: string;
@@ -49,7 +28,7 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
   ) {}
   avatar = "";
   enterpriseLoading = true;
-  enterprise: ProEnterpriseSettingsUser;
+  enterprise: Enterprise;
 
   // #region geo
 
