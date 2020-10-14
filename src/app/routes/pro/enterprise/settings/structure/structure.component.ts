@@ -22,6 +22,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   websites: Website[] = [];
   employees: User[] = [];
   loading = false;
+  institutionId: string;
 
   drawerWebsite = false;
   drawerEmployee = false;
@@ -55,6 +56,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     siteId: string,
     query?: { page?: number; per_page?: number }
   ): void {
+    this.institutionId = siteId;
     this.websites.forEach((site) => (site.expand = false));
 
     const sites = this.websites.filter((site) => site.id === siteId);
@@ -66,7 +68,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     sites[0].expand = true;
 
     this.http
-      .get(`api/institution/${siteId}/employee/list`, query)
+      .get(`api/institution/${siteId}/employee/list`, {per_page: 9999, ...query})
       .subscribe((res: { data: { list: { data: User[] } } }) => {
         this.employees = res.data.list.data;
         this.cdr.markForCheck();
@@ -159,10 +161,56 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   }
 
   submitWebsiteForm(): void {
-    // @todo:
+    let url = `api/institution/create`;
+    if (this.drawerWebsiteAction == `update`) {
+      url = `api/institution/${this.drawerWebsiteData.id}/update`;
+    }
+
+    this.http
+      .post(url, this.drawerWebsiteForm.getRawValue())
+      .subscribe((res: { data: { institution: Website } }) => {
+        this.drawerWebsiteData = res.data.institution;
+        this.drawerWebsiteForm = this.fb.group(this.drawerWebsiteData);
+
+        if (this.drawerWebsiteAction === 'update') {
+          try {
+            this.websites.filter(w => w.id === res.data.institution.id)[0] = res.data.institution;
+          } catch (e) {
+            console.error(e);
+          }
+        } else {
+          this.websites.unshift(this.drawerWebsiteData);
+        }
+
+        this.cdr.markForCheck();
+        this.msg.success('成功!');
+      });
   }
 
   submitEmployeeForm(): void {
-    // @todo:
+    let url = `api/institution/${this.institutionId}/employee/create`;
+    if (this.drawerEmployeeAction == `update`) {
+      url = `api/institution/${this.institutionId}/employee/${this.drawerEmployeeData.id}/update`;
+    }
+
+    this.http
+      .post(url, this.drawerEmployeeForm.getRawValue())
+      .subscribe((res: { data: { employee: User } }) => {
+        this.drawerEmployeeData = res.data.employee;
+        this.drawerEmployeeForm = this.fb.group(this.drawerEmployeeData);
+
+        if (this.drawerEmployeeAction === 'update') {
+          try {
+            this.employees.filter(e => e.id === res.data.employee.id)[0] = res.data.employee;
+          } catch (e) {
+            console.error(e);
+          }
+        } else {
+          this.employees.push(res.data.employee);
+        }
+
+        this.cdr.markForCheck();
+        this.msg.success("成功!");
+      });
   }
 }
