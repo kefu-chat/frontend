@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef} from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { _HttpClient } from "@delon/theme";
 import { NzMessageService } from "ng-zorro-antd/message";
 import {
@@ -11,11 +12,27 @@ import {
   templateUrl: "./structure.component.html",
 })
 export class ProEnterpriseSettingsStructureComponent implements OnInit {
-  constructor(public msg: NzMessageService, private http: _HttpClient, private cdr: ChangeDetectorRef) {}
+  constructor(
+    public msg: NzMessageService,
+    private http: _HttpClient,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   websites: Website[] = [];
   employees: User[] = [];
-  loading:boolean = false;
+  loading = false;
+
+  drawerWebsite = false;
+  drawerEmployee = false;
+  drawerCode = false;
+  drawerWebsiteAction: "update" | "create";
+  drawerEmployeeAction: "update" | "create";
+  drawerWebsiteData: Website;
+  drawerEmployeeData: User;
+  drawerCodeData: Website;
+  drawerWebsiteForm: FormGroup;
+  drawerEmployeeForm: FormGroup;
 
   ngOnInit(): void {
     this.loadInstitutionList();
@@ -68,7 +85,76 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     return true;
   }
 
-  trackBy(website: Website): string {
-    return website.id;
+  updateWebsite(website: Website): void {
+    this.drawerWebsite = true;
+    this.drawerWebsiteAction = "update";
+    this.drawerWebsiteData = website;
+    this.drawerWebsiteForm = this.fb.group(this.drawerWebsiteData);
+    this.cdr.markForCheck();
+  }
+
+  updateEmployee(user: User): void {
+    this.drawerEmployee = true;
+    this.drawerEmployeeAction = "update";
+    this.drawerEmployeeData = user;
+    this.drawerEmployeeForm = this.fb.group(this.drawerEmployeeData);
+    this.cdr.markForCheck();
+  }
+
+  getCode(website: Website): void {
+    this.drawerCode = true;
+    this.drawerCodeData = website;
+    this.cdr.markForCheck();
+  }
+
+  createWebsite(): void {
+    this.drawerWebsite = true;
+    this.drawerWebsiteAction = "create";
+    this.drawerWebsiteData = {
+      id: "",
+      name: "",
+      website: "",
+      terminate_manual: "",
+      created_at: "",
+      updated_at: "",
+      billing_name: "",
+      billing_phone: "",
+      technical_name: "",
+      technical_phone: "",
+      terminate_timeout: "",
+      greeting_message: "",
+    };
+    this.drawerWebsiteForm = this.fb.group(this.drawerWebsiteData);
+    this.cdr.markForCheck();
+  }
+
+  createEmployee(): void {
+    this.drawerEmployee = true;
+    this.drawerEmployeeAction = "create";
+    this.drawerEmployeeData = {
+      id: "",
+      institution_id: "",
+      name: "",
+      email: "",
+      email_verified_at: "",
+      created_at: "",
+      updated_at: "",
+      deleted_at: "",
+      avatar: "",
+    };
+    this.drawerEmployeeForm = this.fb.group(this.drawerEmployeeData);
+    this.cdr.markForCheck();
+  }
+
+  drawerWebsiteClose(): void {
+    this.drawerWebsite = false;
+  }
+
+  drawerEmployeeClose(): void {
+    this.drawerEmployee = false;
+  }
+
+  drawerCodeClose(): void {
+    this.drawerCode = false;
   }
 }

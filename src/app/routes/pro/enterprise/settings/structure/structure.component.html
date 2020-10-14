@@ -1,4 +1,4 @@
-<button nz-button nzType="primary" class="mb-md">添加站点</button>
+<button nz-button nzType="primary" class="mb-md" (click)="createWebsite()">添加站点</button>
 <nz-table #websitesTable [nzData]="websites" [nzPageSize]="10" [nzLoading]="loading">
   <thead>
     <tr>
@@ -19,21 +19,21 @@
         <td>{{ data.users_count }}</td>
         <td>{{ data.created_at }}</td>
         <td class="text-right">
-          <a>更改</a>
+          <span class="table-operation">
+            <a (click)="updateWebsite(data)">修改资料</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="getCode(data)">获取安装代码</a>
+          </span>
         </td>
       </tr>
       <tr [nzExpand]="data.expand" *ngIf="data.expand">
-        <button nz-button nzType="primary" class="mb-md">添加客服</button>
-        <nz-table
-          #employeesTable
-          [nzData]="employees"
-          nzSize="middle"
-          [nzShowPagination]="true"
-        >
+        <button nz-button nzType="primary" class="mb-md" (click)="createEmployee()">添加客服</button>
+        <nz-table #employeesTable [nzData]="employees" nzSize="middle" [nzShowPagination]="true">
           <thead>
             <tr>
               <th>姓名</th>
               <th>权限</th>
+              <th>(邮箱/手机)验证</th>
               <th>员工状态</th>
               <th>接待会话数</th>
               <th class="text-right">操作</th>
@@ -43,23 +43,15 @@
             <tr *ngFor="let data of employeesTable.data">
               <td>{{ data.name }}</td>
               <td>
-                <nz-badge
-                  [nzStatus]="'success'"
-                  [nzText]="'permission.' + permission.name | i18n"
-                  *ngFor="let permission of data.permissions"
-                ></nz-badge>
+                <nz-badge [nzStatus]="'success'" [nzText]="'permission.' + permission.name | i18n" *ngFor="let permission of data.permissions"></nz-badge>
               </td>
               <td>
-                <nz-badge
-                  [nzStatus]="'success'"
-                  [nzText]="'有效'"
-                  *ngIf="!data.deleted_at"
-                ></nz-badge>
-                <nz-badge
-                  [nzStatus]="'warning'"
-                  [nzText]="'已禁用'"
-                  *ngIf="data.deleted_at"
-                ></nz-badge>
+                <nz-badge [nzStatus]="'success'" [nzText]="'已验证'" *ngIf="data.email_verified_at"></nz-badge>
+                <nz-badge [nzStatus]="'warning'" [nzText]="'未验证'" *ngIf="!data.email_verified_at"></nz-badge>
+              </td>
+              <td>
+                <nz-badge [nzStatus]="'success'" [nzText]="'有效'" *ngIf="!data.deleted_at"></nz-badge>
+                <nz-badge [nzStatus]="'warning'" [nzText]="'已禁用'" *ngIf="data.deleted_at"></nz-badge>
               </td>
               <td>{{ data.conversations_count }}</td>
               <td class="text-right">
@@ -72,7 +64,7 @@
                   <nz-dropdown-menu #menu="nzDropdownMenu">
                     <ul nz-menu>
                       <li nz-menu-item>
-                        <a>修改资料</a>
+                        <a (click)="updateEmployee(data)">修改资料</a>
                       </li>
                       <li nz-menu-item>
                         <a>修改密码</a>
@@ -102,3 +94,112 @@
     </ng-template>
   </tbody>
 </nz-table>
+
+
+<nz-drawer *ngIf="drawerWebsite" [nzClosable]="false" [nzWidth]="320" [nzVisible]="drawerWebsite" nzTitle="网站修改" (nzOnClose)="drawerWebsiteClose()">
+  <form nz-form nzLayout="vertical" [formGroup]="drawerWebsiteForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label>网站名</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 网站名字!">
+        <input nz-input formControlName="name" placeholder="网站名字" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>域名</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 网址!">
+        <input nz-input formControlName="website" placeholder="网址" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>打招呼的话</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 打招呼的话!">
+        <textarea nz-input formControlName="greeting_message" rows="3" placeholder="打招呼的话"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>关闭对话提醒</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 关闭对话提醒!">
+        <textarea nz-input formControlName="terminate_manual" rows="3" placeholder="关闭对话提醒"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>对话超时提醒</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 对话超时提醒!">
+        <textarea nz-input formControlName="terminate_timeout" rows="3" placeholder="对话超时提醒"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>财务联系人</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 财务联系人!">
+        <input nz-input formControlName="billing_name" placeholder="财务联系人" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>财务联系电话</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 财务联系电话!">
+        <input nz-input formControlName="billing_phone" placeholder="财务联系电话" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>技术联系人</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 技术联系人!">
+        <input nz-input formControlName="technical_name" placeholder="技术联系人" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>技术联系电话</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 技术联系电话!">
+        <input nz-input formControlName="technical_phone" placeholder="技术联系电话" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary">提交</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-drawer>
+
+<nz-drawer *ngIf="drawerEmployee" [nzClosable]="false" [nzWidth]="320" [nzVisible]="drawerEmployee" nzTitle="员工修改" (nzOnClose)="drawerEmployeeClose()">
+  <form nz-form nzLayout="vertical" [formGroup]="drawerEmployeeForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label>姓名</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 姓名!">
+        <input nz-input formControlName="name" placeholder="姓名" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>邮箱</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 邮箱!">
+        <input nz-input formControlName="email" placeholder="邮箱" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>介绍</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 介绍!">
+        <textarea nz-input formControlName="title" rows="3" placeholder="介绍"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary">提交</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-drawer>
+
+<nz-drawer *ngIf="drawerCode" [nzClosable]="false" [nzWidth]="450" [nzVisible]="drawerCode" nzTitle="代码安装" (nzOnClose)="drawerCodeClose()">
+  <textarea nz-input rows="15">&lt;script type="application/javascript"&gt;
+window._kefuchat_init = function () {
+    return {
+        institution_id: '{{ drawerCodeData.id }}'
+        // 可配置
+        // unique_id: 用户 ID
+        // name: 用户名
+        // phone: 电话/手机号
+        // email: 电子邮箱E-mail
+    };
+}
+&lt;/script&gt;
+&lt;script type="application/javascript" src="https://kfwidget.ssls.com.cn/widget.js" async defer&gt;&lt;/script&gt;</textarea>
+</nz-drawer>
