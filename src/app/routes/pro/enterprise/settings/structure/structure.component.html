@@ -97,7 +97,7 @@
 
 
 <nz-drawer *ngIf="drawerWebsite" [nzClosable]="false" [nzWidth]="320" [nzVisible]="drawerWebsite" nzTitle="网站修改" (nzOnClose)="drawerWebsiteClose()">
-  <form nz-form nzLayout="vertical" [formGroup]="drawerWebsiteForm" (ngSubmit)="submitForm()">
+  <form nz-form nzLayout="vertical" [formGroup]="drawerWebsiteForm" (ngSubmit)="submitWebsiteForm()">
     <nz-form-item>
       <nz-form-label>网站名</nz-form-label>
       <nz-form-control nzErrorTip="Please input your 网站名字!">
@@ -161,7 +161,7 @@
 </nz-drawer>
 
 <nz-drawer *ngIf="drawerEmployee" [nzClosable]="false" [nzWidth]="320" [nzVisible]="drawerEmployee" nzTitle="员工修改" (nzOnClose)="drawerEmployeeClose()">
-  <form nz-form nzLayout="vertical" [formGroup]="drawerEmployeeForm" (ngSubmit)="submitForm()">
+  <form nz-form nzLayout="vertical" [formGroup]="drawerEmployeeForm" (ngSubmit)="submitEmployeeForm()">
     <nz-form-item>
       <nz-form-label>姓名</nz-form-label>
       <nz-form-control nzErrorTip="Please input your 姓名!">

@@ -157,4 +157,12 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   drawerCodeClose(): void {
     this.drawerCode = false;
   }
+
+  submitWebsiteForm(): void {
+    // @todo:
+  }
+
+  submitEmployeeForm(): void {
+    // @todo:
+  }
 }
