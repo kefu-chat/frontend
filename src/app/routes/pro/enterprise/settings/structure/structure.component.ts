@@ -27,13 +27,10 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       .get(`api/institution/list`, query)
       .subscribe((res: { data: { list: { data: Website[] } } }) => {
         this.loading = false;
-        setTimeout(()=>{
-          this.websites = res.data.list.data;
-          if (this.websites.length) {
-            this.loadEmployeeList(this.websites[0].id);
-          }
-        })
-        
+        this.websites = res.data.list.data;
+        if (this.websites.length) {
+          this.loadEmployeeList(this.websites[0].id);
+        }
       });
   }
 
@@ -55,7 +52,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       .get(`api/institution/${siteId}/employee/list`, query)
       .subscribe((res: { data: { list: { data: User[] } } }) => {
         this.employees = res.data.list.data;
-        this.cdr.markForCheck()
+        this.cdr.markForCheck();
       });
 
     return;
@@ -63,14 +60,15 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
 
   expand(website: Website): boolean {
     if (website.expand) {
+      this.cdr.markForCheck();
       return true;
     }
     this.loadEmployeeList(website.id);
+    this.cdr.markForCheck();
     return true;
   }
 
   trackBy(website: Website): string {
-    console.log(website)
     return website.id;
   }
 }

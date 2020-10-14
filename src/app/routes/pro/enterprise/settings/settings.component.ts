@@ -31,7 +31,7 @@ export class ProEnterpriseSettingsComponent
       title: "企业资料",
     },
     {
-      key: "security",
+      key: "structure",
       title: "站点/人员",
     },
     {

@@ -157,5 +157,7 @@
   "menu.feature": "功能",
   "menu.index": "首页",
   "menu.conversation.robot": "自动",
-  "app.verify": "验证"
+  "app.verify": "验证",
+  "permission.support": "客服",
+  "permission.manager": "管理员"
 }

@@ -11,9 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <!-- <ng-template ngFor let-data [ngForOf]="websites" [ngForTrackBy]="trackBy"> -->
-      <ng-container *ngFor="let data of websites">
-
+    <ng-template ngFor let-data [ngForOf]="websitesTable.data">
       <tr>
         <td [(nzExpand)]="data.expand" (nzExpandChange)="expand(data)"></td>
         <td>{{ data.name }}</td>
@@ -24,7 +22,7 @@
           <a>更改</a>
         </td>
       </tr>
-      <tr [nzExpand]="data.expand">
+      <tr [nzExpand]="data.expand" *ngIf="data.expand">
         <button nz-button nzType="primary" class="mb-md">添加客服</button>
         <nz-table
           #employeesTable
@@ -35,6 +33,7 @@
           <thead>
             <tr>
               <th>姓名</th>
+              <th>权限</th>
               <th>员工状态</th>
               <th>接待会话数</th>
               <th class="text-right">操作</th>
@@ -43,6 +42,13 @@
           <tbody>
             <tr *ngFor="let data of employeesTable.data">
               <td>{{ data.name }}</td>
+              <td>
+                <nz-badge
+                  [nzStatus]="'success'"
+                  [nzText]="'permission.' + permission.name | i18n"
+                  *ngFor="let permission of data.permissions"
+                ></nz-badge>
+              </td>
               <td>
                 <nz-badge
                   [nzStatus]="'success'"
@@ -55,7 +61,7 @@
                   *ngIf="data.deleted_at"
                 ></nz-badge>
               </td>
-              <td>{{ data.upgradeNum }}</td>
+              <td>{{ data.conversations_count }}</td>
               <td class="text-right">
                 <span class="table-operation">
                   <a class="operation">禁用</a>
@@ -93,8 +99,6 @@
           </tbody>
         </nz-table>
       </tr>
-    </ng-container>
-
-    <!-- </ng-template> -->
+    </ng-template>
   </tbody>
 </nz-table>
