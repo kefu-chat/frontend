@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { _HttpClient } from "@delon/theme";
 import { NzMessageService } from "ng-zorro-antd/message";
 import {
@@ -9,24 +9,22 @@ import {
 @Component({
   selector: "app-enterprise-settings-security",
   templateUrl: "./structure.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProEnterpriseSettingsStructureComponent implements OnInit {
   constructor(public msg: NzMessageService, private http: _HttpClient) {}
 
-  websites: Website[] = [];
-  employees: User[] = [];
+  websites: Website[];
+  employees: User[];
 
   ngOnInit(): void {
     this.loadInstitutionList();
   }
 
-  loadInstitutionList(query?: { page_size?: number; per_page?: number }): void {
+  loadInstitutionList(query?: { page?: number; per_page?: number }): void {
     this.http
       .get(`api/institution/list`, query)
       .subscribe((res: { data: { list: { data: Website[] } } }) => {
         this.websites = res.data.list.data;
-        console.log(this.websites);
         if (this.websites.length) {
           this.loadEmployeeList(this.websites[0].id);
         }
@@ -35,7 +33,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
 
   loadEmployeeList(
     siteId: string,
-    query?: { page_size?: number; per_page?: number }
+    query?: { page?: number; per_page?: number }
   ): void {
     this.websites.forEach((site) => (site.expand = false));
 
@@ -52,5 +50,15 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       .subscribe((res: { data: { list: { data: User[] } } }) => {
         this.employees = res.data.list.data;
       });
+
+    return;
+  }
+
+  expand(website: Website): boolean {
+    if (website.expand) {
+      return true;
+    }
+    this.loadEmployeeList(website.id);
+    return true;
   }
 }
