@@ -179,6 +179,7 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
             return;
           }
 
+          this.enterprise.name = option.nzValue.resultStr;
           this.enterprise.serial = res.data.dataInfo.basic.regNo;
           this.enterprise.address = res.data.regAddr;
           this.enterprise.phone = res.data.telephone;
