@@ -67,15 +67,15 @@
                   <nz-dropdown-menu #menu="nzDropdownMenu">
                     <ul nz-menu>
                       <li nz-menu-item>
-                        <a>修改密码</a>
+                        <a (click)="updateEmployeePassword(website, data)">修改密码</a>
                       </li>
                       <li nz-submenu nzTitle="修改权限">
                         <ul>
                           <li nz-menu-item>
-                            <a>管理员</a>
+                            <a (click)="changePermission(data,'manager')">管理员</a>
                           </li>
                           <li nz-menu-item>
-                            <a>客服</a>
+                            <a (click)="changePermission(data,'support')">客服</a>
                           </li>
                         </ul>
                       </li>
@@ -178,6 +178,28 @@
       <nz-form-label>介绍</nz-form-label>
       <nz-form-control nzErrorTip="Please input your 介绍!">
         <textarea nz-input formControlName="title" rows="3" placeholder="介绍"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary">提交</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-drawer>
+
+<nz-drawer *ngIf="drawerPassword" [nzClosable]="false" [nzWidth]="450" [nzVisible]="drawerPassword" nzTitle="员工密码修改" (nzOnClose)="drawerPasswordClose()">
+  <form nz-form nzLayout="vertical" [formGroup]="drawerPasswordForm" (ngSubmit)="submitPasswordForm()">
+    <nz-form-item>
+      <nz-form-label>密码</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 密码!">
+        <input nz-input type="password" formControlName="password" placeholder="密码" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>确认密码</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 确认密码!">
+        <input nz-input type="password" formControlName="password_confirmation" placeholder="确认密码" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

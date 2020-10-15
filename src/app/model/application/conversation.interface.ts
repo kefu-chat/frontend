@@ -88,6 +88,11 @@ export interface User extends SettingUser {
   conversations_count?: number;
 }
 
+export interface UserWithPassword extends User {
+  password: string;
+  password_confirmation: string;
+}
+
 export interface Visitor {
   id: any;
   institution_id: any;

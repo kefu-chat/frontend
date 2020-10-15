@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef} from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { SettingsService, _HttpClient } from "@delon/theme";
 import { User as SettingUser } from '@delon/theme/src/services/settings/interface'
 import { NzMessageService } from "ng-zorro-antd/message";
 import {
   User,
+  UserWithPassword,
   Website,
 } from "../../../../../model/application/conversation.interface";
 
@@ -18,7 +19,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     private http: _HttpClient,
     private fb: FormBuilder,
     private settings: SettingsService,
-  ) {}
+  ) { }
 
   websites: Website[] = [];
   employees: User[] = [];
@@ -27,15 +28,18 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   drawerWebsite = false;
   drawerEmployee = false;
   drawerCode = false;
+  drawerPassword = false;
   drawerWebsiteAction: "update" | "create";
   drawerEmployeeAction: "update" | "create";
   drawerWebsiteData: Website;
   drawerEmployeeData: User;
+  drawerPasswordData: UserWithPassword;
   drawerCodeData: Website;
   drawerWebsiteForm: FormGroup;
   drawerEmployeeForm: FormGroup;
+  drawerPasswordForm: FormGroup;
 
-  get user(): User|SettingUser {
+  get user(): User | SettingUser {
     return this.settings.user;
   }
 
@@ -155,6 +159,11 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     this.drawerCode = false;
   }
 
+
+  drawerPasswordClose(): void {
+    this.drawerPassword = false;
+  }
+
   submitWebsiteForm(): void {
     // @todo:
   }
@@ -166,10 +175,11 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   deactivateEmployee(website: Website, employee: User): void {
     this.http
       .post(`api/institution/${website.id}/employee/${employee.id}/deactivate`)
-      .subscribe((res: { data: { } }) => {
+      .subscribe((res: { data: {} }) => {
         employee.deleted_at = (new Date).toISOString();
         this.employees.filter(e => e.id === employee.id)[0] = employee;
-      }, (err: {error: {success: boolean; message: string}}) => {
+        this.msg.success('已禁用!');
+      }, (err: { error: { success: boolean; message: string } }) => {
         this.msg.error(err.error.message);
       });
   }
@@ -177,11 +187,41 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   activateEmployee(website: Website, employee: User): void {
     this.http
       .post(`api/institution/${website.id}/employee/${employee.id}/activate`)
-      .subscribe((res: { data: { } }) => {
+      .subscribe((res: { data: {} }) => {
         employee.deleted_at = null;
         this.employees.filter(e => e.id === employee.id)[0] = employee;
-      }, (err: {error: {success: boolean; message: string}}) => {
+        this.msg.success('已启用!');
+      }, (err: { error: { success: boolean; message: string } }) => {
         this.msg.error(err.error.message);
       });
+  }
+
+  updateEmployeePassword(website: Website, employee: User): void {
+    this.drawerPassword = true;
+    this.drawerPasswordData = {
+      ...employee,
+      institution_id: website.id,
+      password: null,
+      password_confirmation: null,
+    };
+    this.drawerPasswordForm = this.fb.group(this.drawerPasswordData);
+  }
+
+  submitPasswordForm(): void {
+    this.http
+      .post(`api/institution/${this.drawerPasswordData.institution_id}/employee/${this.drawerPasswordData.id}/change-password`, this.drawerPasswordForm.getRawValue())
+      .subscribe((res: { success: boolean; message: string }) => {
+        if (res.success) {
+          this.msg.success('修改成功!');
+        } else {
+          this.msg.error(res.message);
+        }
+      }, (err: { error: { success: boolean; message: string } }) => {
+        this.msg.error(err.error.message);
+      });
+  }
+
+  changePermission(employee: User, permission: 'support' | 'manager') {
+
   }
 }
