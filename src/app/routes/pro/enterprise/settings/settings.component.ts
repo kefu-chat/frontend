@@ -34,7 +34,7 @@ export class ProEnterpriseSettingsComponent
       title: "站点/人员",
     },
     {
-      key: "notification",
+      key: "plan",
       title: "套餐管理",
     },
   ];
