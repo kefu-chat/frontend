@@ -13,7 +13,7 @@
   <tbody>
     <ng-template ngFor let-website [ngForOf]="websitesTable.data">
       <tr>
-        <td [(nzExpand)]="website.expand" (nzExpandChange)="expand(website)"></td>
+        <td [(nzExpand)]="website.expand" (nzExpandChange)="expand(website, $event)"></td>
         <td>{{ website.name }}</td>
         <td>{{ website.website }}</td>
         <td>{{ website.users_count }}</td>
@@ -28,7 +28,7 @@
       </tr>
       <tr [nzExpand]="website.expand" *ngIf="website.expand">
         <button nz-button nzType="primary" class="mb-md" (click)="createEmployee()">添加客服</button>
-        <nz-table #employeesTable [nzData]="employees" nzSize="middle" [nzShowPagination]="true">
+        <nz-table #employeesTable [nzData]="employees" nzSize="middle" [nzShowPagination]="false">
           <thead>
             <tr>
               <th>姓名</th>

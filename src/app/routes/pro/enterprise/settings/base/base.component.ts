@@ -19,12 +19,10 @@ interface ProEnterpriseSettingsCity {
   selector: "app-enterprise-settings-base",
   templateUrl: "./base.component.html",
   styleUrls: ["./base.component.less"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProEnterpriseSettingsBaseComponent implements OnInit {
   constructor(
     private http: _HttpClient,
-    private cdr: ChangeDetectorRef,
     private msg: NzMessageService
   ) {}
   avatar = "";
@@ -80,7 +78,6 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
             }
           }
         }
-        this.cdr.detectChanges();
       }
     );
   }
@@ -96,7 +93,6 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         if (cleanCity) {
           this.enterprise.geographic.city.key = "";
         }
-        this.cdr.detectChanges();
       });
   }
 
@@ -111,7 +107,6 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         if (cleanCity) {
           this.enterprise.geographic.area.key = "";
         }
-        this.cdr.detectChanges();
       });
   }
 
@@ -126,7 +121,6 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         if (cleanCity) {
           this.enterprise.geographic.street.key = "";
         }
-        this.cdr.detectChanges();
       });
   }
 
@@ -184,7 +178,6 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
           this.enterprise.address = res.data.regAddr;
           this.enterprise.phone = res.data.telephone;
 
-          this.cdr.detectChanges();
         }
       );
   }

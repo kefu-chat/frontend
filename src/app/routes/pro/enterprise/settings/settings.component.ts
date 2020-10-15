@@ -17,7 +17,6 @@ import { debounceTime, filter } from "rxjs/operators";
   selector: "app-enterprise-settings",
   templateUrl: "./settings.component.html",
   styleUrls: ["./../../account/settings/settings.component.less"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProEnterpriseSettingsComponent
   implements AfterViewInit, OnDestroy {
@@ -41,7 +40,6 @@ export class ProEnterpriseSettingsComponent
   ];
   constructor(
     private router: Router,
-    private cdr: ChangeDetectorRef,
     private el: ElementRef<HTMLElement>,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
   ) {
@@ -78,7 +76,6 @@ export class ProEnterpriseSettingsComponent
       mode = "horizontal";
     }
     this.mode = mode;
-    this.cdr.detectChanges();
   }
 
   ngAfterViewInit(): void {

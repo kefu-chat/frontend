@@ -17,7 +17,6 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     public msg: NzMessageService,
     private http: _HttpClient,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef,
     private settings: SettingsService,
   ) {}
 
@@ -75,20 +74,17 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       .get(`api/institution/${siteId}/employee/list`, query)
       .subscribe((res: { data: { list: { data: User[] } } }) => {
         this.employees = res.data.list.data;
-        this.cdr.markForCheck();
       });
 
     return;
   }
 
-  expand(website: Website): boolean {
+  expand(website: Website, expand: boolean): void {
+    website.expand = expand;
     if (website.expand) {
-      this.cdr.markForCheck();
-      return true;
+      this.loadEmployeeList(website.id);
     }
-    this.loadEmployeeList(website.id);
-    this.cdr.markForCheck();
-    return true;
+    return;
   }
 
   updateWebsite(website: Website): void {
@@ -96,7 +92,6 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     this.drawerWebsiteAction = "update";
     this.drawerWebsiteData = website;
     this.drawerWebsiteForm = this.fb.group(this.drawerWebsiteData);
-    this.cdr.markForCheck();
   }
 
   updateEmployee(user: User): void {
@@ -104,13 +99,11 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     this.drawerEmployeeAction = "update";
     this.drawerEmployeeData = user;
     this.drawerEmployeeForm = this.fb.group(this.drawerEmployeeData);
-    this.cdr.markForCheck();
   }
 
   getCode(website: Website): void {
     this.drawerCode = true;
     this.drawerCodeData = website;
-    this.cdr.markForCheck();
   }
 
   createWebsite(): void {
@@ -131,7 +124,6 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       greeting_message: "",
     };
     this.drawerWebsiteForm = this.fb.group(this.drawerWebsiteData);
-    this.cdr.markForCheck();
   }
 
   createEmployee(): void {
@@ -149,7 +141,6 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       avatar: "",
     };
     this.drawerEmployeeForm = this.fb.group(this.drawerEmployeeData);
-    this.cdr.markForCheck();
   }
 
   drawerWebsiteClose(): void {
@@ -178,7 +169,6 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       .subscribe((res: { data: { } }) => {
         employee.deleted_at = (new Date).toISOString();
         this.employees.filter(e => e.id === employee.id)[0] = employee;
-        this.cdr.detectChanges();
       }, (err: {error: {success: boolean; message: string}}) => {
         this.msg.error(err.error.message);
       });
@@ -190,7 +180,6 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       .subscribe((res: { data: { } }) => {
         employee.deleted_at = null;
         this.employees.filter(e => e.id === employee.id)[0] = employee;
-        this.cdr.detectChanges();
       }, (err: {error: {success: boolean; message: string}}) => {
         this.msg.error(err.error.message);
       });
