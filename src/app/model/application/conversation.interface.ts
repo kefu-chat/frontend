@@ -1,3 +1,5 @@
+import {User as SettingUser} from '@delon/theme/src/services/settings/interface'
+
 export interface ConversationModel {
   institution_id?: string;
   user_id?: string;
@@ -72,7 +74,7 @@ export interface Enterprise {
   };
 }
 
-export interface User {
+export interface User extends SettingUser {
   id: any;
   institution_id: any;
   name: string;

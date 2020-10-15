@@ -11,22 +11,22 @@
     </tr>
   </thead>
   <tbody>
-    <ng-template ngFor let-data [ngForOf]="websitesTable.data">
+    <ng-template ngFor let-website [ngForOf]="websitesTable.data">
       <tr>
-        <td [(nzExpand)]="data.expand" (nzExpandChange)="expand(data)"></td>
-        <td>{{ data.name }}</td>
-        <td>{{ data.website }}</td>
-        <td>{{ data.users_count }}</td>
-        <td>{{ data.created_at }}</td>
+        <td [(nzExpand)]="website.expand" (nzExpandChange)="expand(website)"></td>
+        <td>{{ website.name }}</td>
+        <td>{{ website.website }}</td>
+        <td>{{ website.users_count }}</td>
+        <td>{{ website.created_at }}</td>
         <td class="text-right">
           <span class="table-operation">
-            <a (click)="updateWebsite(data)">修改资料</a>
+            <a (click)="updateWebsite(website)">修改资料</a>
             <nz-divider nzType="vertical"></nz-divider>
-            <a (click)="getCode(data)">获取安装代码</a>
+            <a (click)="getCode(website)">获取安装代码</a>
           </span>
         </td>
       </tr>
-      <tr [nzExpand]="data.expand" *ngIf="data.expand">
+      <tr [nzExpand]="website.expand" *ngIf="website.expand">
         <button nz-button nzType="primary" class="mb-md" (click)="createEmployee()">添加客服</button>
         <nz-table #employeesTable [nzData]="employees" nzSize="middle" [nzShowPagination]="true">
           <thead>
@@ -56,16 +56,16 @@
               <td>{{ data.conversations_count }}</td>
               <td class="text-right">
                 <span class="table-operation">
-                  <a class="operation">禁用</a>
+                  <a (click)="updateEmployee(data)">修改资料</a>
                   <nz-divider nzType="vertical"></nz-divider>
+                  <a class="operation" (click)="deactivateEmployee(website,data)" *ngIf="data.id !== user.id && !data.deleted_at">禁用</a>
+                  <a class="operation" (click)="activateEmployee(website,data)" *ngIf="data.id !== user.id && data.deleted_at">启用</a>
+                  <nz-divider nzType="vertical" *ngIf="data.id !== user.id"></nz-divider>
                   <a nz-dropdown class="operation" [nzDropdownMenu]="menu">
                     更多 <i nz-icon nzType="down"></i>
                   </a>
                   <nz-dropdown-menu #menu="nzDropdownMenu">
                     <ul nz-menu>
-                      <li nz-menu-item>
-                        <a (click)="updateEmployee(data)">修改资料</a>
-                      </li>
                       <li nz-menu-item>
                         <a>修改密码</a>
                       </li>

@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef} from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { _HttpClient } from "@delon/theme";
+import { SettingsService, _HttpClient } from "@delon/theme";
+import { User as SettingUser } from '@delon/theme/src/services/settings/interface'
 import { NzMessageService } from "ng-zorro-antd/message";
 import {
   User,
@@ -16,7 +17,8 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     public msg: NzMessageService,
     private http: _HttpClient,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private settings: SettingsService,
   ) {}
 
   websites: Website[] = [];
@@ -33,6 +35,10 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   drawerCodeData: Website;
   drawerWebsiteForm: FormGroup;
   drawerEmployeeForm: FormGroup;
+
+  get user(): User|SettingUser {
+    return this.settings.user;
+  }
 
   ngOnInit(): void {
     this.loadInstitutionList();
@@ -164,5 +170,29 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
 
   submitEmployeeForm(): void {
     // @todo:
+  }
+
+  deactivateEmployee(website: Website, employee: User): void {
+    this.http
+      .post(`api/institution/${website.id}/employee/${employee.id}/deactivate`)
+      .subscribe((res: { data: { } }) => {
+        employee.deleted_at = (new Date).toISOString();
+        this.employees.filter(e => e.id === employee.id)[0] = employee;
+        this.cdr.detectChanges();
+      }, (err: {error: {success: boolean; message: string}}) => {
+        this.msg.error(err.error.message);
+      });
+  }
+
+  activateEmployee(website: Website, employee: User): void {
+    this.http
+      .post(`api/institution/${website.id}/employee/${employee.id}/activate`)
+      .subscribe((res: { data: { } }) => {
+        employee.deleted_at = null;
+        this.employees.filter(e => e.id === employee.id)[0] = employee;
+        this.cdr.detectChanges();
+      }, (err: {error: {success: boolean; message: string}}) => {
+        this.msg.error(err.error.message);
+      });
   }
 }
