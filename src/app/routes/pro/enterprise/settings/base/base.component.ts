@@ -24,7 +24,7 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     private msg: NzMessageService
-  ) {}
+  ) { }
   avatar = "";
   enterpriseLoading = true;
   enterprise: Enterprise;
@@ -82,7 +82,7 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
     );
   }
 
-  choProvince(parent_id: string, cleanCity: boolean = true): void {
+  choProvince(parent_id: string, cleanCity: boolean = true, callback?: () => void): void {
     this.http
       .get(`api/location/list`, { parent_id })
       .subscribe((res: { data: { list: ProEnterpriseSettingsCity[] } }) => {
@@ -93,10 +93,13 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         if (cleanCity) {
           this.enterprise.geographic.city.key = "";
         }
+        if (callback) {
+          callback();
+        }
       });
   }
 
-  choCity(parent_id: string, cleanCity: boolean = true): void {
+  choCity(parent_id: string, cleanCity: boolean = true, callback?: () => void): void {
     this.http
       .get(`api/location/list`, { parent_id })
       .subscribe((res: { data: { list: ProEnterpriseSettingsCity[] } }) => {
@@ -107,10 +110,13 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         if (cleanCity) {
           this.enterprise.geographic.area.key = "";
         }
+        if (callback) {
+          callback();
+        }
       });
   }
 
-  choArea(parent_id: string, cleanCity: boolean = true): void {
+  choArea(parent_id: string, cleanCity: boolean = true, callback?: () => void): void {
     this.http
       .get(`api/location/list`, { parent_id })
       .subscribe((res: { data: { list: ProEnterpriseSettingsCity[] } }) => {
@@ -120,6 +126,9 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         }
         if (cleanCity) {
           this.enterprise.geographic.street.key = "";
+        }
+        if (callback) {
+          callback();
         }
       });
   }
@@ -144,7 +153,7 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
       if (!name || !name.length) {
         return;
       }
-  
+
       this.http
         .get(`api/enterprise/name-suggest`, { name })
         .subscribe(
@@ -173,7 +182,15 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         (res: {
           success: boolean;
           message?: string;
-          data: { dataInfo: any; regAddr: string; telephone: string; };
+          data: {
+            dataInfo: any;
+            regAddr: string;
+            telephone: string;
+            province_code: string;
+            city_code: string;
+            area_code: string;
+            street_code: string;
+          };
         }) => {
           if (!res.success) {
             this.msg.error(res.message);
@@ -184,9 +201,35 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
           this.enterprise.serial = res.data.dataInfo.basic.regNo;
           this.enterprise.address = res.data.regAddr;
           this.enterprise.phone = res.data.telephone;
+          if (res.data.province_code) {
+            this.enterprise.geographic.province = {
+              key: res.data.province_code,
+            };
+            this.choProvince(res.data.province_code, false, () => {
+              if (res.data.city_code) {
+                this.enterprise.geographic.city = {
+                  key: res.data.city_code,
+                };
+                this.choCity(res.data.city_code, false, () => {
+                  if (res.data.area_code) {
+                    this.enterprise.geographic.area = {
+                      key: res.data.area_code,
+                    };
+                    this.choArea(res.data.area_code, false, () => {
+                      if (res.data.street_code) {
+                        this.enterprise.geographic.street = {
+                          key: res.data.street_code,
+                        };
+                      }
+                    })
+                  }
+                })
+              }
+            })
+          }
           this.enterpriseLoading = false;
         },
-        (err: {error: {message: string}}) => {
+        (err: { error: { message: string } }) => {
           this.msg.error(err.error.message);
           this.enterpriseLoading = false;
         }
