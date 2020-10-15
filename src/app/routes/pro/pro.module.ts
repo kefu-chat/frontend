@@ -12,8 +12,6 @@ import { ProAccountSettingsBindingComponent } from "./account/settings/binding/b
 import { ProAccountSettingsNotificationComponent } from "./account/settings/notification/notification.component";
 import { ProAccountSettingsSecurityComponent } from "./account/settings/security/security.component";
 import { ProAccountSettingsComponent } from "./account/settings/settings.component";
-import { ProProfileAdvancedComponent } from "./profile/advanced/advanced.component";
-import { ProProfileBaseComponent } from "./profile/basic/basic.component";
 import { ProEnterpriseCenterApplicationsComponent } from "./enterprise/center/applications/applications.component";
 import { ProEnterpriseCenterArticlesComponent } from "./enterprise/center/articles/articles.component";
 import { ProEnterpriseCenterComponent } from "./enterprise/center/center.component";
@@ -21,8 +19,11 @@ import { ProEnterpriseCenterProjectsComponent } from "./enterprise/center/projec
 import { ProEnterpriseSettingsBaseComponent } from "./enterprise/settings/base/base.component";
 import { ProEnterpriseSettingsBindingComponent } from "./enterprise/settings/binding/binding.component";
 import { ProEnterpriseSettingsNotificationComponent } from "./enterprise/settings/notification/notification.component";
-import { ProEnterpriseSettingsStructureComponent } from "./enterprise/settings/structure/structure.component";
+import { ProEnterpriseSettingsPlanComponent } from "./enterprise/settings/plan/plan.component";
 import { ProEnterpriseSettingsComponent } from "./enterprise/settings/settings.component";
+import { ProEnterpriseSettingsStructureComponent } from "./enterprise/settings/structure/structure.component";
+import { ProProfileAdvancedComponent } from "./profile/advanced/advanced.component";
+import { ProProfileBaseComponent } from "./profile/basic/basic.component";
 
 const COMPONENTS = [
   ProProfileBaseComponent,
@@ -45,6 +46,7 @@ const COMPONENTS = [
   ProEnterpriseSettingsStructureComponent,
   ProEnterpriseSettingsBindingComponent,
   ProEnterpriseSettingsNotificationComponent,
+  ProEnterpriseSettingsPlanComponent,
 ];
 
 const COMPONENTS_NOROUNT = [];
