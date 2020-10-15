@@ -49,6 +49,7 @@ export interface Website {
   terminate_timeout?: string;
   greeting_message?: string;
   enterprise_id?: string | number;
+  theme: 'default' | 'blue1' | 'blue2' | 'blue-purple' | 'purple' | 'pink' | 'dark' | 'cyan' | 'red1' | 'red2' | 'red3' | 'green1' | 'green2' | 'green3' | 'blue-light';
 }
 
 export interface Enterprise {
