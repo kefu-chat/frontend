@@ -190,7 +190,6 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
           this.websites.unshift(this.drawerWebsiteData);
         }
 
-        this.cdr.markForCheck();
         this.msg.success('成功!');
       });
   }
@@ -217,7 +216,6 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
           this.employees.push(res.data.employee);
         }
 
-        this.cdr.markForCheck();
         this.msg.success("成功!");
       });
   }
