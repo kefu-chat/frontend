@@ -139,26 +139,33 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
   }
 
   search(evt: KeyboardEvent): void {
-    const name = (evt.target as HTMLInputElement).value;
-    this.http
-      .get(`api/enterprise/name-suggest`, { name })
-      .subscribe(
-        (res: {
-          success: boolean;
-          message?: string;
-          data: { list: any[] };
-        }) => {
-          if (!res.success) {
-            this.msg.error(res.message);
-            return;
-          }
+    setTimeout(() => {
+      const name = (evt.target as HTMLInputElement).value;
+      if (!name || !name.length) {
+        return;
+      }
+  
+      this.http
+        .get(`api/enterprise/name-suggest`, { name })
+        .subscribe(
+          (res: {
+            success: boolean;
+            message?: string;
+            data: { list: any[] };
+          }) => {
+            if (!res.success) {
+              this.msg.error(res.message);
+              return;
+            }
 
-          this.enterpriseSuggestion = res.data.list;
-        }
-      );
+            this.enterpriseSuggestion = res.data.list;
+          }
+        );
+    }, 100);
   }
 
   autoFill(option: NzAutocompleteOptionComponent): void {
+    this.enterpriseLoading = true;
     const pid = option.nzValue.pid;
     this.http
       .get(`api/enterprise/name-suggest-detail`, { pid })
@@ -177,7 +184,11 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
           this.enterprise.serial = res.data.dataInfo.basic.regNo;
           this.enterprise.address = res.data.regAddr;
           this.enterprise.phone = res.data.telephone;
-
+          this.enterpriseLoading = false;
+        },
+        (err: {error: {message: string}}) => {
+          this.msg.error(err.error.message);
+          this.enterpriseLoading = false;
         }
       );
   }
