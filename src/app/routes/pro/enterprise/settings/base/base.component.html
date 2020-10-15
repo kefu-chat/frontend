@@ -3,7 +3,7 @@
     <div class="left">
       <form nz-form nzLayout="vertical" #f="ngForm" (submit)="save()" se-container="1">
         <se label="公司名字" error="请输入公司名字!">
-          <input nz-input [(ngModel)]="enterprise.name" [nzAutocomplete]="enterpriseSuggest" (keypress)="search($event)" (change)="search($event)" name="name" autocomplete="none" required />
+          <input nz-input [(ngModel)]="enterprise.name" [nzAutocomplete]="enterpriseSuggest" (input)="search($event)" name="name" autocomplete="none" required />
           <nz-autocomplete nzBackfill #enterpriseSuggest (selectionChange)="autoFill($event)">
             <nz-auto-option *ngFor="let enterpriseSuggestionItem of enterpriseSuggestion" [nzValue]="enterpriseSuggestionItem" [nzLabel]="enterpriseSuggestionItem.resultStr">
               {{ enterpriseSuggestionItem.resultStr }}

@@ -1,9 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef} from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { _HttpClient } from "@delon/theme";
+import { SettingsService, _HttpClient } from "@delon/theme";
+import { User as SettingUser } from '@delon/theme/src/services/settings/interface'
 import { NzMessageService } from "ng-zorro-antd/message";
 import {
   User,
+  UserWithPassword,
   Website,
 } from "../../../../../model/application/conversation.interface";
 
@@ -16,8 +18,8 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     public msg: NzMessageService,
     private http: _HttpClient,
     private fb: FormBuilder,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private settings: SettingsService,
+  ) { }
 
   websites: Website[] = [];
   employees: User[] = [];
@@ -27,13 +29,20 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   drawerWebsite = false;
   drawerEmployee = false;
   drawerCode = false;
+  drawerPassword = false;
   drawerWebsiteAction: "update" | "create";
   drawerEmployeeAction: "update" | "create";
   drawerWebsiteData: Website;
   drawerEmployeeData: User;
+  drawerPasswordData: UserWithPassword;
   drawerCodeData: Website;
   drawerWebsiteForm: FormGroup;
   drawerEmployeeForm: FormGroup;
+  drawerPasswordForm: FormGroup;
+
+  get user(): User | SettingUser {
+    return this.settings.user;
+  }
 
   ngOnInit(): void {
     this.loadInstitutionList();
@@ -71,20 +80,17 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       .get(`api/institution/${siteId}/employee/list`, {per_page: 9999, ...query})
       .subscribe((res: { data: { list: { data: User[] } } }) => {
         this.employees = res.data.list.data;
-        this.cdr.markForCheck();
       });
 
     return;
   }
 
-  expand(website: Website): boolean {
+  expand(website: Website, expand: boolean): void {
+    website.expand = expand;
     if (website.expand) {
-      this.cdr.markForCheck();
-      return true;
+      this.loadEmployeeList(website.id);
     }
-    this.loadEmployeeList(website.id);
-    this.cdr.markForCheck();
-    return true;
+    return;
   }
 
   updateWebsite(website: Website): void {
@@ -92,7 +98,6 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     this.drawerWebsiteAction = "update";
     this.drawerWebsiteData = website;
     this.drawerWebsiteForm = this.fb.group(this.drawerWebsiteData);
-    this.cdr.markForCheck();
   }
 
   updateEmployee(user: User): void {
@@ -100,13 +105,11 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     this.drawerEmployeeAction = "update";
     this.drawerEmployeeData = user;
     this.drawerEmployeeForm = this.fb.group(this.drawerEmployeeData);
-    this.cdr.markForCheck();
   }
 
   getCode(website: Website): void {
     this.drawerCode = true;
     this.drawerCodeData = website;
-    this.cdr.markForCheck();
   }
 
   createWebsite(): void {
@@ -125,9 +128,10 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       technical_phone: "",
       terminate_timeout: "",
       greeting_message: "",
+      theme: 'blue1',
+      timeout: 900,
     };
     this.drawerWebsiteForm = this.fb.group(this.drawerWebsiteData);
-    this.cdr.markForCheck();
   }
 
   createEmployee(): void {
@@ -145,7 +149,6 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       avatar: "",
     };
     this.drawerEmployeeForm = this.fb.group(this.drawerEmployeeData);
-    this.cdr.markForCheck();
   }
 
   drawerWebsiteClose(): void {
@@ -158,6 +161,11 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
 
   drawerCodeClose(): void {
     this.drawerCode = false;
+  }
+
+
+  drawerPasswordClose(): void {
+    this.drawerPassword = false;
   }
 
   submitWebsiteForm(): void {
@@ -212,5 +220,58 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
         this.cdr.markForCheck();
         this.msg.success("成功!");
       });
+  }
+
+  deactivateEmployee(website: Website, employee: User): void {
+    this.http
+      .post(`api/institution/${website.id}/employee/${employee.id}/deactivate`)
+      .subscribe((res: { data: {} }) => {
+        employee.deleted_at = (new Date).toISOString();
+        this.employees.filter(e => e.id === employee.id)[0] = employee;
+        this.msg.success('已禁用!');
+      }, (err: { error: { success: boolean; message: string } }) => {
+        this.msg.error(err.error.message);
+      });
+  }
+
+  activateEmployee(website: Website, employee: User): void {
+    this.http
+      .post(`api/institution/${website.id}/employee/${employee.id}/activate`)
+      .subscribe((res: { data: {} }) => {
+        employee.deleted_at = null;
+        this.employees.filter(e => e.id === employee.id)[0] = employee;
+        this.msg.success('已启用!');
+      }, (err: { error: { success: boolean; message: string } }) => {
+        this.msg.error(err.error.message);
+      });
+  }
+
+  updateEmployeePassword(website: Website, employee: User): void {
+    this.drawerPassword = true;
+    this.drawerPasswordData = {
+      ...employee,
+      institution_id: website.id,
+      password: null,
+      password_confirmation: null,
+    };
+    this.drawerPasswordForm = this.fb.group(this.drawerPasswordData);
+  }
+
+  submitPasswordForm(): void {
+    this.http
+      .post(`api/institution/${this.drawerPasswordData.institution_id}/employee/${this.drawerPasswordData.id}/change-password`, this.drawerPasswordForm.getRawValue())
+      .subscribe((res: { success: boolean; message: string }) => {
+        if (res.success) {
+          this.msg.success('修改成功!');
+        } else {
+          this.msg.error(res.message);
+        }
+      }, (err: { error: { success: boolean; message: string } }) => {
+        this.msg.error(err.error.message);
+      });
+  }
+
+  changePermission(employee: User, permission: 'support' | 'manager') {
+
   }
 }

@@ -11,24 +11,24 @@
     </tr>
   </thead>
   <tbody>
-    <ng-template ngFor let-data [ngForOf]="websitesTable.data">
+    <ng-template ngFor let-website [ngForOf]="websitesTable.data">
       <tr>
-        <td [(nzExpand)]="data.expand" (nzExpandChange)="expand(data)"></td>
-        <td>{{ data.name }}</td>
-        <td>{{ data.website }}</td>
-        <td>{{ data.users_count }}</td>
-        <td>{{ data.created_at }}</td>
+        <td [(nzExpand)]="website.expand" (nzExpandChange)="expand(website, $event)"></td>
+        <td>{{ website.name }}</td>
+        <td>{{ website.website }}</td>
+        <td>{{ website.users_count }}</td>
+        <td>{{ website.created_at }}</td>
         <td class="text-right">
           <span class="table-operation">
-            <a (click)="updateWebsite(data)">修改资料</a>
+            <a (click)="updateWebsite(website)">修改资料</a>
             <nz-divider nzType="vertical"></nz-divider>
-            <a (click)="getCode(data)">获取安装代码</a>
+            <a (click)="getCode(website)">获取安装代码</a>
           </span>
         </td>
       </tr>
-      <tr [nzExpand]="data.expand" *ngIf="data.expand">
+      <tr [nzExpand]="website.expand" *ngIf="website.expand">
         <button nz-button nzType="primary" class="mb-md" (click)="createEmployee()">添加客服</button>
-        <nz-table #employeesTable [nzData]="employees" nzSize="middle" [nzShowPagination]="true">
+        <nz-table #employeesTable [nzData]="employees" nzSize="middle" [nzShowPagination]="false">
           <thead>
             <tr>
               <th>姓名</th>
@@ -56,26 +56,26 @@
               <td>{{ data.conversations_count }}</td>
               <td class="text-right">
                 <span class="table-operation">
-                  <a class="operation">禁用</a>
+                  <a (click)="updateEmployee(data)">修改资料</a>
                   <nz-divider nzType="vertical"></nz-divider>
+                  <a class="operation" (click)="deactivateEmployee(website,data)" *ngIf="data.id !== user.id && !data.deleted_at">禁用</a>
+                  <a class="operation" (click)="activateEmployee(website,data)" *ngIf="data.id !== user.id && data.deleted_at">启用</a>
+                  <nz-divider nzType="vertical" *ngIf="data.id !== user.id"></nz-divider>
                   <a nz-dropdown class="operation" [nzDropdownMenu]="menu">
                     更多 <i nz-icon nzType="down"></i>
                   </a>
                   <nz-dropdown-menu #menu="nzDropdownMenu">
                     <ul nz-menu>
                       <li nz-menu-item>
-                        <a (click)="updateEmployee(data)">修改资料</a>
-                      </li>
-                      <li nz-menu-item>
-                        <a>修改密码</a>
+                        <a (click)="updateEmployeePassword(website, data)">修改密码</a>
                       </li>
                       <li nz-submenu nzTitle="修改权限">
                         <ul>
                           <li nz-menu-item>
-                            <a>管理员</a>
+                            <a (click)="changePermission(data,'manager')">管理员</a>
                           </li>
                           <li nz-menu-item>
-                            <a>客服</a>
+                            <a (click)="changePermission(data,'support')">客服</a>
                           </li>
                         </ul>
                       </li>
@@ -111,6 +111,28 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
+      <nz-form-label>配色方案</nz-form-label>
+      <nz-form-control nzErrorTip="Please select your 配色方案!">
+        <nz-radio-group formControlName="theme">
+          <label nz-radio-button nzValue="default">default</label>
+          <label nz-radio-button nzValue="blue1">blue1</label>
+          <label nz-radio-button nzValue="blue2">blue2</label>
+          <label nz-radio-button nzValue="blue-purple">blue-purple</label>
+          <label nz-radio-button nzValue="purple">purple</label>
+          <label nz-radio-button nzValue="pink">pink</label>
+          <label nz-radio-button nzValue="dark">dark</label>
+          <label nz-radio-button nzValue="cyan">cyan</label>
+          <label nz-radio-button nzValue="red1">red1</label>
+          <label nz-radio-button nzValue="red2">red2</label>
+          <label nz-radio-button nzValue="red3">red3</label>
+          <label nz-radio-button nzValue="green1">green1</label>
+          <label nz-radio-button nzValue="green2">green2</label>
+          <label nz-radio-button nzValue="green3">green3</label>
+          <label nz-radio-button nzValue="blue-light">blue-light</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
       <nz-form-label>打招呼的话</nz-form-label>
       <nz-form-control nzErrorTip="Please input your 打招呼的话!">
         <textarea nz-input formControlName="greeting_message" rows="3" placeholder="打招呼的话"></textarea>
@@ -126,6 +148,23 @@
       <nz-form-label>对话超时提醒</nz-form-label>
       <nz-form-control nzErrorTip="Please input your 对话超时提醒!">
         <textarea nz-input formControlName="terminate_timeout" rows="3" placeholder="对话超时提醒"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>对话超时时间</nz-form-label>
+      <nz-form-control nzErrorTip="Please select your 对话超时时间!">
+        <nz-select formControlName="timeout">
+          <nz-option nzValue="180" nzLabel="3分钟"></nz-option>
+          <nz-option nzValue="300" nzLabel="5分钟"></nz-option>
+          <nz-option nzValue="600" nzLabel="10分钟"></nz-option>
+          <nz-option nzValue="900" nzLabel="15分钟"></nz-option>
+          <nz-option nzValue="1800" nzLabel="30分钟"></nz-option>
+          <nz-option nzValue="3600" nzLabel="1小时"></nz-option>
+          <nz-option nzValue="7200" nzLabel="2小时"></nz-option>
+          <nz-option nzValue="21600" nzLabel="6小时"></nz-option>
+          <nz-option nzValue="43200" nzLabel="12小时"></nz-option>
+          <nz-option nzValue="86400" nzLabel="24小时"></nz-option>
+        </nz-select>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -178,6 +217,28 @@
       <nz-form-label>介绍</nz-form-label>
       <nz-form-control nzErrorTip="Please input your 介绍!">
         <textarea nz-input formControlName="title" rows="3" placeholder="介绍"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary">提交</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-drawer>
+
+<nz-drawer *ngIf="drawerPassword" [nzClosable]="false" [nzWidth]="450" [nzVisible]="drawerPassword" nzTitle="员工密码修改" (nzOnClose)="drawerPasswordClose()">
+  <form nz-form nzLayout="vertical" [formGroup]="drawerPasswordForm" (ngSubmit)="submitPasswordForm()">
+    <nz-form-item>
+      <nz-form-label>密码</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 密码!">
+        <input nz-input type="password" formControlName="password" placeholder="密码" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>确认密码</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 确认密码!">
+        <input nz-input type="password" formControlName="password_confirmation" placeholder="确认密码" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

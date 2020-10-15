@@ -1,3 +1,5 @@
+import {User as SettingUser} from '@delon/theme/src/services/settings/interface'
+
 export interface ConversationModel {
   institution_id?: string;
   user_id?: string;
@@ -47,6 +49,8 @@ export interface Website {
   terminate_timeout?: string;
   greeting_message?: string;
   enterprise_id?: string | number;
+  theme: 'default' | 'blue1' | 'blue2' | 'blue-purple' | 'purple' | 'pink' | 'dark' | 'cyan' | 'red1' | 'red2' | 'red3' | 'green1' | 'green2' | 'green3' | 'blue-light';
+  timeout: 180 | 300 | 600 | 900 | 1800 | 3600 | 7200 | 21600 | 43200 | 86400;
 }
 
 export interface Enterprise {
@@ -72,7 +76,7 @@ export interface Enterprise {
   };
 }
 
-export interface User {
+export interface User extends SettingUser {
   id: any;
   institution_id: any;
   name: string;
@@ -84,6 +88,11 @@ export interface User {
   avatar: string;
   title?: string;
   conversations_count?: number;
+}
+
+export interface UserWithPassword extends User {
+  password: string;
+  password_confirmation: string;
 }
 
 export interface Visitor {

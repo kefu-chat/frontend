@@ -19,14 +19,12 @@ interface ProEnterpriseSettingsCity {
   selector: "app-enterprise-settings-base",
   templateUrl: "./base.component.html",
   styleUrls: ["./base.component.less"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProEnterpriseSettingsBaseComponent implements OnInit {
   constructor(
     private http: _HttpClient,
-    private cdr: ChangeDetectorRef,
     private msg: NzMessageService
-  ) {}
+  ) { }
   avatar = "";
   enterpriseLoading = true;
   enterprise: Enterprise;
@@ -80,12 +78,11 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
             }
           }
         }
-        this.cdr.detectChanges();
       }
     );
   }
 
-  choProvince(parent_id: string, cleanCity: boolean = true): void {
+  choProvince(parent_id: string, cleanCity: boolean = true, callback?: () => void): void {
     this.http
       .get(`api/location/list`, { parent_id })
       .subscribe((res: { data: { list: ProEnterpriseSettingsCity[] } }) => {
@@ -96,11 +93,13 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         if (cleanCity) {
           this.enterprise.geographic.city.key = "";
         }
-        this.cdr.detectChanges();
+        if (callback) {
+          callback();
+        }
       });
   }
 
-  choCity(parent_id: string, cleanCity: boolean = true): void {
+  choCity(parent_id: string, cleanCity: boolean = true, callback?: () => void): void {
     this.http
       .get(`api/location/list`, { parent_id })
       .subscribe((res: { data: { list: ProEnterpriseSettingsCity[] } }) => {
@@ -111,11 +110,13 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         if (cleanCity) {
           this.enterprise.geographic.area.key = "";
         }
-        this.cdr.detectChanges();
+        if (callback) {
+          callback();
+        }
       });
   }
 
-  choArea(parent_id: string, cleanCity: boolean = true): void {
+  choArea(parent_id: string, cleanCity: boolean = true, callback?: () => void): void {
     this.http
       .get(`api/location/list`, { parent_id })
       .subscribe((res: { data: { list: ProEnterpriseSettingsCity[] } }) => {
@@ -126,7 +127,9 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         if (cleanCity) {
           this.enterprise.geographic.street.key = "";
         }
-        this.cdr.detectChanges();
+        if (callback) {
+          callback();
+        }
       });
   }
 
@@ -145,26 +148,33 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
   }
 
   search(evt: KeyboardEvent): void {
-    const name = (evt.target as HTMLInputElement).value;
-    this.http
-      .get(`api/enterprise/name-suggest`, { name })
-      .subscribe(
-        (res: {
-          success: boolean;
-          message?: string;
-          data: { list: any[] };
-        }) => {
-          if (!res.success) {
-            this.msg.error(res.message);
-            return;
-          }
+    setTimeout(() => {
+      const name = (evt.target as HTMLInputElement).value;
+      if (!name || !name.length) {
+        return;
+      }
 
-          this.enterpriseSuggestion = res.data.list;
-        }
-      );
+      this.http
+        .get(`api/enterprise/name-suggest`, { name })
+        .subscribe(
+          (res: {
+            success: boolean;
+            message?: string;
+            data: { list: any[] };
+          }) => {
+            if (!res.success) {
+              this.msg.error(res.message);
+              return;
+            }
+
+            this.enterpriseSuggestion = res.data.list;
+          }
+        );
+    }, 100);
   }
 
   autoFill(option: NzAutocompleteOptionComponent): void {
+    this.enterpriseLoading = true;
     const pid = option.nzValue.pid;
     this.http
       .get(`api/enterprise/name-suggest-detail`, { pid })
@@ -172,7 +182,15 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
         (res: {
           success: boolean;
           message?: string;
-          data: { dataInfo: any; regAddr: string; telephone: string; };
+          data: {
+            dataInfo: any;
+            regAddr: string;
+            telephone: string;
+            province_code: string;
+            city_code: string;
+            area_code: string;
+            street_code: string;
+          };
         }) => {
           if (!res.success) {
             this.msg.error(res.message);
@@ -183,8 +201,37 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
           this.enterprise.serial = res.data.dataInfo.basic.regNo;
           this.enterprise.address = res.data.regAddr;
           this.enterprise.phone = res.data.telephone;
-
-          this.cdr.detectChanges();
+          if (res.data.province_code) {
+            this.enterprise.geographic.province = {
+              key: res.data.province_code,
+            };
+            this.choProvince(res.data.province_code, false, () => {
+              if (res.data.city_code) {
+                this.enterprise.geographic.city = {
+                  key: res.data.city_code,
+                };
+                this.choCity(res.data.city_code, false, () => {
+                  if (res.data.area_code) {
+                    this.enterprise.geographic.area = {
+                      key: res.data.area_code,
+                    };
+                    this.choArea(res.data.area_code, false, () => {
+                      if (res.data.street_code) {
+                        this.enterprise.geographic.street = {
+                          key: res.data.street_code,
+                        };
+                      }
+                    })
+                  }
+                })
+              }
+            })
+          }
+          this.enterpriseLoading = false;
+        },
+        (err: { error: { message: string } }) => {
+          this.msg.error(err.error.message);
+          this.enterpriseLoading = false;
         }
       );
   }
