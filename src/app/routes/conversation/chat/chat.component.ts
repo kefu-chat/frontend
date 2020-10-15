@@ -217,6 +217,7 @@ export class ChatComponent implements OnInit {
 
   to(item: { id: any }): void {
     this.selectId = item.id;
+    this.router.navigateByUrl(`/conversation/chat/${item.id}`);
   }
 
   getMessageOutput(data: { id: string; message: any }): void {
