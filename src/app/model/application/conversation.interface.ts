@@ -50,6 +50,7 @@ export interface Website {
   greeting_message?: string;
   enterprise_id?: string | number;
   theme: 'default' | 'blue1' | 'blue2' | 'blue-purple' | 'purple' | 'pink' | 'dark' | 'cyan' | 'red1' | 'red2' | 'red3' | 'green1' | 'green2' | 'green3' | 'blue-light';
+  timeout: 180 | 300 | 600 | 900 | 1800 | 3600 | 7200 | 21600 | 43200 | 86400;
 }
 
 export interface Enterprise {

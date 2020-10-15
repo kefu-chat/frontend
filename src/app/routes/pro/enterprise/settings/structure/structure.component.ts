@@ -126,7 +126,8 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       technical_phone: "",
       terminate_timeout: "",
       greeting_message: "",
-      theme: 'blue1'
+      theme: 'blue1',
+      timeout: 900,
     };
     this.drawerWebsiteForm = this.fb.group(this.drawerWebsiteData);
   }

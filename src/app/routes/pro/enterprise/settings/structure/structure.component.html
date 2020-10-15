@@ -151,6 +151,23 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
+      <nz-form-label>对话超时时间</nz-form-label>
+      <nz-form-control nzErrorTip="Please select your 对话超时时间!">
+        <nz-select formControlName="timeout">
+          <nz-option nzValue="180" nzLabel="3分钟"></nz-option>
+          <nz-option nzValue="300" nzLabel="5分钟"></nz-option>
+          <nz-option nzValue="600" nzLabel="10分钟"></nz-option>
+          <nz-option nzValue="900" nzLabel="15分钟"></nz-option>
+          <nz-option nzValue="1800" nzLabel="30分钟"></nz-option>
+          <nz-option nzValue="3600" nzLabel="1小时"></nz-option>
+          <nz-option nzValue="7200" nzLabel="2小时"></nz-option>
+          <nz-option nzValue="21600" nzLabel="6小时"></nz-option>
+          <nz-option nzValue="43200" nzLabel="12小时"></nz-option>
+          <nz-option nzValue="86400" nzLabel="24小时"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
       <nz-form-label>财务联系人</nz-form-label>
       <nz-form-control nzErrorTip="Please input your 财务联系人!">
         <input nz-input formControlName="billing_name" placeholder="财务联系人" />
