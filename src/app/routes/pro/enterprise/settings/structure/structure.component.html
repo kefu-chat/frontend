@@ -27,7 +27,7 @@
         </td>
       </tr>
       <tr [nzExpand]="website.expand" *ngIf="website.expand">
-        <button nz-button nzType="primary" class="mb-md" (click)="createEmployee()">添加客服</button>
+        <button nz-button nzType="primary" class="mb-md float-right" (click)="createEmployee()">添加客服</button>
         <nz-table #employeesTable [nzData]="employees" nzSize="middle" [nzShowPagination]="false">
           <thead>
             <tr>
