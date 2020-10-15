@@ -1,14 +1,14 @@
 <div nz-row nzJustify="center" nzAlign="top" style="height: 100%; width: 100%">
   <div
-    class="customlist"
     nz-col
+    [ngClass]="'customlist ' + (selectId ? 'hidden-xs' : '')"
     [style]="selectId ? '_width: auto;' : 'width: 100%;'"
   >
     <div>
       <div class="content-title">
         <span>客服工作台</span>
         <div
-          class="search-wrapper"
+          class="search-wrapper hidden-xs"
           *ngIf="!selectId"
           style="width: 200px; height: 28px"
         >
@@ -79,7 +79,7 @@
                 </h1>
               </div>
             </div>
-            <div class="search-wrapper" *ngIf="selectId">
+            <div class="search-wrapper hidden-xs" *ngIf="selectId">
               <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
                 <input
                   type="text"
