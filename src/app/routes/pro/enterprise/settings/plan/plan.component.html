@@ -1,274 +1,157 @@
 <div nz-row nzJustify="center" nzAlign="top" class="width-100 pt-lg mt-lg">
-    <div nz-row class="width-80 rounded-lg overflow-hidden">
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+    <div nz-row class="width-80 rounded-lg overflow-hidden" *ngIf="plans.length">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-header">套餐</div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
             <div class="grid-header">
-                <div>基础版 <sup>免费</sup></div>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-header">
-                <div>专业版 <sup>800元/年</sup></div>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-header">
-                <div>企业版 <sup>2800元/年</sup></div>
+                <div>
+                    {{ plan.name }}
+                    <sup *ngIf="plan.price_annually === 0">免费</sup>
+                    <sup *ngIf="plan.price_annually > 0">{{ plan.price_annually }}元/年</sup>
+                </div>
             </div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first">同时对话数 <a nzPopoverContent="同时咨询的访客数量，超出后访客将进入等待界面" nzPopoverPlacement="top" nz-popover><i nz-icon nzType="info-circle" nzTheme="twotone"></i></a></div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">2</div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">10</div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">100</div>
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
+            <div class="grid-content">{{ plan.concurrent }}</div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first cross">坐席数</div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">2</div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">5</div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">50</div>
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
+            <div class="grid-content">{{ plan.seats }}</div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first">站点数</div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">1</div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">1</div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">5</div>
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
+            <div class="grid-content">{{ plan.sites }}</div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first cross">对话存档时间(天)</div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">90</div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">90</div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">365</div>
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
+            <div class="grid-content"> {{ plan.archive_days }}</div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first">统计报表</div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
             <div class="grid-content">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <i nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content"> 
-                <i nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
+                <i *ngIf="!plan.statistics" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
+                <i *ngIf="plan.statistics" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
             </div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first cross">主动联系</div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
             <div class="grid-content content-cross">
-                <a nzPopoverContent="在对方不主动发消息前提下，无法直接联络访客" nzPopoverPlacement="top" nz-popover>
+                <a *ngIf="plan.invite == 0" nzPopoverContent="在对方不主动发消息前提下，无法直接联络访客" nzPopoverPlacement="top" nz-popover>
                     <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
                 </a>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">
-                <a nzPopoverContent="在对方不主动发消息前提下，可直接联络访客50次/天" nzPopoverPlacement="top" nz-popover>
+                <a *ngIf="plan.invite == 50" nzPopoverContent="在对方不主动发消息前提下，可直接联络访客50次/天" nzPopoverPlacement="top" nz-popover>
                     <i nz-icon nzType="question-circle" nzTheme="twotone"></i>
                 </a>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">
-                <a nzPopoverContent="在对方不主动发消息前提下，可随时随地不限次数直接联络访客" nzPopoverPlacement="top" nz-popover>
+                <a *ngIf="plan.invite == 999" nzPopoverContent="在对方不主动发消息前提下，可随时随地不限次数直接联络访客" nzPopoverPlacement="top" nz-popover>
                     <i nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
                 </a>
             </div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first">主题</div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
             <div class="grid-content">
-                <a nzPopoverContent="可配置5款免费主题，不赠送商业主题" nzPopoverPlacement="top" nz-popover>
+                <a *ngIf="plan.theme == 5" nzPopoverContent="可配置5款免费主题，不赠送商业主题" nzPopoverPlacement="top" nz-popover>
                     <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
                 </a>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <a nzPopoverContent="可配置5款免费主题+5款商业主题" nzPopoverPlacement="top" nz-popover>
+                <a *ngIf="plan.theme == 10" nzPopoverContent="可配置5款免费主题+5款商业主题" nzPopoverPlacement="top" nz-popover>
                     <i nz-icon nzType="question-circle" nzTheme="twotone"></i>
                 </a>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <a nzPopoverContent="可配置全部免费+商业主题，无限制" nzPopoverPlacement="top" nz-popover>
+                <a *ngIf="plan.theme == 99"  nzPopoverContent="可配置全部免费+商业主题，无限制" nzPopoverPlacement="top" nz-popover>
                     <i nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
                 </a>
             </div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first cross">移除版权信息</div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
             <div class="grid-content content-cross">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">
-                <i nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">
-                <i nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
+                <i *ngIf="!plan.remove_powered_by" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
+                <i *ngIf="plan.remove_powered_by" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
             </div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first">1对1 微信QQ支持</div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <i nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <i nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
+            <div class="grid-content content-cross">
+                <i *ngIf="!plan.support_wechat" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
+                <i *ngIf="plan.support_wechat" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
             </div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first cross">1对1 电话支持</div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
             <div class="grid-content content-cross">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">
-                <i nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
+                <i *ngIf="!plan.support_phone" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
+                <i *ngIf="plan.support_phone" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
             </div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first">用户资料脱敏 <a nzPopoverContent="除管理员外，客服人员无法接触到客户的邮箱和联系电话，防止内部数据被盗" nzPopoverPlacement="top" nz-popover><i nz-icon nzType="info-circle" nzTheme="twotone"></i></a></div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <i nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
+            <div class="grid-content content-cross">
+                <i *ngIf="!plan.desensitize" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
+                <i *ngIf="plan.desensitize" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
             </div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first cross">私有部署 <a nzPopoverContent="部署到企业自己的服务器" nzPopoverPlacement="top" nz-popover><i nz-icon nzType="info-circle" nzTheme="twotone"></i></a></div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
             <div class="grid-content content-cross">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content content-cross">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
+                <i *ngIf="!plan.sso" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
+                <i *ngIf="plan.sso" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
             </div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first">对接企业统一登录 <a nzPopoverContent="使用企业内部统一验证系统登录" nzPopoverPlacement="top" nz-popover><i nz-icon nzType="info-circle" nzTheme="twotone"></i></a></div>
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content">
-                <i nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
+            <div class="grid-content content-cross">
+                <i *ngIf="!plan.sso" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
+                <i *ngIf="plan.sso" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
             </div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
         </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
+        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
             <div class="grid-content grid-buttom p-lg">
-                <button nz-button nzBlock nzSize="large" nzType="default" disabled>当前已选</button>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content grid-buttom p-lg">
-                <button nz-button nzBlock nzSize="large" nzType="primary">升级“专业版”</button>
-            </div>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="24 / count">
-            <div class="grid-content grid-buttom p-lg">
-                <button nz-button nzBlock nzSize="large" nzType="default">升级到“企业版”</button>
+                <button *ngIf="plan.name == '基础版'" nz-button nzBlock nzSize="large" nzType="default" disabled>当前套餐</button>
+                <button *ngIf="plan.name == '专业版'" nz-button nzBlock nzSize="large" nzType="primary">升级“{{plan.name}}”</button>
+                <button *ngIf="plan.name == '企业版'" nz-button nzBlock nzSize="large" nzType="default">升级到“{{plan.name}}”</button>
             </div>
         </div>
     </div>
