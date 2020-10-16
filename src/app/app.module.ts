@@ -40,7 +40,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 // 加载i18n语言文件
 export function I18nHttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, `assets/tmp/i18n/`, ".json");
+  return new TranslateHttpLoader(http, `assets/tmp/i18n/`, ".json?version=2");
 }
 
 const I18NSERVICE_MODULES = [
