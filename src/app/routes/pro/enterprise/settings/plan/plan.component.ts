@@ -37,7 +37,7 @@ export class ProEnterpriseSettingsPlanComponent implements OnInit {
   array = new Array(this.count);
   plan: Plan;
   plans_available: Plan[];
-  plans: Plan[];
+  plans: Plan[] = [];
 
   constructor(
     private http: _HttpClient,

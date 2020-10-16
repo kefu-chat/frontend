@@ -24,7 +24,7 @@
             <div class="grid-content-first cross">坐席数</div>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
-            <div class="grid-content">{{ plan.seats }}</div>
+            <div class="grid-content content-cross">{{ plan.seats }}</div>
         </div>
 
         <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
@@ -38,10 +38,10 @@
             <div class="grid-content-first cross">对话存档时间(天)</div>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
-            <div class="grid-content"> {{ plan.archive_days }}</div>
+            <div class="grid-content content-cross"> {{ plan.archive_days }}</div>
         </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)">
+        <div nz-col class=" gutter-row" [nzSpan]="24 / (plans.length + 1)">
             <div class="grid-content-first">统计报表</div>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
@@ -79,7 +79,7 @@
                 <a *ngIf="plan.theme == 10" nzPopoverContent="可配置5款免费主题+5款商业主题" nzPopoverPlacement="top" nz-popover>
                     <i nz-icon nzType="question-circle" nzTheme="twotone"></i>
                 </a>
-                <a *ngIf="plan.theme == 99"  nzPopoverContent="可配置全部免费+商业主题，无限制" nzPopoverPlacement="top" nz-popover>
+                <a *ngIf="plan.theme == 99" nzPopoverContent="可配置全部免费+商业主题，无限制" nzPopoverPlacement="top" nz-popover>
                     <i nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
                 </a>
             </div>
@@ -99,7 +99,7 @@
             <div class="grid-content-first">1对1 微信QQ支持</div>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
-            <div class="grid-content content-cross">
+            <div class="grid-content">
                 <i *ngIf="!plan.support_wechat" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
                 <i *ngIf="plan.support_wechat" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
             </div>
@@ -119,7 +119,7 @@
             <div class="grid-content-first">用户资料脱敏 <a nzPopoverContent="除管理员外，客服人员无法接触到客户的邮箱和联系电话，防止内部数据被盗" nzPopoverPlacement="top" nz-popover><i nz-icon nzType="info-circle" nzTheme="twotone"></i></a></div>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
-            <div class="grid-content content-cross">
+            <div class="grid-content">
                 <i *ngIf="!plan.desensitize" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
                 <i *ngIf="plan.desensitize" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
             </div>
@@ -139,7 +139,7 @@
             <div class="grid-content-first">对接企业统一登录 <a nzPopoverContent="使用企业内部统一验证系统登录" nzPopoverPlacement="top" nz-popover><i nz-icon nzType="info-circle" nzTheme="twotone"></i></a></div>
         </div>
         <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
-            <div class="grid-content content-cross">
+            <div class="grid-content">
                 <i *ngIf="!plan.sso" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
                 <i *ngIf="plan.sso" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
             </div>
