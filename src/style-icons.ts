@@ -5,6 +5,7 @@ import {
   CommentOutline,
   ExceptionOutline,
   InfoOutline,
+  InfoCircleTwoTone,
   LinkOutline,
   PhoneOutline,
   ProfileOutline,
@@ -17,6 +18,7 @@ import {
 
 export const ICONS = [
   InfoOutline,
+  InfoCircleTwoTone,
   BulbOutline,
   ProfileOutline,
   ExceptionOutline,
