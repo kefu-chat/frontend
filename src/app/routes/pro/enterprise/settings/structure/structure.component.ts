@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SettingsService, _HttpClient } from "@delon/theme";
 import { User as SettingUser } from '@delon/theme/src/services/settings/interface'
 import { NzMessageService } from "ng-zorro-antd/message";
@@ -97,14 +97,27 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     this.drawerWebsite = true;
     this.drawerWebsiteAction = "update";
     this.drawerWebsiteData = website;
-    this.drawerWebsiteForm = this.fb.group(this.drawerWebsiteData);
+    this.drawerWebsiteForm = this.fb.group({
+      ...this.drawerWebsiteData,
+      name: [website.name, [Validators.required]],
+      website: [website.website, [Validators.required]],
+      terminate_manual: [website.terminate_manual, [Validators.required]],
+      terminate_timeout: [website.terminate_timeout, [Validators.required]],
+      greeting_message: [website.greeting_message, [Validators.required]],
+      theme: [website.theme, [Validators.required]],
+      timeout: [website.timeout, [Validators.required]],
+    });
   }
 
   updateEmployee(user: User): void {
     this.drawerEmployee = true;
     this.drawerEmployeeAction = "update";
     this.drawerEmployeeData = user;
-    this.drawerEmployeeForm = this.fb.group(this.drawerEmployeeData);
+    this.drawerEmployeeForm = this.fb.group({
+      name: [user.name, [Validators.required]],
+      email: [user.email, [Validators.required, Validators.email]],
+      title: [user.title, [Validators.required]],
+    });
   }
 
   getCode(website: Website): void {
@@ -131,7 +144,16 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       theme: 'blue1',
       timeout: 900,
     };
-    this.drawerWebsiteForm = this.fb.group(this.drawerWebsiteData);
+    this.drawerWebsiteForm = this.fb.group({
+      ...this.drawerWebsiteData,
+      name: [null, [Validators.required]],
+      website: ["", [Validators.required]],
+      terminate_manual: ["", [Validators.required]],
+      terminate_timeout: ["", [Validators.required]],
+      greeting_message: ["", [Validators.required]],
+      theme: ["blue1", [Validators.required]],
+      timeout: [900, [Validators.required]],
+    });
   }
 
   createEmployee(): void {
@@ -148,7 +170,11 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       deleted_at: "",
       avatar: "",
     };
-    this.drawerEmployeeForm = this.fb.group(this.drawerEmployeeData);
+    this.drawerEmployeeForm = this.fb.group({
+      name: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
+      title: [null, [Validators.required]],
+    });
   }
 
   drawerWebsiteClose(): void {
@@ -169,6 +195,14 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   }
 
   submitWebsiteForm(): void {
+    Object.keys(this.drawerWebsiteForm.controls).forEach((key) => {
+      this.drawerWebsiteForm.controls[key].markAsDirty();
+      this.drawerWebsiteForm.controls[key].updateValueAndValidity();
+    });
+    if (this.drawerWebsiteForm.invalid) {
+      return;
+    }
+
     let url = `api/institution/create`;
     if (this.drawerWebsiteAction == `update`) {
       url = `api/institution/${this.drawerWebsiteData.id}/update`;
@@ -195,6 +229,14 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   }
 
   submitEmployeeForm(): void {
+    Object.keys(this.drawerEmployeeForm.controls).forEach((key) => {
+      this.drawerEmployeeForm.controls[key].markAsDirty();
+      this.drawerEmployeeForm.controls[key].updateValueAndValidity();
+    });
+    if (this.drawerEmployeeForm.invalid) {
+      return;
+    }
+
     let url = `api/institution/${this.institutionId}/employee/create`;
     if (this.drawerEmployeeAction == `update`) {
       url = `api/institution/${this.institutionId}/employee/${this.drawerEmployeeData.id}/update`;
