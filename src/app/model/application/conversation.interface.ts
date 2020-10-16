@@ -143,7 +143,7 @@ export interface Sender {
   memo?: string;
 }
 
-export interface MessageConversation {
+export interface MessageConversation extends Conversation {
   id: any;
   visitor_id: any;
   ip: string;

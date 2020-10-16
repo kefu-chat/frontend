@@ -334,10 +334,11 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
         { permission }
       )
       .subscribe(
-        (res: { success: boolean; message: string }) => {
+        (res: { success: boolean; message: string; data: {employee: User} }) => {
           if (res.success) {
             this.msg.success("修改成功!");
-            this.employees.filter(u => u.id === employee.id)[0].permissions = res.data.employee.permissions;
+            this.employees.filter((u) => u.id === employee.id)[0].permissions =
+              res.data.employee.permissions;
           } else {
             this.msg.error(res.message);
           }
