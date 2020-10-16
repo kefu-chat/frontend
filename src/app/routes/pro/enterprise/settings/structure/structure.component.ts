@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SettingsService, _HttpClient } from "@delon/theme";
-import { User as SettingUser } from '@delon/theme/src/services/settings/interface'
+import { User as SettingUser } from "@delon/theme/src/services/settings/interface";
 import { NzMessageService } from "ng-zorro-antd/message";
 import {
   User,
@@ -18,8 +18,8 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     public msg: NzMessageService,
     private http: _HttpClient,
     private fb: FormBuilder,
-    private settings: SettingsService,
-  ) { }
+    private settings: SettingsService
+  ) {}
 
   websites: Website[] = [];
   employees: User[] = [];
@@ -77,7 +77,10 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     sites[0].expand = true;
 
     this.http
-      .get(`api/institution/${siteId}/employee/list`, {per_page: 9999, ...query})
+      .get(`api/institution/${siteId}/employee/list`, {
+        per_page: 9999,
+        ...query,
+      })
       .subscribe((res: { data: { list: { data: User[] } } }) => {
         this.employees = res.data.list.data;
       });
@@ -141,7 +144,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       technical_phone: "",
       terminate_timeout: "",
       greeting_message: "",
-      theme: 'blue1',
+      theme: "blue1",
       timeout: 900,
     };
     this.drawerWebsiteForm = this.fb.group({
@@ -189,7 +192,6 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     this.drawerCode = false;
   }
 
-
   drawerPasswordClose(): void {
     this.drawerPassword = false;
   }
@@ -214,9 +216,10 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
         this.drawerWebsiteData = res.data.institution;
         this.drawerWebsiteForm = this.fb.group(this.drawerWebsiteData);
 
-        if (this.drawerWebsiteAction === 'update') {
+        if (this.drawerWebsiteAction === "update") {
           try {
-            this.websites.filter(w => w.id === res.data.institution.id)[0] = res.data.institution;
+            this.websites.filter((w) => w.id === res.data.institution.id)[0] =
+              res.data.institution;
           } catch (e) {
             console.error(e);
           }
@@ -224,7 +227,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
           this.websites.unshift(this.drawerWebsiteData);
         }
 
-        this.msg.success('成功!');
+        this.msg.success("成功!");
       });
   }
 
@@ -248,9 +251,10 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
         this.drawerEmployeeData = res.data.employee;
         this.drawerEmployeeForm = this.fb.group(this.drawerEmployeeData);
 
-        if (this.drawerEmployeeAction === 'update') {
+        if (this.drawerEmployeeAction === "update") {
           try {
-            this.employees.filter(e => e.id === res.data.employee.id)[0] = res.data.employee;
+            this.employees.filter((e) => e.id === res.data.employee.id)[0] =
+              res.data.employee;
           } catch (e) {
             console.error(e);
           }
@@ -265,25 +269,31 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   deactivateEmployee(website: Website, employee: User): void {
     this.http
       .post(`api/institution/${website.id}/employee/${employee.id}/deactivate`)
-      .subscribe((res: { data: {} }) => {
-        employee.deleted_at = (new Date).toISOString();
-        this.employees.filter(e => e.id === employee.id)[0] = employee;
-        this.msg.success('已禁用!');
-      }, (err: { error: { success: boolean; message: string } }) => {
-        this.msg.error(err.error.message);
-      });
+      .subscribe(
+        (res: { data: {} }) => {
+          employee.deleted_at = new Date().toISOString();
+          this.employees.filter((e) => e.id === employee.id)[0] = employee;
+          this.msg.success("已禁用!");
+        },
+        (err: { error: { success: boolean; message: string } }) => {
+          this.msg.error(err.error.message);
+        }
+      );
   }
 
   activateEmployee(website: Website, employee: User): void {
     this.http
       .post(`api/institution/${website.id}/employee/${employee.id}/activate`)
-      .subscribe((res: { data: {} }) => {
-        employee.deleted_at = null;
-        this.employees.filter(e => e.id === employee.id)[0] = employee;
-        this.msg.success('已启用!');
-      }, (err: { error: { success: boolean; message: string } }) => {
-        this.msg.error(err.error.message);
-      });
+      .subscribe(
+        (res: { data: {} }) => {
+          employee.deleted_at = null;
+          this.employees.filter((e) => e.id === employee.id)[0] = employee;
+          this.msg.success("已启用!");
+        },
+        (err: { error: { success: boolean; message: string } }) => {
+          this.msg.error(err.error.message);
+        }
+      );
   }
 
   updateEmployeePassword(website: Website, employee: User): void {
@@ -299,19 +309,42 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
 
   submitPasswordForm(): void {
     this.http
-      .post(`api/institution/${this.drawerPasswordData.institution_id}/employee/${this.drawerPasswordData.id}/change-password`, this.drawerPasswordForm.getRawValue())
-      .subscribe((res: { success: boolean; message: string }) => {
-        if (res.success) {
-          this.msg.success('修改成功!');
-        } else {
-          this.msg.error(res.message);
+      .post(
+        `api/institution/${this.drawerPasswordData.institution_id}/employee/${this.drawerPasswordData.id}/change-password`,
+        this.drawerPasswordForm.getRawValue()
+      )
+      .subscribe(
+        (res: { success: boolean; message: string }) => {
+          if (res.success) {
+            this.msg.success("修改成功!");
+          } else {
+            this.msg.error(res.message);
+          }
+        },
+        (err: { error: { success: boolean; message: string } }) => {
+          this.msg.error(err.error.message);
         }
-      }, (err: { error: { success: boolean; message: string } }) => {
-        this.msg.error(err.error.message);
-      });
+      );
   }
 
-  changePermission(employee: User, permission: 'support' | 'manager') {
-
+  changePermission(employee: User, permission: "support" | "manager"): void {
+    this.http
+      .post(
+        `api/institution/${this.institutionId}/employee/${employee.id}/change-permission`,
+        { permission }
+      )
+      .subscribe(
+        (res: { success: boolean; message: string }) => {
+          if (res.success) {
+            this.msg.success("修改成功!");
+            this.employees.filter(u => u.id === employee.id)[0].permissions = res.data.employee.permissions;
+          } else {
+            this.msg.error(res.message);
+          }
+        },
+        (err: { error: { success: boolean; message: string } }) => {
+          this.msg.error(err.error.message);
+        }
+      );
   }
 }

@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <ng-template ngFor let-website [ngForOf]="websitesTable.data">
+    <ng-template ngFor let-website [ngForOf]="websites">
       <tr>
         <td [(nzExpand)]="website.expand" (nzExpandChange)="expand(website, $event)"></td>
         <td>{{ website.name }}</td>
@@ -40,7 +40,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let data of employeesTable.data">
+            <tr *ngFor="let data of employees">
               <td>{{ data.name }}</td>
               <td>
                 <nz-badge [nzStatus]="'success'" [nzText]="'permission.' + permission.name | i18n" *ngFor="let permission of data.permissions"></nz-badge>
@@ -69,7 +69,8 @@
                       <li nz-menu-item>
                         <a (click)="updateEmployeePassword(website, data)">修改密码</a>
                       </li>
-                      <li nz-submenu nzTitle="修改权限">
+                      <li nz-submenu nzTitle="修改权限" [nzDisabled]="true" *ngIf="data.id === user.id || data.deleted_at"></li>
+                      <li nz-submenu nzTitle="修改权限" *ngIf="data.id !== user.id && !data.deleted_at">
                         <ul>
                           <li nz-menu-item>
                             <a (click)="changePermission(data,'manager')">管理员</a>
@@ -80,7 +81,10 @@
                         </ul>
                       </li>
                       <li nz-menu-divider></li>
-                      <li nz-menu-item>
+                      <li nz-menu-item [nzDisabled]="true" *ngIf="data.id === user.id || data.deleted_at">
+                        <a>穿越</a>
+                      </li>
+                      <li nz-menu-item *ngIf="data.id !== user.id && !data.deleted_at">
                         <a>穿越</a>
                       </li>
                     </ul>

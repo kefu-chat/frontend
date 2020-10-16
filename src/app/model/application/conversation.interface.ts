@@ -26,6 +26,7 @@ export interface Conversation {
   last_message?: MessageModel;
   online_status?: boolean;
   referer?: string;
+  title: string|null;
 }
 
 export interface Website {
