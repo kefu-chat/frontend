@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { App, SettingsService, _HttpClient } from "@delon/theme";
 import { askNotificationPermission, EchoService } from "@shared/service";
+import { environment } from "@env/environment";
 import { zip } from "rxjs";
 
 @Component({
@@ -32,6 +33,8 @@ export class HeaderComponent {
   }
 
   ngOnInit(): void {
+    this.registerServiceWorker('/assets/sw.js');
+
     zip(this.http.get("api/user", {})).subscribe(([{ data }]) => {
       this.institutionId = data.institution.id;
       this.userId = data.user.id;
@@ -124,5 +127,31 @@ export class HeaderComponent {
 
   searchToggleChange(): void {
     this.searchToggleStatus = !this.searchToggleStatus;
+  }
+
+  registerServiceWorker(js: string): void {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      navigator.serviceWorker.register(js)
+      .then((swRegistration: ServiceWorkerRegistration) => {
+        console.log('Service Worker is registered', swRegistration);
+
+        swRegistration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: environment.notificationKey,
+        })
+        .then((subscription: PushSubscription) => {
+          console.log('User is subscribed.', subscription);
+          // @todo: upload subscription
+        })
+        .catch((err) => {
+          console.log('Failed to subscribe the user: ', err);
+        });
+      })
+      .catch(function(error) {
+        console.error('Service Worker Error', error);
+      });
+    } else {
+      console.warn('Push messaging is not supported');
+    }
   }
 }
