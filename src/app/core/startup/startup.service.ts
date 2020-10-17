@@ -41,7 +41,7 @@ export class StartupService {
     // https://github.com/angular/angular/issues/15088
     return new Promise((resolve) => {
       zip(
-        this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
+        this.httpClient.get(`assets/i18n/${this.i18n.defaultLang}.json?version=2`),
         this.httpClient.get("assets/tmp/app-data.json")
       )
         .pipe(
