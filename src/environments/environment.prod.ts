@@ -5,5 +5,5 @@ export const environment = {
   production: true,
   useHash: false,
   hmr: false,
-  notificationKey: 'BCXe0oMT-AirkQAE4Lvsr9NEymW7ZoxqHtS3VbtP0WSXBbFQ7N95Bp-LJtKFtNk-6Hh6O5ES1pBzc60ivFOgJzw',
+  notificationKey: 'BABHGEaUywW5fuU4TyEE_0Qx9s4uHcpuwgbvJaXCe5EO6sP0jh_qT24cuRAr7Rmndz2mULSYuRb_lWMlElr1d_Y',
 };

@@ -33,91 +33,96 @@ export class HeaderComponent {
   }
 
   ngOnInit(): void {
-    this.registerServiceWorker('/assets/sw.js');
+    this.registerServiceWorker('/assets/sw.js', (subscription: PushSubscriptionJSON) => {
+      localStorage.setItem(`can_push`, 'yes');
 
-    zip(this.http.get("api/user", {})).subscribe(([{ data }]) => {
-      this.institutionId = data.institution.id;
-      this.userId = data.user.id;
+      this.http.post(`api/push/subscribe`, {subscription}).subscribe(console.log);
+    }, () => {
+      localStorage.setItem(`can_push`, 'no');
+      zip(this.http.get("api/user", {})).subscribe(([{ data }]) => {
+        this.institutionId = data.institution.id;
+        this.userId = data.user.id;
 
-      this.echoSrv.Echo.join(`institution.${this.institutionId}`).listen(
-        `.conversation.created`,
-        (e) => {
-          askNotificationPermission().then(() => {
-            let body = "";
+        this.echoSrv.Echo.join(`institution.${this.institutionId}`).listen(
+          `.conversation.created`,
+          (e) => {
+            askNotificationPermission().then(() => {
+              let body = "";
 
-            const notify = new Notification("新会话接入", {
-              body,
-              vibrate: 1,
-            });
+              const notify = new Notification("新会话接入", {
+                body,
+                vibrate: 1,
+              });
 
-            notify.onclick = () => {
-              console.log(e);
-              this.router.navigateByUrl(`/conversation/chat/${e.id}`);
-              window.focus();
-
-              setTimeout(() => {
-                notify.close();
-              }, 200);
-            };
-          });
-        }
-      );
-
-      this.echoSrv.Echo.join(
-        `institution.${this.institutionId}.assigned.${this.userId}`
-      )
-        .listen(`.conversation.created`, (e) => {
-          askNotificationPermission().then(() => {
-            let body = "";
-
-            const notify = new Notification("新会话接入", {
-              body,
-              vibrate: 1,
-            });
-
-            notify.onclick = () => {
-              window.focus();
-
-              setTimeout(() => {
+              notify.onclick = () => {
+                console.log(e);
                 this.router.navigateByUrl(`/conversation/chat/${e.id}`);
-                notify.close();
-              }, 200);
-            };
-          });
-        })
-        .listen(`.message.created`, (msg) => {
-          if (msg.sender_type_text == "user") {
-            return;
-          }
-          askNotificationPermission().then(() => {
-            let body, image;
+                window.focus();
 
-            if (msg.type == 1) {
-              body = msg.content;
-            }
-            if (msg.type == 2) {
-              body = "[图片消息]";
-              image = msg.content;
-            }
-
-            const notify = new Notification("您收到新消息", {
-              body,
-              image,
-              vibrate: 1,
+                setTimeout(() => {
+                  notify.close();
+                }, 200);
+              };
             });
+          }
+        );
 
-            notify.onclick = () => {
-              window.focus();
+        this.echoSrv.Echo.join(
+          `institution.${this.institutionId}.assigned.${this.userId}`
+        )
+          .listen(`.conversation.created`, (e) => {
+            askNotificationPermission().then(() => {
+              let body = "";
 
-              setTimeout(() => {
-                this.router.navigateByUrl(
-                  `/conversation/chat/${msg.conversation_id}`
-                );
-                notify.close();
-              }, 200);
-            };
+              const notify = new Notification("新会话接入", {
+                body,
+                vibrate: 1,
+              });
+
+              notify.onclick = () => {
+                window.focus();
+
+                setTimeout(() => {
+                  this.router.navigateByUrl(`/conversation/chat/${e.id}`);
+                  notify.close();
+                }, 200);
+              };
+            });
+          })
+          .listen(`.message.created`, (msg) => {
+            if (msg.sender_type_text == "user") {
+              return;
+            }
+            askNotificationPermission().then(() => {
+              let body, image;
+
+              if (msg.type == 1) {
+                body = msg.content;
+              }
+              if (msg.type == 2) {
+                body = "[图片消息]";
+                image = msg.content;
+              }
+
+              const notify = new Notification("您收到新消息", {
+                body,
+                image,
+                vibrate: 1,
+              });
+
+              notify.onclick = () => {
+                window.focus();
+
+                setTimeout(() => {
+                  this.router.navigateByUrl(
+                    `/conversation/chat/${msg.conversation_id}`
+                  );
+                  notify.close();
+                }, 200);
+              };
+            });
           });
-        });
+      });
     });
   }
 
@@ -129,28 +134,43 @@ export class HeaderComponent {
     this.searchToggleStatus = !this.searchToggleStatus;
   }
 
-  registerServiceWorker(js: string): void {
+  registerServiceWorker(js: string, onSuccess: (json: PushSubscriptionJSON) => void, onError: () => void): void {
     if ('serviceWorker' in navigator && 'PushManager' in window) {
       navigator.serviceWorker.register(js)
       .then((swRegistration: ServiceWorkerRegistration) => {
         console.log('Service Worker is registered', swRegistration);
 
-        swRegistration.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: environment.notificationKey,
-        })
-        .then((subscription: PushSubscription) => {
+        const onSubscribed = (subscription: PushSubscription) => {
           console.log('User is subscribed.', subscription);
-          // @todo: upload subscription
-        })
-        .catch((err) => {
-          console.log('Failed to subscribe the user: ', err);
-        });
+          onSuccess(subscription.toJSON());
+        };
+
+        const doSubscribe = () => {
+          swRegistration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: environment.notificationKey,
+          })
+          .then(onSubscribed)
+          .catch((err) => {
+            onError();
+            console.error('Failed to subscribe the user: ', err);
+          });
+        };
+
+        swRegistration.pushManager.getSubscription().then((subscription: null | PushSubscription) => {
+          if (!subscription) {
+            doSubscribe();
+            return;
+          }
+          onSubscribed(subscription);
+        }, doSubscribe);
       })
       .catch(function(error) {
+        onError();
         console.error('Service Worker Error', error);
       });
     } else {
+      onError();
       console.warn('Push messaging is not supported');
     }
   }

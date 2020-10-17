@@ -10,7 +10,7 @@ export const environment = {
   production: false,
   useHash: false,
   hmr: false,
-  notificationKey: 'BGW7v-IuLKu7Evhb9Fkgt3aoUH2wzuQ1iYEEWam4AddeZqiOYuRYc4zsrq4odBJXpkKr8Wu9u7OtA4poqjpH_3M',
+  notificationKey: 'BABHGEaUywW5fuU4TyEE_0Qx9s4uHcpuwgbvJaXCe5EO6sP0jh_qT24cuRAr7Rmndz2mULSYuRb_lWMlElr1d_Y',
 };
 
 /*
