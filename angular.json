@@ -22,7 +22,7 @@
             "main": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": ["src/assets", "src/favicon.ico"],
+            "assets": ["src/assets", "src/sw.js", "src/favicon.ico"],
             "styles": [
               "src/styles.less",
               "node_modules/@ctrl/ngx-emoji-mart/picker.css"

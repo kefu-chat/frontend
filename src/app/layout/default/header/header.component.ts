@@ -33,7 +33,7 @@ export class HeaderComponent {
   }
 
   ngOnInit(): void {
-    this.registerServiceWorker('/assets/sw.js', (subscription: PushSubscriptionJSON) => {
+    this.registerServiceWorker('/sw.js', (subscription: PushSubscriptionJSON) => {
       localStorage.setItem(`can_push`, 'yes');
 
       this.http.post(`api/push/subscribe`, {subscription}).subscribe(console.log);

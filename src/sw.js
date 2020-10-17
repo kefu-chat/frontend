@@ -1,5 +1,3 @@
-const { consoleTestResultHandler } = require("tslint/lib/test");
-
 // Service worker
 self.addEventListener('install', function (event) {
 	self.skipWaiting();
@@ -29,9 +27,11 @@ self.addEventListener('notificationclose', function (event) {
 });
 
 self.addEventListener('push', function (event) {
-  event.waitUntil(
-    self.registration.showNotification('Web Push Notification', {
-      body: event.data.text(),
-    })
-  );
+  if (Notification.permission === "granted") {
+    var notify = self.registration.showNotification(event.data.json().title, event.data.json());
+
+    event.waitUntil(notify);
+  } else {
+    console.error('notify permission not granted: ' + Notification.permission)
+  }
 });
