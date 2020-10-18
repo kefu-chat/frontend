@@ -1,0 +1,17 @@
+import { EventEmitter } from '@angular/core';
+import { Emoji } from '@shared/lib/ngx-emoji-mart/ngx-emoji';
+export declare class SkinComponent {
+    /** currently selected skin */
+    skin?: Emoji['skin'];
+    i18n: any;
+    changeSkin: EventEmitter<number>;
+    opened: boolean;
+    skinTones: number[];
+    toggleOpen(): void;
+    isSelected(skinTone: Emoji['skin']): boolean;
+    isVisible(skinTone: Emoji['skin']): boolean;
+    pressed(skinTone: Emoji['skin']): boolean | "";
+    tabIndex(skinTone: Emoji['skin']): "" | "0";
+    expanded(skinTone: Emoji['skin']): boolean | "";
+    handleClick(skin: number): void;
+}

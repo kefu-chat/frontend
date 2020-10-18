@@ -1,0 +1,28 @@
+{
+  "name": "@shared/lib/ngx-emoji-mart/ngx-emoji",
+  "author": "scttcper",
+  "repository": "scttcper/ngx-emoji-mart",
+  "license": "MIT",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "../bundles/ctrl-ngx-emoji-mart-ngx-emoji.umd.js",
+  "module_ivy_ngcc": "../__ivy_ngcc__/fesm2015/ctrl-ngx-emoji-mart-ngx-emoji.js",
+  "module": "../fesm2015/ctrl-ngx-emoji-mart-ngx-emoji.js",
+  "es2015_ivy_ngcc": "../__ivy_ngcc__/fesm2015/ctrl-ngx-emoji-mart-ngx-emoji.js",
+  "es2015": "../fesm2015/ctrl-ngx-emoji-mart-ngx-emoji.js",
+  "esm2015": "../esm2015/ngx-emoji/ctrl-ngx-emoji-mart-ngx-emoji.js",
+  "fesm2015_ivy_ngcc": "../__ivy_ngcc__/fesm2015/ctrl-ngx-emoji-mart-ngx-emoji.js",
+  "fesm2015": "../fesm2015/ctrl-ngx-emoji-mart-ngx-emoji.js",
+  "typings": "ctrl-ngx-emoji-mart-ngx-emoji.d.ts",
+  "metadata": "ctrl-ngx-emoji-mart-ngx-emoji.metadata.json",
+  "__processed_by_ivy_ngcc__": {
+    "es2015": "10.1.5",
+    "fesm2015": "10.1.5",
+    "module": "10.1.5",
+    "typings": "10.1.5"
+  },
+  "scripts": {
+    "prepublishOnly": "node --eval \"console.error('ERROR: Trying to publish a package that has been compiled by NGCC. This is not allowed.\\nPlease delete and rebuild the package, without compiling with NGCC, before attempting to publish.\\nNote that NGCC may have been run by importing this package into another project that is being built with Ivy enabled.\\n')\" && exit 1"
+  }
+}

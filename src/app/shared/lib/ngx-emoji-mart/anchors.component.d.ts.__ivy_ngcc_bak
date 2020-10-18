@@ -1,0 +1,17 @@
+import { EventEmitter } from '@angular/core';
+import { EmojiCategory } from '@shared/lib/ngx-emoji-mart/ngx-emoji';
+export declare class AnchorsComponent {
+    categories: EmojiCategory[];
+    color?: string;
+    selected?: string;
+    i18n: any;
+    icons: {
+        [key: string]: string;
+    };
+    anchorClick: EventEmitter<{
+        category: EmojiCategory;
+        index: number;
+    }>;
+    trackByFn(idx: number, cat: EmojiCategory): string;
+    handleClick($event: Event, index: number): void;
+}

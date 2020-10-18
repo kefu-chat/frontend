@@ -7,7 +7,7 @@ import {
   Output,
 } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { EmojiEvent } from "@ctrl/ngx-emoji-mart/ngx-emoji";
+import { EmojiEvent } from "@shared/lib/ngx-emoji-mart/ngx-emoji";
 import { _HttpClient } from "@delon/theme";
 import { SettingsService, User } from "@delon/theme";
 import {
@@ -46,6 +46,21 @@ export class ChatDetailComponent implements OnInit {
   conversation: Conversation;
   visitor: Visitor;
   imgWidth: number;
+  // emojis = [
+  //   {
+  //     name: "custom",
+  //     shortNames: ["custom"],
+  //     text: "",
+  //     emoticons: [],
+  //     keywords: ["test", "flag"],
+  //     spriteUrl: "http://dev.fastsupport.cn/img/64.png",
+  //     sheet_x: 1,
+  //     sheet_y: 1,
+  //     size: 64,
+  //     sheetColumns: 57,
+  //     sheetRows: 57,
+  //   },
+  // ];
   @Input()
   set sid(id: string) {
     this.id = id;

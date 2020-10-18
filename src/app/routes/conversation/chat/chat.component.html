@@ -59,8 +59,9 @@
             </div>
           </ng-template>
           <nz-tab [nzTitle]="titleUnassigned">
-            <div
-              *ngIf="!unassignedCount"
+            <ng-template #unassignedEmpty>
+              <div
+              *ngIf="(unassignedCount + unassignedData.length) == 0"
               nz-row
               nzAlign="middle"
               style="width: 100%; height: calc(100vh - 121px)"
@@ -79,6 +80,7 @@
                 </h1>
               </div>
             </div>
+            </ng-template>
             <div class="search-wrapper hidden-xs" *ngIf="selectId">
               <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
                 <input
@@ -90,12 +92,12 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && unassignedCount > 0">
+            <div class="ul-thead" *ngIf="!selectId && (unassignedCount + unassignedData.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="unassignedCount > 0">
+            <ul class="conversation-list-ul" *ngIf="(unassignedCount + unassignedData.length) > 0;else unassignedEmpty;">
               <ng-container *ngFor="let item of unassignedData">
                 <nz-ribbon [nzText]="!item.user?'New':''" [nzColor]="!item.user?'red':'transparent'">
                   <li
@@ -158,7 +160,8 @@
             </ul>
           </nz-tab>
           <nz-tab [nzTitle]="titleAssigned">
-            <div
+            <ng-template #assignedEmpty>
+              <div
               *ngIf="!assignedCount"
               nz-row
               nzAlign="middle"
@@ -178,6 +181,7 @@
                 </h1>
               </div>
             </div>
+            </ng-template>  
             <div class="search-wrapper" *ngIf="selectId">
               <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
                 <input
@@ -189,12 +193,12 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && assignedCount > 0">
+            <div class="ul-thead" *ngIf="!selectId && (assignedCount + assignedData.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="assignedCount > 0">
+            <ul class="conversation-list-ul" *ngIf="(assignedCount + assignedData.length) > 0;else assignedEmpty">
               <li
                 nz-menu-item
                 class="conversation-item"
@@ -253,7 +257,8 @@
             </ul>
           </nz-tab>
           <nz-tab [nzTitle]="titleHistory">
-            <div
+            <ng-template #historyEmpty>
+              <div
               *ngIf="!historyCount"
               nz-row
               nzAlign="middle"
@@ -273,6 +278,7 @@
                 </h1>
               </div>
             </div>
+            </ng-template>   
             <div class="search-wrapper" *ngIf="selectId">
               <nz-input-group [nzPrefix]="searchTemplate" class="searchInput">
                 <input
@@ -284,12 +290,12 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && historyCount > 0">
+            <div class="ul-thead" *ngIf="!selectId && (historyCount + historyData.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="historyCount > 0">
+            <ul class="conversation-list-ul" *ngIf="(historyCount + historyData.length) > 0;else historyEmpty">
               <li
                 nz-menu-item
                 class="conversation-item"

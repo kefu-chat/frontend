@@ -1,0 +1,79 @@
+{
+  "$schema": "../../../node_modules/ng-packagr/package.schema.json",
+  "_from": "@shared/lib/ngx-emoji-mart@^4.0.2",
+  "_id": "@shared/lib/ngx-emoji-mart@4.0.2",
+  "_inBundle": false,
+  "_integrity": "sha1-7KuiwtKRd22cJm0IROY0+oifLNA=",
+  "_location": "/@shared/lib/ngx-emoji-mart",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@shared/lib/ngx-emoji-mart@^4.0.2",
+    "name": "@shared/lib/ngx-emoji-mart",
+    "escapedName": "@shared/lib%2fngx-emoji-mart",
+    "scope": "@shared/lib",
+    "rawSpec": "^4.0.2",
+    "saveSpec": null,
+    "fetchSpec": "^4.0.2"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npm.taobao.org/@shared/lib/ngx-emoji-mart/download/@shared/lib/ngx-emoji-mart-4.0.2.tgz",
+  "_shasum": "ecaba2c2d291776d9c266d0844e634fa889f2cd0",
+  "_spec": "@shared/lib/ngx-emoji-mart@^4.0.2",
+  "_where": "/Users/reign/Documents/GitHub/frontend",
+  "bugs": {
+    "url": "https://github.com/scttcper/ngx-emoji-mart/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "deprecated": false,
+  "description": "Customizable Slack-like emoji picker for Angular",
+  "es2015_ivy_ngcc": "__ivy_ngcc__/fesm2015/ctrl-ngx-emoji-mart.js",
+  "es2015": "fesm2015/ctrl-ngx-emoji-mart.js",
+  "esm2015": "esm2015/ctrl-ngx-emoji-mart.js",
+  "fesm2015_ivy_ngcc": "__ivy_ngcc__/fesm2015/ctrl-ngx-emoji-mart.js",
+  "fesm2015": "fesm2015/ctrl-ngx-emoji-mart.js",
+  "homepage": "https://ngx-emoji-mart.vercel.app",
+  "keywords": [
+    "angular",
+    "emoji",
+    "picker"
+  ],
+  "license": "MIT",
+  "main": "bundles/ctrl-ngx-emoji-mart.umd.js",
+  "metadata": "ctrl-ngx-emoji-mart.metadata.json",
+  "module_ivy_ngcc": "__ivy_ngcc__/fesm2015/ctrl-ngx-emoji-mart.js",
+  "module": "fesm2015/ctrl-ngx-emoji-mart.js",
+  "name": "@shared/lib/ngx-emoji-mart",
+  "peerDependencies": {
+    "@angular/core": ">=10.0.0-0",
+    "@angular/common": ">=10.0.0-0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scttcper/ngx-emoji-mart.git"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "typings": "ctrl-ngx-emoji-mart.d.ts",
+  "version": "4.0.2",
+  "__processed_by_ivy_ngcc__": {
+    "es2015": "10.1.5",
+    "fesm2015": "10.1.5",
+    "module": "10.1.5",
+    "typings": "10.1.5"
+  },
+  "scripts": {
+    "prepublishOnly": "node --eval \"console.error('ERROR: Trying to publish a package that has been compiled by NGCC. This is not allowed.\\nPlease delete and rebuild the package, without compiling with NGCC, before attempting to publish.\\nNote that NGCC may have been run by importing this package into another project that is being built with Ivy enabled.\\n')\" && exit 1"
+  }
+}

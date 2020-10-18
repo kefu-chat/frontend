@@ -116,17 +116,28 @@ export class ChatComponent implements OnInit {
           this.assignedData.unshift(conversation);
         })
         .listen(`.message.created`, (message: MessageModel) => {
-          const conversations = this.assignedData.filter(
-            (item) => item.id === message.conversation_id
-          );
-          const conversation = conversations[0];
-          if (!conversation) {
-            return;
+          const arr = ["assignedData", "unassignedData"];
+          let conversations = [];
+          for (const i of arr) {
+            conversations = this[i].filter(
+              (item) => item.id === message.conversation_id
+            );
+            if (conversations.length == 0) {
+              continue;
+            }
           }
+
+          const conversation = conversations[0];
 
           conversation.last_message = message;
           conversation.updated_at = conversation.last_reply_at =
             message.created_at;
+          if (message.sender_type_text == "user") {
+            if (!conversation.user) {
+              this.unassignedCount--;
+            }
+            conversation.user = message.sender;
+          }
         });
     });
   }
@@ -161,6 +172,7 @@ export class ChatComponent implements OnInit {
             return;
           }
           this.unassignedData.unshift(conversation);
+          this.unassignedCount++;
         })
         .listen(`.message.created`, (message: MessageModel) => {
           const conversations = this.unassignedData.filter(

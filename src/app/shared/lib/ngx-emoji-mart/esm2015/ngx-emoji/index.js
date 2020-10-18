@@ -1,0 +1,8 @@
+export * from './data/categories';
+export * from './data/data.interfaces';
+export * from './data/emojis';
+export * from './data/skins';
+export * from './emoji.component';
+export * from './emoji.module';
+export * from './emoji.service';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvbGliL3BpY2tlci9uZ3gtZW1vamkvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsY0FBYyxtQkFBbUIsQ0FBQztBQUNsQyxjQUFjLHdCQUF3QixDQUFDO0FBQ3ZDLGNBQWMsZUFBZSxDQUFDO0FBQzlCLGNBQWMsY0FBYyxDQUFDO0FBRTdCLGNBQWMsbUJBQW1CLENBQUM7QUFDbEMsY0FBYyxnQkFBZ0IsQ0FBQztBQUMvQixjQUFjLGlCQUFpQixDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0ICogZnJvbSAnLi9kYXRhL2NhdGVnb3JpZXMnO1xuZXhwb3J0ICogZnJvbSAnLi9kYXRhL2RhdGEuaW50ZXJmYWNlcyc7XG5leHBvcnQgKiBmcm9tICcuL2RhdGEvZW1vamlzJztcbmV4cG9ydCAqIGZyb20gJy4vZGF0YS9za2lucyc7XG5cbmV4cG9ydCAqIGZyb20gJy4vZW1vamkuY29tcG9uZW50JztcbmV4cG9ydCAqIGZyb20gJy4vZW1vamkubW9kdWxlJztcbmV4cG9ydCAqIGZyb20gJy4vZW1vamkuc2VydmljZSc7XG4iXX0=

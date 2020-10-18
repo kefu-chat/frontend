@@ -15,8 +15,8 @@ import { CountdownModule } from "ngx-countdown";
 import { NgxTinymceModule } from "ngx-tinymce";
 import { UEditorModule } from "ngx-ueditor";
 
-import { PickerModule } from "@ctrl/ngx-emoji-mart";
-import { EmojiModule } from "@ctrl/ngx-emoji-mart/ngx-emoji";
+import { PickerModule } from "@shared/lib/ngx-emoji-mart";
+import { EmojiModule } from "@shared/lib/ngx-emoji-mart/ngx-emoji";
 
 const THIRDMODULES = [
   CountdownModule,
