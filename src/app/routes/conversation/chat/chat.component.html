@@ -96,61 +96,65 @@
               <div>渠道</div>
             </div>
             <ul class="conversation-list-ul" *ngIf="unassignedCount > 0">
-              <li
-                nz-menu-item
-                class="conversation-item"
-                *ngFor="let item of unassignedData"
-                [nzSelected]="selectId == item.id"
-                (click)="to(item)"
-              >
-                <div [style]="selectId ? '' : 'width: 33%'">
-                  <nz-avatar
-                    nz-comment-avatar
-                    nzIcon="user"
-                    [nzSrc]="item.icon"
-                    [style]="
-                      !item.online_status ? 'filter: grayscale(1)' : ''
-                    "
-                  ></nz-avatar>
-                  <div class="conversation-list-content">
-                    <div class="conversation-visitor-name">
-                      {{ item.visitor.name }}
-                      {{ !item.online_status ? "(已离线)" : "" }}
+              <ng-container *ngFor="let item of unassignedData">
+                <nz-ribbon [nzText]="!item.user?'New':''" [nzColor]="!item.user?'red':'transparent'">
+                  <li
+                    nz-menu-item
+                    class="conversation-item"
+                    [nzSelected]="selectId == item.id"
+                    (click)="to(item)"
+                  >
+                    <div [style]="selectId ? '' : 'width: 33%'">
+                      <nz-avatar
+                        nz-comment-avatar
+                        nzIcon="user"
+                        [nzSrc]="item.icon"
+                        [style]="
+                          !item.online_status ? 'filter: grayscale(1)' : ''
+                        "
+                      ></nz-avatar>
+                      <div class="conversation-list-content">
+                        <div class="conversation-visitor-name">
+                          {{ item.visitor.name }}
+                          {{ !item.online_status ? "(已离线)" : "" }}
+                        </div>
+                        <div class="last-message" *ngIf="item.last_message">
+                          <span>
+                            {{
+                              item.last_message.sender_type_text == "user"
+                                ? item.last_message.sender_id == user.id
+                                  ? "你"
+                                  : item.last_message.sender.name + "(客服)"
+                                : item.last_message.sender.name
+                            }}:
+                            <span *ngIf="item.last_message.type == 1">
+                              {{ item.last_message.content }}
+                            </span>
+                            <span *ngIf="item.last_message.type == 2">
+                              [图片消息]
+                            </span>
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <div class="last-message" *ngIf="item.last_message">
-                      <span>
-                        {{
-                          item.last_message.sender_type_text == "user"
-                            ? item.last_message.sender_id == user.id
-                              ? "你"
-                              : item.last_message.sender.name + "(客服)"
-                            : item.last_message.sender.name
-                        }}:
-                        <span *ngIf="item.last_message.type == 1">
-                          {{ item.last_message.content }}
-                        </span>
-                        <span *ngIf="item.last_message.type == 2">
-                          [图片消息]
-                        </span>
-                      </span>
+                    <div *ngIf="!selectId" style="width: 33%">
+                      {{ item.last_reply_at }}
                     </div>
-                  </div>
-                </div>
-                <div *ngIf="!selectId" style="width: 33%">
-                  {{ item.last_reply_at }}
-                </div>
-                <div *ngIf="!selectId" style="width: 33%">
-                  <div class="line-height-24" *ngIf="item.url">
-                    {{ item.url }}
-                  </div>
-                  <div class="line-height-24" *ngIf="item.title">
-                    {{ item.title }}
-                  </div>
-                  <div class="line-height-24" *ngIf="item.referer">
-                    {{ item.referer }}
-                  </div>
-                </div>
-              </li>
+                    <div *ngIf="!selectId" style="width: 33%">
+                      <div class="line-height-24" *ngIf="item.url">
+                        {{ item.url }}
+                      </div>
+                      <div class="line-height-24" *ngIf="item.title">
+                        {{ item.title }}
+                      </div>
+                      <div class="line-height-24" *ngIf="item.referer">
+                        {{ item.referer }}
+                      </div>
+                    </div>
+                  </li>
+                </nz-ribbon>
+              </ng-container>
+    
             </ul>
           </nz-tab>
           <nz-tab [nzTitle]="titleAssigned">
