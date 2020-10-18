@@ -22,10 +22,12 @@ export interface Plan {
   support_wechat: boolean;
   remove_powered_by: boolean;
   theme: 5 | 10 | 99;
+  archive_days: number;
   expires_at?: string;
   created_at?: string;
   updated_at?: string;
   inivite: boolean;
+  private_deploy: boolean;
 }
 
 export const STATUS_UNPAID = 0;
@@ -154,17 +156,21 @@ export class ProEnterpriseSettingsPlanComponent implements OnInit {
 
   cancel(order: Order): void {
     this.http
-      .post(
-        `api/enterprise/plan/upgrade/${order.id}/cancel`
-      )
+      .post(`api/enterprise/plan/upgrade/${order.id}/cancel`)
       .subscribe(
         (res: {
           success: boolean;
           message?: string;
           data: { order: Order };
         }) => {
-          this.orders.filter(o => o.id === order.id)[0].status = STATUS_CANCELLED;
+          this.orders.filter(
+            (o) => o.id === order.id
+          )[0].status = STATUS_CANCELLED;
         }
       );
   }
+
+  applyInvoice(order: Order): void {}
+
+  pay(order: Order): void {}
 }
