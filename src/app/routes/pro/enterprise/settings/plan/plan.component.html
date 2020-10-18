@@ -150,8 +150,8 @@
         <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
             <div class="grid-content grid-buttom p-lg">
                 <button *ngIf="plan.name == '基础版'" nz-button nzBlock nzSize="large" nzType="default" disabled>当前套餐</button>
-                <button *ngIf="plan.name == '专业版'" nz-button nzBlock nzSize="large" nzType="primary">升级“{{plan.name}}”</button>
-                <button *ngIf="plan.name == '企业版'" nz-button nzBlock nzSize="large" nzType="default">升级到“{{plan.name}}”</button>
+                <button *ngIf="plan.name == '专业版'" nz-button nzBlock nzSize="large" nzType="primary" (click)="select(plan.id)">升级“{{plan.name}}”</button>
+                <button *ngIf="plan.name == '企业版'" nz-button nzBlock nzSize="large" nzType="default" (click)="select(plan.id)">升级到“{{plan.name}}”</button>
             </div>
         </div>
     </div>
@@ -165,3 +165,29 @@
         <p class="m0">3. 支持开具增值税纸质发票, 请您联系您的专属1对1客服开具.</p>
     </div>
 </div>
+
+<nz-drawer *ngIf="selectedPlan" [nzClosable]="false" [nzWidth]="450" [nzVisible]="selectedPlan" [nzTitle]="'选购“' + plan.name + '”'" (nzOnClose)="unselect()">
+  <form nz-form nzLayout="vertical" [formGroup]="upgradeForm" (ngSubmit)="upgrade()">
+    <nz-form-item>
+      <nz-form-label>时长</nz-form-label>
+      <nz-form-control nzErrorTip="Please select your 时长!">
+        <nz-radio-group formControlName="period">
+          <ng-container *ngFor="let key of periodsList">
+            <label nz-radio-button [nzValue]="key">{{('period_' + key) | i18n}}</label>
+          </ng-container>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>价格</nz-form-label>
+      <nz-form-control>
+        <span>{{selectedPlan['price_' + upgradeForm.get('period').value]}}</span>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary">下单</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-drawer>

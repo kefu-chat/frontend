@@ -159,5 +159,9 @@
   "menu.conversation.robot": "自动",
   "app.verify": "验证",
   "permission.support": "客服",
-  "permission.manager": "管理员"
+  "permission.manager": "管理员",
+  "period_monthly": "月付",
+  "period_annually": "年付",
+  "period_biennially": "2 年付",
+  "period_triennially": "3 年付"
 }
