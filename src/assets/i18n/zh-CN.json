@@ -163,5 +163,8 @@
   "period_monthly": "月付",
   "period_annually": "年付",
   "period_biennially": "2 年付",
-  "period_triennially": "3 年付"
+  "period_triennially": "3 年付",
+  "order_status_0": "未支付",
+  "order_status_1": "已支付",
+  "order_status_-1": "已取消"
 }

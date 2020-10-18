@@ -130,8 +130,8 @@
         </div>
         <div nz-col class="gutter-row" [nzSpan]="24 / (plans.length + 1)" *ngFor="let plan of plans">
             <div class="grid-content content-cross">
-                <i *ngIf="!plan.sso" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
-                <i *ngIf="plan.sso" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
+                <i *ngIf="!plan.private_deploy" nz-icon nzType="close-circle" nzTheme="twotone" [nzTwotoneColor]="'#f00'"></i>
+                <i *ngIf="plan.private_deploy" nz-icon nzType="check-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i>
             </div>
         </div>
 
@@ -172,16 +172,14 @@
       <nz-form-label>时长</nz-form-label>
       <nz-form-control nzErrorTip="Please select your 时长!">
         <nz-radio-group formControlName="period">
-          <ng-container *ngFor="let key of periodsList">
-            <label nz-radio-button [nzValue]="key">{{('period_' + key) | i18n}}</label>
-          </ng-container>
+          <label *ngFor="let key of periodsList" nz-radio-button [nzValue]="key">{{('period_' + key) | i18n}}</label>
         </nz-radio-group>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label>价格</nz-form-label>
       <nz-form-control>
-        <span>{{selectedPlan['price_' + upgradeForm.get('period').value]}}</span>
+        <span class="text-lime-6 font-weight-bold">￥{{selectedPlan['price_' + upgradeForm.get('period').value]}}</span>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -191,3 +189,55 @@
     </nz-form-item>
   </form>
 </nz-drawer>
+
+<div class="title mt-lg pt-lg">订单记录</div>
+<nz-table [nzData]="orders" [nzShowPagination]="true" [nzTotal]="ordersTotal" [nzPageSize]="per_page" (nzPageIndexChange)="orderList($event)">
+  <thead>
+    <tr>
+      <!--<th>#</th>-->
+      <th>套餐</th>
+      <th>金额</th>
+      <th>时长</th>
+      <th>状态</th>
+      <th>下单时间</th>
+      <th class="text-right">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of orders">
+      <!--<td>{{ order.id }}</td>-->
+      <td>{{ order.plan.name }}</td>
+      <td>{{ order.price }}</td>
+      <td>{{ ('period_' + order.period) | i18n }}</td>
+      <td>{{ ('order_status_' + order.status) | i18n }}</td>
+      <td>{{ order.created_at }}</td>
+      <td class="text-right">
+        <span class="table-operation">
+          <span *ngIf="order.status == STATUS_UNPAID">
+            <a (click)="pay(order)">继续支付</a>
+          </span>
+          <span *ngIf="order.status == STATUS_UNPAID">
+            <nz-divider nzType="vertical"></nz-divider>
+            <a 
+              nz-popconfirm
+              nzPopconfirmTitle="确认取消订单?"
+              nzOkText="仍要取消"
+              nzOkType="danger"
+              nzPopconfirmPlacement="left"
+              [nzIcon]="iconTpl"
+              (nzOnConfirm)="cancel(order)">
+              <ng-template #iconTpl>
+                <i nz-icon nzType="question-circle-o" style="color: red"></i>
+              </ng-template>
+              取消
+            </a>
+          </span>
+          <span *ngIf="order.status == STATUS_PAID">
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="applyInvoice(order)">申请发票</a>
+          </span>
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
