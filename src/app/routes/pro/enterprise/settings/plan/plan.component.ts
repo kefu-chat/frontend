@@ -25,6 +25,7 @@ export interface Plan {
   expires_at?: string;
   created_at?: string;
   updated_at?: string;
+  inivite: boolean;
 }
 
 export const STATUS_UNPAID = 0;
