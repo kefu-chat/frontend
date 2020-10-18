@@ -1,8 +1,12 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { App, SettingsService, _HttpClient } from "@delon/theme";
-import { askNotificationPermission, EchoService } from "@shared/service";
 import { environment } from "@env/environment";
+import {
+  Conversation,
+  MessageModel,
+} from "@model/application/conversation.interface";
+import { askNotificationPermission, EchoService } from "@shared/service";
 import { zip } from "rxjs";
 
 @Component({
@@ -12,8 +16,8 @@ import { zip } from "rxjs";
 })
 export class HeaderComponent {
   searchToggleStatus: boolean;
-  institutionId: String;
-  userId: String;
+  institutionId: string;
+  userId: string;
 
   get app(): App {
     return this.settings.app;
@@ -32,97 +36,15 @@ export class HeaderComponent {
     this.settings.setLayout("collapsed", true);
   }
 
+  // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit(): void {
+    this.registerWebSocket();
+
     this.registerServiceWorker('/sw.js', (subscription: PushSubscriptionJSON) => {
       localStorage.setItem(`can_push`, 'yes');
-
       this.http.post(`api/push/subscribe`, {subscription}).subscribe(console.log);
     }, () => {
       localStorage.setItem(`can_push`, 'no');
-      zip(this.http.get("api/user", {})).subscribe(([{ data }]) => {
-        this.institutionId = data.institution.id;
-        this.userId = data.user.id;
-
-        this.echoSrv.Echo.join(`institution.${this.institutionId}`).listen(
-          `.conversation.created`,
-          (e) => {
-            askNotificationPermission().then(() => {
-              let body = "";
-
-              const notify = new Notification("新会话接入", {
-                body,
-                vibrate: 1,
-              });
-
-              notify.onclick = () => {
-                console.log(e);
-                this.router.navigateByUrl(`/conversation/chat/${e.id}`);
-                window.focus();
-
-                setTimeout(() => {
-                  notify.close();
-                }, 200);
-              };
-            });
-          }
-        );
-
-        this.echoSrv.Echo.join(
-          `institution.${this.institutionId}.assigned.${this.userId}`
-        )
-          .listen(`.conversation.created`, (e) => {
-            askNotificationPermission().then(() => {
-              let body = "";
-
-              const notify = new Notification("新会话接入", {
-                body,
-                vibrate: 1,
-              });
-
-              notify.onclick = () => {
-                window.focus();
-
-                setTimeout(() => {
-                  this.router.navigateByUrl(`/conversation/chat/${e.id}`);
-                  notify.close();
-                }, 200);
-              };
-            });
-          })
-          .listen(`.message.created`, (msg) => {
-            if (msg.sender_type_text == "user") {
-              return;
-            }
-            askNotificationPermission().then(() => {
-              let body, image;
-
-              if (msg.type == 1) {
-                body = msg.content;
-              }
-              if (msg.type == 2) {
-                body = "[图片消息]";
-                image = msg.content;
-              }
-
-              const notify = new Notification("您收到新消息", {
-                body,
-                image,
-                vibrate: 1,
-              });
-
-              notify.onclick = () => {
-                window.focus();
-
-                setTimeout(() => {
-                  this.router.navigateByUrl(
-                    `/conversation/chat/${msg.conversation_id}`
-                  );
-                  notify.close();
-                }, 200);
-              };
-            });
-          });
-      });
     });
   }
 
@@ -132,6 +54,94 @@ export class HeaderComponent {
 
   searchToggleChange(): void {
     this.searchToggleStatus = !this.searchToggleStatus;
+  }
+
+  registerWebSocket(): void {
+    zip(this.http.get("api/user", {})).subscribe(([{ data }]) => {
+      this.institutionId = data.institution.id;
+      this.userId = data.user.id;
+
+      this.echoSrv.Echo.join(`institution.${this.institutionId}`).listen(
+        `.conversation.created`,
+        (e: Conversation) => {
+          askNotificationPermission().then(() => {
+            const body = "";
+
+            const notify = new Notification("新会话接入", {
+              body,
+              vibrate: 1,
+            });
+
+            notify.onclick = () => {
+              console.log(e);
+              this.router.navigateByUrl(`/conversation/chat/${e.id}`);
+              window.focus();
+
+              setTimeout(() => {
+                notify.close();
+              }, 200);
+            };
+          });
+        }
+      );
+
+      this.echoSrv.Echo.join(
+        `institution.${this.institutionId}.assigned.${this.userId}`
+      )
+        .listen(`.conversation.created`, (e: Conversation) => {
+          askNotificationPermission().then(() => {
+            const body = "";
+
+            const notify = new Notification("新会话接入", {
+              body,
+              vibrate: 1,
+            });
+
+            notify.onclick = () => {
+              window.focus();
+
+              setTimeout(() => {
+                this.router.navigateByUrl(`/conversation/chat/${e.id}`);
+                notify.close();
+              }, 200);
+            };
+          });
+        })
+        .listen(`.message.created`, (msg: MessageModel) => {
+          if (msg.sender_type_text == "user") {
+            return;
+          }
+          askNotificationPermission().then(() => {
+            let body: string;
+            let image: string;
+
+            if (msg.type == 1) {
+              body = msg.content;
+            }
+            if (msg.type == 2) {
+              body = "[图片消息]";
+              image = msg.content;
+            }
+
+            const notify = new Notification("您收到新消息", {
+              body,
+              image,
+              vibrate: 1,
+            });
+
+            notify.onclick = () => {
+              window.focus();
+
+              setTimeout(() => {
+                this.router.navigateByUrl(
+                  `/conversation/chat/${msg.conversation_id}`
+                );
+                notify.close();
+              }, 200);
+            };
+          });
+        });
+    });
   }
 
   registerServiceWorker(js: string, onSuccess: (json: PushSubscriptionJSON) => void, onError: () => void): void {
@@ -165,7 +175,7 @@ export class HeaderComponent {
           onSubscribed(subscription);
         }, doSubscribe);
       })
-      .catch(function(error) {
+      .catch((error: {}) => {
         onError();
         console.error('Service Worker Error', error);
       });
