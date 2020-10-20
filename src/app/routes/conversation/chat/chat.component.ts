@@ -30,7 +30,6 @@ export class ChatComponent implements OnInit {
   channel: string;
   selectId: string;
   institutionId: string;
-  userId: string;
   currentTab: number;
   keyword: string;
 
@@ -47,6 +46,7 @@ export class ChatComponent implements OnInit {
     private settings: SettingsService
   ) {
     router.events.subscribe((evt) => {
+      this.settings.user
       if (evt instanceof NavigationStart) {
         if (evt.url === "/conversation/chat") {
           this.selectId = "";
@@ -58,9 +58,11 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initAssignedConversation();
-    this.initUnassignedConversation();
-    this.initHistoryConversation();
+    this.initAssignedConversationList();
+    this.initUnassignedConversationList();
+    this.initHistoryConversationList();
+    this.initAssignedConversationSocket();
+    this.initUnassignedConversationSocket();
     this.initCount();
     askNotificationPermission().then(console.log);
 
@@ -84,7 +86,7 @@ export class ChatComponent implements OnInit {
     // @TODO: 关闭会话后, this.assignedCount --
   }
 
-  initAssignedConversation(): void {
+  initAssignedConversationList(): void {
     let offset = "";
     if (this.assignedData.length) {
       offset = this.assignedData[this.assignedData.length - 1].id;
@@ -93,7 +95,6 @@ export class ChatComponent implements OnInit {
       this.conversationSrv.getConversationList("assigned", this.keyword, offset)
     ).subscribe(([assignedData]) => {
       this.institutionId = assignedData.data.institution_id;
-      this.userId = assignedData.data.user_id;
       this.assignedData = this.assignedData.concat(
         assignedData.data.conversations
       );
@@ -105,44 +106,47 @@ export class ChatComponent implements OnInit {
       ) {
         this.currentTab = 2;
       }
-      this.echoSrv.Echo.join(
-        `institution.${this.institutionId}.assigned.${this.userId}`
-      )
-        .listen(`.conversation.created`, (conversation: Conversation) => {
-          const assigned = this.assignedData;
-          this.assignedData = assigned.filter(
-            (each) => each.id !== conversation.id
-          );
-          this.assignedData.unshift(conversation);
-        })
-        .listen(`.message.created`, (message: MessageModel) => {
-          const arr = ["assignedData", "unassignedData"];
-          let conversations = [];
-          for (const i of arr) {
-            conversations = this[i].filter(
-              (item) => item.id === message.conversation_id
-            );
-            if (conversations.length == 0) {
-              continue;
-            }
-          }
-
-          const conversation = conversations[0];
-
-          conversation.last_message = message;
-          conversation.updated_at = conversation.last_reply_at =
-            message.created_at;
-          if (message.sender_type_text == "user") {
-            if (!conversation.user) {
-              this.unassignedCount--;
-            }
-            conversation.user = message.sender;
-          }
-        });
     });
   }
 
-  initUnassignedConversation(): void {
+  initAssignedConversationSocket(): void {
+    this.echoSrv.Echo.join(
+      `institution.${this.institutionId}.assigned.${this.user.id}`
+    )
+      .listen(`.conversation.created`, (conversation: Conversation) => {
+        const assigned = this.assignedData;
+        this.assignedData = assigned.filter(
+          (each) => each.id !== conversation.id
+        );
+        this.assignedData.unshift(conversation);
+      })
+      .listen(`.message.created`, (message: MessageModel) => {
+        const arr = ["assignedData", "unassignedData"];
+        let conversations = [];
+        for (const i of arr) {
+          conversations = this[i].filter(
+            (item) => item.id === message.conversation_id
+          );
+          if (conversations.length == 0) {
+            continue;
+          }
+        }
+
+        const conversation = conversations[0];
+
+        conversation.last_message = message;
+        conversation.updated_at = conversation.last_reply_at =
+          message.created_at;
+        if (message.sender_type_text == "user") {
+          if (!conversation.user) {
+            this.unassignedCount--;
+          }
+          conversation.user = message.sender;
+        }
+      });
+  }
+
+  initUnassignedConversationList(): void {
     let offset = "";
     if (this.unassignedData.length) {
       offset = this.unassignedData[this.unassignedData.length - 1].id;
@@ -155,42 +159,44 @@ export class ChatComponent implements OnInit {
       )
     ).subscribe(([unassignedData]) => {
       this.institutionId = unassignedData.data.institution_id;
-      this.userId = unassignedData.data.user_id;
       this.unassignedData = this.unassignedData.concat(
         unassignedData.data.conversations
       );
-      this.echoSrv.Echo.join(`institution.${this.institutionId}`)
-        .listen(`.conversation.created`, (conversation: Conversation) => {
-          const unassigned = this.unassignedData;
-          this.unassignedData = unassigned.filter(
-            (each) => each.id != conversation.id
-          );
-          if (
-            this.assignedData.filter((each) => each.id == conversation.id)
-              .length > 0
-          ) {
-            return;
-          }
-          this.unassignedData.unshift(conversation);
-          this.unassignedCount++;
-        })
-        .listen(`.message.created`, (message: MessageModel) => {
-          const conversations = this.unassignedData.filter(
-            (item) => item.id == message.conversation_id
-          );
-          const conversation = conversations[0];
-          if (!conversation) {
-            return;
-          }
-
-          conversation.last_message = message;
-          conversation.updated_at = conversation.last_reply_at =
-            message.created_at;
-        });
     });
   }
 
-  initHistoryConversation(): void {
+  initUnassignedConversationSocket(): void {
+    this.echoSrv.Echo.join(`institution.${this.institutionId}`)
+      .listen(`.conversation.created`, (conversation: Conversation) => {
+        const unassigned = this.unassignedData;
+        this.unassignedData = unassigned.filter(
+          (each) => each.id != conversation.id
+        );
+        if (
+          this.assignedData.filter((each) => each.id == conversation.id)
+            .length > 0
+        ) {
+          return;
+        }
+        this.unassignedData.unshift(conversation);
+        this.unassignedCount++;
+      })
+      .listen(`.message.created`, (message: MessageModel) => {
+        const conversations = this.unassignedData.filter(
+          (item) => item.id == message.conversation_id
+        );
+        const conversation = conversations[0];
+        if (!conversation) {
+          return;
+        }
+
+        conversation.last_message = message;
+        conversation.updated_at = conversation.last_reply_at =
+          message.created_at;
+      });
+  }
+
+  initHistoryConversationList(): void {
     let offset = "";
     if (this.historyData.length) {
       offset = this.historyData[this.historyData.length - 1].id;
@@ -199,7 +205,6 @@ export class ChatComponent implements OnInit {
       this.conversationSrv.getConversationList("history", this.keyword, offset)
     ).subscribe(([historyData]) => {
       this.institutionId = historyData.data.institution_id;
-      this.userId = historyData.data.user_id;
       this.historyData = this.historyData.concat(
         historyData.data.conversations
       );
@@ -235,5 +240,24 @@ export class ChatComponent implements OnInit {
   getMessageOutput(data: { id: string; message: any }): void {
     // console.log(this.assignedData.filter((v) => v.id == data.id));
     // console.log(data.id);
+  }
+
+  selectChange(index: number): void {
+    switch (index) {
+      case 0:
+        this.initUnassignedConversationList();
+        break;
+
+      case 1:
+        this.initAssignedConversationList();
+        break;
+
+      case 2:
+        this.initHistoryConversationList();
+        break;
+    
+      default:
+        break;
+    }
   }
 }

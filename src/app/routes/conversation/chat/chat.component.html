@@ -27,7 +27,7 @@
         <i nz-icon nz-tooltip nzType="search" style="color: #888888"></i>
       </ng-template>
       <ul nz-menu nzMode="inline" class="ulout">
-        <nz-tabset [nzSelectedIndex]="currentTab" [nzAnimated]="false">
+        <nz-tabset [nzSelectedIndex]="currentTab" (nzSelectedIndexChange)="selectChange($event)" [nzAnimated]="false">
           <ng-template #titleUnassigned>
             <div class="tab-title">
               <span>未接待</span>
