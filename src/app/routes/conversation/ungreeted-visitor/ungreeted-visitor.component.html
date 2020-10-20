@@ -28,19 +28,29 @@
       ></ng-template>
       <ul nz-menu nzMode="inline" class="ulout">
         <nz-tabset [nzSelectedIndex]="currentTab" [nzAnimated]="false">
-          <ng-template #ungreetedVisitor>
+          <ng-template #onlineVisitor>
             <div class="tab-title">
               <span>当前在线</span>
               <nz-badge
-                [nzCount]="conversationsCount"
+                [nzCount]="onlineVisitorsCount"
                 [nzStyle]="{ backgroundColor: '#dddddd' }"
                 [nzShowZero]="true"
               ></nz-badge>
             </div>
           </ng-template>
-          <nz-tab [nzTitle]="ungreetedVisitor">
+          <ng-template #offlineVisitor>
+            <div class="tab-title">
+              <span>已离线</span>
+              <nz-badge
+                [nzCount]="onlineVisitorsCount"
+                [nzStyle]="{ backgroundColor: '#dddddd' }"
+                [nzShowZero]="true"
+              ></nz-badge>
+            </div>
+          </ng-template>
+          <nz-tab [nzTitle]="onlineVisitor">
             <div
-              *ngIf="!conversationsCount"
+              *ngIf="!onlineVisitorsCount"
               nz-row
               nzAlign="middle"
               style="width: 100%; height: calc(100vh - 121px)"
@@ -75,11 +85,11 @@
               <div style="width: 10%">落地时间</div>
               <div style="width: 10%">操作</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="conversations.length > 0">
+            <ul class="conversation-list-ul" *ngIf="onlineConversations.length > 0">
               <li
                 nz-menu-item
                 class="conversation-item"
-                *ngFor="let item of conversations"
+                *ngFor="let item of onlineConversations"
                 [nzSelected]="selectId == item.id"
                 (click)="toSee(item)"
               >

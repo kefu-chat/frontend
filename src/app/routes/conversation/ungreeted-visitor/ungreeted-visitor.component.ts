@@ -18,8 +18,8 @@ import { NzI18nService } from "ng-zorro-antd/i18n";
   styleUrls: ["./ungreeted-visitor.component.less"],
 })
 export class UngreetedVisitorComponent implements OnInit {
-  conversations: Conversation[] = [];
-  conversationsCount = 0;
+  onlineConversations: Conversation[] = [];
+  onlineVisitorsCount = 0;
   channel: string;
   selectId: string;
   institutionId: string;
@@ -54,7 +54,8 @@ export class UngreetedVisitorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCount();
-    this.initVisitorList();
+    this.initOnlineVisitorList();
+    this.initOnlineVisitorSocket();
     askNotificationPermission().then(console.log);
 
     if (!this.route.children.length) {
@@ -67,7 +68,7 @@ export class UngreetedVisitorComponent implements OnInit {
     this.http
       .get("api/conversation/count")
       .subscribe(({ data: { online_visitor_count } }) => {
-        this.conversationsCount = online_visitor_count;
+        this.onlineVisitorsCount = online_visitor_count;
       });
 
     // @TODO: 新会话进来的 socket, 更新统计数字.
@@ -75,20 +76,18 @@ export class UngreetedVisitorComponent implements OnInit {
     // @TODO: 关闭会话后, this.assignedCount --
   }
 
-  initVisitorList(): void {
+  initOnlineVisitorList(): void {
     zip(this.conversationSrv.getVisitorList({ type: this.type })).subscribe(
       ([visitors]) => {
-        console.log(visitors);
-        this.institutionId = visitors.data.institution_id;
-        this.userId = visitors.data.user_id;
-        this.conversations = visitors.data.conversations;
+        this.onlineConversations = visitors.data.conversations;
+      });
+  }
 
-        this.echoSrv.Echo.join(`institution.${this.institutionId}`).listen(
-          `.visitor.arrival`,
-          (e) => {
-            this.conversations.unshift(e);
-          }
-        );
+  initOnlineVisitorSocket(): void {
+    this.echoSrv.Echo.join(`institution.${this.user.institution_id}`).listen(
+      `.visitor.arrival`,
+      (e: Conversation) => {
+        this.onlineConversations.unshift(e);
       }
     );
   }
