@@ -1,8 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { AfterViewChecked, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
-import { SettingsService, User, _HttpClient } from "@delon/theme";
-import { Conversation } from "@model/application/conversation.interface";
+import { SettingsService, User as SystemUser, _HttpClient } from "@delon/theme";
+import { Conversation, User } from "@model/application/conversation.interface";
 import {
   askNotificationPermission,
   ConversationService,
@@ -28,7 +28,7 @@ export class UngreetedVisitorComponent implements OnInit {
   keyword = "";
   type = "online";
 
-  get user(): User {
+  get user(): SystemUser | User {
     return this.settings.user;
   }
 

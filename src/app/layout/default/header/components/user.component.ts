@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { DA_SERVICE_TOKEN, ITokenService } from "@delon/auth";
-import { SettingsService, User } from "@delon/theme";
+import { SettingsService, User as SystemUser } from "@delon/theme";
+import { User } from "@model/application/conversation.interface";
 
 @Component({
   selector: "header-user",
@@ -36,7 +37,7 @@ import { SettingsService, User } from "@delon/theme";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderUserComponent {
-  get user(): User {
+  get user(): SystemUser | User {
     return this.settings.user;
   }
 

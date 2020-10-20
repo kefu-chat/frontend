@@ -2,7 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { SettingsService, User } from '@delon/theme';
+import { SettingsService, User as SystemUser } from '@delon/theme';
+import { User } from "@model/application/conversation.interface";
 
 @Component({
   selector: 'passport-lock',
@@ -12,7 +13,7 @@ import { SettingsService, User } from '@delon/theme';
 export class UserLockComponent {
   f: FormGroup;
 
-  get user(): User {
+  get user(): SystemUser | User {
     return this.settings.user;
   }
 

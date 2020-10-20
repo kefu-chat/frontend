@@ -1,13 +1,14 @@
 import { Component, ElementRef, EventEmitter, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
-import { SettingsService, User } from "@delon/theme";
+import { SettingsService, User as SystemUser} from "@delon/theme";
 import {
   Conversation,
   MessageData,
   MessageModel,
   MessageUser,
   Visitor,
+  User
 } from "@model/application/conversation.interface";
 import { Res } from "@model/common/common.interface";
 import {
@@ -35,7 +36,7 @@ export class UngreetedVisitorDetailComponent implements OnInit {
   conversation: Conversation;
   visitor: Visitor;
   imgWidth: number;
-  get user(): User {
+  get user(): SystemUser | User {
     return this.settings.user;
   }
 

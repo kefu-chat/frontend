@@ -40,7 +40,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   drawerEmployeeForm: FormGroup;
   drawerPasswordForm: FormGroup;
 
-  get user(): User | SettingUser {
+  get user(): SettingUser | User {
     return this.settings.user;
   }
 

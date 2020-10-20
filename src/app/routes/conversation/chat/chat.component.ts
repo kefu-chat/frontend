@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
-import { SettingsService, _HttpClient } from "@delon/theme";
+import { SettingsService, _HttpClient, User as SystemUser } from "@delon/theme";
 import {
   Conversation,
   CountInterface,
@@ -34,7 +34,7 @@ export class ChatComponent implements OnInit {
   currentTab: number;
   keyword: string;
 
-  get user(): User {
+  get user(): SystemUser | User {
     return this.settings.user;
   }
 
@@ -274,6 +274,13 @@ export class ChatComponent implements OnInit {
   getMessageOutput(data: { id: string; message: any }): void {
     // console.log(this.assignedData.filter((v) => v.id == data.id));
     // console.log(data.id);
+  }
+
+  getConversationLoad(conversation: Conversation): void {
+    if (!this.unassignedData.concat(this.assignedData).filter(c => c.id === conversation.id).length) {
+      this.initUnassignedConversationList();
+      this.initAssignedConversationList();
+    }
   }
 
   selectChange(index: number): void {

@@ -9,13 +9,14 @@ import {
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { EmojiEvent } from "@shared/lib/ngx-emoji-mart/ngx-emoji";
 import { _HttpClient } from "@delon/theme";
-import { SettingsService, User } from "@delon/theme";
+import { SettingsService, User as SystemUser } from "@delon/theme";
 import {
   Conversation,
   MessageData,
   MessageModel,
   MessageUser,
   Visitor,
+  User
 } from "@model/application/conversation.interface";
 import { Res } from "@model/common/common.interface";
 import {
@@ -67,8 +68,9 @@ export class ChatDetailComponent implements OnInit {
     this.initData();
   }
   @Output() messageOutput: EventEmitter<any> = new EventEmitter();
+  @Output() conversationLoad: EventEmitter<any> = new EventEmitter();
 
-  get user(): User {
+  get user(): SystemUser | User {
     return this.settings.user;
   }
   get nowfirstMsgId(): string {
@@ -172,6 +174,8 @@ export class ChatDetailComponent implements OnInit {
             this.messageList = res.data.messages;
           }
           this.conversation = res.data.conversation;
+          this.conversationLoad.emit(this.conversation);
+
           const url = new URL(this.conversation.url);
           this.conversation.hostname = url.hostname;
           this.visitor = this.conversation.visitor;
@@ -236,6 +240,7 @@ export class ChatDetailComponent implements OnInit {
               this.fileList = [];
               this.whisper(message);
               this.messageList.push(message);
+              this.messageOutput.emit({ id: this.id, message });
               this.messageOutput.emit({ id: this.id, message });
 
               setTimeout(() => {
