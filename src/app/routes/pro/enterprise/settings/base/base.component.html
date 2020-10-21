@@ -18,7 +18,7 @@
         </se>
         <se label="国家/地区">
           <nz-select [(ngModel)]="enterprise.country" name="country" required>
-            <nz-option nzLabel="中国" nzValue="China"></nz-option>
+            <nz-option [nzLabel]="country.text" [nzValue]="country.value" *ngFor="let country of countryList"></nz-option>
           </nz-select>
         </se>
         <se label="所在省市">

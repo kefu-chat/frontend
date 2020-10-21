@@ -4,6 +4,7 @@ import {
   Component,
   OnInit,
 } from "@angular/core";
+import country from '@shared/country';
 import { _HttpClient } from "@delon/theme";
 import { NzAutocompleteOptionComponent } from 'ng-zorro-antd/auto-complete';
 import { NzMessageService } from "ng-zorro-antd/message";
@@ -36,6 +37,7 @@ export class ProEnterpriseSettingsBaseComponent implements OnInit {
   areas: ProEnterpriseSettingsCity[] = [];
   streets: ProEnterpriseSettingsCity[] = [];
   enterpriseSuggestion: any[] = [];
+  countryList = country;
 
   ngOnInit(): void {
     zip(
