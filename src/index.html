@@ -1,112 +1,1722 @@
-<!DOCTYPE html>
-<html>
-  <head
-    class="max-width-xs width-xs"
-    [class.width-xs]="true"
-    ngClass="{ 'width-xs': true }"
-  >
-    <meta charset="utf-8" />
-    <title>Fast Support</title>
-    <base href="/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <!-- Apple Touch Icon -->
-    <!-- <link rel="apple-touch-icon" href="custom-icon.png"> -->
-    <style type="text/css">
+<html><head class="max-width-xs width-xs" [class.width-xs]="true" ngclass="{ 'width-xs': true }">
+  <meta charset="utf-8">
+  <title>客服系统</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style type="text/css">
       .preloader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 9999;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #49a9ee;
-        transition: opacity 0.65s;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 9999;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          background: #ffffff;
+          transition: opacity 0.65s;
       }
-      .preloader-hidden-add {
-        display: block;
-        opacity: 1;
-      }
-      .preloader-hidden-add-active {
-        opacity: 0;
-      }
-      .preloader-hidden {
-        display: none;
-      }
-      .cs-loader {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-      .cs-loader-inner {
-        position: absolute;
-        top: 50%;
-        width: 100%;
-        color: #fff;
-        text-align: center;
-        transform: translateY(-50%);
-      }
-      .cs-loader-inner label {
-        display: inline-block;
-        font-size: 20px;
-        opacity: 0;
-      }
-      @keyframes lol {
-        0% {
-          transform: translateX(-300px);
-          opacity: 0;
-        }
-        33% {
-          transform: translateX(0);
-          opacity: 1;
-        }
-        66% {
-          transform: translateX(0);
-          opacity: 1;
-        }
-        100% {
-          transform: translateX(300px);
-          opacity: 0;
-        }
-      }
-      .cs-loader-inner label:nth-child(6) {
-        animation: lol 3s infinite ease-in-out;
-      }
-      .cs-loader-inner label:nth-child(5) {
-        animation: lol 3s 0.1s infinite ease-in-out;
-      }
-      .cs-loader-inner label:nth-child(4) {
-        animation: lol 3s 0.2s infinite ease-in-out;
-      }
-      .cs-loader-inner label:nth-child(3) {
-        animation: lol 3s 0.3s infinite ease-in-out;
-      }
-      .cs-loader-inner label:nth-child(2) {
-        animation: lol 3s 0.4s infinite ease-in-out;
-      }
-      .cs-loader-inner label:nth-child(1) {
-        animation: lol 3s 0.5s infinite ease-in-out;
-      }
-    </style>
-  </head>
 
-  <body>
-    <app-root></app-root>
-    <div class="preloader">
-      <div class="cs-loader">
-        <div class="cs-loader-inner">
-          <label> ●</label>
-          <label> ●</label>
-          <label> ●</label>
-          <label> ●</label>
-          <label> ●</label>
-          <label> ●</label>
-        </div>
+      .preloader-hidden-add {
+          display: block;
+          opacity: 1;
+      }
+
+      .preloader-hidden-add-active {
+          opacity: 0;
+      }
+
+      .preloader-hidden {
+          display: none;
+      }
+
+      input::-ms-clear,input::-ms-reveal {display: none}*,:after,:before {box-sizing: border-box}html {font-family: sans-serif;line-height: 1.15;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;-ms-overflow-style: scrollbar;-webkit-tap-highlight-color: rgba(0,0,0,0)}@-ms-viewport {width: device-width}body {margin: 0;font-size: 14px;line-height: 1.5715;background-color: #fff;font-feature-settings: "tnum"}nz-comment,nz-comment-content {display: block}.ant-row,.ant-row:after,.ant-row:before {display: flex}.ant-col {position: relative;max-width: 100%;min-height: 1px}.ant-input-affix-wrapper {position: relative;display: inline-block;width: 100%;min-width: 0;padding: 4px 11px;color: rgba(0,0,0,.85);font-size: 14px;line-height: 1.5715;background-color: #fff;background-image: none;border: 1px solid #d9d9d9;border-radius: 2px;transition: all .3s;display: inline-flex}
+
+      .ant-menu {
+      box-sizing: border-box;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      font-feature-settings: "tnum";
+      margin: 0;
+      padding: 0;
+      color: rgba(0,0,0,.85);
+      font-size: 14px;
+      line-height: 0;
+      text-align: left;
+      list-style: none;
+      background: #fff;
+      outline: none;
+      box-shadow: 0 3px 6px -4px rgba(0,0,0,.12),0 6px 16px 0 rgba(0,0,0,.08),0 9px 28px 8px rgba(0,0,0,.05);
+      transition: background .3s,width .3s cubic-bezier(.2,0,0,1) 0s
+      }
+
+
+      .ant-menu ol,.ant-menu ul {
+      margin: 0;
+      padding: 0;
+      list-style: none
+      }
+
+
+
+
+      .ant-menu-root.ant-menu-inline,.ant-menu-root.ant-menu-vertical,.ant-menu-root.ant-menu-vertical-left,.ant-menu-root.ant-menu-vertical-right {
+      box-shadow: none
+      }
+
+
+
+      .ant-skeleton {
+      display: table;
+      width: 100%
+      }
+
+      .ant-skeleton-header {
+      display: table-cell;
+      padding-right: 16px;
+      vertical-align: top
+      }
+
+      .ant-skeleton-header .ant-skeleton-avatar {
+      display: inline-block;
+      vertical-align: top;
+      background: #f2f2f2;
+      width: 32px;
+      height: 32px;
+      line-height: 32px
+      }
+
+      .ant-skeleton-header .ant-skeleton-avatar.ant-skeleton-avatar-circle {
+      border-radius: 50%
+      }
+
+      .ant-skeleton-header .ant-skeleton-avatar-lg {
+      width: 40px;
+      height: 40px;
+      line-height: 40px
+      }
+
+      .ant-skeleton-header .ant-skeleton-avatar-lg.ant-skeleton-avatar-circle {
+      border-radius: 50%
+      }
+
+      .ant-skeleton-header .ant-skeleton-avatar-sm {
+      width: 24px;
+      height: 24px;
+      line-height: 24px
+      }
+
+      .ant-skeleton-header .ant-skeleton-avatar-sm.ant-skeleton-avatar-circle {
+      border-radius: 50%
+      }
+
+      .ant-skeleton-content {
+      display: table-cell;
+      width: 100%;
+      vertical-align: top
+      }
+
+      .ant-skeleton-content .ant-skeleton-title {
+      width: 100%;
+      height: 16px;
+      margin-top: 16px;
+      background: #f2f2f2
+      }
+
+      .ant-skeleton-content .ant-skeleton-title+.ant-skeleton-paragraph {
+      margin-top: 24px
+      }
+
+      .ant-skeleton-content .ant-skeleton-paragraph {
+      padding: 0
+      }
+
+      .ant-skeleton-content .ant-skeleton-paragraph>li {
+      width: 100%;
+      height: 16px;
+      list-style: none;
+      background: #f2f2f2
+      }
+
+      .ant-skeleton-content .ant-skeleton-paragraph>li:last-child:not(:first-child):not(:nth-child(2)) {
+      width: 61%
+      }
+
+      .ant-skeleton-content .ant-skeleton-paragraph>li+li {
+      margin-top: 16px
+      }
+
+      .ant-skeleton-with-avatar .ant-skeleton-content .ant-skeleton-title {
+      margin-top: 12px
+      }
+
+      .ant-skeleton-with-avatar .ant-skeleton-content .ant-skeleton-title+.ant-skeleton-paragraph {
+      margin-top: 28px
+      }
+
+      .ant-skeleton-round .ant-skeleton-content .ant-skeleton-paragraph>li,.ant-skeleton-round .ant-skeleton-content .ant-skeleton-title {
+      border-radius: 100px
+      }
+
+      .ant-skeleton.ant-skeleton-active .ant-skeleton-avatar,.ant-skeleton.ant-skeleton-active .ant-skeleton-button,.ant-skeleton.ant-skeleton-active .ant-skeleton-content .ant-skeleton-paragraph>li,.ant-skeleton.ant-skeleton-active .ant-skeleton-content .ant-skeleton-title,.ant-skeleton.ant-skeleton-active .ant-skeleton-image,.ant-skeleton.ant-skeleton-active .ant-skeleton-input {
+      background: linear-gradient(90deg,#f2f2f2 25%,#e6e6e6 37%,#f2f2f2 63%);
+      background-size: 400% 100%;
+      -webkit-animation: ant-skeleton-loading 1.4s ease infinite;
+      animation: ant-skeleton-loading 1.4s ease infinite
+      }
+
+      .ant-skeleton-element {
+      display: inline-block;
+      width: auto
+      }
+
+      .ant-skeleton-element .ant-skeleton-button {
+      display: inline-block;
+      vertical-align: top;
+      background: #f2f2f2;
+      border-radius: 2px;
+      width: 64px;
+      height: 32px;
+      line-height: 32px
+      }
+
+      .ant-skeleton-element .ant-skeleton-button.ant-skeleton-button-circle {
+      width: 32px;
+      border-radius: 50%
+      }
+
+      .ant-skeleton-element .ant-skeleton-button.ant-skeleton-button-round {
+      border-radius: 32px
+      }
+
+      .ant-skeleton-element .ant-skeleton-button-lg {
+      width: 80px;
+      height: 40px;
+      line-height: 40px
+      }
+
+      .ant-skeleton-element .ant-skeleton-button-lg.ant-skeleton-button-circle {
+      width: 40px;
+      border-radius: 50%
+      }
+
+      .ant-skeleton-element .ant-skeleton-button-lg.ant-skeleton-button-round {
+      border-radius: 40px
+      }
+
+      .ant-skeleton-element .ant-skeleton-button-sm {
+      width: 48px;
+      height: 24px;
+      line-height: 24px
+      }
+
+      .ant-skeleton-element .ant-skeleton-button-sm.ant-skeleton-button-circle {
+      width: 24px;
+      border-radius: 50%
+      }
+
+      .ant-skeleton-element .ant-skeleton-button-sm.ant-skeleton-button-round {
+      border-radius: 24px
+      }
+
+      .ant-skeleton-element .ant-skeleton-avatar {
+      display: inline-block;
+      vertical-align: top;
+      background: #f2f2f2;
+      width: 32px;
+      height: 32px;
+      line-height: 32px
+      }
+
+      .ant-skeleton-element .ant-skeleton-avatar.ant-skeleton-avatar-circle {
+      border-radius: 50%
+      }
+
+      .ant-skeleton-element .ant-skeleton-avatar-lg {
+      width: 40px;
+      height: 40px;
+      line-height: 40px
+      }
+
+      .ant-skeleton-element .ant-skeleton-avatar-lg.ant-skeleton-avatar-circle {
+      border-radius: 50%
+      }
+
+      .ant-skeleton-element .ant-skeleton-avatar-sm {
+      width: 24px;
+      height: 24px;
+      line-height: 24px
+      }
+
+      .ant-skeleton-element .ant-skeleton-avatar-sm.ant-skeleton-avatar-circle {
+      border-radius: 50%
+      }
+
+      .ant-skeleton-element .ant-skeleton-input {
+      display: inline-block;
+      vertical-align: top;
+      background: #f2f2f2;
+      width: 100%;
+      height: 32px;
+      line-height: 32px
+      }
+
+      .ant-skeleton-element .ant-skeleton-input-lg {
+      width: 100%;
+      height: 40px;
+      line-height: 40px
+      }
+
+      .ant-skeleton-element .ant-skeleton-input-sm {
+      width: 100%;
+      height: 24px;
+      line-height: 24px
+      }
+
+      .ant-skeleton-element .ant-skeleton-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: top;
+      background: #f2f2f2;
+      width: 96px;
+      height: 96px;
+      line-height: 96px
+      }
+
+      .ant-skeleton-element .ant-skeleton-image.ant-skeleton-image-circle {
+      border-radius: 50%
+      }
+
+      .ant-skeleton-element .ant-skeleton-image-path {
+      fill: #bfbfbf
+      }
+
+      .ant-skeleton-element .ant-skeleton-image-svg {
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+      max-width: 192px;
+      max-height: 192px
+      }
+
+      .ant-skeleton-element .ant-skeleton-image-svg.ant-skeleton-image-circle {
+      border-radius: 50%
+      }
+
+      @-webkit-keyframes ant-skeleton-loading {
+      0% {
+        background-position: 100% 50%
+      }
+
+      to {
+        background-position: 0 50%
+      }
+      }
+
+      @keyframes ant-skeleton-loading {
+      0% {
+        background-position: 100% 50%
+      }
+
+      to {
+        background-position: 0 50%
+      }
+      }
+
+
+      .ant-tabs-bottom,.ant-tabs-top {
+      flex-direction: column
+      }
+
+      .ant-tabs-bottom>.ant-tabs-nav,.ant-tabs-bottom>div>.ant-tabs-nav,.ant-tabs-top>.ant-tabs-nav,.ant-tabs-top>div>.ant-tabs-nav {
+      margin: 0 0 16px
+      }
+
+
+
+
+      .ant-tabs {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      color: rgba(0,0,0,.85);
+      font-size: 14px;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      list-style: none;
+      font-feature-settings: "tnum";
+      display: flex;
+      overflow: hidden
+      }
+
+
+
+      .ant-tabs>.ant-tabs-nav .ant-tabs-nav-operations-hidden,.ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-operations-hidden {
+      position: absolute;
+      visibility: hidden;
+      pointer-events: none
+      }
+
+
+
+      .ant-tabs-tab {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      margin: 0 32px 0 0;
+      padding: 12px 0;
+      font-size: 14px;
+      background: transparent;
+      border: 0;
+      outline: none;
+      cursor: pointer
+      }
+
+      .ant-tabs-tabpane {
+      flex: none;
+      width: 100%;
+      outline: none
+      }
+
+
+
+      .alain-default__aside {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      z-index: 14;
+      width: 200px;
+      margin-top: 64px;
+      overflow: hidden;
+      background-color: #fff;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transition: width .2s cubic-bezier(.25,0,.15,1),translate .2s cubic-bezier(.25,0,.15,1);
+      -webkit-overflow-scrolling: touch
+      }
+
+      .alain-default__aside:after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      border-right: 0 solid;
+      content: ""
+      }
+
+      .alain-default__aside-inner {
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+      -ms-scroll-chaining: chained;
+      -ms-overflow-style: none;
+      -ms-content-zooming: zoom;
+      -ms-scroll-rails: none;
+      -ms-content-zoom-limit-min: 100%;
+      -ms-content-zoom-limit-max: 500%;
+      -ms-scroll-snap-type: proximity;
+      -ms-scroll-snap-points-x: snaplist(100%,200%,300%,400%,500%);
+      scrollbar-width: none
+      }
+
+
+      @media (min-width: 768px) {
+      .alain-default__collapsed .alain-default__aside {
+        width:64px
+      }
+      }
+
+
+      .sidebar-nav {
+      display: block;
+      margin: 0;
+      padding: 0;
+      font-size: 14px
+      }
+
+      .sidebar-nav__item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border-left: 3px solid transparent;
+      transition: border-left-color .4s ease
+      }
+
+      .sidebar-nav__item-link {
+      position: relative;
+      display: block;
+      padding: 8px 32px 8px 16px;
+      overflow: hidden;
+      color: #b9babb;
+      white-space: nowrap;
+      text-decoration: none!important;
+      text-overflow: ellipsis;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none
+      }
+
+      .sidebar-nav__item-link:hover {
+      color: #1890ff
+      }
+
+      .sidebar-nav__item-icon {
+      display: inline-block;
+      min-width: 14px;
+      margin-right: 8px;
+      transition: font-size .15s cubic-bezier(.215,.61,.355,1),margin .3s cubic-bezier(.645,.045,.355,1)
+      }
+
+      .sidebar-nav__item-img {
+      width: 14px;
+      height: 14px
+      }
+
+      .sidebar-nav__item-text {
+      opacity: 1;
+      transition: opacity .3s cubic-bezier(.645,.045,.355,1),width .3s cubic-bezier(.645,.045,.355,1)
+      }
+
+      .sidebar-nav__item-disabled {
+      cursor: default;
+      opacity: .6
+      }
+
+      .sidebar-nav__item-disabled:hover {
+      color: #b9babb
+      }
+
+      .sidebar-nav__selected {
+      background-color: #fcfcfc;
+      border-left-color: #1890ff
+      }
+
+      .sidebar-nav__selected>.sidebar-nav__item-link {
+      color: #1890ff
+      }
+
+      .sidebar-nav__open>.sidebar-nav__sub {
+      display: block;
+      -webkit-animation: fadeIn .5s;
+      animation: fadeIn .5s
+      }
+
+      .sidebar-nav__open>.sidebar-nav__item-link .sidebar-nav__sub-arrow {
+      transform: translateY(-2px)
+      }
+
+      .sidebar-nav__open>.sidebar-nav__item-link .sidebar-nav__sub-arrow:before {
+      transform: rotate(45deg) translateX(2px)
+      }
+
+      .sidebar-nav__open>.sidebar-nav__item-link .sidebar-nav__sub-arrow:after {
+      transform: rotate(-45deg) translateX(-2px)
+      }
+
+      .sidebar-nav__group-title {
+      padding: 8px 16px;
+      color: rgba(0,0,0,.45)
+      }
+
+      .sidebar-nav__sub {
+      display: none;
+      overflow: hidden
+      }
+
+      .sidebar-nav__sub .sidebar-nav__item {
+      border-left: 0!important
+      }
+
+      .sidebar-nav__sub-arrow {
+      position: absolute;
+      top: 50%;
+      right: 16px;
+      width: 10px;
+      transition: transform .3s cubic-bezier(.645,.045,.355,1)
+      }
+
+      .sidebar-nav__sub-arrow:after,.sidebar-nav__sub-arrow:before {
+      position: absolute;
+      width: 6px;
+      height: 1.5px;
+      background: #fff;
+      background-image: linear-gradient(90deg,rgba(0,0,0,.85),rgba(0,0,0,.85));
+      border-radius: 2px;
+      transition: background-color .3s cubic-bezier(.645,.045,.355,1),transform .3s cubic-bezier(.645,.045,.355,1),top .3s cubic-bezier(.645,.045,.355,1);
+      content: ""
+      }
+
+      .sidebar-nav__sub-arrow:before {
+      transform: rotate(-45deg) translateX(2px)
+      }
+
+      .sidebar-nav__sub-arrow:after {
+      transform: rotate(45deg) translateX(-2px)
+      }
+
+      .sidebar-nav .badge {
+      position: absolute;
+      right: 16px
+      }
+
+      .sidebar-nav .badge:not(.badge-dot) {
+      top: 11px;
+      height: 16px;
+      padding: 0 4px;
+      overflow: hidden;
+      line-height: 16px
+      }
+
+      .sidebar-nav .badge-dot {
+      top: 15px
+      }
+
+      .sidebar-nav__depth1 .sidebar-nav__item-link {
+      padding-left: 38px
+      }
+
+      .sidebar-nav__depth2 .sidebar-nav__item-link {
+      padding-left: 46px
+      }
+
+      .sidebar-nav__depth3 .sidebar-nav__item-link {
+      padding-left: 54px
+      }
+
+      .sidebar-nav__depth4 .sidebar-nav__item-link {
+      padding-left: 62px
+      }
+
+
+      .sidebar-nav__floating .sidebar-nav__sub-arrow {
+      display: none
+      }
+
+      .sidebar-nav__floating .sidebar-nav__depth2 .sidebar-nav__item-link {
+      padding-left: 24px
+      }
+
+      @media (min-width: 768px) {
+      .alain-default__collapsed .sidebar-nav:not(.sidebar-nav__sub) .sidebar-nav__item {
+        border:none
+      }
+
+      .alain-default__collapsed .sidebar-nav:not(.sidebar-nav__sub) .sidebar-nav__item-link {
+        display: flex;
+        justify-content: center;
+        padding: 24px 0
+      }
+
+      .alain-default__collapsed .sidebar-nav:not(.sidebar-nav__sub) .sidebar-nav__item-link .sidebar-nav__item-icon {
+        margin-right: 0;
+        font-size: 24px
+      }
+
+      .alain-default__collapsed .sidebar-nav:not(.sidebar-nav__sub) .sidebar-nav__group-title {
+        display: none
+      }
+
+      }
+
+
+      @media (min-width: 768px) {
+      .alain-default__fixed .reuse-tab+router-outlet {
+        display:block;
+        height: 52px
+      }
+      }
+
+      @media (max-width: 767px) {
+      .alain-default__fixed .reuse-tab {
+        position:unset;
+        width: auto;
+        margin-top: 52px
+      }
+      }
+
+      .alain-default__nav-item .ant-badge-count {
+      top: 6px;
+      right: 18px
+      }
+
+      .app-icons {
+      padding: 16px
+      }
+
+      .app-icons .ant-col-6 {
+      padding: 16px 0;
+      text-align: center;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color .3s
+      }
+
+      .app-icons .ant-col-6:hover {
+      background-color: #f5f5f5
+      }
+
+      .app-icons i {
+      padding: 15px;
+      font-size: 22px;
+      border-radius: 50%
+      }
+
+      .app-icons small {
+      display: block;
+      padding-top: 4px;
+      color: #9c9c9c;
+      font-size: 14px
+      }
+
+      .alain-default__aside-user {
+      justify-content: center;
+      margin: 24px 24px 0;
+      cursor: pointer
+      }
+
+      .alain-default__aside-user,.alain-default__aside-user .ant-dropdown-trigger {
+      display: flex;
+      align-items: center
+      }
+
+      .alain-default__aside-user-info {
+      flex: 1;
+      overflow: hidden;
+      color: rgba(0,0,0,.85);
+      white-space: nowrap;
+      text-overflow: ellipsis
+      }
+
+      .alain-default__aside-user-avatar {
+      margin-right: 8px
+      }
+
+      @media (min-width: 768px) {
+      .alain-default__collapsed .alain-default__aside-user {
+        width:64px;
+        margin-left: 0
+      }
+
+      .alain-default__collapsed .alain-default__aside-user-info {
+        display: none
+      }
+
+      .alain-default__collapsed .alain-default__aside-user-avatar {
+        margin: 0 auto
+      }
+      }
+
+      .alain-default__fixed .alain-default__header {
+      position: fixed;
+      top: 0;
+      left: 0
+      }
+
+      .alain-default__fixed .alain-default__aside {
+      position: fixed
+      }
+
+      .alain-default__fixed .alain-default__content {
+      margin-top: 64px
+      }
+
+      .alain-fullscreen {
+      display: block;
+      padding: 0 16px;
+      background-color: #f5f7fa
+      }
+
+      .alain-fullscreen .page-header {
+      margin-right: -16px;
+      margin-bottom: 0;
+      margin-left: -16px;
+      padding: 4px 16px
+      }
+
+      .alain-default__header {
+      height: 0
+      }
+
+      .alain-default__content {
+      margin: 0
+      }
+
+      @media (min-width: 767px) {
+      .setheight {
+        margin-left:64px!important
+      }
+      }
+
+      .setheight {
+      height: calc(100% - 0px);
+      margin-top: 0!important
+      }
+
+      .alain-default__aside {
+      margin-top: 0
+      }
+
+      .alain-default {
+      height: 100%
+      }
+
+      input:-webkit-autofill,input:-webkit-autofill:active,input:-webkit-autofill:focus,input:-webkit-autofill:hover {
+      -webkit-box-shadow: 0 0 0 30px #fff inset!important
+      }
+
+      .link-normal {
+      display: inline-block!important;
+      position: relative!important;
+      top: inherit!important;
+      bottom: inherit!important;
+      left: inherit!important;
+      right: inherit!important
+      }
+
+      .ant-input,.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+      border-width: 1px
+      }
+
+      .border-0 {
+      border: 0!important
+      }
+
+      .rounded-0 {
+      border-radius: 0!important;
+      border-top-left-radius: 0!important;
+      border-bottom-left-radius: 0!important;
+      border-top-right-radius: 0!important;
+      border-bottom-right-radius: 0!important
+      }
+
+      .alain-default__aside {
+      position: fixed
+      }
+
+      .content-title {
+      background: #fff;
+      color: #24292e;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 20px 20px 10px
+      }
+
+      .customlist nz-tabset nz-tabs-nav {
+      border-bottom: 1px solid #eee
+      }
+
+      .ant-tabs-bottom>.ant-tabs-nav:before,.ant-tabs-bottom>div>.ant-tabs-nav:before,.ant-tabs-top>.ant-tabs-nav:before,.ant-tabs-top>div>.ant-tabs-nav:before {
+      border-bottom: 0!important
+      }
+
+      .ant-menu-inline {
+      border-right: 0!important
+      }
+
+      @media (min-width: 768px) {
+      .alain-default__collapsed .sidebar-nav:not(.sidebar-nav__sub) .sidebar-nav__item-link {
+        display:block;
+        justify-content: center;
+        padding: 24px 20px 5px
+      }
+
+      .alain-default__collapsed .sidebar-nav:not(.sidebar-nav__sub) .sidebar-nav__item-link .sidebar-nav__item-text {
+        display: block;
+        font-size: 12px;
+        opacity: 0
+      }
+
+      .alain-default__collapsed .sidebar-nav:not(.sidebar-nav__sub):hover .sidebar-nav__item-link .sidebar-nav__item-text {
+        opacity: 1
+      }
+      }
+
+      @media (min-width: 768px) and (min-height:400px) {
+      .alain-default__collapsed .sidebar-nav:not(.sidebar-nav__sub) .sidebar-nav__item:nth-last-child(-n+2) {
+        position:absolute;
+        bottom: 100px
+      }
+
+      .alain-default__collapsed .sidebar-nav:not(.sidebar-nav__sub) .sidebar-nav__item:nth-last-child(-n+1) {
+        bottom: 20px!important
+      }
+      }
+
+  </style>
+  <style>
+    .preloader .ant-image-preview,
+    .preloader .ant-modal {
+      pointer-events: none
+    }
+
+    .preloader .ant-image-preview.zoom-appear,
+    .preloader .ant-image-preview.zoom-enter,
+    .preloader .ant-modal.zoom-appear,
+    .preloader .ant-modal.zoom-enter {
+      transform: none;
+      opacity: 0;
+      -webkit-animation-duration: .3s;
+      animation-duration: .3s;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none
+    }
+
+    .preloader .ant-image-preview-mask,
+    .preloader .ant-modal-mask {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+      height: 100%;
+      background-color: rgba(0, 0, 0, .45);
+      filter: alpha(opacity=50)
+    }
+
+    .preloader .ant-image-preview-mask-hidden,
+    .preloader .ant-modal-mask-hidden {
+      display: none
+    }
+
+    .preloader .ant-image-preview-wrap,
+    .preloader .ant-modal-wrap {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: auto;
+      outline: 0;
+      -webkit-overflow-scrolling: touch
+    }
+
+    [_nghost-myd-c308] {
+      position: fixed;
+      right: 32px;
+      bottom: 102px;
+      z-index: 2147483640;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer
+    }
+
+    [_nghost-myd-c308] -active {
+      width: 44px;
+      height: 44px;
+      color: #1890ff;
+      font-size: 22px;
+      line-height: 44px
+    }
+
+    [_nghost-myd-c308] .ant-avatar {
+      color: #000;
+      background-color: #fff;
+      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05);
+      transition: color .3s
+    }
+
+    [_nghost-myd-c308] .ant-avatar:hover {
+      color: #1890ff
+    }
+
+    .preloader .content-title {
+      display: flex;
+      justify-content: space-between
+    }
+
+    .preloader .tab-title {
+      height: 24px
+    }
+
+    .preloader .tab-title span {
+      vertical-align: bottom;
+      margin-right: 5px
+    }
+
+    .preloader .line-height-24 {
+      line-height: 24px
+    }
+
+    .preloader .customlist {
+      width: 350px;
+      height: 100%;
+      padding-right: 10px
+    }
+
+    .preloader .customlist nz-tabset {
+      margin-left: 20px
+    }
+
+    .preloader .customlist li .last-message {
+      color: #bbc6d6;
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 12px
+    }
+
+    .preloader .ant-menu-inline .ant-menu-item {
+      padding: 15px !important;
+      border-radius: 5px;
+      height: 76px
+    }
+
+    .preloader .ant-menu-inline .ant-menu-item-selected .last-message {
+      color: #fff
+    }
+
+    .preloader .ant-menu-inline .ant-menu-item-selected:after {
+      display: none
+    }
+
+    .preloader .search-wrapper {
+      height: 60px;
+      position: relative;
+      top: 0
+    }
+
+    .preloader .searchInput {
+      border-radius: 5px;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      background-color: #eee
+    }
+
+    .preloader .searchInput input {
+      background-color: #eee;
+      padding-left: 3px;
+      height: 26px
+    }
+
+    .preloader .searchInput input::-webkit-input-placeholder {
+      color: #888
+    }
+
+    .preloader .searchInput input:-moz-placeholder,
+    .preloader .searchInput input::-moz-placeholder {
+      color: #888
+    }
+
+    .preloader .searchInput input:-ms-input-placeholder {
+      color: #888
+    }
+
+    .preloader .ulout {
+      color: #fff
+    }
+
+    .preloader .ant-menu-item-group-title {
+      color: #8894ab
+    }
+
+    .preloader .ant-menu-item:active,
+    .preloader .ant-menu-item:hover,
+    .preloader .ant-menu-submenu-title:active {
+      background: #e6e6e6;
+      color: #595959
+    }
+
+    .preloader .ant-menu .ant-menu-item-selected,
+    .preloader .ant-menu .ant-menu-item-selected:hover {
+      background-color: #177cdc !important;
+      color: #fff
+    }
+
+    .preloader .ant-ribbon {
+      margin-right: 10px
+    }
+
+    .preloader .chat-right {
+      height: 100%;
+      width: calc(100% - 350px);
+      box-shadow: 0 0 50px rgba(0, 0, 0, .15)
+    }
+
+    .preloader .ul-thead {
+      display: flex;
+      justify-content: space-between;
+      height: 60px
+    }
+
+    .preloader .ul-thead div {
+      vertical-align: middle;
+      line-height: 60px;
+      width: 33%
+    }
+
+    .preloader .conversation-list-ul {
+      height: calc(100vh - 185px);
+      overflow-y: scroll
+    }
+
+    .preloader .conversation-list-ul .conversation-item {
+      display: flex;
+      justify-content: space-between
+    }
+
+    .preloader .conversation-list-ul .conversation-item nz-avatar {
+      display: inline-block;
+      vertical-align: middle
+    }
+
+    .preloader .conversation-list-ul .conversation-item .conversation-list-content {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 20px
+    }
+
+    .preloader .conversation-list-ul .conversation-item .conversation-list-content .conversation-visitor-name {
+      line-height: 24px
+    }
+
+    .preloader .conversation-list-ul .conversation-item .conversation-list-content .last-message {
+      line-height: 18px
+    }
+
+    @media (max-width: 575px) {
+      .chat-right {
+        width: 100%
+      }
+    }
+
+    .preloader .ant-divider-horizontal.ant-divider-with-text {
+      color: #eee
+    }
+
+    .preloader .content-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-direction: row;
+      color: #333;
+      z-index: 12;
+      position: relative;
+      padding-left: 20px;
+      padding-right: 20px;
+      border-bottom: 1px solid transparent;
+      margin-bottom: 10px;
+      margin-top: 10px
+    }
+
+    .preloader .content-header .name-wrap {
+      width: 100%
+    }
+
+    .preloader .content-header .name-wrap .name,
+    .preloader .content-header .name-wrap .seeing {
+      display: block;
+      width: 100%;
+      margin: 10px 0
+    }
+
+    .preloader .content-header .name-wrap .name a,
+    .preloader .content-header .name-wrap .seeing a {
+      color: #959da5;
+      font-weight: 300
+    }
+
+    .preloader .content-header .name-wrap .name a:hover,
+    .preloader .content-header .name-wrap .seeing a:hover {
+      color: #24292e
+    }
+
+    .preloader .content-header .name-wrap .name {
+      font-weight: 700
+    }
+
+    .preloader .content-header .name-wrap .closer {
+      display: inline-block;
+      width: 24px;
+      height: 40px;
+      position: absolute;
+      margin-left: -40px;
+      margin-top: 10px;
+      background-color: #fff;
+      background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%20%20%3Cg%20fill%3D%22none%22%20fill-rule%3D%22nonzero%22%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20stroke%3D%22%23367FEE%22%20stroke-width%3D%222%22%20d%3D%22M8%203l5%205-5%205%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20fill%3D%22%23367FEE%22%20d%3D%22M2%207h10v2H2z%22%2F%3E%0A%20%20%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
+      background-position: 8px;
+      background-repeat: no-repeat;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      box-shadow: -10px 0 10px rgba(0, 0, 0, .05);
+      cursor: pointer
+    }
+
+    .preloader .content-header nz-button-group {
+      width: auto
+    }
+
+    .preloader .content-header nz-button-group button.ant-btn.btn-leave {
+      border-width: 1px
+    }
+
+    .preloader .visitor-details {
+      height: 100%;
+      padding: 20px;
+      color: #333
+    }
+
+    .preloader .visitor-details i {
+      color: #bbc6d6
+    }
+
+    .preloader .visitor-details .ant-divider {
+      background: #333;
+      border-top: 1px solid transparent
+    }
+
+    .preloader .visitor-details .ant-input-affix-wrapper {
+      border: 1px solid transparent;
+      color: #bbc6d6
+    }
+
+    .preloader .visitor-details .ant-input-affix-wrapper>input.ant-input {
+      margin-left: 5px
+    }
+
+    .preloader .visitor-details .ant-divider-horizontal {
+      margin: 12px 0
+    }
+
+    .preloader .visitor-details .visitor-up {
+      height: 100px
+    }
+
+    .preloader .visitor-details .visitor-up .visitor-header {
+      padding: 10px
+    }
+
+    .preloader .visitor-details .visitor-up .visitor-header .vistor-name {
+      color: #333fff;
+      font-size: 16px;
+      margin-left: 10px
+    }
+
+    .preloader .visitor-details .visitor-down {
+      overflow: auto;
+      height: calc(100% - 120px)
+    }
+
+    .preloader .visitor-details .info {
+      height: 200px
+    }
+
+    .preloader .visitor-details .location div {
+      margin-bottom: 5px
+    }
+
+    @media (min-width: 1200px) {
+      .visitor-details {
+        display: block;
+        width: 350px
+      }
+
+      .chat-left {
+        width: calc(100% - 350px)
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .visitor-details {
+        display: none
+      }
+    }
+
+    -shadowcsshost {
+      height: 100%
+    }
+
+    .preloader .content-chat {
+      height: calc(100% - 90px)
+    }
+
+    .preloader .content-chat .chat-left {
+      height: 100%
+    }
+
+
+    .preloader .user,
+    .preloader .visitor {
+      width: 100%
+    }
+
+    .preloader .conversation {
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 10px)
+    }
+
+    .preloader .conversation .message {
+      width: 100%;
+      flex: 1;
+      padding: 0;
+      overflow: auto
+    }
+
+    .preloader .conversation .messageIupt {
+      height: 170px;
+      margin: 30px 15px 15px;
+      border: 1px solid #e1e4e8;
+      border-radius: 10px;
+      overflow: hidden
+    }
+
+    .preloader .conversation .messageIupt .input-left {
+      width: 100%
+    }
+
+    .preloader .conversation .messageIupt .input-left textarea {
+      border-radius: 5px;
+      height: 125px;
+      resize: none
+    }
+
+    .preloader .conversation .messageIupt .input-left textarea:focus,
+    .preloader .conversation .messageIupt .input-left textarea:hover {
+      outline: none
+    }
+
+    .preloader .conversation .messageIupt .input-right {
+      position: relative;
+      width: 100%
+    }
+
+    .preloader .conversation .messageIupt .input-right a {
+      float: right;
+      font-size: 25px;
+      margin-left: 4px;
+      color: #bbc6d6;
+      transition: color .5s;
+      width: 30px;
+      text-align: center
+    }
+
+    .preloader .conversation .messageIupt .input-right a i {
+      font-size: 22px;
+      color: #bbc6d6;
+      cursor: pointer
+    }
+
+    .preloader .conversation .messageIupt .input-right .canSend i {
+      color: #177ddc
+    }
+
+    .preloader .conversation .messageIupt .input-right .send {
+      display: inline-block
+    }
+
+    .preloader .conversation .messageIupt .input-right .send :hover {
+      color: #177ddc
+    }
+
+    .preloader .conversation .messageIupt .input-right a:hover i {
+      color: #555
+    }
+
+    .preloader .conversation .img {
+      max-width: 90%
+    }
+
+    .preloader .conversation .ant-upload-list-item {
+      position: absolute;
+      top: 0;
+      left: 10px;
+      color: #333;
+      width: 300px
+    }
+
+    .preloader .conversation .ant-upload-list-item i {
+      color: rgba(0, 0, 0, .45)
+    }
+
+    .preloader .conversation .ant-upload-list-item .ant-btn-icon-only.ant-btn-sm[title~=下载文件] {
+      display: none
+    }
+
+    .preloader .pre-more {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      text-align: center;
+      color: rgba(0, 0, 0, .45);
+      background: #d7dde4;
+      z-index: 99;
+      padding-bottom: 10px
+    }
+
+    .preloader .message-item {
+      padding: 15px 0
+    }
+
+    .preloader .message-item nz-comment {
+      padding: 0 15px;
+      border-left: 3px solid transparent
+    }
+
+    .preloader .message-item.visitor nz-comment {
+      border-left: 3px solid #177cdc
+    }
+  </style>
+</head>
+<body>
+  <app-root></app-root>
+  <div class="preloader">
+      <div class="alain-default alain-default__collapsed ng-star-inserted">
+          <layout-sidebar class="alain-default__aside">
+              <div class="alain-default__aside-inner">
+                  <sidebar-nav class="d-block">
+                      <ul class="sidebar-nav">
+                          <li class="sidebar-nav__item sidebar-nav__group-title ng-star-inserted">
+                              <span>功能</span>
+                          </li>
+                          <li class="sidebar-nav__item sidebar-nav__selected sidebar-nav__open ng-star-inserted">
+                              <a class="sidebar-nav__item-link ng-star-inserted" data-id="2">
+                                  <span nz-tooltip="" nztooltipplacement="right" class="ng-star-inserted">
+                                      <i nz-icon="" class="anticon sidebar-nav__item-icon anticon-comment ng-star-inserted">
+                                          <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="comment" aria-hidden="true">
+                                              <defs>
+                                                  <style></style>
+                                              </defs>
+                                              <path d="M573 421c-23.1 0-41 17.9-41 40s17.9 40 41 40c21.1 0 39-17.9 39-40s-17.9-40-39-40zm-280 0c-23.1 0-41 17.9-41 40s17.9 40 41 40c21.1 0 39-17.9 39-40s-17.9-40-39-40z" fill="#1890ff"></path>
+                                              <path d="M894 345a343.92 343.92 0 00-189-130v.1c-17.1-19-36.4-36.5-58-52.1-163.7-119-393.5-82.7-513 81-96.3 133-92.2 311.9 6 439l.8 132.6c0 3.2.5 6.4 1.5 9.4a31.95 31.95 0 0040.1 20.9L309 806c33.5 11.9 68.1 18.7 102.5 20.6l-.5.4c89.1 64.9 205.9 84.4 313 49l127.1 41.4c3.2 1 6.5 1.6 9.9 1.6 17.7 0 32-14.3 32-32V753c88.1-119.6 90.4-284.9 1-408zM323 735l-12-5-99 31-1-104-8-9c-84.6-103.2-90.2-251.9-11-361 96.4-132.2 281.2-161.4 413-66 132.2 96.1 161.5 280.6 66 412-80.1 109.9-223.5 150.5-348 102zm505-17l-8 10 1 104-98-33-12 5c-56 20.8-115.7 22.5-171 7l-.2-.1A367.31 367.31 0 00729 676c76.4-105.3 88.8-237.6 44.4-350.4l.6.4c23 16.5 44.1 37.1 62 62 72.6 99.6 68.5 235.2-8 330z" fill="#1890ff"></path>
+                                              <path d="M433 421c-23.1 0-41 17.9-41 40s17.9 40 41 40c21.1 0 39-17.9 39-40s-17.9-40-39-40z" fill="#1890ff"></path>
+                                          </svg>
+                                      </i>
+                                  </span>
+                                  <span class="sidebar-nav__item-text" title="对话">对话</span>
+                              </a>
+                          </li>
+                          <li class="sidebar-nav__item ng-star-inserted">
+                              <a class="sidebar-nav__item-link ng-star-inserted" data-id="3">
+                                  <span nz-tooltip="" nztooltipplacement="right" class="ng-star-inserted">
+                                      <i nz-icon="" class="anticon sidebar-nav__item-icon anticon-alert ng-star-inserted">
+                                          <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="alert" aria-hidden="true">
+                                              <path d="M193 796c0 17.7 14.3 32 32 32h574c17.7 0 32-14.3 32-32V563c0-176.2-142.8-319-319-319S193 386.8 193 563v233zm72-233c0-136.4 110.6-247 247-247s247 110.6 247 247v193H404V585c0-5.5-4.5-10-10-10h-44c-5.5 0-10 4.5-10 10v171h-75V563zm-48.1-252.5l39.6-39.6c3.1-3.1 3.1-8.2 0-11.3l-67.9-67.9a8.03 8.03 0 00-11.3 0l-39.6 39.6a8.03 8.03 0 000 11.3l67.9 67.9c3.1 3.1 8.1 3.1 11.3 0zm669.6-79.2l-39.6-39.6a8.03 8.03 0 00-11.3 0l-67.9 67.9a8.03 8.03 0 000 11.3l39.6 39.6c3.1 3.1 8.2 3.1 11.3 0l67.9-67.9c3.1-3.2 3.1-8.2 0-11.3zM832 892H192c-17.7 0-32 14.3-32 32v24c0 4.4 3.6 8 8 8h688c4.4 0 8-3.6 8-8v-24c0-17.7-14.3-32-32-32zM484 180h56c4.4 0 8-3.6 8-8V76c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v96c0 4.4 3.6 8 8 8z" fill="#b9babb"></path>
+                                          </svg>
+                                      </i>
+                                  </span>
+                                  <span class="sidebar-nav__item-text" title="访客">访客</span>
+                              </a>
+                          </li>
+                          <li class="sidebar-nav__item ng-star-inserted">
+                              <a class="sidebar-nav__item-link ng-star-inserted" data-id="4">
+                                  <span nz-tooltip="" nztooltipplacement="right" class="ng-star-inserted">
+                                      <i nz-icon="" class="anticon sidebar-nav__item-icon anticon-robot ng-star-inserted">
+                                          <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="robot" aria-hidden="true">
+                                              <path d="M300 328a60 60 0 10120 0 60 60 0 10-120 0zM852 64H172c-17.7 0-32 14.3-32 32v660c0 17.7 14.3 32 32 32h680c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32zm-32 660H204V128h616v596zM604 328a60 60 0 10120 0 60 60 0 10-120 0zm250.2 556H169.8c-16.5 0-29.8 14.3-29.8 32v36c0 4.4 3.3 8 7.4 8h729.1c4.1 0 7.4-3.6 7.4-8v-36c.1-17.7-13.2-32-29.7-32zM664 508H360c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h304c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8z" fill="#b9babb"></path>
+                                          </svg>
+                                      </i>
+                                  </span>
+                                  <span class="sidebar-nav__item-text" title="自动">自动</span>
+                              </a>
+                          </li>
+                          <li class="sidebar-nav__item sidebar-nav__group-title ng-star-inserted">
+                              <span>账户管理</span>
+                          </li>
+                          <li class="sidebar-nav__item ng-star-inserted">
+                              <a class="sidebar-nav__item-link ng-star-inserted" data-id="6">
+                                  <span nz-tooltip="" nztooltipplacement="right" class="ng-star-inserted">
+                                      <i nz-icon="" class="anticon sidebar-nav__item-icon anticon-bank ng-star-inserted">
+                                          <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="bank" aria-hidden="true">
+                                              <path d="M894 462c30.9 0 43.8-39.7 18.7-58L530.8 126.2a31.81 31.81 0 00-37.6 0L111.3 404c-25.1 18.2-12.2 58 18.8 58H192v374h-72c-4.4 0-8 3.6-8 8v52c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-52c0-4.4-3.6-8-8-8h-72V462h62zM512 196.7l271.1 197.2H240.9L512 196.7zM264 462h117v374H264V462zm189 0h117v374H453V462zm307 374H642V462h118v374z" fill="#b9babb"></path>
+                                          </svg>
+                                      </i>
+                                  </span>
+                                  <span class="sidebar-nav__item-text" title="管理">管理</span>
+                              </a>
+                          </li>
+                          <li class="sidebar-nav__item ng-star-inserted">
+                              <a class="sidebar-nav__item-link ng-star-inserted" data-id="7">
+                                  <span nz-tooltip="" nztooltipplacement="right" class="ng-star-inserted">
+                                      <i nz-icon="" class="anticon sidebar-nav__item-icon anticon-user ng-star-inserted">
+                                          <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="user" aria-hidden="true">
+                                              <path d="M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z" fill="#b9babb"></path>
+                                          </svg>
+                                      </i>
+                                  </span>
+                                  <span class="sidebar-nav__item-text" title="我的">我的</span>
+                              </a>
+                          </li>
+                      </ul>
+                  </sidebar-nav>
+              </div>
+          </layout-sidebar>
+          <section class="alain-default__content setheight">
+              <router-outlet></router-outlet>
+              <app-chat _nghost-myd-c316="" class="ng-star-inserted">
+                  <div  nz-row="" nzjustify="center" nzalign="top" style="height: 100%; width: 100%;" class="ant-row ant-row-top ant-row-center">
+                      <div  nz-col="" class="ant-col customlist hidden-xs" style="">
+                          <div >
+                              <div  class="content-title">
+                                  <span  style="background: linear-gradient(90deg,#f2f2f2 25%,#e6e6e6 37%,#f2f2f2 63%); background-size: 400% 100%; -webkit-animation: ant-skeleton-loading 1.4s ease infinite; animation: ant-skeleton-loading 1.4s ease infinite; width: 100px; height: 20px; display: inline-block;"></span>
+                              </div>
+                              <ul  nz-menu="" nzmode="inline" class="ulout ant-menu ant-menu-root ant-menu-light ant-menu-inline">
+                                  <nz-tabset  class="ant-tabs ant-tabs-top ant-tabs-default">
+                                      <nz-tabs-nav role="tablist" class="ant-tabs-nav ng-star-inserted">
+                                          <div class="ant-tabs-nav-wrap">
+                                              <div nztabscrolllist="" class="ant-tabs-nav-list" style="transform: translate(0px, 0px);">
+                                                  <div class="ant-tabs-tab ng-star-inserted">
+                                                      <div role="tab" nztabnavitem="" cdkmonitorelementfocus="" class="ant-tabs-tab-btn" tabindex="-1" aria-disabled="false" aria-selected="false" aria-controls="nz-tabs-0-tab-0">
+                                                          <div  class="tab-title ng-star-inserted">
+                                                              <span  style="background: linear-gradient(90deg,#f2f2f2 25%,#e6e6e6 37%,#f2f2f2 63%); background-size: 400% 100%; -webkit-animation: ant-skeleton-loading 1.4s ease infinite; animation: ant-skeleton-loading 1.4s ease infinite; width: 60px; height: 20px; display: inline-block;"></span> </div> </div>
+                                                  </div>
+                                                  <div class="ant-tabs-tab ng-star-inserted">
+                                                      <span  style="background: linear-gradient(90deg,#f2f2f2 25%,#e6e6e6 37%,#f2f2f2 63%); background-size: 400% 100%; -webkit-animation: ant-skeleton-loading 1.4s ease infinite; animation: ant-skeleton-loading 1.4s ease infinite; width: 60px; height: 20px; display: inline-block;"></span>
+                                                  </div>
+                                                  <div class="ant-tabs-tab ng-star-inserted ant-tabs-tab-active">
+                                                      <span  style="background: linear-gradient(90deg,#f2f2f2 25%,#e6e6e6 37%,#f2f2f2 63%); background-size: 400% 100%; -webkit-animation: ant-skeleton-loading 1.4s ease infinite; animation: ant-skeleton-loading 1.4s ease infinite; width: 60px; height: 20px; display: inline-block;"></span>
+                                                  </div>
+                                                  <div nz-tabs-ink-bar="" class="ant-tabs-ink-bar" style="left: 0px; width: 0px;"></div>
+                                              </div>
+                                          </div>
+                                          <nz-tab-nav-operation class="ant-tabs-nav-operations ant-tabs-nav-operations-hidden">
+                                              <button nz-dropdown="" type="button" tabindex="-1" aria-hidden="true" nzoverlayclassname="nz-tabs-dropdown" class="ant-tabs-nav-more ant-dropdown-trigger">
+                                                  <i nz-icon="" nztype="ellipsis" class="anticon anticon-ellipsis">
+                                                      <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="ellipsis" aria-hidden="true">
+                                                          <path d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z" fill="rgba(0, 0, 0, 0.85)"></path>
+                                                      </svg>
+                                                  </i>
+                                              </button>
+                                          </nz-tab-nav-operation>
+                                      </nz-tabs-nav>
+                                      <div class="ant-tabs-content-holder">
+                                          <div class="ant-tabs-content ant-tabs-content-top">
+                                              <div nz-tab-body="" class="ant-tabs-tabpane ng-star-inserted" tabindex="-1" aria-hidden="true" style="display: none;"></div>
+                                              <div nz-tab-body="" class="ant-tabs-tabpane ng-star-inserted" tabindex="-1" aria-hidden="true" style="display: none;"></div>
+                                              <div nz-tab-body="" class="ant-tabs-tabpane ng-star-inserted ant-tabs-tabpane-active" tabindex="0" aria-hidden="false" style="">
+                                                  <div  class="search-wrapper ng-star-inserted">
+                                                      <nz-input-group  class="searchInput ant-input-affix-wrapper" style="
+">
+                                                          <input  type="text" nz-input="" placeholder="" nzsize="large" class="ant-input ng-untouched ng-pristine ng-valid ng-star-inserted" style="background: transparent;border: 0;">
+                                                      </nz-input-group>
+                                                  </div>
+                                                  <ul  class="conversation-list-ul ng-star-inserted">
+                                                      <li  nz-menu-item="" class="conversation-item ant-menu-item ant-menu-item-selected ng-star-inserted" style="padding-left: 24px;">
+                                                          <nz-list-item class="ant-list-item ng-star-inserted">
+                                                              <nz-skeleton class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                                                                  <div class="ant-skeleton-header ng-star-inserted">
+                                                                      <nz-skeleton-element nztype="avatar" class="ant-skeleton ant-skeleton-element">
+                                                                          <span class="ant-skeleton-avatar ant-skeleton-avatar-circle ant-skeleton-avatar-lg"></span>
+                                                                      </nz-skeleton-element>
+                                                                  </div>
+                                                                  <div class="ant-skeleton-content ng-star-inserted">
+                                                                      <ul class="ant-skeleton-paragraph ng-star-inserted" style="margin-top: 0;">
+                                                                          <li class="ng-star-inserted" style="width: 100px;"></li>
+                                                                          <li class="ng-star-inserted" style="width: 200px; margin-top: 10px;"></li>
+                                                                      </ul>
+                                                                  </div>
+                                                              </nz-skeleton>
+                                                          </nz-list-item>
+                                                      </li>
+                                                      <li  nz-menu-item="" class="conversation-item ant-menu-item ng-star-inserted" style="padding-left: 24px;">
+                                                          <nz-list-item class="ant-list-item ng-star-inserted">
+                                                              <nz-skeleton class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                                                                  <div class="ant-skeleton-header ng-star-inserted">
+                                                                      <nz-skeleton-element nztype="avatar" class="ant-skeleton ant-skeleton-element">
+                                                                          <span class="ant-skeleton-avatar ant-skeleton-avatar-circle ant-skeleton-avatar-lg"></span>
+                                                                      </nz-skeleton-element>
+                                                                  </div>
+                                                                  <div class="ant-skeleton-content ng-star-inserted">
+                                                                      <ul class="ant-skeleton-paragraph ng-star-inserted" style="margin-top: 0;">
+                                                                          <li class="ng-star-inserted" style="width: 100px;"></li>
+                                                                          <li class="ng-star-inserted" style="width: 200px; margin-top: 10px;"></li>
+                                                                      </ul>
+                                                                  </div>
+                                                              </nz-skeleton>
+                                                          </nz-list-item>
+                                                      </li>
+                                                      <li  nz-menu-item="" class="conversation-item ant-menu-item ng-star-inserted" style="padding-left: 24px;">
+                                                          <nz-list-item class="ant-list-item ng-star-inserted">
+                                                              <nz-skeleton class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                                                                  <div class="ant-skeleton-header ng-star-inserted">
+                                                                      <nz-skeleton-element nztype="avatar" class="ant-skeleton ant-skeleton-element">
+                                                                          <span class="ant-skeleton-avatar ant-skeleton-avatar-circle ant-skeleton-avatar-lg"></span>
+                                                                      </nz-skeleton-element>
+                                                                  </div>
+                                                                  <div class="ant-skeleton-content ng-star-inserted">
+                                                                      <ul class="ant-skeleton-paragraph ng-star-inserted" style="margin-top: 0;">
+                                                                          <li class="ng-star-inserted" style="width: 100px;"></li>
+                                                                          <li class="ng-star-inserted" style="width: 200px; margin-top: 10px;"></li>
+                                                                      </ul>
+                                                                  </div>
+                                                              </nz-skeleton>
+                                                          </nz-list-item>
+                                                      </li>
+                                                  </ul>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </nz-tabset>
+                              </ul>
+                          </div>
+                      </div>
+                      <div  nz-col="" class="chat-right ant-col ng-star-inserted">
+                          <app-chat-detail  >
+                              <div  nz-row="" class="content-chat ant-row ng-star-inserted">
+                                  <div  nz-col="" class="chat-left ant-col">
+                                      <div  class="content-header">
+                                          <div  class="name-wrap">
+                                              <div  class="closer"></div>
+                                              <div  class="name ng-star-inserted">
+                                                  <nz-skeleton class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                                                      <div class="ant-skeleton-content ng-star-inserted">
+                                                          <h3 class="ant-skeleton-title ng-star-inserted" style="width: 30%;margin: 0;"></h3>
+                                                          <ul class="ant-skeleton-paragraph ng-star-inserted" style="margin-top: 15px; width: 80%;">
+                                                              <li class="ng-star-inserted"></li>
+                                                          </ul>
+                                                      </div>
+                                                  </nz-skeleton>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div  class="conversation">
+                                          <div  class="message">
+                                              <div  class="message-item user ng-star-inserted">
+                                                  <nz-comment  class="ant-comment">
+                                                      <nz-list-item class="ant-list-item ng-star-inserted">
+                                                          <nz-skeleton class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                                                              <div class="ant-skeleton-header ng-star-inserted">
+                                                                  <nz-skeleton-element nztype="avatar" class="ant-skeleton ant-skeleton-element">
+                                                                      <span class="ant-skeleton-avatar ant-skeleton-avatar-circle ant-skeleton-avatar-lg"></span>
+                                                                  </nz-skeleton-element>
+                                                              </div>
+                                                              <div class="ant-skeleton-content ng-star-inserted">
+                                                                  <h3 class="ant-skeleton-title ng-star-inserted" style="width: 50%;"></h3>
+                                                                  <ul class="ant-skeleton-paragraph ng-star-inserted">
+                                                                      <li class="ng-star-inserted"></li>
+                                                                  </ul>
+                                                              </div>
+                                                          </nz-skeleton>
+                                                      </nz-list-item>
+                                                      <div class="ant-comment-nested"></div>
+                                                  </nz-comment>
+                                              </div>
+                                              <div  class="message-item user ng-star-inserted">
+                                                  <nz-comment  class="ant-comment">
+                                                      <nz-list-item class="ant-list-item ng-star-inserted">
+                                                          <nz-skeleton class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                                                              <div class="ant-skeleton-header ng-star-inserted">
+                                                                  <nz-skeleton-element nztype="avatar" class="ant-skeleton ant-skeleton-element">
+                                                                      <span class="ant-skeleton-avatar ant-skeleton-avatar-circle ant-skeleton-avatar-lg"></span>
+                                                                  </nz-skeleton-element>
+                                                              </div>
+                                                              <div class="ant-skeleton-content ng-star-inserted">
+                                                                  <h3 class="ant-skeleton-title ng-star-inserted" style="width: 50%;"></h3>
+                                                                  <ul class="ant-skeleton-paragraph ng-star-inserted">
+                                                                      <li class="ng-star-inserted"></li>
+                                                                      <li class="ng-star-inserted"></li>
+                                                                  </ul>
+                                                              </div>
+                                                          </nz-skeleton>
+                                                      </nz-list-item>
+                                                      <div class="ant-comment-nested"></div>
+                                                  </nz-comment>
+                                              </div>
+                                          </div>
+                                          <div  class="messageIupt">
+                                              <div  class="input-left">
+                                                  <textarea  nz-input="" class="border-0 ant-input ng-untouched ng-pristine ng-valid"></textarea>
+                                              </div>
+                                              <div  nz-row="" style="height: 40px; width: 100%; position: relative;" class="ant-row">
+                                                  <div  nz-col="" class="input-right ant-col">
+                                                      <a  class="send">
+                                                          <i  nz-icon="" nztype="send" nztheme="outline" class="anticon anticon-send">
+                                                              <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="send" aria-hidden="true">
+                                                                  <defs>
+                                                                      <style></style>
+                                                                  </defs>
+                                                                  <path d="M931.4 498.9L94.9 79.5c-3.4-1.7-7.3-2.1-11-1.2a15.99 15.99 0 00-11.7 19.3l86.2 352.2c1.3 5.3 5.2 9.6 10.4 11.3l147.7 50.7-147.6 50.7c-5.2 1.8-9.1 6-10.3 11.3L72.2 926.5c-.9 3.7-.5 7.6 1.2 10.9 3.9 7.9 13.5 11.1 21.5 7.2l836.5-417c3.1-1.5 5.6-4.1 7.2-7.1 3.9-8 .7-17.6-7.2-21.6zM170.8 826.3l50.3-205.6 295.2-101.3c2.3-.8 4.2-2.6 5-5 1.4-4.2-.8-8.7-5-10.2L221.1 403 171 198.2l628 314.9-628.2 313.2z" fill="#bbc6d6"></path>
+                                                              </svg>
+                                                          </i>
+                                                      </a>
+                                                      <a  nz-popconfirm="" nzpopconfirmplacement="top">
+                                                          <i  nz-icon="" nztype="smile" nztheme="outline" class="anticon anticon-smile">
+                                                              <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="smile" aria-hidden="true">
+                                                                  <path d="M288 421a48 48 0 1096 0 48 48 0 10-96 0zm352 0a48 48 0 1096 0 48 48 0 10-96 0zM512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm263 711c-34.2 34.2-74 61-118.3 79.8C611 874.2 562.3 884 512 884c-50.3 0-99-9.8-144.8-29.2A370.4 370.4 0 01248.9 775c-34.2-34.2-61-74-79.8-118.3C149.8 611 140 562.3 140 512s9.8-99 29.2-144.8A370.4 370.4 0 01249 248.9c34.2-34.2 74-61 118.3-79.8C413 149.8 461.7 140 512 140c50.3 0 99 9.8 144.8 29.2A370.4 370.4 0 01775.1 249c34.2 34.2 61 74 79.8 118.3C874.2 413 884 461.7 884 512s-9.8 99-29.2 144.8A368.89 368.89 0 01775 775zM664 533h-48.1c-4.2 0-7.8 3.2-8.1 7.4C604 589.9 562.5 629 512 629s-92.1-39.1-95.8-88.6c-.3-4.2-3.9-7.4-8.1-7.4H360a8 8 0 00-8 8.4c4.4 84.3 74.5 151.6 160 151.6s155.6-67.3 160-151.6a8 8 0 00-8-8.4z" fill="#bbc6d6"></path>
+                                                              </svg>
+                                                          </i>
+                                                      </a>
+                                                      <a >
+                                                          <i  nz-icon="" nztype="thunderbolt" nztheme="outline" class="anticon anticon-thunderbolt">
+                                                              <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="thunderbolt" aria-hidden="true">
+                                                                  <path d="M848 359.3H627.7L825.8 109c4.1-5.3.4-13-6.3-13H436c-2.8 0-5.5 1.5-6.9 4L170 547.5c-3.1 5.3.7 12 6.9 12h174.4l-89.4 357.6c-1.9 7.8 7.5 13.3 13.3 7.7L853.5 373c5.2-4.9 1.7-13.7-5.5-13.7zM378.2 732.5l60.3-241H281.1l189.6-327.4h224.6L487 427.4h211L378.2 732.5z" fill="#bbc6d6"></path>
+                                                              </svg>
+                                                          </i>
+                                                      </a>
+                                                      <nz-upload  nzaction="api/file/upload" style="float: right;">
+                                                          <div class="ant-upload ant-upload-select ant-upload-select-text ng-star-inserted">
+                                                              <div nz-upload-btn="" tabindex="0" role="button" class="ant-upload">
+                                                                  <input type="file" style="display: none;">
+                                                                  <a  class="ng-star-inserted">
+                                                                      <i  nz-icon="" nztype="paper-clip" nztheme="outline" class="anticon anticon-paper-clip">
+                                                                          <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="paper-clip" aria-hidden="true">
+                                                                              <path d="M779.3 196.6c-94.2-94.2-247.6-94.2-341.7 0l-261 260.8c-1.7 1.7-2.6 4-2.6 6.4s.9 4.7 2.6 6.4l36.9 36.9a9 9 0 0012.7 0l261-260.8c32.4-32.4 75.5-50.2 121.3-50.2s88.9 17.8 121.2 50.2c32.4 32.4 50.2 75.5 50.2 121.2 0 45.8-17.8 88.8-50.2 121.2l-266 265.9-43.1 43.1c-40.3 40.3-105.8 40.3-146.1 0-19.5-19.5-30.2-45.4-30.2-73s10.7-53.5 30.2-73l263.9-263.8c6.7-6.6 15.5-10.3 24.9-10.3h.1c9.4 0 18.1 3.7 24.7 10.3 6.7 6.7 10.3 15.5 10.3 24.9 0 9.3-3.7 18.1-10.3 24.7L372.4 653c-1.7 1.7-2.6 4-2.6 6.4s.9 4.7 2.6 6.4l36.9 36.9a9 9 0 0012.7 0l215.6-215.6c19.9-19.9 30.8-46.3 30.8-74.4s-11-54.6-30.8-74.4c-41.1-41.1-107.9-41-149 0L463 364 224.8 602.1A172.22 172.22 0 00174 724.8c0 46.3 18.1 89.8 50.8 122.5 33.9 33.8 78.3 50.7 122.7 50.7 44.4 0 88.8-16.9 122.6-50.7l309.2-309C824.8 492.7 850 432 850 367.5c.1-64.6-25.1-125.3-70.7-170.9z" fill="#bbc6d6"></path>
+                                                                          </svg>
+                                                                      </i>
+                                                                  </a>
+                                                              </div>
+                                                          </div>
+                                                          <nz-upload-list class="ng-tns-c156-18 ant-upload-list ant-upload-list-text ng-star-inserted"></nz-upload-list>
+                                                      </nz-upload>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div  nz-col="" class="visitor-details ant-col">
+                                      <div  class="visitor-up ng-star-inserted">
+                                          <nz-list-item class="ant-list-item ng-star-inserted">
+                                              <nz-skeleton class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                                                  <div class="ant-skeleton-header ng-star-inserted">
+                                                      <nz-skeleton-element nztype="avatar" class="ant-skeleton ant-skeleton-element">
+                                                          <span class="ant-skeleton-avatar ant-skeleton-avatar-circle ant-skeleton-avatar-lg"></span>
+                                                      </nz-skeleton-element>
+                                                  </div>
+                                                  <div class="ant-skeleton-content ng-star-inserted">
+                                                      <ul class="ant-skeleton-paragraph ng-star-inserted" style="margin-top: 0;">
+                                                          <li class="ng-star-inserted" style="width: 100px;"></li>
+                                                          <li class="ng-star-inserted" style="width: 200px; margin-top: 10px;"></li>
+                                                      </ul>
+                                                  </div>
+                                              </nz-skeleton>
+                                          </nz-list-item>
+                                      </div>
+                                      <div  class="visitor-down ng-star-inserted">
+                                          <nz-list-item class="ant-list-item ng-star-inserted" style="margin-bottom: 150px;">
+                                              <nz-skeleton class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                                                  <div class="ant-skeleton-content ng-star-inserted">
+                                                      <ul class="ant-skeleton-paragraph ng-star-inserted" style="margin-top: 0;">
+                                                          <li class="ng-star-inserted" style="width: 100px;"></li>
+                                                          <li class="ng-star-inserted" style="width: 200px; margin-top: 10px;"></li>
+                                                          <li class="ng-star-inserted" style="width: 200px; margin-top: 10px;"></li>
+                                                      </ul>
+                                                  </div>
+                                              </nz-skeleton>
+                                          </nz-list-item>
+                                          <nz-list-item class="ant-list-item ng-star-inserted">
+                                              <nz-skeleton class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                                                  <div class="ant-skeleton-content ng-star-inserted">
+                                                      <ul class="ant-skeleton-paragraph ng-star-inserted" style="margin-top: 0;">
+                                                          <li class="ng-star-inserted" style="width: 100px;"></li>
+                                                          <li class="ng-star-inserted" style="width: 200px; margin-top: 10px;"></li>
+                                                      </ul>
+                                                  </div>
+                                              </nz-skeleton>
+                                          </nz-list-item>
+                                      </div>
+                                  </div>
+                              </div>
+                          </app-chat-detail>
+                      </div>
+                  </div>
+              </app-chat>
+          </section>
       </div>
-    </div>
-  </body>
-</html>
+  </div>
+</body></html>
