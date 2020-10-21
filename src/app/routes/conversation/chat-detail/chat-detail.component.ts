@@ -228,7 +228,7 @@ export class ChatDetailComponent implements OnInit {
               this.fileList = [];
               this.whisper(res.data.message);
               this.messageList.push(res.data.message);
-              this.messageOutput.emit({ id: this.id, res.data.message });
+              this.messageOutput.emit({ id: this.id, message: res.data.message });
 
               setTimeout(() => {
                 this.scrollTo();
