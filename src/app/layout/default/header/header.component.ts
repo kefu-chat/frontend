@@ -39,6 +39,7 @@ export class HeaderComponent {
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnInit(): void {
     this.registerWebSocket();
+    // this.loadKefuChat();
 
     this.registerServiceWorker('/sw.js', (subscription: PushSubscriptionJSON) => {
       localStorage.setItem(`can_push`, 'yes');
@@ -183,5 +184,25 @@ export class HeaderComponent {
       onError();
       console.warn('Push messaging is not supported');
     }
+  }
+
+  loadKefuChat(): void {
+    ((d, e, f, institution_id) => {
+      (window as any)[f] = () => {
+        return {
+          institution_id,
+          unique_id: this.settings.user.id,
+          name: this.settings.user.name,
+          phone: this.settings.user.phone,
+          email: this.settings.user.email,
+        };
+      };
+
+      const js = (d.createElement(e) as HTMLScriptElement);
+      js.src = 'https://kfwidget.ssls.com.cn/widget.js';
+      js.async = true;
+      js.defer = true;
+      d.head.appendChild(js);
+    })(document, 'script', '_kefuchat_init', 'DdKle6Ikkg2Nq12w')
   }
 }
