@@ -4,7 +4,7 @@ import {
   Component,
   OnInit,
 } from "@angular/core";
-import { _HttpClient } from "@delon/theme";
+import { SettingsService, _HttpClient } from "@delon/theme";
 import { User } from "@model/application/conversation.interface";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { NzUploadChangeParam } from "ng-zorro-antd/upload";
@@ -25,7 +25,8 @@ export class ProAccountSettingsBaseComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
-    private msg: NzMessageService
+    private msg: NzMessageService,
+    private setting: SettingsService
   ) {}
   avatar = "";
   userLoading = true;
@@ -51,6 +52,7 @@ export class ProAccountSettingsBaseComponent implements OnInit {
       const user: User = param1.data.user;
       this.userLoading = false;
       this.user = user;
+      this.setting.setUser(user);
 
       this.msg.success(tips || "资料已保存!");
     });
