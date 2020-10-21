@@ -173,59 +173,6 @@ export class UngreetedVisitorDetailComponent implements OnInit {
     this.socket.whisper("message", message);
   }
 
-  sendMessage(): void {
-    const content = {
-      1: this.content,
-      2: this.picUrl,
-    };
-    for (const i of Object.keys(content)) {
-      const j = Number(i);
-      if (content[j]) {
-        const req = {
-          type: Number(j),
-          content: content[j],
-        };
-        const message = {
-          ...req,
-          id: parseInt((Math.random() * 9999999).toString(), null).toString(),
-          sender_id: this.user.id,
-          sender_type: "App\\Models\\User",
-          sender_type_text: "user",
-          sender: this.user,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          conversation_id: this.conversation.id.toString(),
-        };
-
-        this.conversationSrv
-          .sendMessage(this.id, req)
-          .subscribe((res: Res<any>) => {
-            if (res.success) {
-              this.content = "";
-              this.picUrl = "";
-              this.fileList = [];
-              this.whisper(message);
-              this.messageList.push(message);
-
-              setTimeout(() => {
-                this.scrollTo();
-              }, 200);
-            }
-          });
-      }
-    }
-  }
-
-  keyEnter(e: KeyboardEvent): void {
-    this.stopTyping(e);
-    if (this.content) {
-      this.sendMessage();
-    } else {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  }
-
   startTyping(e: KeyboardEvent): void {
     this.socket.whisper("startTyping", this.user);
   }
