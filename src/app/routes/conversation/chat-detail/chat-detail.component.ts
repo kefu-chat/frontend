@@ -220,28 +220,15 @@ export class ChatDetailComponent implements OnInit {
           type: Number(j),
           content: content[j],
         };
-        const message = {
-          ...req,
-          id: parseInt((Math.random() * 9999999).toString(), null).toString(),
-          sender_id: this.user.id,
-          sender_type: "App\\Models\\User",
-          sender_type_text: "user",
-          sender: this.user,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          conversation_id: this.conversation.id.toString(),
-        };
-
         this.conversationSrv.sendMessage(this.id, req).subscribe(
-          (res: Res<any>) => {
+          (res: Res<{message: MessageModel}>) => {
             if (res.success) {
               this.content = "";
               this.picUrl = "";
               this.fileList = [];
-              this.whisper(message);
-              this.messageList.push(message);
-              this.messageOutput.emit({ id: this.id, message });
-              this.messageOutput.emit({ id: this.id, message });
+              this.whisper(res.data.message);
+              this.messageList.push(res.data.message);
+              this.messageOutput.emit({ id: this.id, res.data.message });
 
               setTimeout(() => {
                 this.scrollTo();

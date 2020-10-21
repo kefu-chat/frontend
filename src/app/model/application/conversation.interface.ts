@@ -124,7 +124,7 @@ export interface MessageModel {
   created_at: string;
   updated_at: string;
   sender_type_text: string;
-  sender?: Sender;
+  sender?: Visitor | User;
   loading?: boolean;
 }
 
