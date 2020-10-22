@@ -1025,7 +1025,7 @@ input:-webkit-autofill, input:-webkit-autofill:active, input:-webkit-autofill:fo
   color: #8894ab
 }
 
-.preloader .ant-menu-item:active, .preloader .ant-menu-item:hover, .preloader .ant-menu-submenu-title:active {
+.preloader .ant-menu-item:active, .preloader .ant-menu-item:hover, .preloader .ant-menu-submenu-title:active, .preloader .ant-menu-item-hover {
   background: #e6e6e6;
   color: #595959
 }
