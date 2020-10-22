@@ -22,9 +22,9 @@ import { zip } from "rxjs";
   styleUrls: ["./chat.component.less"],
 })
 export class ChatComponent implements OnInit {
-  assignedData: Conversation[] = [];
-  unassignedData: Conversation[] = [];
-  historyData: Conversation[] = [];
+  assignedList: Conversation[] = [];
+  unassignedList: Conversation[] = [];
+  historyList: Conversation[] = [];
   assignedCount = 0;
   unassignedCount = 0;
   historyCount = 0;
@@ -89,22 +89,22 @@ export class ChatComponent implements OnInit {
   // 拉取带分页的已分配
   loadAssignedConversationList(): void {
     let offset = "";
-    if (this.assignedData.length) {
-      offset = this.assignedData[this.assignedData.length - 1].id;
+    if (this.assignedList.length) {
+      offset = this.assignedList[this.assignedList.length - 1].id;
     }
     zip(
       this.conversationSrv.getConversationList("assigned", this.keyword, offset)
-    ).subscribe(([assignedData]) => {
-      this.assignedData = this.assignedData.concat(
-        assignedData.data.conversations
+    ).subscribe(([assignedList]) => {
+      this.assignedList = this.assignedList.concat(
+        assignedList.data.conversations
       );
 
       if (
-        this.assignedData.filter(
+        this.assignedList.filter(
           (conversation: Conversation) => conversation.id == this.selectId
         ).length
       ) {
-        this.currentTab = 2;
+        this.currentTab = 1;
       }
     });
   }
@@ -112,8 +112,8 @@ export class ChatComponent implements OnInit {
   // 拉取带分页的待分配
   loadUnassignedConversationList(): void {
     let offset = "";
-    if (this.unassignedData.length) {
-      offset = this.unassignedData[this.unassignedData.length - 1].id;
+    if (this.unassignedList.length) {
+      offset = this.unassignedList[this.unassignedList.length - 1].id;
     }
     zip(
       this.conversationSrv.getConversationList(
@@ -121,9 +121,9 @@ export class ChatComponent implements OnInit {
         this.keyword,
         offset
       )
-    ).subscribe(([unassignedData]) => {
-      this.unassignedData = this.unassignedData.concat(
-        unassignedData.data.conversations
+    ).subscribe(([unassignedList]) => {
+      this.unassignedList = this.unassignedList.concat(
+        unassignedList.data.conversations
       );
     });
   }
@@ -131,22 +131,22 @@ export class ChatComponent implements OnInit {
   // 拉取带分页的历史
   loadHistoryConversationList(): void {
     let offset = "";
-    if (this.historyData.length) {
-      offset = this.historyData[this.historyData.length - 1].id;
+    if (this.historyList.length) {
+      offset = this.historyList[this.historyList.length - 1].id;
     }
     zip(
       this.conversationSrv.getConversationList("history", this.keyword, offset)
-    ).subscribe(([historyData]) => {
-      this.historyData = this.historyData.concat(
-        historyData.data.conversations
+    ).subscribe(([historyList]) => {
+      this.historyList = this.historyList.concat(
+        historyList.data.conversations
       );
 
       if (
-        this.historyData.filter(
+        this.historyList.filter(
           (conversation: Conversation) => conversation.id == this.selectId
         ).length
       ) {
-        this.currentTab = 3;
+        this.currentTab = 2;
       }
     });
   }
@@ -156,8 +156,8 @@ export class ChatComponent implements OnInit {
     const offset = "";
     zip(
       this.conversationSrv.getConversationList("assigned", this.keyword, offset)
-    ).subscribe(([assignedData]) => {
-      this.assignedData = assignedData.data.conversations
+    ).subscribe(([assignedList]) => {
+      this.assignedList = assignedList.data.conversations
     });
   }
 
@@ -170,8 +170,8 @@ export class ChatComponent implements OnInit {
         this.keyword,
         offset
       )
-    ).subscribe(([unassignedData]) => {
-      this.unassignedData = unassignedData.data.conversations
+    ).subscribe(([unassignedList]) => {
+      this.unassignedList = unassignedList.data.conversations
     });
   }
 
@@ -180,8 +180,8 @@ export class ChatComponent implements OnInit {
     const offset = "";
     zip(
       this.conversationSrv.getConversationList("history", this.keyword, offset)
-    ).subscribe(([historyData]) => {
-      this.historyData = historyData.data.conversations
+    ).subscribe(([historyList]) => {
+      this.historyList = historyList.data.conversations
     });
   }
 
@@ -190,14 +190,14 @@ export class ChatComponent implements OnInit {
       `institution.${this.user.institution_id}.assigned.${this.user.id}`
     )
       .listen(`.conversation.created`, (conversation: Conversation) => {
-        const assigned = this.assignedData;
-        this.assignedData = assigned.filter(
+        const assigned = this.assignedList;
+        this.assignedList = assigned.filter(
           (each) => each.id !== conversation.id
         );
-        this.assignedData.unshift(conversation);
+        this.assignedList.unshift(conversation);
       })
       .listen(`.message.created`, (message: MessageModel) => {
-        const arr = ["assignedData", "unassignedData"];
+        const arr = ["assignedList", "unassignedList"];
         let conversations = [];
         for (const i of arr) {
           conversations = this[i].filter(
@@ -225,21 +225,21 @@ export class ChatComponent implements OnInit {
   initUnassignedConversationSocket(): void {
     this.echoSrv.Echo.join(`institution.${this.user.institution_id}`)
       .listen(`.conversation.created`, (conversation: Conversation) => {
-        const unassigned = this.unassignedData;
-        this.unassignedData = unassigned.filter(
+        const unassigned = this.unassignedList;
+        this.unassignedList = unassigned.filter(
           (each) => each.id != conversation.id
         );
         if (
-          this.assignedData.filter((each) => each.id == conversation.id)
+          this.assignedList.filter((each) => each.id == conversation.id)
             .length > 0
         ) {
           return;
         }
-        this.unassignedData.unshift(conversation);
+        this.unassignedList.unshift(conversation);
         this.unassignedCount++;
       })
       .listen(`.message.created`, (message: MessageModel) => {
-        const conversations = this.unassignedData.filter(
+        const conversations = this.unassignedList.filter(
           (item) => item.id == message.conversation_id
         );
         const conversation = conversations[0];
@@ -257,7 +257,7 @@ export class ChatComponent implements OnInit {
     if (this.assignedCount > 0) {
       return; // 不要自动选择
       if (this.selectId) {
-        const arr = [...this.assignedData, ...this.unassignedData];
+        const arr = [...this.assignedList, ...this.unassignedList];
         for (const i of arr) {
           if (i.id === this.selectId) {
           }
@@ -265,7 +265,7 @@ export class ChatComponent implements OnInit {
       } else {
         localStorage.setItem(
           "selectId",
-          JSON.stringify(this.assignedData[0].id)
+          JSON.stringify(this.assignedList[0].id)
         );
       }
     } else {
@@ -280,12 +280,12 @@ export class ChatComponent implements OnInit {
   }
 
   getMessageOutput(data: { id: string; message: any }): void {
-    // console.log(this.assignedData.filter((v) => v.id == data.id));
+    // console.log(this.assignedList.filter((v) => v.id == data.id));
     // console.log(data.id);
   }
 
   getConversationLoad(conversation: Conversation): void {
-    if (!this.unassignedData.concat(this.assignedData).filter(c => c.id === conversation.id).length) {
+    if (!this.unassignedList.concat(this.assignedList).filter(c => c.id === conversation.id).length) {
       this.initUnassignedConversationList();
       this.initAssignedConversationList();
     }

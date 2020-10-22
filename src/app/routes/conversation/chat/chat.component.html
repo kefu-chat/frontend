@@ -61,7 +61,7 @@
           <nz-tab [nzTitle]="titleUnassigned">
             <ng-template #unassignedEmpty>
               <div
-              *ngIf="(unassignedCount + unassignedData.length) == 0"
+              *ngIf="(unassignedCount + unassignedList.length) == 0"
               nz-row
               nzAlign="middle"
               style="width: 100%; height: calc(100vh - 121px)"
@@ -92,13 +92,13 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && (unassignedCount + unassignedData.length) > 0">
+            <div class="ul-thead" *ngIf="!selectId && (unassignedCount + unassignedList.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="(unassignedCount + unassignedData.length) > 0;else unassignedEmpty;">
-              <ng-container *ngFor="let item of unassignedData">
+            <ul class="conversation-list-ul" *ngIf="(unassignedCount + unassignedList.length) > 0;else unassignedEmpty;">
+              <ng-container *ngFor="let item of unassignedList">
                 <nz-ribbon [nzText]="!item.user?'New':''" [nzColor]="!item.user?'red':'transparent'">
                   <li
                     nz-menu-item
@@ -192,16 +192,16 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && (assignedCount + assignedData.length) > 0">
+            <div class="ul-thead" *ngIf="!selectId && (assignedCount + assignedList.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="(assignedCount + assignedData.length) > 0;else assignedEmpty">
+            <ul class="conversation-list-ul" *ngIf="(assignedCount + assignedList.length) > 0;else assignedEmpty">
               <li
                 nz-menu-item
                 class="conversation-item"
-                *ngFor="let item of assignedData"
+                *ngFor="let item of assignedList"
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
@@ -289,16 +289,16 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && (historyCount + historyData.length) > 0">
+            <div class="ul-thead" *ngIf="!selectId && (historyCount + historyList.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="(historyCount + historyData.length) > 0;else historyEmpty">
+            <ul class="conversation-list-ul" *ngIf="(historyCount + historyList.length) > 0;else historyEmpty">
               <li
                 nz-menu-item
                 class="conversation-item"
-                *ngFor="let item of historyData"
+                *ngFor="let item of historyList"
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
