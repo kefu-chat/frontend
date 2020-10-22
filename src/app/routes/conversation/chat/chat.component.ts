@@ -140,6 +140,14 @@ export class ChatComponent implements OnInit {
       this.historyData = this.historyData.concat(
         historyData.data.conversations
       );
+
+      if (
+        this.historyData.filter(
+          (conversation: Conversation) => conversation.id == this.selectId
+        ).length
+      ) {
+        this.currentTab = 3;
+      }
     });
   }
 
