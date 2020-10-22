@@ -1,8 +1,8 @@
 export const environment = {
   SERVER_URL: `./`,
-  apiUrl: `https://kfapi.ssls.com.cn/`,
-  socketHost: `https://kfapi.ssls.com.cn/`,
-  widgetHost: `https://kfwidget.ssls.com.cn/`,
+  apiUrl: `https://api.kefu.chat/`,
+  socketHost: `https://api.kefu.chat/`,
+  widgetHost: `https://assets.kefu.chat/`,
   production: true,
   useHash: false,
   hmr: false,
