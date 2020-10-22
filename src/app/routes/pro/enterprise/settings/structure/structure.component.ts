@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SettingsService, _HttpClient } from "@delon/theme";
 import { User as SettingUser } from "@delon/theme/src/services/settings/interface";
+import { environment } from '@env/environment';
 import { NzMessageService } from "ng-zorro-antd/message";
 import {
   User,
@@ -12,6 +13,7 @@ import {
 @Component({
   selector: "app-enterprise-settings-structure",
   templateUrl: "./structure.component.html",
+  styleUrls: ["./structure.component.less",],
 })
 export class ProEnterpriseSettingsStructureComponent implements OnInit {
   constructor(
@@ -40,12 +42,15 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   drawerEmployeeForm: FormGroup;
   drawerPasswordForm: FormGroup;
 
+  less = document.createElement('link');
+
   get user(): SettingUser | User {
     return this.settings.user;
   }
 
   ngOnInit(): void {
     this.loadInstitutionList();
+    this.loadWidgetTheme();
   }
 
   loadInstitutionList(query?: { page?: number; per_page?: number }): void {
@@ -347,5 +352,14 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
           this.msg.error(err.error.message);
         }
       );
+  }
+
+  loadWidgetTheme(): void {
+    this.less.remove();
+    this.less = document.createElement(`link`);
+    this.less.href = environment.widgetHost + `theme.css?timestamp=` + (new Date).toISOString().split(':')[0];
+    this.less.type = `text/css`;
+    this.less.rel = `stylesheet`;
+    document.head.appendChild(this.less);
   }
 }

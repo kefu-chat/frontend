@@ -106,7 +106,7 @@
                     [nzSelected]="selectId == item.id"
                     (click)="to(item)"
                   >
-                    <div [style]="selectId ? '' : 'width: 33%'">
+                    <div nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
                       <nz-avatar
                         nz-comment-avatar
                         nzIcon="user"
@@ -139,10 +139,10 @@
                         </div>
                       </div>
                     </div>
-                    <div *ngIf="!selectId" style="width: 33%">
+                    <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
                       {{ item.last_reply_at }}
                     </div>
-                    <div *ngIf="!selectId" style="width: 33%">
+                    <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
                       <div class="line-height-24" *ngIf="item.url">
                         {{ item.url }}
                       </div>
@@ -205,7 +205,7 @@
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
-                <div [style]="selectId ? '' : 'width: 33%'">
+                <div nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
                   <nz-avatar
                     nz-comment-avatar
                     nzIcon="user"
@@ -238,10 +238,10 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="!selectId" style="width: 33%">
+                <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
                   {{ item.last_reply_at }}
                 </div>
-                <div *ngIf="!selectId" style="width: 33%">
+                <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
                   <div class="line-height-24" *ngIf="item.url">
                     {{ item.url }}
                   </div>
@@ -302,7 +302,7 @@
                 [nzSelected]="selectId == item.id"
                 (click)="to(item)"
               >
-                <div [style]="selectId ? '' : 'width: 33%'">
+                <div nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
                   <nz-avatar
                     nz-comment-avatar
                     nzIcon="user"
@@ -335,10 +335,10 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="!selectId" style="width: 33%">
+                <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
                   {{ item.last_reply_at }}
                 </div>
-                <div *ngIf="!selectId" style="width: 33%">
+                <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
                   <div class="line-height-24" *ngIf="item.url">
                     {{ item.url }}
                   </div>

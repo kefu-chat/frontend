@@ -7,6 +7,7 @@ export const environment = {
   // apiUrl: `http://localhost/`,
   apiUrl: `http://dev.fastsupport.cn/`,
   socketHost: `http://dev.fastsupport.cn:6001/`,
+  widgetHost: `http://dev.fastsupport.cn:5000/`,
   production: false,
   useHash: false,
   hmr: false,
