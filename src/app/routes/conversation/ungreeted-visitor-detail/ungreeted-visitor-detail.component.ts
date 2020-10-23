@@ -18,7 +18,9 @@ import {
 } from "@service";
 import { NzModalService } from "ng-zorro-antd/modal";
 import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { zip } from "rxjs";
+import { NzI18nService } from 'ng-zorro-antd/i18n';
 
 @Component({
   selector: "app-ungreeted-visitor-detail",
@@ -73,7 +75,8 @@ export class UngreetedVisitorDetailComponent implements OnInit {
     private conversationSrv: ConversationService,
     private echoSrv: EchoService,
     private modal: NzModalService,
-    private http: _HttpClient
+    private http: _HttpClient,
+    private nzI18n: NzI18nService
   ) {}
 
   ngOnInit(): void {
@@ -230,13 +233,24 @@ export class UngreetedVisitorDetailComponent implements OnInit {
   }
 
   getGeoLocation(): string {
+    if (this.conversation.geo.area) {
+      return this.conversation.geo.area;
+    }
+
     return [
       this.conversation.geo.country,
       this.conversation.geo.province,
       this.conversation.geo.city,
-      this.conversation.geo.area,
     ]
       .filter((a) => a)
       .join(", ");
+  }
+
+  fromNow(timeTz: Date | string) {
+    return (
+      formatDistanceToNow(new Date(timeTz), {
+        locale: this.nzI18n.getDateLocale(),
+      }) + "前"
+    );
   }
 }

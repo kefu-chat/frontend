@@ -29,6 +29,7 @@ import {
 import { NzMessageService } from "ng-zorro-antd/message";
 import { NzModalService } from "ng-zorro-antd/modal";
 import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { zip } from "rxjs";
 
 @Component({
@@ -309,15 +310,26 @@ export class ChatDetailComponent implements OnInit {
       nzAutofocus: "ok",
     });
   }
-
+  
   getGeoLocation(): string {
+    if (this.conversation.geo.area) {
+      return this.conversation.geo.area;
+    }
+
     return [
       this.conversation.geo.country,
       this.conversation.geo.province,
       this.conversation.geo.city,
-      this.conversation.geo.area,
     ]
       .filter((a) => a)
       .join(", ");
+  }
+
+  fromNow(timeTz: Date | string) {
+    return (
+      formatDistanceToNow(new Date(timeTz), {
+        locale: this.nzI18n.getDateLocale(),
+      }) + "前"
+    );
   }
 }

@@ -27,6 +27,12 @@ export interface Conversation {
   online_status?: boolean;
   referer?: string;
   title: string|null;
+  device: {
+    os: null | string;
+    os_version: null | string;
+    browser: null | string;
+    browser_version: null | string;
+  };
 }
 
 export interface Website {

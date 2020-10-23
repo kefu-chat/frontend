@@ -79,8 +79,14 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {{ conversation.hostname }}
+                  {{ conversation.title || conversation.host }}
                 </a>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col nzSpan="5">落地时间</div>
+              <div nz-col nzSpan="19">
+                {{ fromNow(conversation.created_at) }}
               </div>
             </div>
             <div nz-row *ngIf="conversation.referer">
@@ -94,6 +100,10 @@
                   {{ conversation.referer }}
                 </a>
               </div>
+            </div>
+            <div nz-row>
+              <div nz-col nzSpan="5">设备信息</div>
+              <div nz-col nzSpan="19">{{ conversation.device.os }} {{ conversation.device.os_version }}, {{ conversation.device.browser }} {{ conversation.device.browser_version }}</div>
             </div>
             <div nz-row>
               <div nz-col nzSpan="5">IP地址</div>
