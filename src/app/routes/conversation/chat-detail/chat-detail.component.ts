@@ -31,6 +31,7 @@ import { NzModalService } from "ng-zorro-antd/modal";
 import { NzUploadChangeParam, NzUploadFile } from "ng-zorro-antd/upload";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { zip } from "rxjs";
+import { NzI18nService } from 'ng-zorro-antd/i18n';
 
 @Component({
   selector: "app-chat-detail",
