@@ -107,7 +107,8 @@ export class ChatDetailComponent implements OnInit {
     private echoSrv: EchoService,
     private modal: NzModalService,
     private http: _HttpClient,
-    private msg: NzMessageService
+    private msg: NzMessageService,
+    private nzI18n: NzI18nService
   ) {}
 
   ngOnInit(): void {
