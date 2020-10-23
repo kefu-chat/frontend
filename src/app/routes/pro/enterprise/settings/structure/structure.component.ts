@@ -44,6 +44,8 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
 
   less = document.createElement('link');
 
+  assetsHost = environment.widgetHost;
+
   get user(): SettingUser | User {
     return this.settings.user;
   }
