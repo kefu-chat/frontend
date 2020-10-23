@@ -32,6 +32,14 @@ const routes: Routes = [
             (m) => m.ConversationModule
           ),
       },
+      // 机器人
+      {
+        path: "",
+        loadChildren: () =>
+          import("./bot/bot.module").then(
+            (m) => m.BotModule
+          ),
+      },
       // Settings
       {
         path: "pro",
