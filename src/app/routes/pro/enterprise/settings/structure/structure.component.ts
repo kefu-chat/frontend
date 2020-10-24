@@ -9,18 +9,21 @@ import {
   UserWithPassword,
   Website,
 } from "../../../../../model/application/conversation.interface";
+import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
   selector: "app-enterprise-settings-structure",
   templateUrl: "./structure.component.html",
   styleUrls: ["./structure.component.less",],
 })
-export class ProEnterpriseSettingsStructureComponent implements OnInit {
+export class ProEnterpriseSettingsStructureComponent implements OnInit, PipeTransform {
   constructor(
     public msg: NzMessageService,
     private http: _HttpClient,
     private fb: FormBuilder,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private sanitizer: DomSanitizer
   ) {}
 
   websites: Website[] = [];
@@ -32,15 +35,19 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
   drawerEmployee = false;
   drawerCode = false;
   drawerPassword = false;
+  drawerAppearance = false;
   drawerWebsiteAction: "update" | "create";
   drawerEmployeeAction: "update" | "create";
+  drawerAppearanceAction: "update" | "create";
   drawerWebsiteData: Website;
   drawerEmployeeData: User;
+  drawerAppearanceData: Website;
   drawerPasswordData: UserWithPassword;
   drawerCodeData: Website;
   drawerWebsiteForm: FormGroup;
   drawerEmployeeForm: FormGroup;
   drawerPasswordForm: FormGroup;
+  drawerAppearanceForm: FormGroup;
 
   less = document.createElement('link');
 
@@ -111,11 +118,20 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
       ...this.drawerWebsiteData,
       name: [website.name, [Validators.required]],
       website: [website.website, [Validators.required]],
+    });
+  }
+
+  updateAppearance(website: Website): void {
+    this.drawerAppearance = true;
+    this.drawerAppearanceAction = "update";
+    this.drawerAppearanceData = website;
+    this.drawerAppearanceForm = this.fb.group({
+      ...this.drawerAppearanceData,
       terminate_manual: [website.terminate_manual, [Validators.required]],
       terminate_timeout: [website.terminate_timeout, [Validators.required]],
       greeting_message: [website.greeting_message, [Validators.required]],
-      theme: [website.theme, [Validators.required]],
       timeout: [website.timeout, [Validators.required]],
+      theme: [website.theme, [Validators.required]],
     });
   }
 
@@ -236,6 +252,43 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
 
         this.msg.success("成功!");
       });
+  }
+
+  submitAppearanceForm(): void {
+    Object.keys(this.drawerAppearanceForm.controls).forEach((key) => {
+      this.drawerAppearanceForm.controls[key].markAsDirty();
+      this.drawerAppearanceForm.controls[key].updateValueAndValidity();
+    });
+    if (this.drawerAppearanceForm.invalid) {
+      return;
+    }
+
+    let url = `api/institution/${this.drawerAppearanceData.id}/update`;
+    if (this.drawerAppearanceAction == `create`) {
+      this.msg.error(`drawerAppearanceAction can't be create`)
+    }
+
+    this.http
+      .post(url, this.drawerAppearanceForm.getRawValue())
+      .subscribe((res: { data: { institution: Website } }) => {
+        this.drawerAppearanceData = res.data.institution;
+        this.drawerAppearanceForm = this.fb.group(this.drawerAppearanceData);
+
+        if (this.drawerAppearanceAction === "update") {
+          try {
+            this.websites.filter((w) => w.id === res.data.institution.id)[0] =
+              res.data.institution;
+          } catch (e) {
+            console.error(e);
+          }
+        }
+
+        this.msg.success("成功!");
+      });
+  }
+
+  drawerAppearanceClose(): void {
+    this.drawerAppearance = false;
   }
 
   submitEmployeeForm(): void {
@@ -363,5 +416,9 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit {
     this.less.type = `text/css`;
     this.less.rel = `stylesheet`;
     document.head.appendChild(this.less);
+  }
+
+  transform(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }

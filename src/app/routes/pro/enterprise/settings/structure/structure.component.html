@@ -20,7 +20,9 @@
         <td>{{ website.created_at }}</td>
         <td class="text-right">
           <span class="table-operation">
-            <a (click)="updateWebsite(website)">修改资料</a>
+            <a (click)="updateWebsite(website)">资料</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="updateAppearance(website)">外观</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a (click)="getCode(website)">获取安装代码</a>
           </span>
@@ -99,7 +101,6 @@
   </tbody>
 </nz-table>
 
-
 <nz-drawer *ngIf="drawerWebsite" [nzClosable]="false" [nzWidth]="450" [nzVisible]="drawerWebsite" [nzTitle]="drawerWebsiteAction==='create' ? '添加网站' : '修改网站'" (nzOnClose)="drawerWebsiteClose()">
   <form nz-form nzLayout="vertical" [formGroup]="drawerWebsiteForm" (ngSubmit)="submitWebsiteForm()">
     <nz-form-item>
@@ -114,6 +115,43 @@
         <input nz-input formControlName="website" placeholder="网址" />
       </nz-form-control>
     </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>财务联系人</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 财务联系人!">
+        <input nz-input formControlName="billing_name" placeholder="财务联系人" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>财务联系电话</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 财务联系电话!">
+        <input nz-input formControlName="billing_phone" placeholder="财务联系电话" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>技术联系人</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 技术联系人!">
+        <input nz-input formControlName="technical_name" placeholder="技术联系人" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>技术联系电话</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 技术联系电话!">
+        <input nz-input formControlName="technical_phone" placeholder="技术联系电话" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary">提交</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-drawer>
+
+<nz-drawer *ngIf="drawerAppearance" [nzClosable]="false" [nzOffsetX]="450" [nzWidth]="'calc(100% - 450px)'" [nzVisible]="drawerAppearance" [nzTitle]="drawerAppearanceAction==='create' ? '添加网站' : '修改网站'" (nzOnClose)="drawerAppearanceClose()">
+  <iframe *ngIf="drawerAppearanceData.website" [src]="transform(drawerAppearanceData.website)" class="border-0 width-100" style="height: 100%"></iframe>
+</nz-drawer>
+<nz-drawer *ngIf="drawerAppearance" [nzClosable]="true" [nzWidth]="450" [nzVisible]="drawerAppearance" [nzTitle]="drawerAppearanceAction==='create' ? '添加网站' : '修改网站'" (nzOnClose)="drawerAppearanceClose()">
+  <form nz-form nzLayout="vertical" [formGroup]="drawerAppearanceForm" (ngSubmit)="submitAppearanceForm()">
     <nz-form-item>
       <nz-form-label>配色方案</nz-form-label>
       <nz-form-control nzErrorTip="Please select your 配色方案!">
@@ -169,30 +207,6 @@
           <nz-option nzValue="43200" nzLabel="12小时"></nz-option>
           <nz-option nzValue="86400" nzLabel="24小时"></nz-option>
         </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>财务联系人</nz-form-label>
-      <nz-form-control nzErrorTip="Please input your 财务联系人!">
-        <input nz-input formControlName="billing_name" placeholder="财务联系人" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>财务联系电话</nz-form-label>
-      <nz-form-control nzErrorTip="Please input your 财务联系电话!">
-        <input nz-input formControlName="billing_phone" placeholder="财务联系电话" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>技术联系人</nz-form-label>
-      <nz-form-control nzErrorTip="Please input your 技术联系人!">
-        <input nz-input formControlName="technical_name" placeholder="技术联系人" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>技术联系电话</nz-form-label>
-      <nz-form-control nzErrorTip="Please input your 技术联系电话!">
-        <input nz-input formControlName="technical_phone" placeholder="技术联系电话" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
