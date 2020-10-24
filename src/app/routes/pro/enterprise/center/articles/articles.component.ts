@@ -16,6 +16,7 @@ export class ProEnterpriseCenterArticlesComponent {
   constructor(private http: _HttpClient, private cdr: ChangeDetectorRef) {
     this.http.get("/api/list", { count: 8 }).subscribe((res) => {
       this.list = res;
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
     });
   }

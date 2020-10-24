@@ -68,11 +68,12 @@ import {
 export class HeaderIconComponent {
   loading = true;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) { }
 
   change(): void {
     setTimeout(() => {
       this.loading = false;
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
     }, 500);
   }

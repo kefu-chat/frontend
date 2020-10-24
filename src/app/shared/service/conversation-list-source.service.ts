@@ -2,6 +2,7 @@ import { Conversation } from "@model/application/conversation.interface";
 import { CollectionViewer, DataSource } from "@angular/cdk/collections";
 import { BehaviorSubject, Observable, Subscription } from "rxjs";
 import { ConversationService } from "@service";
+import { ChangeDetectorRef } from '@angular/core';
 
 export class ConversationListSourceService extends DataSource<Conversation> {
   public pageSize = 20;
@@ -13,6 +14,7 @@ export class ConversationListSourceService extends DataSource<Conversation> {
 
   constructor(
     public length: number,
+    private cdr: ChangeDetectorRef,
     private ajax: (page: number, list: ConversationListSourceService) => void
   ) {
     super();
@@ -25,6 +27,8 @@ export class ConversationListSourceService extends DataSource<Conversation> {
         const endPage = this.getPageForIndex(range.end - 1);
         for (let i = startPage; i <= endPage; i++) {
           this.fetchPage(i);
+          this.cdr.markForCheck();
+          this.cdr.detectChanges();
         }
       })
     );
@@ -33,6 +37,8 @@ export class ConversationListSourceService extends DataSource<Conversation> {
 
   disconnect(): void {
     this.subscription.unsubscribe();
+    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 
   filter(fn: (item: Conversation | null) => any) {
@@ -41,8 +47,10 @@ export class ConversationListSourceService extends DataSource<Conversation> {
 
   unshift(item: Conversation) {
     this.cachedData.unshift(item);
-    this.length ++;
-    this.dataStream.next(this.cachedData)
+    this.length++;
+    this.dataStream.next(this.cachedData);
+    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 
   private getPageForIndex(index: number): number {
@@ -51,9 +59,13 @@ export class ConversationListSourceService extends DataSource<Conversation> {
 
   private fetchPage(page: number): void {
     if (this.fetchedPages.has(page)) {
+      this.cdr.markForCheck();
+      this.cdr.detectChanges();
       return;
     }
     this.fetchedPages.add(page);
     this.ajax(page, this);
+    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { SettingsService, User as SystemUser, _HttpClient } from "@delon/theme";
 import {
@@ -20,6 +20,7 @@ import { ConversationListSourceService } from '@service';
   selector: "app-chat",
   templateUrl: "./chat.component.html",
   styleUrls: ["./chat.component.less"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent implements OnInit {
   assignedList: ConversationListSourceService;
@@ -44,7 +45,8 @@ export class ChatComponent implements OnInit {
     private conversationSrv: ConversationService,
     private echoSrv: EchoService,
     private route: ActivatedRoute,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private cdr: ChangeDetectorRef
   ) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationStart) {
@@ -70,6 +72,8 @@ export class ChatComponent implements OnInit {
       return;
     }
     this.selectId = (this.route.children[0].params as any).getValue().id;
+    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 
   initCount(): void {
@@ -80,68 +84,9 @@ export class ChatComponent implements OnInit {
         this.unassignedCount = res.data.unassigned_count;
         this.historyCount = res.data.history_count;
 
-        this.unassignedList = new ConversationListSourceService(
-          this.unassignedCount,
-          (page: number, list: ConversationListSourceService) => {
-            let offset = ``;
-            if (list.latestList && list.latestList.length) {
-              offset = list.latestList[list.latestList.length - 1].id;
-            }
-            this.conversationSrv
-              .getConversationList(`unassigned`, ``, offset)
-              .subscribe((res) => {
-                list.latestList = res.data.conversations;
-                list.cachedData.splice(
-                  page * list.pageSize,
-                  list.pageSize,
-                  ...res.data.conversations
-                );
-                list.dataStream.next(list.cachedData);
-              });
-          }
-        );
-
-        this.assignedList = new ConversationListSourceService(
-          this.assignedCount,
-          (page: number, list: ConversationListSourceService) => {
-            let offset = ``;
-            if (list.latestList && list.latestList.length) {
-              offset = list.latestList[list.latestList.length - 1].id;
-            }
-            this.conversationSrv
-              .getConversationList(`assigned`, ``, offset)
-              .subscribe((res) => {
-                list.latestList = res.data.conversations;
-                list.cachedData.splice(
-                  page * list.pageSize,
-                  list.pageSize,
-                  ...res.data.conversations
-                );
-                list.dataStream.next(list.cachedData);
-              });
-          }
-        );
-
-        this.historyList = new ConversationListSourceService(
-          this.historyCount,
-          (page: number, list: ConversationListSourceService) => {
-            let offset = ``;
-            if (list.latestList && list.latestList.length) {
-              offset = list.latestList[list.latestList.length - 1].id;
-            }
-            this.conversationSrv
-              .getConversationList(`history`, ``, offset)
-              .subscribe((res) => {
-                list.latestList = res.data.conversations;
-                list.cachedData.splice(
-                  page * list.pageSize,
-                  list.pageSize,
-                  ...res.data.conversations
-                );
-                list.dataStream.next(list.cachedData);
-              });
-          }
-        );
+        this.initAssignedConversationList();
+        this.initUnassignedConversationList();
+        this.initHistoryConversationList();
       });
 
     // @TODO: 新会话进来的 socket, 更新统计数字.
@@ -222,6 +167,33 @@ export class ChatComponent implements OnInit {
     // ).subscribe(([assignedList]) => {
     //   this.assignedList = assignedList.data.conversations;
     // });
+
+    if (this.assignedList) {
+      this.assignedList.disconnect();
+    }
+    this.assignedList = new ConversationListSourceService(
+      this.assignedCount,
+      this.cdr,
+      (page: number, list: ConversationListSourceService) => {
+        let offset = ``;
+        if (list.latestList && list.latestList.length) {
+          offset = list.latestList[list.latestList.length - 1].id;
+        }
+        this.conversationSrv
+          .getConversationList(`assigned`, ``, offset)
+          .subscribe((res) => {
+            list.latestList = res.data.conversations;
+            list.cachedData.splice(
+              page * list.pageSize,
+              list.pageSize,
+              ...res.data.conversations
+            );
+            list.dataStream.next(list.cachedData);
+            this.cdr.markForCheck();
+            this.cdr.detectChanges();
+          });
+      }
+    );
   }
 
   // 从第一页刷新待分配
@@ -236,6 +208,33 @@ export class ChatComponent implements OnInit {
     // ).subscribe(([unassignedList]) => {
     //   this.unassignedList = unassignedList.data.conversations;
     // });
+
+    if (this.unassignedList) {
+      this.unassignedList.disconnect();
+    }
+    this.unassignedList = new ConversationListSourceService(
+      this.unassignedCount,
+      this.cdr,
+      (page: number, list: ConversationListSourceService) => {
+        let offset = ``;
+        if (list.latestList && list.latestList.length) {
+          offset = list.latestList[list.latestList.length - 1].id;
+        }
+        this.conversationSrv
+          .getConversationList(`unassigned`, ``, offset)
+          .subscribe((res) => {
+            list.latestList = res.data.conversations;
+            list.cachedData.splice(
+              page * list.pageSize,
+              list.pageSize,
+              ...res.data.conversations
+            );
+            list.dataStream.next(list.cachedData);
+            this.cdr.markForCheck();
+            this.cdr.detectChanges();
+          });
+      }
+    );
   }
 
   // 从第一页刷新历史
@@ -246,6 +245,33 @@ export class ChatComponent implements OnInit {
     // ).subscribe(([historyList]) => {
     //   this.historyList = historyList.data.conversations;
     // });
+
+    if (this.historyList) {
+      this.historyList.disconnect();
+    }
+    this.historyList = new ConversationListSourceService(
+      this.historyCount,
+      this.cdr,
+      (page: number, list: ConversationListSourceService) => {
+        let offset = ``;
+        if (list.latestList && list.latestList.length) {
+          offset = list.latestList[list.latestList.length - 1].id;
+        }
+        this.conversationSrv
+          .getConversationList(`history`, ``, offset)
+          .subscribe((res) => {
+            list.latestList = res.data.conversations;
+            list.cachedData.splice(
+              page * list.pageSize,
+              list.pageSize,
+              ...res.data.conversations
+            );
+            list.dataStream.next(list.cachedData);
+            this.cdr.markForCheck();
+            this.cdr.detectChanges();
+          });
+      }
+    );
   }
 
   initAssignedConversationSocket(): void {
@@ -281,6 +307,8 @@ export class ChatComponent implements OnInit {
             this.unassignedCount--;
           }
           conversation.user = message.sender;
+          this.cdr.markForCheck();
+          this.cdr.detectChanges();
         }
       });
   }
@@ -300,6 +328,8 @@ export class ChatComponent implements OnInit {
         // }
         // this.unassignedList.unshift(conversation);
         this.unassignedCount++;
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       })
       .listen(`.message.created`, (message: MessageModel) => {
         // const conversations = this.unassignedList.filter(
@@ -326,6 +356,8 @@ export class ChatComponent implements OnInit {
   to(item: { id: any }): void {
     this.selectId = item.id;
     this.router.navigateByUrl(`/conversation/chat/${item.id}`);
+    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 
   getMessageOutput(data: { id: string; message: any }): void {

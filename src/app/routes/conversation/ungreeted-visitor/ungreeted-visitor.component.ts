@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { AfterViewChecked, Component, OnInit } from "@angular/core";
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { SettingsService, User as SystemUser, _HttpClient } from "@delon/theme";
 import { Conversation, User } from "@model/application/conversation.interface";
@@ -17,6 +17,7 @@ import { NzI18nService } from "ng-zorro-antd/i18n";
   selector: "app-chat",
   templateUrl: "./ungreeted-visitor.component.html",
   styleUrls: ["./ungreeted-visitor.component.less"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UngreetedVisitorComponent implements OnInit {
   onlineConversations: ConversationListSourceService;
@@ -40,7 +41,8 @@ export class UngreetedVisitorComponent implements OnInit {
     private echoSrv: EchoService,
     private settings: SettingsService,
     private route: ActivatedRoute,
-    private nzI18n: NzI18nService
+    private nzI18n: NzI18nService,
+    private cdr: ChangeDetectorRef
   ) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationStart) {
@@ -72,6 +74,7 @@ export class UngreetedVisitorComponent implements OnInit {
         this.onlineVisitorsCount = online_visitor_count;
         this.onlineConversations = new ConversationListSourceService(
           this.onlineVisitorsCount,
+          this.cdr,
           (page: number, list: ConversationListSourceService) => {
             let offset = ``;
             if (list.latestList && list.latestList.length) {
@@ -86,6 +89,8 @@ export class UngreetedVisitorComponent implements OnInit {
                   ...res.data.conversations
                 );
                 list.dataStream.next(list.cachedData);
+                this.cdr.markForCheck();
+                this.cdr.detectChanges();
               });
           }
         );
@@ -116,15 +121,19 @@ export class UngreetedVisitorComponent implements OnInit {
     this.selectId = item.id;
     const url = `/conversation/visitor/${item.id}`;
     this.router.navigateByUrl(url);
+    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 
   toChat(item: { id: any }): void {
     this.selectId = item.id;
     const url = `/conversation/chat/${item.id}`;
     this.router.navigateByUrl(url);
+    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 
-  navigate(id: any): void {}
+  navigate(id: any): void { }
 
   fromNow(timeTz: Date | string) {
     return (

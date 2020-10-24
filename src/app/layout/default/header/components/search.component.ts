@@ -60,13 +60,14 @@ export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => this.qIpt.focus(), 300);
   }
 
-  constructor(private el: ElementRef<HTMLElement>, private cdr: ChangeDetectorRef) {}
+  constructor(private el: ElementRef<HTMLElement>, private cdr: ChangeDetectorRef) { }
 
   ngAfterViewInit(): void {
     this.qIpt = this.el.nativeElement.querySelector('.ant-input') as HTMLInputElement;
     this.search$.pipe(debounceTime(500), distinctUntilChanged()).subscribe((value) => {
       this.options = value ? [value, value + value, value + value + value] : [];
       this.loading = false;
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
     });
   }

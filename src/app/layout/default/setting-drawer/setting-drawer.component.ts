@@ -324,6 +324,7 @@ export class SettingDrawerComponent {
     });
     this.data = data;
     if (run) {
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
       this.runLess();
     }

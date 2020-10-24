@@ -21,6 +21,7 @@ export class ProEnterpriseCenterApplicationsComponent {
         return item;
       });
       this.listLoading = false;
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
     });
   }

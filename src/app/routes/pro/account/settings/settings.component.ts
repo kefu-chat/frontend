@@ -85,6 +85,7 @@ export class ProAccountSettingsComponent implements AfterViewInit, OnDestroy {
       mode = "horizontal";
     }
     this.mode = mode;
+    this.cdr.markForCheck();
     this.cdr.detectChanges();
   }
 

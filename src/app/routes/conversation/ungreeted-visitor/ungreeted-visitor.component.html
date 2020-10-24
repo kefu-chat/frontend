@@ -95,7 +95,7 @@
                     (click)="toSee(item)"
                     *cdkVirtualFor="let item of onlineConversations"
                   >
-                    <div [style]="selectId ? '' : 'width: 70%'">
+                    <div *ngIf="item" [style]="selectId ? '' : 'width: 70%'">
                       <nz-avatar
                         nz-comment-avatar
                         nzIcon="user"
@@ -134,10 +134,10 @@
                         </div>
                       </div>
                     </div>
-                    <div *ngIf="!selectId" style="width: 10%">
+                    <div *ngIf="!selectId && item" style="width: 10%">
                       {{ fromNow(item.created_at) }}
                     </div>
-                    <div *ngIf="!selectId" style="width: 10%">
+                    <div *ngIf="!selectId && item" style="width: 10%">
                       <button
                         nz-button
                         nzType="primary"

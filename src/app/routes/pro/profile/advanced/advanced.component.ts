@@ -35,12 +35,13 @@ export class ProProfileAdvancedComponent implements OnInit {
     public msg: NzMessageService,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.http.get("/profile/advanced").subscribe((res) => {
       this.data = res;
       this.change({ index: 0, tab: null });
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
     });
   }

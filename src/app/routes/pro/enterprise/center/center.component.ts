@@ -23,7 +23,7 @@ export class ProEnterpriseCenterComponent implements OnInit, OnDestroy {
     private router: Router,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
   private router$: Subscription;
   @ViewChild("tagInput", { static: false }) private tagInput: ElementRef<
     HTMLInputElement
@@ -61,6 +61,7 @@ export class ProEnterpriseCenterComponent implements OnInit, OnDestroy {
       ([user, notice]) => {
         this.user = user;
         this.notice = notice;
+        this.cdr.markForCheck();
         this.cdr.detectChanges();
       }
     );
@@ -75,6 +76,7 @@ export class ProEnterpriseCenterComponent implements OnInit, OnDestroy {
   }
   tagShowIpt(): void {
     this.taging = true;
+    this.cdr.markForCheck();
     this.cdr.detectChanges();
     this.tagInput.nativeElement.focus();
   }

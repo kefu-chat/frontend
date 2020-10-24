@@ -49,7 +49,7 @@ export class HeaderNotifyComponent {
   count = 5;
   loading = false;
 
-  constructor(private msg: NzMessageService, private nzI18n: NzI18nService, private cdr: ChangeDetectorRef) {}
+  constructor(private msg: NzMessageService, private nzI18n: NzI18nService, private cdr: ChangeDetectorRef) { }
 
   private updateNoticeData(notices: NoticeIconList[]): NoticeItem[] {
     const data = this.data.slice();
@@ -179,6 +179,7 @@ export class HeaderNotifyComponent {
       ]);
 
       this.loading = false;
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
     }, 500);
   }

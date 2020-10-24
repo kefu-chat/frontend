@@ -21,6 +21,7 @@ export class ProAccountCenterApplicationsComponent {
         return item;
       });
       this.listLoading = false;
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
     });
   }

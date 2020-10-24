@@ -24,6 +24,7 @@ export class ProEnterpriseCenterProjectsComponent {
     this.http.get("/api/list", { count: 8 }).subscribe((res) => {
       this.list = res;
       this.listLoading = false;
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
     });
   }

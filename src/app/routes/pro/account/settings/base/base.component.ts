@@ -27,7 +27,7 @@ export class ProAccountSettingsBaseComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private msg: NzMessageService,
     private setting: SettingsService
-  ) {}
+  ) { }
   avatar = "";
   userLoading = true;
   user: User;
@@ -41,6 +41,7 @@ export class ProAccountSettingsBaseComponent implements OnInit {
       const user: User = param1.data.user;
       this.userLoading = false;
       this.user = user;
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
     });
   }
