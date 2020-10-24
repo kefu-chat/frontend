@@ -48,8 +48,9 @@ export class ChatComponent implements OnInit {
     private settings: SettingsService,
     private cdr: ChangeDetectorRef
   ) {
+    this.currentTab = 0;
+
     router.events.subscribe((evt) => {
-      this.currentTab = 0;
       if (evt instanceof NavigationStart) {
         if (evt.url === "/conversation/chat") {
           this.selectId = "";
