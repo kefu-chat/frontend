@@ -85,7 +85,7 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && unassignedList && (unassignedCount + unassignedList.length) > 0">
+            <div class="ul-thead hidden-mobile" *ngIf="!selectId && unassignedList && (unassignedCount + unassignedList.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
@@ -112,7 +112,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div *ngIf="item" nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
+                  <div *ngIf="item" nz-col [nzSm]="selectId ? 24 : 8" [nzXs]="selectId ? 0 : 24" class="overflow-hidden">
                     <nz-avatar
                       nz-comment-avatar
                       nzIcon="user"
@@ -145,10 +145,10 @@
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
+                  <div *ngIf="item && !selectId" nz-col nzSpan="8" class="hidden-mobile overflow-hidden">
                     {{ item.last_reply_at }}
                   </div>
-                  <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
+                  <div *ngIf="item && !selectId" nz-col nzSpan="8" class="hidden-mobile overflow-hidden">
                     <div class="line-height-24" *ngIf="item.url">
                       {{ item.url }}
                     </div>
@@ -197,7 +197,7 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && assignedList && (assignedCount + assignedList.length) > 0">
+            <div class="ul-thead hidden-mobile" *ngIf="!selectId && assignedList && (assignedCount + assignedList.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
@@ -225,7 +225,7 @@
                         </ul>
                       </div>
                     </div>
-                    <div *ngIf="item" nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
+                    <div *ngIf="item" nz-col [nzSm]="selectId ? 24 : 8" [nzXs]="selectId ? 0 : 24" class="overflow-hidden">
                       <nz-avatar
                         nz-comment-avatar
                         nzIcon="user"
@@ -258,10 +258,10 @@
                         </div>
                       </div>
                     </div>
-                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
+                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="hidden-mobile overflow-hidden">
                       {{ item.last_reply_at }}
                     </div>
-                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
+                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="hidden-mobile overflow-hidden">
                       <div class="line-height-24" *ngIf="item.url">
                         {{ item.url }}
                       </div>
@@ -311,7 +311,7 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && historyList && (historyCount + historyList.length) > 0">
+            <div class="ul-thead hidden-mobile" *ngIf="!selectId && historyList && (historyCount + historyList.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
@@ -339,7 +339,7 @@
                         </ul>
                       </div>
                     </div>
-                    <div *ngIf="item" nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
+                    <div *ngIf="item" nz-col [nzSm]="selectId ? 24 : 8" [nzXs]="selectId ? 0 : 24" class="overflow-hidden">
                       <nz-avatar
                         nz-comment-avatar
                         nzIcon="user"
@@ -372,10 +372,10 @@
                         </div>
                       </div>
                     </div>
-                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
+                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="hidden-mobile overflow-hidden">
                       {{ item.last_reply_at }}
                     </div>
-                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
+                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="hidden-mobile overflow-hidden">
                       <div class="line-height-24" *ngIf="item.url">
                         {{ item.url }}
                       </div>
