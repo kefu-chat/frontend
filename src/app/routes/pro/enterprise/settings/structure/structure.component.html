@@ -147,74 +147,76 @@
   </form>
 </nz-drawer>
 
-<nz-drawer *ngIf="drawerAppearance" [nzClosable]="false" [nzOffsetX]="450" [nzWidth]="'calc(100% - 450px)'" [nzVisible]="drawerAppearance" [nzTitle]="drawerAppearanceAction==='create' ? '添加网站' : '修改网站'" (nzOnClose)="drawerAppearanceClose()">
-  <iframe *ngIf="drawerAppearanceData.website" [src]="transform(drawerAppearanceData.website)" class="border-0 width-100" style="height: 100%"></iframe>
-</nz-drawer>
-<nz-drawer *ngIf="drawerAppearance" [nzClosable]="true" [nzWidth]="450" [nzVisible]="drawerAppearance" [nzTitle]="drawerAppearanceAction==='create' ? '添加网站' : '修改网站'" (nzOnClose)="drawerAppearanceClose()">
-  <form nz-form nzLayout="vertical" [formGroup]="drawerAppearanceForm" (ngSubmit)="submitAppearanceForm()">
-    <nz-form-item>
-      <nz-form-label>配色方案</nz-form-label>
-      <nz-form-control nzErrorTip="Please select your 配色方案!">
-        <nz-radio-group formControlName="theme">
-          <label nz-radio-button nzValue="default" class="btn-theme rounded-0 theme-default"></label>
-          <label nz-radio-button nzValue="blue1" class="btn-theme rounded-0 theme-blue1"></label>
-          <label nz-radio-button nzValue="blue2" class="btn-theme rounded-0 theme-blue2"></label>
-          <label nz-radio-button nzValue="blue-purple" class="btn-theme rounded-0 theme-blue-purple"></label>
-          <label nz-radio-button nzValue="purple" class="btn-theme rounded-0 theme-purple"></label>
-          <label nz-radio-button nzValue="pink" class="btn-theme rounded-0 theme-pink"></label>
-          <label nz-radio-button nzValue="dark" class="btn-theme rounded-0 theme-dark"></label>
-          <label nz-radio-button nzValue="cyan" class="btn-theme rounded-0 theme-cyan"></label>
-          <label nz-radio-button nzValue="red1" class="btn-theme rounded-0 theme-red1"></label>
-          <label nz-radio-button nzValue="red2" class="btn-theme rounded-0 theme-red2"></label>
-          <label nz-radio-button nzValue="red3" class="btn-theme rounded-0 theme-red3"></label>
-          <label nz-radio-button nzValue="green1" class="btn-theme rounded-0 theme-green1"></label>
-          <label nz-radio-button nzValue="green2" class="btn-theme rounded-0 theme-green2"></label>
-          <label nz-radio-button nzValue="green3" class="btn-theme rounded-0 theme-green3"></label>
-          <label nz-radio-button nzValue="blue-light" class="btn-theme rounded-0 theme-blue-light"></label>
-        </nz-radio-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>打招呼的话</nz-form-label>
-      <nz-form-control nzErrorTip="Please input your 打招呼的话!">
-        <textarea nz-input formControlName="greeting_message" rows="3" placeholder="打招呼的话"></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>关闭对话提醒</nz-form-label>
-      <nz-form-control nzErrorTip="Please input your 关闭对话提醒!">
-        <textarea nz-input formControlName="terminate_manual" rows="3" placeholder="关闭对话提醒"></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>对话超时提醒</nz-form-label>
-      <nz-form-control nzErrorTip="Please input your 对话超时提醒!">
-        <textarea nz-input formControlName="terminate_timeout" rows="3" placeholder="对话超时提醒"></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>对话超时时间</nz-form-label>
-      <nz-form-control nzErrorTip="Please select your 对话超时时间!">
-        <nz-select formControlName="timeout">
-          <nz-option nzValue="180" nzLabel="3分钟"></nz-option>
-          <nz-option nzValue="300" nzLabel="5分钟"></nz-option>
-          <nz-option nzValue="600" nzLabel="10分钟"></nz-option>
-          <nz-option nzValue="900" nzLabel="15分钟"></nz-option>
-          <nz-option nzValue="1800" nzLabel="30分钟"></nz-option>
-          <nz-option nzValue="3600" nzLabel="1小时"></nz-option>
-          <nz-option nzValue="7200" nzLabel="2小时"></nz-option>
-          <nz-option nzValue="21600" nzLabel="6小时"></nz-option>
-          <nz-option nzValue="43200" nzLabel="12小时"></nz-option>
-          <nz-option nzValue="86400" nzLabel="24小时"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control>
-        <button nz-button nzType="primary">提交</button>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
+<nz-drawer *ngIf="drawerAppearance" [nzClosable]="true" [nzWidth]="'100%'" [nzVisible]="drawerAppearance" [nzTitle]="'外观'" (nzOnClose)="drawerAppearanceClose()">
+  <div nz-row>
+    <div nz-col [nzSpan]="18">
+      <iframe *ngIf="drawerAppearanceData.website" [src]="drawerAppearanceData.website_url_safe" class="border-0 width-100" style="height: 100%"></iframe>
+    </div>
+    <form style="border-left: 1px solid #ccc; padding-left: 20px;" nz-col [nzSpan]="6" nz-form nzLayout="vertical" [formGroup]="drawerAppearanceForm" (ngSubmit)="submitAppearanceForm()">
+      <nz-form-item>
+        <nz-form-label>配色方案</nz-form-label>
+        <nz-form-control nzErrorTip="Please select your 配色方案!">
+          <nz-radio-group formControlName="theme">
+            <label nz-radio-button nzValue="default" class="btn-theme rounded-0 theme-default"></label>
+            <label nz-radio-button nzValue="blue1" class="btn-theme rounded-0 theme-blue1"></label>
+            <label nz-radio-button nzValue="blue2" class="btn-theme rounded-0 theme-blue2"></label>
+            <label nz-radio-button nzValue="blue-purple" class="btn-theme rounded-0 theme-blue-purple"></label>
+            <label nz-radio-button nzValue="purple" class="btn-theme rounded-0 theme-purple"></label>
+            <label nz-radio-button nzValue="pink" class="btn-theme rounded-0 theme-pink"></label>
+            <label nz-radio-button nzValue="dark" class="btn-theme rounded-0 theme-dark"></label>
+            <label nz-radio-button nzValue="cyan" class="btn-theme rounded-0 theme-cyan"></label>
+            <label nz-radio-button nzValue="red1" class="btn-theme rounded-0 theme-red1"></label>
+            <label nz-radio-button nzValue="red2" class="btn-theme rounded-0 theme-red2"></label>
+            <label nz-radio-button nzValue="red3" class="btn-theme rounded-0 theme-red3"></label>
+            <label nz-radio-button nzValue="green1" class="btn-theme rounded-0 theme-green1"></label>
+            <label nz-radio-button nzValue="green2" class="btn-theme rounded-0 theme-green2"></label>
+            <label nz-radio-button nzValue="green3" class="btn-theme rounded-0 theme-green3"></label>
+            <label nz-radio-button nzValue="blue-light" class="btn-theme rounded-0 theme-blue-light"></label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>打招呼的话</nz-form-label>
+        <nz-form-control nzErrorTip="Please input your 打招呼的话!">
+          <textarea nz-input formControlName="greeting_message" rows="3" placeholder="打招呼的话"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>关闭对话提醒</nz-form-label>
+        <nz-form-control nzErrorTip="Please input your 关闭对话提醒!">
+          <textarea nz-input formControlName="terminate_manual" rows="3" placeholder="关闭对话提醒"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>对话超时提醒</nz-form-label>
+        <nz-form-control nzErrorTip="Please input your 对话超时提醒!">
+          <textarea nz-input formControlName="terminate_timeout" rows="3" placeholder="对话超时提醒"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>对话超时时间</nz-form-label>
+        <nz-form-control nzErrorTip="Please select your 对话超时时间!">
+          <nz-select formControlName="timeout">
+            <nz-option nzValue="180" nzLabel="3分钟"></nz-option>
+            <nz-option nzValue="300" nzLabel="5分钟"></nz-option>
+            <nz-option nzValue="600" nzLabel="10分钟"></nz-option>
+            <nz-option nzValue="900" nzLabel="15分钟"></nz-option>
+            <nz-option nzValue="1800" nzLabel="30分钟"></nz-option>
+            <nz-option nzValue="3600" nzLabel="1小时"></nz-option>
+            <nz-option nzValue="7200" nzLabel="2小时"></nz-option>
+            <nz-option nzValue="21600" nzLabel="6小时"></nz-option>
+            <nz-option nzValue="43200" nzLabel="12小时"></nz-option>
+            <nz-option nzValue="86400" nzLabel="24小时"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button nzType="primary">提交</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
 </nz-drawer>
 
 <nz-drawer *ngIf="drawerEmployee" [nzClosable]="false" [nzWidth]="450" [nzVisible]="drawerEmployee" [nzTitle]="drawerEmployeeAction==='create' ? '添加员工': '更新员工'" (nzOnClose)="drawerEmployeeClose()">

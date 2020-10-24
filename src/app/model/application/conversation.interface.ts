@@ -1,3 +1,4 @@
+import { SafeResourceUrl } from '@angular/platform-browser';
 import {User as SettingUser} from '@delon/theme/src/services/settings/interface'
 
 export interface ConversationModel {
@@ -39,6 +40,7 @@ export interface Website {
   id: string;
   name: string;
   website: string;
+  website_url_safe?: SafeResourceUrl;
   terminate_manual?: null | string;
   created_at?: string;
   updated_at?: null | string;

@@ -122,6 +122,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit, PipeTran
   }
 
   updateAppearance(website: Website): void {
+    this.transform(website);
     this.drawerAppearance = true;
     this.drawerAppearanceAction = "update";
     this.drawerAppearanceData = website;
@@ -418,7 +419,7 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit, PipeTran
     document.head.appendChild(this.less);
   }
 
-  transform(url: string): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  transform(website: Website) {
+    website.website_url_safe = this.sanitizer.bypassSecurityTrustResourceUrl(website.website as string);
   }
 }
