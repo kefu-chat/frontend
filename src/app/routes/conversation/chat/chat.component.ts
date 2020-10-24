@@ -1,6 +1,7 @@
+import { CollectionViewer, DataSource } from "@angular/cdk/collections";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
-import { SettingsService, _HttpClient, User as SystemUser } from "@delon/theme";
+import { SettingsService, User as SystemUser, _HttpClient } from "@delon/theme";
 import {
   Conversation,
   CountInterface,
@@ -13,8 +14,7 @@ import {
   ConversationService,
   EchoService,
 } from "@service";
-import { NzBadgeModule } from "ng-zorro-antd/badge";
-import { zip } from "rxjs";
+import { BehaviorSubject, Observable, Subscription, zip } from "rxjs";
 
 @Component({
   selector: "app-chat",
@@ -23,7 +23,7 @@ import { zip } from "rxjs";
 })
 export class ChatComponent implements OnInit {
   assignedList: Conversation[] = [];
-  unassignedList: Conversation[] = [];
+  unassignedList: UnassignedSource; // new UnassignedSource(this.http); // Conversation[] = [];
   historyList: Conversation[] = [];
   assignedCount = 0;
   unassignedCount = 0;
@@ -59,7 +59,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAssignedConversationList();
-    this.loadUnassignedConversationList();
+    // this.loadUnassignedConversationList();
     this.loadHistoryConversationList();
     this.initAssignedConversationSocket();
     this.initUnassignedConversationSocket();
@@ -79,6 +79,11 @@ export class ChatComponent implements OnInit {
         this.assignedCount = res.data.assigned_count;
         this.unassignedCount = res.data.unassigned_count;
         this.historyCount = res.data.history_count;
+
+        this.unassignedList = new UnassignedSource(
+          this.conversationSrv,
+          this.unassignedCount
+        );
       });
 
     // @TODO: 新会话进来的 socket, 更新统计数字.
@@ -111,21 +116,21 @@ export class ChatComponent implements OnInit {
 
   // 拉取带分页的待分配
   loadUnassignedConversationList(): void {
-    let offset = "";
-    if (this.unassignedList.length) {
-      offset = this.unassignedList[this.unassignedList.length - 1].id;
-    }
-    zip(
-      this.conversationSrv.getConversationList(
-        "unassigned",
-        this.keyword,
-        offset
-      )
-    ).subscribe(([unassignedList]) => {
-      this.unassignedList = this.unassignedList.concat(
-        unassignedList.data.conversations
-      );
-    });
+    // let offset = "";
+    // if (this.unassignedList.length) {
+    //   offset = this.unassignedList[this.unassignedList.length - 1].id;
+    // }
+    // zip(
+    //   this.conversationSrv.getConversationList(
+    //     "unassigned",
+    //     this.keyword,
+    //     offset
+    //   )
+    // ).subscribe(([unassignedList]) => {
+    //   this.unassignedList = this.unassignedList.concat(
+    //     unassignedList.data.conversations
+    //   );
+    // });
   }
 
   // 拉取带分页的历史
@@ -157,22 +162,22 @@ export class ChatComponent implements OnInit {
     zip(
       this.conversationSrv.getConversationList("assigned", this.keyword, offset)
     ).subscribe(([assignedList]) => {
-      this.assignedList = assignedList.data.conversations
+      this.assignedList = assignedList.data.conversations;
     });
   }
 
   // 从第一页刷新待分配
   initUnassignedConversationList(): void {
-    const offset = "";
-    zip(
-      this.conversationSrv.getConversationList(
-        "unassigned",
-        this.keyword,
-        offset
-      )
-    ).subscribe(([unassignedList]) => {
-      this.unassignedList = unassignedList.data.conversations
-    });
+    // const offset = "";
+    // zip(
+    //   this.conversationSrv.getConversationList(
+    //     "unassigned",
+    //     this.keyword,
+    //     offset
+    //   )
+    // ).subscribe(([unassignedList]) => {
+    //   this.unassignedList = unassignedList.data.conversations;
+    // });
   }
 
   // 从第一页刷新历史
@@ -181,7 +186,7 @@ export class ChatComponent implements OnInit {
     zip(
       this.conversationSrv.getConversationList("history", this.keyword, offset)
     ).subscribe(([historyList]) => {
-      this.historyList = historyList.data.conversations
+      this.historyList = historyList.data.conversations;
     });
   }
 
@@ -226,51 +231,37 @@ export class ChatComponent implements OnInit {
     this.echoSrv.Echo.join(`institution.${this.user.institution_id}`)
       .listen(`.conversation.created`, (conversation: Conversation) => {
         const unassigned = this.unassignedList;
-        this.unassignedList = unassigned.filter(
-          (each) => each.id != conversation.id
-        );
-        if (
-          this.assignedList.filter((each) => each.id == conversation.id)
-            .length > 0
-        ) {
-          return;
-        }
-        this.unassignedList.unshift(conversation);
+        // this.unassignedList = unassigned.filter(
+        //   (each) => each.id != conversation.id
+        // );
+        // if (
+        //   this.assignedList.filter((each) => each.id == conversation.id)
+        //     .length > 0
+        // ) {
+        //   return;
+        // }
+        // this.unassignedList.unshift(conversation);
         this.unassignedCount++;
       })
       .listen(`.message.created`, (message: MessageModel) => {
-        const conversations = this.unassignedList.filter(
-          (item) => item.id == message.conversation_id
-        );
-        const conversation = conversations[0];
-        if (!conversation) {
-          return;
-        }
-
-        conversation.last_message = message;
-        conversation.updated_at = conversation.last_reply_at =
-          message.created_at;
+        // const conversations = this.unassignedList.filter(
+        //   (item) => item.id == message.conversation_id
+        // );
+        // const conversation = conversations[0];
+        // if (!conversation) {
+        //   return;
+        // }
+        // conversation.last_message = message;
+        // conversation.updated_at = conversation.last_reply_at =
+        //   message.created_at;
       });
   }
 
   doNav(): void {
     if (this.assignedCount > 0) {
       return; // 不要自动选择
-      if (this.selectId) {
-        const arr = [...this.assignedList, ...this.unassignedList];
-        for (const i of arr) {
-          if (i.id === this.selectId) {
-          }
-        }
-      } else {
-        localStorage.setItem(
-          "selectId",
-          JSON.stringify(this.assignedList[0].id)
-        );
-      }
     } else {
       this.selectId = "";
-      // this.navigate(0);
     }
   }
 
@@ -285,7 +276,10 @@ export class ChatComponent implements OnInit {
   }
 
   getConversationLoad(conversation: Conversation): void {
-    if (!this.unassignedList.concat(this.assignedList).filter(c => c.id === conversation.id).length) {
+    if (
+      // !this.unassignedList.concat(this.assignedList)
+      this.assignedList.filter((c) => c.id === conversation.id).length
+    ) {
       this.initUnassignedConversationList();
       this.initAssignedConversationList();
     }
@@ -304,9 +298,69 @@ export class ChatComponent implements OnInit {
       case 2:
         this.initHistoryConversationList();
         break;
-    
+
       default:
         break;
     }
+  }
+}
+
+class UnassignedSource extends DataSource<Conversation> {
+  private pageSize = 20;
+  private cachedData = Array.from<Conversation>({ length: this.length });
+  private latestList: Conversation[] = [];
+  private fetchedPages = new Set<number>();
+  private dataStream = new BehaviorSubject<Conversation[]>(this.cachedData);
+  private subscription = new Subscription();
+
+  constructor(
+    private conversationSrv: ConversationService,
+    public length: number
+  ) {
+    super();
+  }
+
+  connect(collectionViewer: CollectionViewer): Observable<Conversation[]> {
+    this.subscription.add(
+      collectionViewer.viewChange.subscribe((range) => {
+        const startPage = this.getPageForIndex(range.start);
+        const endPage = this.getPageForIndex(range.end - 1);
+        for (let i = startPage; i <= endPage; i++) {
+          this.fetchPage(i);
+        }
+      })
+    );
+    return this.dataStream;
+  }
+
+  disconnect(): void {
+    this.subscription.unsubscribe();
+  }
+
+  private getPageForIndex(index: number): number {
+    return Math.floor(index / this.pageSize);
+  }
+
+  private fetchPage(page: number): void {
+    if (this.fetchedPages.has(page)) {
+      return;
+    }
+    this.fetchedPages.add(page);
+
+    let offset = null;
+    if (this.latestList && this.latestList.length) {
+      offset = this.latestList[this.latestList.length - 1].id;
+    }
+    this.conversationSrv
+      .getConversationList("unassigned", "", offset)
+      .subscribe((res) => {
+        this.latestList = res.data.conversations;
+        this.cachedData.splice(
+          page * this.pageSize,
+          this.pageSize,
+          ...res.data.conversations
+        );
+        this.dataStream.next(this.cachedData);
+      });
   }
 }

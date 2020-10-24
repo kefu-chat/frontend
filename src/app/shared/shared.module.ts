@@ -1,3 +1,4 @@
+import { ScrollingModule } from "@angular/cdk/scrolling";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -41,6 +42,7 @@ const DIRECTIVES = [];
     AlainThemeModule.forChild(),
     DelonACLModule,
     DelonFormModule,
+    ScrollingModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs
@@ -59,6 +61,7 @@ const DIRECTIVES = [];
     AlainThemeModule,
     DelonACLModule,
     DelonFormModule,
+    ScrollingModule,
     TranslateModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,

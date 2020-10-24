@@ -61,7 +61,7 @@
           <nz-tab [nzTitle]="titleUnassigned">
             <ng-template #unassignedEmpty>
               <div
-              *ngIf="(unassignedCount + unassignedList.length) == 0"
+              *ngIf="!unassignedList || (unassignedCount + unassignedList.length) == 0"
               nz-row
               nzAlign="middle"
               style="width: 100%; height: calc(100vh - 121px)"
@@ -92,21 +92,35 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && (unassignedCount + unassignedList.length) > 0">
+            <div class="ul-thead" *ngIf="!selectId && unassignedList && (unassignedCount + unassignedList.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="(unassignedCount + unassignedList.length) > 0;else unassignedEmpty;">
-              <ng-container *ngFor="let item of unassignedList">
-                <nz-ribbon [nzText]="!item.user?'New':''" [nzColor]="!item.user?'red':'transparent'">
+            <div class="conversation-list-ul" *ngIf="unassignedList && (unassignedCount + unassignedList.length) > 0;else unassignedEmpty;">
+              <cdk-virtual-scroll-viewport class="width-100" style="height: 100%;" [itemSize]="unassignedCount">
+                <ul>
                   <li
                     nz-menu-item
                     class="conversation-item"
-                    [nzSelected]="selectId == item.id"
+                    [nzSelected]="item && selectId == item.id"
                     (click)="to(item)"
+                    *cdkVirtualFor="let item of unassignedList"
                   >
-                    <div nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
+                    <div *ngIf="!item" class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                      <div class="ant-skeleton-header ng-star-inserted">
+                        <div nztype="avatar" class="ant-skeleton ant-skeleton-element">
+                          <span class="ant-skeleton-avatar ant-skeleton-avatar-circle ant-skeleton-avatar-lg"></span>
+                        </div>
+                      </div>
+                      <div class="ant-skeleton-content ng-star-inserted">
+                        <ul class="ant-skeleton-paragraph ng-star-inserted" style="margin-top: 0;">
+                          <li class="ng-star-inserted" style="width: 100px;"></li>
+                          <li class="ng-star-inserted" style="width: 200px; margin-top: 10px;"></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div *ngIf="item" nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
                       <nz-avatar
                         nz-comment-avatar
                         nzIcon="user"
@@ -139,10 +153,10 @@
                         </div>
                       </div>
                     </div>
-                    <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
+                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
                       {{ item.last_reply_at }}
                     </div>
-                    <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
+                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
                       <div class="line-height-24" *ngIf="item.url">
                         {{ item.url }}
                       </div>
@@ -154,9 +168,9 @@
                       </div>
                     </div>
                   </li>
-                </nz-ribbon>
-              </ng-container>
-            </ul>
+                </ul>
+              </cdk-virtual-scroll-viewport>
+            </div>
           </nz-tab>
           <nz-tab [nzTitle]="titleAssigned">
             <ng-template #assignedEmpty>

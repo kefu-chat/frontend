@@ -1,4 +1,3 @@
-// tslint:disable: no-duplicate-imports
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
@@ -105,6 +104,7 @@ import { LayoutModule } from "./layout/layout.module";
 import { RoutesModule } from "./routes/routes.module";
 import { SharedModule } from "./shared/shared.module";
 import { STWidgetModule } from "./shared/st-widget/st-widget.module";
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -117,6 +117,7 @@ import { STWidgetModule } from "./shared/st-widget/st-widget.module";
     LayoutModule,
     RoutesModule,
     STWidgetModule,
+    // CdkVirtualScrollViewport,
     ...I18NSERVICE_MODULES,
     ...GLOBAL_THIRD_MODULES,
     ...FORM_MODULES,
