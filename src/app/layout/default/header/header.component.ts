@@ -203,6 +203,6 @@ export class HeaderComponent {
       js.async = true;
       js.defer = true;
       d.head.appendChild(js);
-    })(document, 'script', '_kefuchat_init', 'DdKle6Ikkg2Nq12w')
+    })(document, 'script', '_kefuchat_init', 'DdKle6Ikkg2Nq12w');
   }
 }

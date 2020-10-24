@@ -13,8 +13,8 @@ import {
   ConversationService,
   EchoService,
 } from "@service";
-import { BehaviorSubject, Observable, Subscription, zip } from "rxjs";
 import { ConversationListSourceService } from '@service';
+import { BehaviorSubject, Observable, Subscription, zip } from "rxjs";
 
 @Component({
   selector: "app-chat",
