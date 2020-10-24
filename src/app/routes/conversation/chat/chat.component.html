@@ -206,68 +206,85 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && (assignedCount + assignedList.length) > 0">
+            <div class="ul-thead" *ngIf="!selectId && assignedList && (assignedCount + assignedList.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="(assignedCount + assignedList.length) > 0;else assignedEmpty">
-              <li
-                nz-menu-item
-                class="conversation-item"
-                *ngFor="let item of assignedList"
-                [nzSelected]="selectId == item.id"
-                (click)="to(item)"
-              >
-                <div nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
-                  <nz-avatar
-                    nz-comment-avatar
-                    nzIcon="user"
-                    [nzSrc]="item.icon"
-                    [style]="
-                      !item.online_status ? 'filter: grayscale(1)' : ''
-                    "
-                  ></nz-avatar>
-                  <div class="conversation-list-content">
-                    <div class="conversation-visitor-name">
-                      {{ item.visitor.name }}
-                      {{ !item.online_status ? "(已离线)" : "" }}
+            <div class="conversation-list-ul" *ngIf="assignedList && (assignedCount + assignedList.length) > 0;else assignedEmpty;">
+              <cdk-virtual-scroll-viewport class="width-100" style="height: 100%;" [itemSize]="assignedCount">
+                <ul>
+                  <li
+                    nz-menu-item
+                    class="conversation-item"
+                    [nzSelected]="item && selectId == item.id"
+                    (click)="to(item)"
+                    *cdkVirtualFor="let item of assignedList"
+                  >
+                    <div *ngIf="!item" class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                      <div class="ant-skeleton-header ng-star-inserted">
+                        <div nztype="avatar" class="ant-skeleton ant-skeleton-element">
+                          <span class="ant-skeleton-avatar ant-skeleton-avatar-circle ant-skeleton-avatar-lg"></span>
+                        </div>
+                      </div>
+                      <div class="ant-skeleton-content ng-star-inserted">
+                        <ul class="ant-skeleton-paragraph ng-star-inserted" style="margin-top: 0;">
+                          <li class="ng-star-inserted" style="width: 100px;"></li>
+                          <li class="ng-star-inserted" style="width: 200px; margin-top: 10px;"></li>
+                        </ul>
+                      </div>
                     </div>
-                    <div class="last-message" *ngIf="item.last_message">
-                      <span>
-                        {{
-                          item.last_message.sender_type_text == "user"
-                            ? item.last_message.sender_id == user.id
-                              ? "你"
-                              : item.last_message.sender.name + "(客服)"
-                            : item.last_message.sender.name
-                        }}:
-                        <span *ngIf="item.last_message.type == 1">
-                          {{ item.last_message.content }}
-                        </span>
-                        <span *ngIf="item.last_message.type == 2">
-                          [图片消息]
-                        </span>
-                      </span>
+                    <div *ngIf="item" nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
+                      <nz-avatar
+                        nz-comment-avatar
+                        nzIcon="user"
+                        [nzSrc]="item.icon"
+                        [style]="
+                          !item.online_status ? 'filter: grayscale(1)' : ''
+                        "
+                      ></nz-avatar>
+                      <div class="conversation-list-content">
+                        <div class="conversation-visitor-name">
+                          {{ item.visitor.name }}
+                          {{ !item.online_status ? "(已离线)" : "" }}
+                        </div>
+                        <div class="last-message" *ngIf="item.last_message">
+                          <span>
+                            {{
+                              item.last_message.sender_type_text == "user"
+                                ? item.last_message.sender_id == user.id
+                                  ? "你"
+                                  : item.last_message.sender.name + "(客服)"
+                                : item.last_message.sender.name
+                            }}:
+                            <span *ngIf="item.last_message.type == 1">
+                              {{ item.last_message.content }}
+                            </span>
+                            <span *ngIf="item.last_message.type == 2">
+                              [图片消息]
+                            </span>
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
-                  {{ item.last_reply_at }}
-                </div>
-                <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
-                  <div class="line-height-24" *ngIf="item.url">
-                    {{ item.url }}
-                  </div>
-                  <div class="line-height-24" *ngIf="item.title">
-                    {{ item.title }}
-                  </div>
-                  <div class="line-height-24" *ngIf="item.referer">
-                    {{ item.referer }}
-                  </div>
-                </div>
-              </li>
-            </ul>
+                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
+                      {{ item.last_reply_at }}
+                    </div>
+                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
+                      <div class="line-height-24" *ngIf="item.url">
+                        {{ item.url }}
+                      </div>
+                      <div class="line-height-24" *ngIf="item.title">
+                        {{ item.title }}
+                      </div>
+                      <div class="line-height-24" *ngIf="item.referer">
+                        {{ item.referer }}
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </cdk-virtual-scroll-viewport>
+            </div>
           </nz-tab>
           <nz-tab [nzTitle]="titleHistory">
             <ng-template #historyEmpty>
@@ -303,68 +320,85 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId && (historyCount + historyList.length) > 0">
+            <div class="ul-thead" *ngIf="!selectId && historyList && (historyCount + historyList.length) > 0">
               <div>名字</div>
               <div>最后时间</div>
               <div>渠道</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="(historyCount + historyList.length) > 0;else historyEmpty">
-              <li
-                nz-menu-item
-                class="conversation-item"
-                *ngFor="let item of historyList"
-                [nzSelected]="selectId == item.id"
-                (click)="to(item)"
-              >
-                <div nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
-                  <nz-avatar
-                    nz-comment-avatar
-                    nzIcon="user"
-                    [nzSrc]="item.icon"
-                    [style]="
-                      !item.online_status ? 'filter: grayscale(1)' : ''
-                    "
-                  ></nz-avatar>
-                  <div class="conversation-list-content">
-                    <div class="conversation-visitor-name">
-                      {{ item.visitor.name }}
-                      {{ !item.online_status ? "(已离线)" : "" }}
+            <div class="conversation-list-ul" *ngIf="historyList && (historyCount + historyList.length) > 0;else historyEmpty;">
+              <cdk-virtual-scroll-viewport class="width-100" style="height: 100%;" [itemSize]="historyCount">
+                <ul>
+                  <li
+                    nz-menu-item
+                    class="conversation-item"
+                    [nzSelected]="item && selectId == item.id"
+                    (click)="to(item)"
+                    *cdkVirtualFor="let item of historyList"
+                  >
+                    <div *ngIf="!item" class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
+                      <div class="ant-skeleton-header ng-star-inserted">
+                        <div nztype="avatar" class="ant-skeleton ant-skeleton-element">
+                          <span class="ant-skeleton-avatar ant-skeleton-avatar-circle ant-skeleton-avatar-lg"></span>
+                        </div>
+                      </div>
+                      <div class="ant-skeleton-content ng-star-inserted">
+                        <ul class="ant-skeleton-paragraph ng-star-inserted" style="margin-top: 0;">
+                          <li class="ng-star-inserted" style="width: 100px;"></li>
+                          <li class="ng-star-inserted" style="width: 200px; margin-top: 10px;"></li>
+                        </ul>
+                      </div>
                     </div>
-                    <div class="last-message" *ngIf="item.last_message">
-                      <span>
-                        {{
-                          item.last_message.sender_type_text == "user"
-                            ? item.last_message.sender_id == user.id
-                              ? "你"
-                              : item.last_message.sender.name + "(客服)"
-                            : item.last_message.sender.name
-                        }}:
-                        <span *ngIf="item.last_message.type == 1">
-                          {{ item.last_message.content }}
-                        </span>
-                        <span *ngIf="item.last_message.type == 2">
-                          [图片消息]
-                        </span>
-                      </span>
+                    <div *ngIf="item" nz-col [nzSpan]="selectId ? 24 : 8" class="overflow-hidden">
+                      <nz-avatar
+                        nz-comment-avatar
+                        nzIcon="user"
+                        [nzSrc]="item.icon"
+                        [style]="
+                          !item.online_status ? 'filter: grayscale(1)' : ''
+                        "
+                      ></nz-avatar>
+                      <div class="conversation-list-content">
+                        <div class="conversation-visitor-name">
+                          {{ item.visitor.name }}
+                          {{ !item.online_status ? "(已离线)" : "" }}
+                        </div>
+                        <div class="last-message" *ngIf="item.last_message">
+                          <span>
+                            {{
+                              item.last_message.sender_type_text == "user"
+                                ? item.last_message.sender_id == user.id
+                                  ? "你"
+                                  : item.last_message.sender.name + "(客服)"
+                                : item.last_message.sender.name
+                            }}:
+                            <span *ngIf="item.last_message.type == 1">
+                              {{ item.last_message.content }}
+                            </span>
+                            <span *ngIf="item.last_message.type == 2">
+                              [图片消息]
+                            </span>
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
-                  {{ item.last_reply_at }}
-                </div>
-                <div *ngIf="!selectId" nz-col nzSpan="8" class="overflow-hidden">
-                  <div class="line-height-24" *ngIf="item.url">
-                    {{ item.url }}
-                  </div>
-                  <div class="line-height-24" *ngIf="item.title">
-                    {{ item.title }}
-                  </div>
-                  <div class="line-height-24" *ngIf="item.referer">
-                    {{ item.referer }}
-                  </div>
-                </div>
-              </li>
-            </ul>
+                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
+                      {{ item.last_reply_at }}
+                    </div>
+                    <div *ngIf="item && !selectId" nz-col nzSpan="8" class="overflow-hidden">
+                      <div class="line-height-24" *ngIf="item.url">
+                        {{ item.url }}
+                      </div>
+                      <div class="line-height-24" *ngIf="item.title">
+                        {{ item.title }}
+                      </div>
+                      <div class="line-height-24" *ngIf="item.referer">
+                        {{ item.referer }}
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </cdk-virtual-scroll-viewport>
+            </div>
           </nz-tab>
         </nz-tabset>
       </ul>

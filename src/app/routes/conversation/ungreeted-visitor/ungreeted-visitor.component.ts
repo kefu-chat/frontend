@@ -5,6 +5,7 @@ import { SettingsService, User as SystemUser, _HttpClient } from "@delon/theme";
 import { Conversation, User } from "@model/application/conversation.interface";
 import {
   askNotificationPermission,
+  ConversationListSourceService,
   ConversationService,
   EchoService,
 } from "@service";
@@ -18,7 +19,7 @@ import { NzI18nService } from "ng-zorro-antd/i18n";
   styleUrls: ["./ungreeted-visitor.component.less"],
 })
 export class UngreetedVisitorComponent implements OnInit {
-  onlineConversations: Conversation[] = [];
+  onlineConversations: ConversationListSourceService;
   onlineVisitorsCount = 0;
   channel: string;
   selectId: string;
@@ -69,6 +70,25 @@ export class UngreetedVisitorComponent implements OnInit {
       .get("api/conversation/count")
       .subscribe(({ data: { online_visitor_count } }) => {
         this.onlineVisitorsCount = online_visitor_count;
+        this.onlineConversations = new ConversationListSourceService(
+          this.onlineVisitorsCount,
+          (page: number, list: ConversationListSourceService) => {
+            let offset = ``;
+            if (list.latestList && list.latestList.length) {
+              offset = list.latestList[list.latestList.length - 1].id;
+            }
+            this.conversationSrv.getVisitorList({ type: `online`, offset })
+              .subscribe((res) => {
+                list.latestList = res.data.conversations;
+                list.cachedData.splice(
+                  page * list.pageSize,
+                  list.pageSize,
+                  ...res.data.conversations
+                );
+                list.dataStream.next(list.cachedData);
+              });
+          }
+        );
       });
 
     // @TODO: 新会话进来的 socket, 更新统计数字.
@@ -77,10 +97,10 @@ export class UngreetedVisitorComponent implements OnInit {
   }
 
   initOnlineVisitorList(): void {
-    zip(this.conversationSrv.getVisitorList({ type: this.type })).subscribe(
-      ([visitors]) => {
-        this.onlineConversations = visitors.data.conversations;
-      });
+    // zip(this.conversationSrv.getVisitorList({ type: this.type })).subscribe(
+    //   ([visitors]) => {
+    //     this.onlineConversations = visitors.data.conversations;
+    //   });
   }
 
   initOnlineVisitorSocket(): void {

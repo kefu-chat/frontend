@@ -80,73 +80,77 @@
                 />
               </nz-input-group>
             </div>
-            <div class="ul-thead" *ngIf="!selectId">
+            <div class="ul-thead" *ngIf="!selectId && onlineConversations && (onlineVisitorsCount + onlineConversations.length) > 0">
               <div style="width: 70%">名字</div>
               <div style="width: 10%">落地时间</div>
               <div style="width: 10%">操作</div>
             </div>
-            <ul class="conversation-list-ul" *ngIf="onlineConversations.length > 0">
-              <li
-                nz-menu-item
-                class="conversation-item"
-                *ngFor="let item of onlineConversations"
-                [nzSelected]="selectId == item.id"
-                (click)="toSee(item)"
-              >
-                <div [style]="selectId ? '' : 'width: 70%'">
-                  <nz-avatar
-                    nz-comment-avatar
-                    nzIcon="user"
-                    [nzSrc]="item.icon"
-                    [style]="
-                      !item.online_status ? 'filter: grayscale(1)' : ''
-                    "
-                  ></nz-avatar>
-                  <div class="conversation-list-content">
-                    <div class="conversation-visitor-name">
-                      {{ item.visitor.name }}
-                      {{ !item.online_status ? "(已离线)" : "" }}
-                    </div>
-                    <div class="last-message">
-                      <span *ngIf="item.last_message">
-                        {{
-                          item.last_message.sender_type_text == "user"
-                            ? item.last_message.sender_id == user.id
-                              ? "你"
-                              : item.last_message.sender.name + "(客服)"
-                            : item.last_message.sender.name
-                        }}:
-                        <span *ngIf="item.last_message.type == 1">
-                          {{ item.last_message.content }}
-                        </span>
-                        <span *ngIf="item.last_message.type == 2">
-                          [图片消息]
-                        </span>
-                      </span>
-                      <div *ngIf="item.title || item.url">
-                        正在访问:
-                        {{ item.title }}
-                        <span *ngIf="item.url">({{ item.url }})</span>
-                      </div>
-                      <div *ngIf="item.referer">来源: {{ item.referer }}</div>
-                    </div>
-                  </div>
-                </div>
-                <div *ngIf="!selectId" style="width: 10%">
-                  {{ fromNow(item.created_at) }}
-                </div>
-                <div *ngIf="!selectId" style="width: 10%">
-                  <button
-                    nz-button
-                    nzType="primary"
-                    nzGhost
-                    (click)="toChat(item)"
+            <div class="conversation-list-ul" *ngIf="onlineConversations && (onlineVisitorsCount + onlineConversations.length) > 0">
+              <cdk-virtual-scroll-viewport class="width-100" style="height: 100%;" [itemSize]="onlineVisitorsCount">
+                <ul>
+                  <li
+                    nz-menu-item
+                    class="conversation-item"
+                    [nzSelected]="item && selectId == item.id"
+                    (click)="toSee(item)"
+                    *cdkVirtualFor="let item of onlineConversations"
                   >
-                    开启对话
-                  </button>
-                </div>
-              </li>
-            </ul>
+                    <div [style]="selectId ? '' : 'width: 70%'">
+                      <nz-avatar
+                        nz-comment-avatar
+                        nzIcon="user"
+                        [nzSrc]="item.icon"
+                        [style]="
+                          !item.online_status ? 'filter: grayscale(1)' : ''
+                        "
+                      ></nz-avatar>
+                      <div class="conversation-list-content">
+                        <div class="conversation-visitor-name">
+                          {{ item.visitor.name }}
+                          {{ !item.online_status ? "(已离线)" : "" }}
+                        </div>
+                        <div class="last-message">
+                          <span *ngIf="item.last_message">
+                            {{
+                              item.last_message.sender_type_text == "user"
+                                ? item.last_message.sender_id == user.id
+                                  ? "你"
+                                  : item.last_message.sender.name + "(客服)"
+                                : item.last_message.sender.name
+                            }}:
+                            <span *ngIf="item.last_message.type == 1">
+                              {{ item.last_message.content }}
+                            </span>
+                            <span *ngIf="item.last_message.type == 2">
+                              [图片消息]
+                            </span>
+                          </span>
+                          <div *ngIf="item.title || item.url">
+                            正在访问:
+                            {{ item.title }}
+                            <span *ngIf="item.url">({{ item.url }})</span>
+                          </div>
+                          <div *ngIf="item.referer">来源: {{ item.referer }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="!selectId" style="width: 10%">
+                      {{ fromNow(item.created_at) }}
+                    </div>
+                    <div *ngIf="!selectId" style="width: 10%">
+                      <button
+                        nz-button
+                        nzType="primary"
+                        nzGhost
+                        (click)="toChat(item)"
+                      >
+                        开启对话
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </cdk-virtual-scroll-viewport>
+            </div>
           </nz-tab>
         </nz-tabset>
       </ul>
