@@ -88,6 +88,8 @@ export class UngreetedVisitorComponent implements OnInit {
                   list.pageSize,
                   ...res.data.conversations
                 );
+                list.cachedData = list.cachedData.filter(item => item);
+                list.cachedData = list.cachedData.concat(Array.from({length: list.length - list.cachedData.length}, () => null));
                 list.dataStream.next(list.cachedData);
                 this.cdr.markForCheck();
                 this.cdr.detectChanges();

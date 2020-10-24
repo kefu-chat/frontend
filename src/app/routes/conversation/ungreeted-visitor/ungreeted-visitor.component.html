@@ -86,7 +86,7 @@
               <div style="width: 10%">操作</div>
             </div>
             <div class="conversation-list-ul" *ngIf="onlineConversations && (onlineVisitorsCount + onlineConversations.length) > 0">
-              <cdk-virtual-scroll-viewport class="width-100" style="height: 100%;" [itemSize]="onlineVisitorsCount">
+              <cdk-virtual-scroll-viewport class="width-100" style="height: 100%;" [itemSize]="76" [minBufferPx]="0" [maxBufferPx]="0">
                 <ul>
                   <li
                     nz-menu-item

@@ -23,9 +23,9 @@ import { ConversationListSourceService } from '@service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent implements OnInit {
-  assignedList: ConversationListSourceService;
-  unassignedList: ConversationListSourceService; // new UnassignedSource(this.http); // Conversation[] = [];
-  historyList: ConversationListSourceService;
+  assignedList: null | ConversationListSourceService;
+  unassignedList: null | ConversationListSourceService; // new UnassignedSource(this.http); // Conversation[] = [];
+  historyList: null | ConversationListSourceService;
   assignedCount = 0;
   unassignedCount = 0;
   historyCount = 0;
@@ -49,6 +49,7 @@ export class ChatComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     router.events.subscribe((evt) => {
+      this.currentTab = 0;
       if (evt instanceof NavigationStart) {
         if (evt.url === "/conversation/chat") {
           this.selectId = "";
@@ -60,9 +61,9 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadAssignedConversationList();
+    // this.loadAssignedConversationList();
     // this.loadUnassignedConversationList();
-    this.loadHistoryConversationList();
+    // this.loadHistoryConversationList();
     this.initAssignedConversationSocket();
     this.initUnassignedConversationSocket();
     this.initCount();
@@ -83,6 +84,9 @@ export class ChatComponent implements OnInit {
         this.assignedCount = res.data.assigned_count;
         this.unassignedCount = res.data.unassigned_count;
         this.historyCount = res.data.history_count;
+
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
 
         this.initAssignedConversationList();
         this.initUnassignedConversationList();
@@ -169,7 +173,7 @@ export class ChatComponent implements OnInit {
     // });
 
     if (this.assignedList) {
-      this.assignedList.disconnect();
+      this.assignedList = null;
     }
     this.assignedList = new ConversationListSourceService(
       this.assignedCount,
@@ -188,6 +192,8 @@ export class ChatComponent implements OnInit {
               list.pageSize,
               ...res.data.conversations
             );
+            list.cachedData = list.cachedData.filter(item => item);
+            list.cachedData = list.cachedData.concat(Array.from({length: list.length - list.cachedData.length}, () => null));
             list.dataStream.next(list.cachedData);
             this.cdr.markForCheck();
             this.cdr.detectChanges();
@@ -210,7 +216,7 @@ export class ChatComponent implements OnInit {
     // });
 
     if (this.unassignedList) {
-      this.unassignedList.disconnect();
+      this.unassignedList = null;
     }
     this.unassignedList = new ConversationListSourceService(
       this.unassignedCount,
@@ -229,6 +235,8 @@ export class ChatComponent implements OnInit {
               list.pageSize,
               ...res.data.conversations
             );
+            list.cachedData = list.cachedData.filter(item => item);
+            list.cachedData = list.cachedData.concat(Array.from({length: list.length - list.cachedData.length}, () => null));
             list.dataStream.next(list.cachedData);
             this.cdr.markForCheck();
             this.cdr.detectChanges();
@@ -247,7 +255,7 @@ export class ChatComponent implements OnInit {
     // });
 
     if (this.historyList) {
-      this.historyList.disconnect();
+      this.historyList = null;
     }
     this.historyList = new ConversationListSourceService(
       this.historyCount,
@@ -266,6 +274,8 @@ export class ChatComponent implements OnInit {
               list.pageSize,
               ...res.data.conversations
             );
+            list.cachedData = list.cachedData.filter(item => item);
+            list.cachedData = list.cachedData.concat(Array.from({length: list.length - list.cachedData.length}, () => null));
             list.dataStream.next(list.cachedData);
             this.cdr.markForCheck();
             this.cdr.detectChanges();

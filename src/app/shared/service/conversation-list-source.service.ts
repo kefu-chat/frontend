@@ -1,11 +1,10 @@
 import { Conversation } from "@model/application/conversation.interface";
 import { CollectionViewer, DataSource } from "@angular/cdk/collections";
 import { BehaviorSubject, Observable, Subscription } from "rxjs";
-import { ConversationService } from "@service";
 import { ChangeDetectorRef } from '@angular/core';
 
 export class ConversationListSourceService extends DataSource<Conversation> {
-  public pageSize = 20;
+  public pageSize = 10;
   public cachedData = Array.from<Conversation>({ length: this.length });
   public latestList: Conversation[] = [];
   private fetchedPages = new Set<number>();
