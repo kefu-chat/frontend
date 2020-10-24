@@ -7,6 +7,7 @@
         nzSize="large"
         nzType="primary"
         [nzLoading]="http.loading"
+        *ngIf="!success"
       >
         {{ "app.verify" | translate }}
       </button>
