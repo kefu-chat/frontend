@@ -31,6 +31,7 @@ import {
   HddOutline,
   HomeOutline,
   LaptopOutline,
+  LeftOutline,
   LikeOutline,
   LockOutline,
   LogoutOutline,
@@ -115,4 +116,5 @@ export const ICONS_AUTO = [
   ContactsOutline,
   DingtalkOutline,
   WechatOutline,
+  LeftOutline,
 ];

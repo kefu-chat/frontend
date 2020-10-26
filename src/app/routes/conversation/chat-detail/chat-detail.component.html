@@ -14,7 +14,22 @@
     <div nz-col class="chat-left">
       <div class="content-header">
         <div class="name-wrap">
-          <div class="closer" (click)="toList()"></div>
+          <nz-button-group class="hidden-pc">
+            <button class="btn-list" nz-button (click)="toList()">
+              <i nz-icon nzType="left"></i>
+              返回
+            </button>
+            <button class="btn-leave" nz-button *ngIf="conversation" (click)="terminateConversation()">
+              <i nz-icon nzType="lock"></i>
+              结束
+            </button>
+            <button class="btn-leave" nz-button *ngIf="conversation" (click)="transferConversation()">
+              <i nz-icon nzType="contacts"></i>
+              转移
+            </button>
+          </nz-button-group>
+
+          <div class="closer hidden-mobile" (click)="toList()"></div>
           <div class="name" *ngIf="visitor && visitor.name">
             <div>
               {{ visitor.name }}
@@ -31,7 +46,7 @@
             </a>
           </div>
         </div>
-        <nz-button-group *ngIf="conversation">
+        <nz-button-group class="hidden-mobile" *ngIf="conversation">
           <button class="btn-leave" nz-button (click)="terminateConversation()">
             <i nz-icon nzType="lock"></i>
             结束
@@ -163,7 +178,7 @@
         </div>
       </div>
     </div>
-    <div nz-col class="visitor-details">
+    <div nz-col class="visitor-details hidden-mobile">
       <ng-container *ngIf="visitor">
         <div class="visitor-up">
           <div class="visitor-header">

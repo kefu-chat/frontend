@@ -6,7 +6,6 @@
       <th>网站名</th>
       <th>域名</th>
       <th>员工数</th>
-      <th>创建时间</th>
       <th class="text-right">操作</th>
     </tr>
   </thead>
@@ -17,12 +16,13 @@
         <td>{{ website.name }}</td>
         <td>{{ website.website }}</td>
         <td>{{ website.users_count }}</td>
-        <td>{{ website.created_at }}</td>
-        <td class="text-right">
+        <td class="text-right" style="width: 340px;">
           <span class="table-operation">
             <a (click)="updateWebsite(website)">资料</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a (click)="updateAppearance(website)">外观</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="updateTextScheme(website)">接待文案</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a (click)="getCode(website)">获取安装代码</a>
           </span>
@@ -176,47 +176,75 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label>打招呼的话</nz-form-label>
-        <nz-form-control nzErrorTip="Please input your 打招呼的话!">
-          <textarea nz-input formControlName="greeting_message" rows="3" placeholder="打招呼的话"></textarea>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>关闭对话提醒</nz-form-label>
-        <nz-form-control nzErrorTip="Please input your 关闭对话提醒!">
-          <textarea nz-input formControlName="terminate_manual" rows="3" placeholder="关闭对话提醒"></textarea>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>对话超时提醒</nz-form-label>
-        <nz-form-control nzErrorTip="Please input your 对话超时提醒!">
-          <textarea nz-input formControlName="terminate_timeout" rows="3" placeholder="对话超时提醒"></textarea>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>对话超时时间</nz-form-label>
-        <nz-form-control nzErrorTip="Please select your 对话超时时间!">
-          <nz-select formControlName="timeout">
-            <nz-option nzValue="180" nzLabel="3分钟"></nz-option>
-            <nz-option nzValue="300" nzLabel="5分钟"></nz-option>
-            <nz-option nzValue="600" nzLabel="10分钟"></nz-option>
-            <nz-option nzValue="900" nzLabel="15分钟"></nz-option>
-            <nz-option nzValue="1800" nzLabel="30分钟"></nz-option>
-            <nz-option nzValue="3600" nzLabel="1小时"></nz-option>
-            <nz-option nzValue="7200" nzLabel="2小时"></nz-option>
-            <nz-option nzValue="21600" nzLabel="6小时"></nz-option>
-            <nz-option nzValue="43200" nzLabel="12小时"></nz-option>
-            <nz-option nzValue="86400" nzLabel="24小时"></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
         <nz-form-control>
           <button nz-button nzType="primary">提交</button>
         </nz-form-control>
       </nz-form-item>
     </form>
   </div>
+</nz-drawer>
+
+<nz-drawer *ngIf="drawerTextScheme" [nzClosable]="false" [nzWidth]="450" [nzVisible]="drawerTextScheme" [nzTitle]="'文案配置'" (nzOnClose)="drawerTextSchemeClose()">
+  <form nz-form nzLayout="vertical" [formGroup]="drawerTextSchemeForm" (ngSubmit)="submitTextSchemeForm()">
+    <nz-form-item>
+      <nz-form-label>无人应答时间</nz-form-label>
+      <nz-form-control nzErrorTip="Please select your 对话超时时间!">
+        <nz-select formControlName="noreply_timeout">
+          <nz-option [nzValue]="60" nzLabel="1分钟"></nz-option>
+          <nz-option [nzValue]="120" nzLabel="2分钟"></nz-option>
+          <nz-option [nzValue]="180" nzLabel="3分钟"></nz-option>
+          <nz-option [nzValue]="300" nzLabel="5分钟"></nz-option>
+          <nz-option [nzValue]="null" nzLabel="禁用"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>无人应答自动回复</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 无人应答自动回复!">
+        <textarea nz-input formControlName="noreply" rows="3" placeholder="无人应答自动回复"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>打招呼的话</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 打招呼的话!">
+        <textarea nz-input formControlName="greeting_message" rows="3" placeholder="打招呼的话"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>关闭对话提醒</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 关闭对话提醒!">
+        <textarea nz-input formControlName="terminate_manual" rows="3" placeholder="关闭对话提醒"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>对话超时提醒</nz-form-label>
+      <nz-form-control nzErrorTip="Please input your 对话超时提醒!">
+        <textarea nz-input formControlName="terminate_timeout" rows="3" placeholder="对话超时提醒"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>对话超时时间</nz-form-label>
+      <nz-form-control nzErrorTip="Please select your 对话超时时间!">
+        <nz-select formControlName="timeout">
+          <nz-option nzValue="180" nzLabel="3分钟"></nz-option>
+          <nz-option nzValue="300" nzLabel="5分钟"></nz-option>
+          <nz-option nzValue="600" nzLabel="10分钟"></nz-option>
+          <nz-option nzValue="900" nzLabel="15分钟"></nz-option>
+          <nz-option nzValue="1800" nzLabel="30分钟"></nz-option>
+          <nz-option nzValue="3600" nzLabel="1小时"></nz-option>
+          <nz-option nzValue="7200" nzLabel="2小时"></nz-option>
+          <nz-option nzValue="21600" nzLabel="6小时"></nz-option>
+          <nz-option nzValue="43200" nzLabel="12小时"></nz-option>
+          <nz-option nzValue="86400" nzLabel="24小时"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control>
+        <button nz-button nzType="primary">提交</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
 </nz-drawer>
 
 <nz-drawer *ngIf="drawerEmployee" [nzClosable]="false" [nzWidth]="450" [nzVisible]="drawerEmployee" [nzTitle]="drawerEmployeeAction==='create' ? '添加员工': '更新员工'" (nzOnClose)="drawerEmployeeClose()">

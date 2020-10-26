@@ -15,9 +15,10 @@ import { DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 @Component({
   selector: "app-enterprise-settings-structure",
   templateUrl: "./structure.component.html",
-  styleUrls: ["./structure.component.less",],
+  styleUrls: ["./structure.component.less"],
 })
-export class ProEnterpriseSettingsStructureComponent implements OnInit, PipeTransform {
+export class ProEnterpriseSettingsStructureComponent
+  implements OnInit, PipeTransform {
   constructor(
     public msg: NzMessageService,
     private http: _HttpClient,
@@ -36,20 +37,24 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit, PipeTran
   drawerCode = false;
   drawerPassword = false;
   drawerAppearance = false;
+  drawerTextScheme = false;
   drawerWebsiteAction: "update" | "create";
   drawerEmployeeAction: "update" | "create";
   drawerAppearanceAction: "update" | "create";
+  drawerTextSchemeAction: "update" | "create";
   drawerWebsiteData: Website;
   drawerEmployeeData: User;
   drawerAppearanceData: Website;
+  drawerTextSchemeData: Website;
   drawerPasswordData: UserWithPassword;
   drawerCodeData: Website;
   drawerWebsiteForm: FormGroup;
   drawerEmployeeForm: FormGroup;
   drawerPasswordForm: FormGroup;
   drawerAppearanceForm: FormGroup;
+  drawerTextSchemeForm: FormGroup;
 
-  less = document.createElement('link');
+  less = document.createElement("link");
 
   assetsHost = environment.widgetHost;
 
@@ -128,11 +133,21 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit, PipeTran
     this.drawerAppearanceData = website;
     this.drawerAppearanceForm = this.fb.group({
       ...this.drawerAppearanceData,
+      theme: [website.theme, [Validators.required]],
+    });
+  }
+
+  updateTextScheme(website: Website): void {
+    this.transform(website);
+    this.drawerTextScheme = true;
+    this.drawerTextSchemeAction = "update";
+    this.drawerTextSchemeData = website;
+    this.drawerTextSchemeForm = this.fb.group({
+      ...this.drawerTextSchemeData,
       terminate_manual: [website.terminate_manual, [Validators.required]],
       terminate_timeout: [website.terminate_timeout, [Validators.required]],
       greeting_message: [website.greeting_message, [Validators.required]],
       timeout: [website.timeout, [Validators.required]],
-      theme: [website.theme, [Validators.required]],
     });
   }
 
@@ -264,9 +279,9 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit, PipeTran
       return;
     }
 
-    let url = `api/institution/${this.drawerAppearanceData.id}/update`;
+    const url = `api/institution/${this.drawerAppearanceData.id}/update`;
     if (this.drawerAppearanceAction == `create`) {
-      this.msg.error(`drawerAppearanceAction can't be create`)
+      this.msg.error(`drawerAppearanceAction can't be create`);
     }
 
     this.http
@@ -288,8 +303,45 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit, PipeTran
       });
   }
 
+  submitTextSchemeForm(): void {
+    Object.keys(this.drawerTextSchemeForm.controls).forEach((key) => {
+      this.drawerTextSchemeForm.controls[key].markAsDirty();
+      this.drawerTextSchemeForm.controls[key].updateValueAndValidity();
+    });
+    if (this.drawerTextSchemeForm.invalid) {
+      return;
+    }
+
+    const url = `api/institution/${this.drawerTextSchemeData.id}/update`;
+    if (this.drawerTextSchemeAction == `create`) {
+      this.msg.error(`drawerTextSchemeAction can't be create`);
+    }
+
+    this.http
+      .post(url, this.drawerTextSchemeForm.getRawValue())
+      .subscribe((res: { data: { institution: Website } }) => {
+        this.drawerTextSchemeData = res.data.institution;
+        this.drawerTextSchemeForm = this.fb.group(this.drawerTextSchemeData);
+
+        if (this.drawerTextSchemeAction === "update") {
+          try {
+            this.websites.filter((w) => w.id === res.data.institution.id)[0] =
+              res.data.institution;
+          } catch (e) {
+            console.error(e);
+          }
+        }
+
+        this.msg.success("成功!");
+      });
+  }
+
   drawerAppearanceClose(): void {
     this.drawerAppearance = false;
+  }
+
+  drawerTextSchemeClose(): void {
+    this.drawerTextScheme = false;
   }
 
   submitEmployeeForm(): void {
@@ -395,7 +447,11 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit, PipeTran
         { permission }
       )
       .subscribe(
-        (res: { success: boolean; message: string; data: {employee: User} }) => {
+        (res: {
+          success: boolean;
+          message: string;
+          data: { employee: User };
+        }) => {
           if (res.success) {
             this.msg.success("修改成功!");
             this.employees.filter((u) => u.id === employee.id)[0].permissions =
@@ -413,13 +469,18 @@ export class ProEnterpriseSettingsStructureComponent implements OnInit, PipeTran
   loadWidgetTheme(): void {
     this.less.remove();
     this.less = document.createElement(`link`);
-    this.less.href = environment.widgetHost + `theme.css?timestamp=` + (new Date).toISOString().split(':')[0];
+    this.less.href =
+      environment.widgetHost +
+      `theme.css?timestamp=` +
+      new Date().toISOString().split(":")[0];
     this.less.type = `text/css`;
     this.less.rel = `stylesheet`;
     document.head.appendChild(this.less);
   }
 
-  transform(website: Website) {
-    website.website_url_safe = this.sanitizer.bypassSecurityTrustResourceUrl(website.website as string);
+  transform(website: Website): void {
+    website.website_url_safe = this.sanitizer.bypassSecurityTrustResourceUrl(
+      website.website as string
+    );
   }
 }

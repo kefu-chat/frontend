@@ -1,93 +1,30 @@
 <form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
-  <nz-tabset
-    [nzAnimated]="false"
-    class="tabs"
-    (nzSelectChange)="switch($event)"
-  >
-    <nz-tab [nzTitle]="'app.login.tab-login-credentials' | translate">
-      <nz-alert
-        *ngIf="error"
-        [nzType]="'error'"
-        [nzMessage]="error"
-        [nzShowIcon]="true"
-        class="mb-lg"
-      ></nz-alert>
-      <nz-form-item>
-        <nz-form-control nzErrorTip="请输入登录邮箱">
-          <nz-input-group nzSize="large" nzPrefixIcon="user">
-            <input nz-input formControlName="email" placeholder="登录邮箱" />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control nzErrorTip="请输入登录密码">
-          <nz-input-group nzSize="large" nzPrefixIcon="lock">
-            <input
-              nz-input
-              type="password"
-              formControlName="password"
-              placeholder="登录密码"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-    </nz-tab>
-    <nz-tab [nzTitle]="'app.login.tab-login-mobile' | translate">
-      <nz-form-item>
-        <nz-form-control [nzErrorTip]="mobileErrorTip">
-          <nz-input-group nzSize="large" nzPrefixIcon="user">
-            <input
-              nz-input
-              formControlName="mobile"
-              placeholder="mobile number"
-            />
-          </nz-input-group>
-          <ng-template #mobileErrorTip let-i>
-            <ng-container *ngIf="i.errors.required">
-              {{ "validation.phone-number.required" | translate }}
-            </ng-container>
-            <ng-container *ngIf="i.errors.pattern">
-              {{ "validation.phone-number.wrong-format" | translate }}
-            </ng-container>
-          </ng-template>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control
-          [nzErrorTip]="'validation.verification-code.required' | translate"
-        >
-          <nz-row [nzGutter]="8">
-            <nz-col [nzSpan]="16">
-              <nz-input-group nzSize="large" nzPrefixIcon="mail">
-                <input
-                  nz-input
-                  formControlName="captcha"
-                  placeholder="captcha"
-                />
-              </nz-input-group>
-            </nz-col>
-            <nz-col [nzSpan]="8">
-              <button
-                type="button"
-                nz-button
-                nzSize="large"
-                (click)="getCaptcha()"
-                [disabled]="count"
-                nzBlock
-                [nzLoading]="http.loading"
-              >
-                {{
-                  count
-                    ? count + "s"
-                    : ("app.register.get-verification-code" | translate)
-                }}
-              </button>
-            </nz-col>
-          </nz-row>
-        </nz-form-control>
-      </nz-form-item>
-    </nz-tab>
-  </nz-tabset>
+  <nz-alert
+    *ngIf="error"
+    [nzType]="'error'"
+    [nzMessage]="error"
+    [nzShowIcon]="true"
+    class="mb-lg"
+  ></nz-alert>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="请输入登录邮箱">
+      <nz-input-group nzSize="large" nzPrefixIcon="user">
+        <input nz-input formControlName="email" placeholder="登录邮箱" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="请输入登录密码">
+      <nz-input-group nzSize="large" nzPrefixIcon="lock">
+        <input
+          nz-input
+          type="password"
+          formControlName="password"
+          placeholder="登录密码"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
   <nz-form-item>
     <nz-col [nzSpan]="12">
       <label nz-checkbox formControlName="remember">{{
