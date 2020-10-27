@@ -1,4 +1,7 @@
-<div class="bg-white border-bottom-1 hidden-pc mb0 p-md position-fixed px-lg width-100" style="z-index: 1;">
-  <i nz-icon nzType="menu-fold" nzTheme="outline"></i>
+<div class="bg-white border-bottom-1 mb0 p-md position-fixed px-lg width-100" style="z-index: 1;">
+  <i nz-icon nzType="menu-fold" nzTheme="outline" (click)="drawerSidebarToggle()"></i>
 </div>
-<div class="hidden-pc" style="height: 55px;"></div>
+<nz-drawer [nzBodyStyle]="{padding: 0}" class="bg-white" *ngIf="drawerSidebar" nzPlacement="left" [nzClosable]="false" [nzWidth]="'50%'" [nzVisible]="drawerSidebar" [nzTitle]="''" (nzOnClose)="drawerSidebarClose()">
+  <sidebar-nav class="d-block"></sidebar-nav>
+</nz-drawer>
+<div style="height: 55px;"></div>

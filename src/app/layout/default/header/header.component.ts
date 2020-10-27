@@ -18,6 +18,7 @@ export class HeaderComponent {
   searchToggleStatus: boolean;
   institutionId: string;
   userId: string;
+  drawerSidebar = false;
 
   get app(): App {
     return this.settings.app;
@@ -145,6 +146,14 @@ export class HeaderComponent {
     });
   }
 
+  drawerSidebarClose(): void {
+    this.drawerSidebar = false;
+  }
+
+  drawerSidebarToggle(): void {
+    this.drawerSidebar = !this.drawerSidebar;
+  }
+  
   registerServiceWorker(js: string, onSuccess: (json: PushSubscriptionJSON) => void, onError: () => void): void {
     if ('serviceWorker' in navigator && 'PushManager' in window) {
       navigator.serviceWorker.register(js)
