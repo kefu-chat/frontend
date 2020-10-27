@@ -2,6 +2,6 @@
   <i nz-icon nzType="menu-fold" nzTheme="outline" (click)="drawerSidebarToggle()"></i>
 </div>
 <nz-drawer [nzBodyStyle]="{padding: 0}" class="bg-white" *ngIf="drawerSidebar" nzPlacement="left" [nzClosable]="false" [nzWidth]="'50%'" [nzVisible]="drawerSidebar" [nzTitle]="''" (nzOnClose)="drawerSidebarClose()">
-  <sidebar-nav class="d-block"></sidebar-nav>
+  <sidebar-nav class="d-block" (select)="drawerSidebarClose()"></sidebar-nav>
 </nz-drawer>
 <div style="height: 55px;"></div>
