@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
 import { SettingsService, User as SystemUser} from "@delon/theme";
@@ -26,6 +26,7 @@ import { NzI18nService } from 'ng-zorro-antd/i18n';
   selector: "app-ungreeted-visitor-detail",
   templateUrl: "./ungreeted-visitor-detail.component.html",
   styleUrls: ["./ungreeted-visitor-detail.component.less"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UngreetedVisitorDetailComponent implements OnInit {
   messageList: MessageModel[] = [];
@@ -38,6 +39,13 @@ export class UngreetedVisitorDetailComponent implements OnInit {
   conversation: Conversation;
   visitor: Visitor;
   imgWidth: number;
+
+  @Input()
+  set sid(id: string) {
+    this.id = id;
+    this.initData();
+  }
+
   get user(): SystemUser | User {
     return this.settings.user;
   }
@@ -66,7 +74,6 @@ export class UngreetedVisitorDetailComponent implements OnInit {
 
   has_previous: boolean;
   typing: boolean;
-  socket: any;
   constructor(
     public route: ActivatedRoute,
     private router: Router,
@@ -76,64 +83,22 @@ export class UngreetedVisitorDetailComponent implements OnInit {
     private echoSrv: EchoService,
     private modal: NzModalService,
     private http: _HttpClient,
-    private nzI18n: NzI18nService
+    private nzI18n: NzI18nService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     askNotificationPermission().then(console.log);
-
-    this.route.params.subscribe((params: Params) => {
-      this.id = params.id;
-      // tslint:disable-next-line: triple-equals
-      if (this.id == 0) {
-        return false;
-      }
-      this.channel = `conversation.${this.id}`;
-      this.getData(this.id, "", () => {
-        if (!this.messageEl) {
-          return;
-        }
-        this.messageEl.scrollTop = this.messageEl.scrollHeight;
-      });
-      for (const i of Object.keys(this.echoSrv.Echo.connector.channels)) {
-        if (i.indexOf("presence-conversation.") === 0) {
-          this.echoSrv.Echo.leave(i);
-        }
-      }
-      this.socket = this.echoSrv.Echo.join(this.channel)
-        .here(console.log)
-        .joining(console.log)
-        .leaving((user: MessageUser) => {
-          if (user.id !== this.visitor.id) {
-            return;
-          }
-
-          this.conversation.online_status = false;
-        })
-        // .listen(".message.created", (e) => {
-        //   this.messageList.push(e);
-        //   setTimeout(() => {
-        //     this.scrollTo();
-        //   }, 200);
-        // })
-        .listenForWhisper("message", (e: MessageModel) => {
-          this.messageList.push(e);
-          setTimeout(() => {
-            this.scrollTo();
-          }, 200);
-        })
-        .listenForWhisper("startTyping", (evt) => {
-          console.log(evt);
-          this.typing = true;
-        })
-        .listenForWhisper("stopTyping", (evt) => {
-          console.log(evt);
-          this.typing = false;
-        });
-    });
   }
 
-  getData(id: string, offset?: string, callback?: () => void): void {
+  initData(): void {
+    if (this.id == 0) {
+      return;
+    }
+    this.getData(this.id, "");
+  }
+
+  getData(id: string, offset?: string): void {
     this.conversationSrv
       .getMessages(id, offset)
       .subscribe((res: Res<MessageData>) => {
@@ -143,15 +108,14 @@ export class UngreetedVisitorDetailComponent implements OnInit {
           } else {
             this.messageList = res.data.messages;
           }
-          this.conversation = res.data.conversation;
-          const url = new URL(this.conversation.url);
-          this.conversation.hostname = url.hostname;
+          const url = new URL(res.data.conversation.url);
+          const hostname = url.hostname;
+          this.conversation = {...res.data.conversation, hostname};
           this.visitor = this.conversation.visitor;
           this.has_previous = res.data.has_previous;
-          this.messageEl = this.el.nativeElement.querySelector(".message");
-          setTimeout(() => {
-            callback();
-          }, 200);
+
+          this.cdr.markForCheck();
+          this.cdr.detectChanges();
         }
       });
   }
@@ -161,27 +125,6 @@ export class UngreetedVisitorDetailComponent implements OnInit {
       return;
     }
     this.messageEl.scrollTop = this.messageEl.scrollHeight;
-  }
-
-  loadPreMore(): void {
-    this.getData(this.id, this.nowfirstMsgId, () => {
-      if (!this.messageEl) {
-        return;
-      }
-      this.messageEl.scrollTop = 0;
-    });
-  }
-
-  whisper(message: MessageModel): void {
-    this.socket.whisper("message", message);
-  }
-
-  startTyping(e: KeyboardEvent): void {
-    this.socket.whisper("startTyping", this.user);
-  }
-
-  stopTyping(e: KeyboardEvent): void {
-    this.socket.whisper("stopTyping", { name: "" });
   }
 
   paste(e: ClipboardEvent): void {

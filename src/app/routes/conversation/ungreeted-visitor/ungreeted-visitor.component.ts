@@ -72,6 +72,8 @@ export class UngreetedVisitorComponent implements OnInit {
       .get("api/conversation/count")
       .subscribe(({ data: { online_visitor_count } }) => {
         this.onlineVisitorsCount = online_visitor_count;
+        this.cdr.markForCheck();
+        this.cdr.detectChanges();
         this.onlineConversations = new ConversationListSourceService(
           this.onlineVisitorsCount,
           this.cdr,
