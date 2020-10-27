@@ -4,21 +4,25 @@ import { SimpleGuard } from "@delon/auth";
 import { environment } from "@env/environment";
 // layout
 import { LayoutDefaultComponent } from "../layout/default/default.component";
-import { LayoutFullScreenComponent } from "../layout/fullscreen/fullscreen.component";
 import { LayoutPassportComponent } from "../layout/passport/passport.component";
 import { UserLoginComponent } from "./passport/login/login.component";
 import { UserRegisterResultComponent } from "./passport/register-result/register-result.component";
 import { UserRegisterComponent } from "./passport/register/register.component";
 import { EmailVerifyComponent } from "./passport/verify/email-verify.component";
+import { IndexComponent } from "./index/index.component";
 
 const routes: Routes = [
+  //{ path: "", redirectTo: "conversation/chat", pathMatch: "full" },
+  {
+    path: "",
+    component: IndexComponent,
+  },
   {
     path: "",
     component: LayoutDefaultComponent,
     canActivate: [SimpleGuard],
     canActivateChild: [SimpleGuard],
     children: [
-      { path: "", redirectTo: "conversation/chat", pathMatch: "full" },
       {
         path: "conversation",
         redirectTo: "conversation/chat",
