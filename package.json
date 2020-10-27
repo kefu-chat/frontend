@@ -1,16 +1,16 @@
 {
-  "name": "ng-alain",
-  "version": "10.0.0-beta.3",
-  "description": "ng-zorro-antd admin panel front-end framework",
-  "author": "cipchk <cipchk@qq.com>",
+  "name": "kefu-chat",
+  "version": "1.0.0.1",
+  "description": "客服恰控制中心",
+  "author": "Halo <hi@kefu.chat>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ng-alain/ng-alain.git"
+    "url": "git+https://github.com/kefu-chat/frontend.git"
   },
   "bugs": {
-    "url": "https://github.com/ng-alain/ng-alain/issues"
+    "url": "https://github.com/kefu-chat/frontend/issues"
   },
-  "homepage": "https://ng-alain.com",
+  "homepage": "https://kefu.chat",
   "license": "MIT",
   "keywords": [
     "delon",
