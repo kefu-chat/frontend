@@ -384,6 +384,16 @@ export class ChatComponent implements OnInit {
     //   this.initUnassignedConversationList();
     //   this.initAssignedConversationList();
     // }
+
+    if (conversation.status) {
+      if (!conversation.user_id) {
+        this.currentTab = 0;
+      } else {
+        this.currentTab = 1;
+      }
+    } else {
+      this.currentTab = 2;
+    }
   }
 
   selectChange(index: number): void {

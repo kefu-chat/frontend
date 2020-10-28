@@ -28,6 +28,7 @@ export interface Conversation {
   online_status?: boolean;
   referer?: string;
   title: string|null;
+  status?: boolean;
   device: {
     os: null | string;
     os_version: null | string;
