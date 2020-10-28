@@ -5537,6 +5537,7 @@ ul.footer-social li {
 /* Footer Bottom ----------------------------- */
 #site-footer {
     font-size: 1.6rem;
+    background: #7B67EE;
 }
 
 #site-footer .section-inner {
@@ -71866,7 +71867,7 @@ body:not(.overlay-header) .primary-menu>li>a, body:not(.overlay-header) .primary
     color: #ffffff;
 }
 
-.footer-nav-widgets-wrapper, #site-footer, .menu-modal, .menu-modal-inner, .search-modal-inner, .archive-header, .singular .entry-header, .singular .featured-media:before, .wp-block-pullquote:before {
+.footer-nav-widgets-wrapper, .menu-modal, .menu-modal-inner, .search-modal-inner, .archive-header, .singular .entry-header, .singular .featured-media:before, .wp-block-pullquote:before {
     background-color: #ffffff;
 }
 
