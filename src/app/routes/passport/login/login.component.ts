@@ -137,9 +137,9 @@ export class UserLoginComponent implements OnDestroy {
           this.tokenService.set(token);
           // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
           this.startupSrv.load().then(() => {
-            let url = this.tokenService.referrer.url || "/";
+            let url = this.tokenService.referrer.url || `/conversation/chat`;
             if (url.includes("/passport")) {
-              url = "/";
+              url = `/conversation/chat`;
             }
             this.router.navigateByUrl(url);
           });
@@ -178,19 +178,20 @@ export class UserLoginComponent implements OnDestroy {
         )}`;
         break;
     }
+    const redirect = `/conversation/chat`;
     if (openType === "window") {
       this.socialService
-        .login(url, "/", {
+        .login(url, redirect, {
           type: "window",
         })
         .subscribe((res) => {
           if (res) {
             this.settingsService.setUser(res);
-            this.router.navigateByUrl("/");
+            this.router.navigateByUrl(redirect);
           }
         });
     } else {
-      this.socialService.login(url, "/", {
+      this.socialService.login(url, redirect, {
         type: "href",
       });
     }

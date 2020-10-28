@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 
 @Component({
@@ -22,7 +23,7 @@ export class LayoutPassportComponent implements OnInit {
     },
   ];
 
-  constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {}
+  constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private router: Router) {}
 
   ngOnInit(): void {
     this.tokenService.clear();
