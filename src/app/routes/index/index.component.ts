@@ -10,7 +10,7 @@ import { _HttpClient } from "@delon/theme";
 export class IndexComponent {
   constructor(
     private http: _HttpClient,
-    private router: Router
+    public router: Router
   ) {
   }
 }
