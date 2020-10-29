@@ -190,11 +190,6 @@ export class ProEnterpriseSettingsStructureComponent
       ...this.drawerWebsiteData,
       name: [null, [Validators.required]],
       website: ["", [Validators.required]],
-      terminate_manual: ["", [Validators.required]],
-      terminate_timeout: ["", [Validators.required]],
-      greeting_message: ["", [Validators.required]],
-      theme: ["blue1", [Validators.required]],
-      timeout: [900, [Validators.required]],
     });
   }
 
