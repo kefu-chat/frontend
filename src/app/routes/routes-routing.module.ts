@@ -4,18 +4,30 @@ import { SimpleGuard } from "@delon/auth";
 import { environment } from "@env/environment";
 // layout
 import { LayoutDefaultComponent } from "../layout/default/default.component";
+import { LayoutFrontComponent } from "../layout/front/front.component";
 import { LayoutPassportComponent } from "../layout/passport/passport.component";
+import { IndexComponent } from "./index/index.component";
 import { UserLoginComponent } from "./passport/login/login.component";
 import { UserRegisterResultComponent } from "./passport/register-result/register-result.component";
 import { UserRegisterComponent } from "./passport/register/register.component";
 import { EmailVerifyComponent } from "./passport/verify/email-verify.component";
-import { IndexComponent } from "./index/index.component";
+import { PricingComponent } from "./pricing/pricing.component";
 
 const routes: Routes = [
-  //{ path: "", redirectTo: "conversation/chat", pathMatch: "full" },
+  // { path: "", redirectTo: "conversation/chat", pathMatch: "full" },
   {
     path: "",
-    component: IndexComponent,
+    component: LayoutFrontComponent,
+    children: [
+      {
+        path: "",
+        component: IndexComponent,
+      },
+      {
+        path: "pricing",
+        component: PricingComponent,
+      },
+    ],
   },
   {
     path: "",
@@ -39,10 +51,7 @@ const routes: Routes = [
       // 机器人
       {
         path: "",
-        loadChildren: () =>
-          import("./bot/bot.module").then(
-            (m) => m.BotModule
-          ),
+        loadChildren: () => import("./bot/bot.module").then((m) => m.BotModule),
       },
       // Settings
       {

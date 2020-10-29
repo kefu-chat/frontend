@@ -3,13 +3,12 @@ import { Router } from '@angular/router';
 import { _HttpClient } from "@delon/theme";
 
 @Component({
-  selector: "app-index",
-  templateUrl: "./index.component.html",
-  styleUrls: ["../../layout/front/front.component.css"],
+  selector: "app-front",
+  templateUrl: "./front.component.html",
+  styleUrls: ["./front.component.css", ],
 })
-export class IndexComponent {
+export class LayoutFrontComponent {
   constructor(
-    private http: _HttpClient,
     public router: Router
   ) {
   }
