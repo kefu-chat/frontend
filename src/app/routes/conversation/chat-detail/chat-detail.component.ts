@@ -149,21 +149,24 @@ export class ChatDetailComponent implements OnInit {
       //     this.scrollTo();
       //   }, 200);
       // })
-      .listenForWhisper("message", (e) => {
-        this.messageList.push(e);
+      .listenForWhisper("message", (evt: MessageModel) => {
+        this.messageList.push(evt);
         playIncomingAudio();
     
         setTimeout(() => {
           this.scrollTo();
         }, 200);
       })
-      .listenForWhisper("startTyping", (evt) => {
-        console.log(evt);
+      .listenForWhisper("startTyping", (evt: {}) => {
         this.typing = true;
       })
-      .listenForWhisper("stopTyping", (evt) => {
-        console.log(evt);
+      .listenForWhisper("stopTyping", (evt: {}) => {
         this.typing = false;
+      })
+      .listenForWhisper("online", (evt: {}) => {
+        this.conversation.online_status = true;
+
+        playIncomingAudio(); // @todo: 不同的提示音？告诉客服用户已上线
       });
   }
 
