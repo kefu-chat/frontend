@@ -1,6 +1,4 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -39,7 +37,6 @@ import { NzI18nService } from 'ng-zorro-antd/i18n';
   selector: "app-chat-detail",
   templateUrl: "./chat-detail.component.html",
   styleUrls: ["./chat-detail.component.less"],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatDetailComponent implements OnInit {
   messageList: MessageModel[] = [];
@@ -112,8 +109,7 @@ export class ChatDetailComponent implements OnInit {
     private modal: NzModalService,
     private http: _HttpClient,
     private msg: NzMessageService,
-    private nzI18n: NzI18nService,
-    private cdr: ChangeDetectorRef
+    private nzI18n: NzI18nService
   ) {}
 
   ngOnInit(): void {
@@ -156,8 +152,6 @@ export class ChatDetailComponent implements OnInit {
       .listenForWhisper("message", (e) => {
         this.messageList.push(e);
         playIncomingAudio();
-        this.cdr.markForCheck();
-        this.cdr.detectChanges();
     
         setTimeout(() => {
           this.scrollTo();
@@ -166,14 +160,10 @@ export class ChatDetailComponent implements OnInit {
       .listenForWhisper("startTyping", (evt) => {
         console.log(evt);
         this.typing = true;
-        this.cdr.markForCheck();
-        this.cdr.detectChanges();    
       })
       .listenForWhisper("stopTyping", (evt) => {
         console.log(evt);
         this.typing = false;
-        this.cdr.markForCheck();
-        this.cdr.detectChanges();    
       });
   }
 
@@ -195,8 +185,6 @@ export class ChatDetailComponent implements OnInit {
           this.visitor = this.conversation.visitor;
           this.has_previous = res.data.has_previous;
           this.messageEl = this.el.nativeElement.querySelector(".message");
-          this.cdr.markForCheck();
-          this.cdr.detectChanges();      
 
           setTimeout(() => {
             callback();
@@ -246,8 +234,6 @@ export class ChatDetailComponent implements OnInit {
               this.whisper(res.data.message);
               this.messageList.push(res.data.message);
               this.messageOutput.emit({ id: this.id, message: res.data.message });
-              this.cdr.markForCheck();
-              this.cdr.detectChanges();
           
               setTimeout(() => {
                 this.scrollTo();
@@ -292,8 +278,6 @@ export class ChatDetailComponent implements OnInit {
   handleChange(info: NzUploadChangeParam): void {
     if (info.file.status === "done") {
       this.picUrl = info.file.response.data.url;
-      this.cdr.markForCheck();
-      this.cdr.detectChanges();  
     }
   }
 
@@ -309,8 +293,6 @@ export class ChatDetailComponent implements OnInit {
   toList(): void {
     const url = `/conversation/chat`;
     this.router.navigateByUrl(url);
-    this.cdr.markForCheck();
-    this.cdr.detectChanges();
   }
 
   transferConversation(): void {}

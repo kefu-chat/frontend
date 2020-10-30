@@ -91,13 +91,13 @@
               <div>渠道</div>
             </div>
             <div class="conversation-list-ul" *ngIf="unassignedList && (unassignedCount + unassignedList.length) > 0;else unassignedEmpty;">
-              <cdk-virtual-scroll-viewport *ngIf="unassignedList && currentTab === 0" class="width-100" style="height: 100%;" [itemSize]="76" [minBufferPx]="0" [maxBufferPx]="0">
+              <ul *ngIf="unassignedList && currentTab === 0" class="width-100" style="height: 100%;">
                 <li
                   nz-menu-item
                   class="conversation-item"
                   [nzSelected]="item && selectId == item.id"
                   (click)="to(item)"
-                  *cdkVirtualFor="let item of unassignedList"
+                  *ngFor="let item of unassignedList"
                 >
                   <div *ngIf="!item" class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
                     <div class="ant-skeleton-header ng-star-inserted">
@@ -160,7 +160,7 @@
                     </div>
                   </div>
                 </li>
-              </cdk-virtual-scroll-viewport>
+              </ul>
             </div>
           </nz-tab>
           <nz-tab [nzTitle]="titleAssigned">
@@ -203,14 +203,14 @@
               <div>渠道</div>
             </div>
             <div class="conversation-list-ul" *ngIf="assignedList && (assignedCount + assignedList.length) > 0;else assignedEmpty;">
-              <cdk-virtual-scroll-viewport *ngIf="assignedList && currentTab === 1" class="width-100" style="height: 100%;" [itemSize]="76" [minBufferPx]="0" [maxBufferPx]="0">
+              <div *ngIf="assignedList && currentTab === 1" class="width-100" style="height: 100%;">
                 <ul>
                   <li
                     nz-menu-item
                     class="conversation-item"
                     [nzSelected]="item && selectId == item.id"
                     (click)="to(item)"
-                    *cdkVirtualFor="let item of assignedList"
+                    *ngFor="let item of assignedList"
                   >
                     <div *ngIf="!item" class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
                       <div class="ant-skeleton-header ng-star-inserted">
@@ -274,7 +274,7 @@
                     </div>
                   </li>
                 </ul>
-              </cdk-virtual-scroll-viewport>
+              </div>
             </div>
           </nz-tab>
           <nz-tab [nzTitle]="titleHistory">
@@ -317,14 +317,14 @@
               <div>渠道</div>
             </div>
             <div class="conversation-list-ul" *ngIf="historyList && (historyCount + historyList.length) > 0;else historyEmpty;">
-              <cdk-virtual-scroll-viewport *ngIf="historyList && currentTab === 2" class="width-100" style="height: 100%;" [itemSize]="76" [minBufferPx]="0" [maxBufferPx]="0">
+              <div *ngIf="historyList && currentTab === 2" class="width-100" style="height: 100%;">
                 <ul>
                   <li
                     nz-menu-item
                     class="conversation-item"
                     [nzSelected]="item && selectId == item.id"
                     (click)="to(item)"
-                    *cdkVirtualFor="let item of historyList"
+                    *ngFor="let item of historyList"
                   >
                     <div *ngIf="!item" class="ant-skeleton ant-skeleton-with-avatar ant-skeleton-active ng-star-inserted">
                       <div class="ant-skeleton-header ng-star-inserted">
@@ -388,7 +388,7 @@
                     </div>
                   </li>
                 </ul>
-              </cdk-virtual-scroll-viewport>
+              </div>
             </div>
           </nz-tab>
         </nz-tabset>
