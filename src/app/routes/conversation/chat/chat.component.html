@@ -91,8 +91,9 @@
               <div>渠道</div>
             </div>
             <div class="conversation-list-ul" *ngIf="unassignedList && (unassignedCount + unassignedList.length) > 0;else unassignedEmpty;">
-              <ul *ngIf="unassignedList && currentTab === 0" class="width-100" style="height: 100%;">
-                <li
+              <div *ngIf="unassignedList && currentTab === 0" class="width-100" style="height: 100%;">
+                <a
+                  [href]="'/conversation/chat/' + item.id"
                   nz-menu-item
                   class="conversation-item"
                   [nzSelected]="item && selectId == item.id"
@@ -159,8 +160,8 @@
                       {{ item.referer }}
                     </div>
                   </div>
-                </li>
-              </ul>
+                </a>
+              </div>
             </div>
           </nz-tab>
           <nz-tab [nzTitle]="titleAssigned">
@@ -204,8 +205,9 @@
             </div>
             <div class="conversation-list-ul" *ngIf="assignedList && (assignedCount + assignedList.length) > 0;else assignedEmpty;">
               <div *ngIf="assignedList && currentTab === 1" class="width-100" style="height: 100%;">
-                <ul>
-                  <li
+                <div>
+                  <a
+                    [href]="'/conversation/chat/' + item.id"
                     nz-menu-item
                     class="conversation-item"
                     [nzSelected]="item && selectId == item.id"
@@ -272,8 +274,8 @@
                         {{ item.referer }}
                       </div>
                     </div>
-                  </li>
-                </ul>
+                  </a>
+                </div>
               </div>
             </div>
           </nz-tab>
@@ -318,8 +320,9 @@
             </div>
             <div class="conversation-list-ul" *ngIf="historyList && (historyCount + historyList.length) > 0;else historyEmpty;">
               <div *ngIf="historyList && currentTab === 2" class="width-100" style="height: 100%;">
-                <ul>
-                  <li
+                <div>
+                  <a
+                    [href]="'/conversation/chat/' + item.id"
                     nz-menu-item
                     class="conversation-item"
                     [nzSelected]="item && selectId == item.id"
@@ -386,8 +389,8 @@
                         {{ item.referer }}
                       </div>
                     </div>
-                  </li>
-                </ul>
+                  </a>
+                </div>
               </div>
             </div>
           </nz-tab>

@@ -267,9 +267,10 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  to(item: { id: any }): void {
+  to(item: { id: any }): boolean {
     this.selectId = item.id;
     this.router.navigateByUrl(`/conversation/chat/${item.id}`);
+    return false;
   }
 
   getMessageOutput(data: { id: string; message: any }): void {
