@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, ElementRef, OnDestroy, OnInit, SecurityContext, ViewChild } from "@angular/core";
+
 import {
   AbstractControl,
   FormBuilder,
@@ -6,15 +8,15 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
 import { NzMessageService } from "ng-zorro-antd/message";
 
 export interface CaptchaChallengeResponse {
-  captcha_image: SafeResourceUrl;
+  captcha_image: string;
   captcha_challenge: string;
-};
+}
+
 @Component({
   selector: "passport-register",
   templateUrl: "./register.component.html",
@@ -25,8 +27,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
     fb: FormBuilder,
     private router: Router,
     public http: _HttpClient,
-    public msg: NzMessageService,
-    private sanitizer: DomSanitizer
+    public msg: NzMessageService
   ) {
     this.form = fb.group({
       name: [null, [Validators.required]],
@@ -47,23 +48,11 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
           UserRegisterComponent.passwordEquar,
         ],
       ],
-      captcha_answer: [
-        null,
-        [
-          Validators.required,
-          Validators.minLength(4),
-        ],
-      ],
-      captcha_challenge: [
-        null,
-        [
-          Validators.required,
-          Validators.minLength(6),
-        ],
-      ],
-      //mobilePrefix: ['+86'],
-      //mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
-      //captcha: [null, [Validators.required]],
+      captcha_answer: [null, [Validators.required, Validators.minLength(4)]],
+      captcha_challenge: [null, [Validators.required, Validators.minLength(6)]],
+      // mobilePrefix: ['+86'],
+      // mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
+      // captcha: [null, [Validators.required]],
     });
   }
 
@@ -93,6 +82,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
     pool: "exception",
   };
   captcha: CaptchaChallengeResponse;
+  @ViewChild("captchaContainer") captchaContainer: ElementRef;
 
   // #endregion
 
@@ -100,10 +90,6 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
 
   count = 0;
   interval$: any;
-
-  ngOnInit(): void {
-    this.getCaptcha();
-  }
 
   static checkPassword(control: FormControl): void {
     if (!control) {
@@ -135,14 +121,19 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
     return null;
   }
 
-  getCaptcha(): void {
-    this.http.post(`api/captcha?_allow_anonymous=true`).subscribe((res: { data: {captcha_challenge: string, captcha_image: string} }) => {
-      this.captcha = {
-        captcha_challenge: res.data.captcha_challenge,
-        captcha_image: this.xss(res.data.captcha_image),
-      };
-      this.form.get('captcha_challenge').setValue(res.data.captcha_challenge);
-    });
+  ngOnInit(): void {
+    this.refreshCaptcha();
+  }
+
+  refreshCaptcha(): void {
+    this.http
+      .post(`api/captcha?_allow_anonymous=true`)
+      .subscribe((res: { data: CaptchaChallengeResponse }) => {
+        this.captcha = res.data;
+        this.form.get("captcha_answer").setValue('');
+        this.form.get("captcha_challenge").setValue(res.data.captcha_challenge);
+        this.captchaContainer.nativeElement.innerHTML = res.data.captcha_image;
+      });
   }
 
   // #endregion
@@ -159,16 +150,18 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
 
     const data = this.form.value;
 
-    console.timeLog(data)
+    console.timeLog(data);
     this.http.post("api/register?_allow_anonymous=true", data).subscribe(() => {
       this.router.navigateByUrl("/register-result", {
         queryParams: { email: data.email },
       });
+    }, (error: HttpErrorResponse) => {
+      if (439 === error.status) {
+        this.refreshCaptcha();
+        this.msg.error(error.error.errors.captcha_answer[0]);
+      }
+      console.error(error);
     });
-  }
-
-  xss(src: string): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(src);
   }
 
   ngOnDestroy(): void {

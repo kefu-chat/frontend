@@ -126,17 +126,13 @@
   -->
   <nz-form-item>
     <nz-form-control [nzErrorTip]="'validation.verification-code.required' | translate">
-      <nz-row [nzGutter]="8">
-        <nz-col nzFlex="auto">
-          <nz-input-group nzSize="large">
-            <input nz-input formControlName="captcha_answer" placeholder="图形验证码" />
-          </nz-input-group>
-        </nz-col>
-        <nz-col nzFlex="104px">
-          <img class="w" *ngIf="captcha" [src]="captcha.captcha_image" (click)="getCaptcha()" style="height: 40px; width: 100px">
-          <input class="d-none" nz-input formControlName="captcha_challenge"/>
-        </nz-col>
-      </nz-row>
+      <nz-input-group nzSize="large" [nzAddOnAfter]="captchaImage">
+        <input nz-input formControlName="captcha_answer" placeholder="图形验证码" />
+      </nz-input-group>
+      <ng-template #captchaImage>
+        <div #captchaContainer (click)="refreshCaptcha()" style="cursor: pointer; height: 40px; margin: -1px -12px;"></div>
+        <input class="d-none" nz-input formControlName="captcha_challenge"/>
+      </ng-template>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
