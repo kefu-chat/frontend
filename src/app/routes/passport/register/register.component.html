@@ -10,7 +10,7 @@
   <nz-form-item>
     <nz-form-control [nzErrorTip]="nameErrorTip">
       <nz-input-group nzSize="large" nzAddonBeforeIcon="user">
-        <input nz-input formControlName="name" placeholder="Nickname" />
+        <input nz-input formControlName="name" placeholder="怎么称呼" />
       </nz-input-group>
       <ng-template #nameErrorTip let-i>
         <ng-container *ngIf="i.errors?.required">{{
@@ -25,7 +25,7 @@
   <nz-form-item>
     <nz-form-control [nzErrorTip]="emailErrorTip">
       <nz-input-group nzSize="large" nzAddonBeforeIcon="user">
-        <input nz-input formControlName="email" placeholder="Email" />
+        <input nz-input formControlName="email" placeholder="您的 E-mail" />
       </nz-input-group>
       <ng-template #emailErrorTip let-i>
         <ng-container *ngIf="i.errors?.required">{{
@@ -54,7 +54,7 @@
           nz-input
           type="password"
           formControlName="password"
-          placeholder="Password"
+          placeholder="密码"
         />
       </nz-input-group>
       <ng-template #pwdCdkTpl>
@@ -92,7 +92,7 @@
           nz-input
           type="password"
           formControlName="password_confirmation"
-          placeholder="Confirm Password"
+          placeholder="密码，重新输入一次"
         />
       </nz-input-group>
       <ng-template #confirmErrorTip let-i>
@@ -123,23 +123,22 @@
       </ng-template>
     </nz-form-control>
   </nz-form-item>
+  -->
   <nz-form-item>
     <nz-form-control [nzErrorTip]="'validation.verification-code.required' | translate">
       <nz-row [nzGutter]="8">
-        <nz-col [nzSpan]="16">
-          <nz-input-group nzSize="large" nzAddonBeforeIcon="mail">
-            <input nz-input formControlName="captcha" placeholder="Captcha" />
+        <nz-col nzFlex="auto">
+          <nz-input-group nzSize="large">
+            <input nz-input formControlName="captcha_answer" placeholder="图形验证码" />
           </nz-input-group>
         </nz-col>
-        <nz-col [nzSpan]="8">
-          <button type="button" nz-button nzSize="large" (click)="getCaptcha()" [disabled]="count > 0" nzBlock [nzLoading]="http.loading">
-            {{ count ? count + 's' : ('app.register.get-verification-code' | translate) }}
-          </button>
+        <nz-col nzFlex="104px">
+          <img class="w" *ngIf="captcha" [src]="captcha.captcha_image" (click)="getCaptcha()" style="height: 40px; width: 100px">
+          <input class="d-none" nz-input formControlName="captcha_challenge"/>
         </nz-col>
       </nz-row>
     </nz-form-control>
   </nz-form-item>
-  -->
   <nz-form-item>
     <button
       nz-button

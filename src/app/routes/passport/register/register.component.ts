@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
@@ -6,21 +6,27 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
 import { NzMessageService } from "ng-zorro-antd/message";
 
+export interface CaptchaChallengeResponse {
+  captcha_image: SafeResourceUrl;
+  captcha_challenge: string;
+};
 @Component({
   selector: "passport-register",
   templateUrl: "./register.component.html",
   styleUrls: ["./register.component.less"],
 })
-export class UserRegisterComponent implements OnDestroy {
+export class UserRegisterComponent implements OnDestroy, OnInit {
   constructor(
     fb: FormBuilder,
     private router: Router,
     public http: _HttpClient,
-    public msg: NzMessageService
+    public msg: NzMessageService,
+    private sanitizer: DomSanitizer
   ) {
     this.form = fb.group({
       name: [null, [Validators.required]],
@@ -39,6 +45,20 @@ export class UserRegisterComponent implements OnDestroy {
           Validators.required,
           Validators.minLength(6),
           UserRegisterComponent.passwordEquar,
+        ],
+      ],
+      captcha_answer: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(4),
+        ],
+      ],
+      captcha_challenge: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(6),
         ],
       ],
       //mobilePrefix: ['+86'],
@@ -61,9 +81,6 @@ export class UserRegisterComponent implements OnDestroy {
   get mobile(): AbstractControl {
     return this.form.controls.mobile;
   }
-  get captcha(): AbstractControl {
-    return this.form.controls.captcha;
-  }
   form: FormGroup;
   error = "";
   type = 0;
@@ -75,6 +92,7 @@ export class UserRegisterComponent implements OnDestroy {
     pass: "normal",
     pool: "exception",
   };
+  captcha: CaptchaChallengeResponse;
 
   // #endregion
 
@@ -82,6 +100,10 @@ export class UserRegisterComponent implements OnDestroy {
 
   count = 0;
   interval$: any;
+
+  ngOnInit(): void {
+    this.getCaptcha();
+  }
 
   static checkPassword(control: FormControl): void {
     if (!control) {
@@ -114,18 +136,13 @@ export class UserRegisterComponent implements OnDestroy {
   }
 
   getCaptcha(): void {
-    if (this.mobile.invalid) {
-      this.mobile.markAsDirty({ onlySelf: true });
-      this.mobile.updateValueAndValidity({ onlySelf: true });
-      return;
-    }
-    this.count = 59;
-    this.interval$ = setInterval(() => {
-      this.count -= 1;
-      if (this.count <= 0) {
-        clearInterval(this.interval$);
-      }
-    }, 1000);
+    this.http.post(`api/captcha?_allow_anonymous=true`).subscribe((res: { data: {captcha_challenge: string, captcha_image: string} }) => {
+      this.captcha = {
+        captcha_challenge: res.data.captcha_challenge,
+        captcha_image: this.xss(res.data.captcha_image),
+      };
+      this.form.get('captcha_challenge').setValue(res.data.captcha_challenge);
+    });
   }
 
   // #endregion
@@ -148,6 +165,10 @@ export class UserRegisterComponent implements OnDestroy {
         queryParams: { email: data.email },
       });
     });
+  }
+
+  xss(src: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(src);
   }
 
   ngOnDestroy(): void {
