@@ -123,7 +123,7 @@ export class UngreetedVisitorComponent implements OnInit {
     );
   }
 
-  getConversationLoad(): void {
+  getConversationLoad(conversation: Conversation): void {
     this.loading = false;
   }
 }
