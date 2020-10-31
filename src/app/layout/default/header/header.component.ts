@@ -42,7 +42,7 @@ export class HeaderComponent {
     this.registerWebSocket();
     // this.loadKefuChat();
 
-    this.registerServiceWorker('/sw.js', (subscription: PushSubscriptionJSON) => {
+    this.registerServiceWorker('/sw.js?v=2', (subscription: PushSubscriptionJSON) => {
       localStorage.setItem(`can_push`, 'yes');
       this.http.post(`api/push/subscribe`, {subscription}).subscribe(console.log);
     }, () => {

@@ -1,29 +1,96 @@
 // Service worker
 self.addEventListener('install', function (event) {
-	self.skipWaiting();
-	//event.waitUntil();
+  self.skipWaiting();
+  //event.waitUntil();
 });
 
 self.addEventListener('notificationclick', function (event) {
   var notification = event.notification;
-	var ourKey = notification.data.ourKey;
-	var action = event.action;
-	if (action === 'close') {
-		console.log('action close for notification', ourKey);
-		notification.close();
-	} else if (action === 'go') {
-		console.log('action go for notification', ourKey);
+  var ourKey = notification.data.ourKey;
+  var action = event.action;
+  if (action === 'close') {
+    console.log('action close for notification', ourKey);
+    notification.close();
+  } else if (action === 'go') {
+    console.log('action go for notification', ourKey);
     console.log(notification);
     clients.openWindow('https://d3v.one/blog/');
-	} else {
-		notification.close();
-	}
+  } else {
+    notification.close();
+  }
 });
 
 self.addEventListener('notificationclose', function (event) {
-	var notification = event.notification;
-	var ourKey = notification.data.ourKey;
-	console.log('closed notification', ourKey);
+  var notification = event.notification;
+  var ourKey = notification.data.ourKey;
+  console.log('closed notification', ourKey);
+});
+
+self.addEventListener('fetch', function (event) {
+  if (event.request.url.includes(location.origin + '/conversation/chat')) {
+
+  }
+
+  event.respondWith(caches.match(event.request)
+    .then(function (response) {
+      // Cache hit - return response
+      if (response) {
+        return response;
+      }
+
+      if (event.request.url.includes(location.origin + '/conversation/chat')) {
+        console.log([event.request.url, location.origin + '/index.html'])
+        var req = new Request(location.origin + '/index.html', {
+          method: 'GET',
+        });
+        return fetch(req).then(function (response) {
+          if (response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
+
+          var responseToCache = response.clone();
+
+          caches.open('static')
+            .then(function (cache) {
+              cache.put(req, responseToCache);
+            });
+
+          return response;
+        });
+      }
+
+      console.log([event.request.url, event.request.url])
+      return fetch(event.request).then(function (response) {
+        // Check if we received a valid response
+        if (
+          !response
+          ||
+          (response.status !== 200 && !event.request.url.includes(location.origin + '/conversation/chat'))
+          ||
+          response.type !== 'basic'
+          ||
+          event.request.url.includes('/sockjs-node/')
+          ||
+          event.request.url.includes('/socket.io/')
+        ) {
+          return response;
+        }
+
+        // IMPORTANT: Clone the response. A response is a stream
+        // and because we want the browser to consume the response
+        // as well as the cache consuming the response, we need
+        // to clone it so we have two streams.
+        var responseToCache = response.clone();
+
+        caches.open('static')
+          .then(function (cache) {
+            cache.put(event.request, responseToCache);
+          });
+
+        return response;
+      });
+    })
+  );
 });
 
 self.addEventListener('push', function (event) {
