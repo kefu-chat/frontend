@@ -122,4 +122,8 @@ export class UngreetedVisitorComponent implements OnInit {
       }) + "前"
     );
   }
+
+  getConversationLoad(): void {
+    this.loading = false;
+  }
 }

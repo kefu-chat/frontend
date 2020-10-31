@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { _HttpClient } from "@delon/theme";
 import { SettingsService, User as SystemUser} from "@delon/theme";
@@ -38,6 +38,9 @@ export class UngreetedVisitorDetailComponent implements OnInit {
   conversation: Conversation;
   visitor: Visitor;
   imgWidth: number;
+
+  @Output()
+  conversationLoad: EventEmitter<any> = new EventEmitter();
 
   @Input()
   set sid(id: string) {
@@ -111,6 +114,8 @@ export class UngreetedVisitorDetailComponent implements OnInit {
           this.conversation = {...res.data.conversation, hostname};
           this.visitor = this.conversation.visitor;
           this.has_previous = res.data.has_previous;
+
+          this.conversationLoad.emit(this.conversation);
         }
       });
   }

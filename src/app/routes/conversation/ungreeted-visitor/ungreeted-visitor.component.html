@@ -161,6 +161,6 @@
     </div>
   </div>
   <div nz-col class="chat-right" *ngIf="selectId">
-    <app-ungreeted-visitor-detail [sid]="selectId"></app-ungreeted-visitor-detail>
+    <app-ungreeted-visitor-detail [sid]="selectId" (conversationLoad)="getConversationLoad($event)"></app-ungreeted-visitor-detail>
   </div>
 </div>
