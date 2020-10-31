@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { _HttpClient } from "@delon/theme";
+import { SettingsService, User as SystemUser, _HttpClient } from "@delon/theme";
+import { User } from '@model/application/conversation.interface';
 import { NzMessageService } from "ng-zorro-antd/message";
 
 @Component({
@@ -8,5 +9,12 @@ import { NzMessageService } from "ng-zorro-antd/message";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProAccountSettingsSecurityComponent {
-  constructor(public msg: NzMessageService) {}
+  constructor(
+    public msg: NzMessageService,
+    private settings: SettingsService
+  ) {}
+
+  get user(): SystemUser | User {
+    return this.settings.user;
+  }
 }

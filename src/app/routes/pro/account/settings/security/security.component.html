@@ -14,7 +14,14 @@
       <a (click)="msg.success('Edit')">修改</a>
     </ng-template>
     <nz-list-item-meta nzTitle="手机" [nzDescription]="phoneDesc">
-      <ng-template #phoneDesc> 已绑定手机：159****2231 </ng-template>
+      <ng-template #phoneDesc>
+        <span *ngIf="user.phone">
+          已绑定手机：{{user.phone}}
+        </span>
+        <span *ngIf="!user.phone">
+          未绑定手机
+        </span>
+      </ng-template>
     </nz-list-item-meta>
   </nz-list-item>
   <nz-list-item [nzActions]="[emailOp]">
@@ -22,7 +29,14 @@
       <a (click)="msg.success('Edit')">修改</a>
     </ng-template>
     <nz-list-item-meta nzTitle="邮箱" [nzDescription]="emailDesc">
-      <ng-template #emailDesc> 已绑定邮箱：cip*****.com </ng-template>
+      <ng-template #emailDesc>
+        <span *ngIf="user.email">
+          已绑定邮箱：{{user.email}}
+        </span>
+        <span *ngIf="!user.email">
+          未绑定手机
+        </span>
+      </ng-template>
     </nz-list-item-meta>
   </nz-list-item>
 </nz-list>

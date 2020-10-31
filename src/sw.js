@@ -27,10 +27,6 @@ self.addEventListener('notificationclose', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
-  if (event.request.url.includes(location.origin + '/conversation/chat')) {
-
-  }
-
   event.respondWith(caches.match(event.request)
     .then(function (response) {
       // Cache hit - return response
@@ -38,34 +34,43 @@ self.addEventListener('fetch', function (event) {
         return response;
       }
 
-      if (event.request.url.includes(location.origin + '/conversation/chat')) {
-        console.log([event.request.url, location.origin + '/index.html'])
-        var req = new Request(location.origin + '/index.html', {
-          method: 'GET',
-        });
-        return fetch(req).then(function (response) {
-          if (response.status !== 200 || response.type !== 'basic') {
+      var urls = [
+        location.origin + '/conversation/chat',
+        location.origin + '/login',
+        location.origin + '/register',
+        location.origin + '/email/',
+      ];
+
+      for (let index = 0; index < urls.length; index++) {
+        var url = urls[index];
+
+        if (event.request.url.includes(url)) {
+          var req = new Request(location.origin + '/index.html', {
+            method: 'GET',
+          });
+          return fetch(req).then(function (response) {
+            if (response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            var responseToCache = response.clone();
+
+            caches.open('static')
+              .then(function (cache) {
+                cache.put(req, responseToCache);
+              });
+
             return response;
-          }
-
-          var responseToCache = response.clone();
-
-          caches.open('static')
-            .then(function (cache) {
-              cache.put(req, responseToCache);
-            });
-
-          return response;
-        });
+          });
+        }
       }
 
-      console.log([event.request.url, event.request.url])
       return fetch(event.request).then(function (response) {
         // Check if we received a valid response
         if (
           !response
           ||
-          (response.status !== 200 && !event.request.url.includes(location.origin + '/conversation/chat'))
+          response.status !== 200
           ||
           response.type !== 'basic'
           ||
