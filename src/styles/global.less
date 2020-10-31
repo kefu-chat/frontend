@@ -3,6 +3,7 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
+  box-shadow: auto;
 }
 
 .link-normal {
@@ -52,8 +53,7 @@ input:-webkit-autofill:active {
 }
 
 .cdk-virtual-scroll-content-wrapper {
-  width: 100% !important;
-  height: 100% !important;
+  max-height: 9999px !important;
 }
 
 @tab-prefix-cls: ~"@{ant-prefix}-tabs";
