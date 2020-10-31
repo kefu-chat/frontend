@@ -46,7 +46,7 @@
             </a>
           </div>
         </div>
-        <nz-button-group class="hidden-mobile" *ngIf="conversation">
+        <nz-button-group class="hidden-mobile" *ngIf="conversation && conversation.status">
           <button class="btn-leave" nz-button (click)="terminateConversation()">
             <i nz-icon nzType="lock"></i>
             结束

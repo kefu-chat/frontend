@@ -402,6 +402,6 @@
     </div>
   </div>
   <div nz-col class="chat-right" *ngIf="selectId">
-    <app-chat-detail [sid]="selectId" (messageOutput)="getMessageOutput($event)" (conversationLoad)="getConversationLoad($event)"></app-chat-detail>
+    <app-chat-detail [sid]="selectId" [selectConversation]="selectConversation" (messageOutput)="getMessageOutput($event)" (conversationLoad)="getConversationLoad($event)"></app-chat-detail>
   </div>
 </div>

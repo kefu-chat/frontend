@@ -69,6 +69,13 @@ export class ChatDetailComponent implements OnInit {
     this.id = id;
     this.initData();
   }
+  @Input()
+  set selectConversation(conversation: Conversation) {
+    this.conversation = conversation;
+    if (conversation && conversation.visitor) {
+      this.visitor = conversation.visitor;
+    }
+  }
   @Output() messageOutput: EventEmitter<any> = new EventEmitter();
   @Output() conversationLoad: EventEmitter<any> = new EventEmitter();
 

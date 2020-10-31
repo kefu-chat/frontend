@@ -29,6 +29,7 @@ export class ChatComponent implements OnInit {
   historyCount = 0;
   channel: string;
   selectId: string;
+  selectConversation: Conversation;
   institutionId: string;
   currentTab: number;
   keyword: string;
@@ -299,12 +300,14 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  to(item: { id: any }): boolean {
+  to(item: Conversation): boolean {
     if (this.loading) {
       return false;
     }
 
     this.selectId = item.id;
+    this.selectConversation = item;
+
     this.router.navigateByUrl(`/conversation/chat/${item.id}`);
     this.loading = true;
     return false;
