@@ -86,14 +86,16 @@
               <div nz-col nzSpan="3" nzSm="3" nzXs="0" style="width: 10%">操作</div>
             </div>
             <div class="conversation-list-ul" *ngIf="onlineConversations && (onlineVisitorsCount + onlineConversations.length) > 0">
-              <cdk-virtual-scroll-viewport class="width-100" style="height: 100%;" [itemSize]="76" [minBufferPx]="0" [maxBufferPx]="0">
-                <ul>
-                  <li
+              <div class="width-100" style="height: 100%;">
+                <div>
+                  <a
+                    [href]="'/conversation/visitor/' + item.id"
                     nz-menu-item
-                    class="conversation-item"
+                    class="conversation-item "
+                    [style]="loading ? 'cursor: not-allowed' : ''"
                     [nzSelected]="item && selectId == item.id"
                     (click)="toSee(item)"
-                    *cdkVirtualFor="let item of onlineConversations"
+                    *ngFor="let item of onlineConversations"
                   >
                     <div nz-row class="width-100">
                       <div class="overflow-hidden" nz-col [nzSpan]="selectId ? 24 : 18" [nzSm]="selectId ? 24 : 18" nzXs="24" *ngIf="item">
@@ -135,10 +137,10 @@
                           </div>
                         </div>
                       </div>
-                      <div nz-col nzSpan="3" nzSm="3" nzXs="0" class="hidden-mobile" *ngIf="!selectId && item" style="width: 10%">
+                      <div nz-col nzSpan="3" nzSm="3" nzXs="0" class="hidden-mobile flex-center-between" *ngIf="!selectId && item" style="width: 10%">
                         {{ fromNow(item.created_at) }}
                       </div>
-                      <div nz-col nzSpan="3" nzSm="3" nzXs="0" class="hidden-mobile" *ngIf="!selectId && item" style="width: 10%">
+                      <div nz-col nzSpan="3" nzSm="3" nzXs="0" class="hidden-mobile flex-center-between" *ngIf="!selectId && item" style="width: 10%">
                         <button
                           nz-button
                           nzType="primary"
@@ -149,9 +151,9 @@
                         </button>
                       </div>
                     </div>
-                  </li>
-                </ul>
-              </cdk-virtual-scroll-viewport>
+                  </a>
+                </div>
+              </div>
             </div>
           </nz-tab>
         </nz-tabset>

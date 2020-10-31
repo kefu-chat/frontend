@@ -38,7 +38,7 @@ export class ConversationService {
 
   // 获取访客列表
   getVisitorList(params: {
-    type: 'online' | 'offline' | 'all';
+    type: `online` | `offline` | `all`;
     offset?: string;
   }): Observable<Res<ConversationModel>> {
     return this.http.get("api/conversation/list-ungreeted", params);

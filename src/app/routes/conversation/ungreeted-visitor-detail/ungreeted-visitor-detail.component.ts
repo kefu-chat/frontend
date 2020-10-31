@@ -26,7 +26,6 @@ import { NzI18nService } from 'ng-zorro-antd/i18n';
   selector: "app-ungreeted-visitor-detail",
   templateUrl: "./ungreeted-visitor-detail.component.html",
   styleUrls: ["./ungreeted-visitor-detail.component.less"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UngreetedVisitorDetailComponent implements OnInit {
   messageList: MessageModel[] = [];
@@ -83,8 +82,7 @@ export class UngreetedVisitorDetailComponent implements OnInit {
     private echoSrv: EchoService,
     private modal: NzModalService,
     private http: _HttpClient,
-    private nzI18n: NzI18nService,
-    private cdr: ChangeDetectorRef
+    private nzI18n: NzI18nService
   ) {}
 
   ngOnInit(): void {
@@ -113,9 +111,6 @@ export class UngreetedVisitorDetailComponent implements OnInit {
           this.conversation = {...res.data.conversation, hostname};
           this.visitor = this.conversation.visitor;
           this.has_previous = res.data.has_previous;
-
-          this.cdr.markForCheck();
-          this.cdr.detectChanges();
         }
       });
   }

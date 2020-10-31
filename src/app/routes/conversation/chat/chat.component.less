@@ -49,7 +49,7 @@
         margin-left: 20px;
 
         .conversation-visitor-name {
-          line-height: 24px;
+          line-height: 1.5em;
         }
 
         .last-message {
@@ -75,9 +75,15 @@
   .conversation-list-ul {
     .conversation-item.ant-menu-item-selected {
       color: #fff;
-      nz-avatar,
-      .last-message {
+
+      nz-avatar {
         color: #fff;
+      }
+
+      .conversation-list-content {
+        .last-message {
+          color: #fff;
+        }
       }
     }
   }
