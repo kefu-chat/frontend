@@ -96,6 +96,7 @@
                   [href]="'/conversation/chat/' + item.id"
                   nz-menu-item
                   class="conversation-item"
+                  [style]="loading ? 'cursor: not-allowed' : ''"
                   [nzSelected]="item && selectId == item.id"
                   (click)="to(item)"
                   *ngFor="let item of unassignedList"
@@ -210,6 +211,7 @@
                     [href]="'/conversation/chat/' + item.id"
                     nz-menu-item
                     class="conversation-item"
+                    [style]="loading ? 'cursor: not-allowed' : ''"
                     [nzSelected]="item && selectId == item.id"
                     (click)="to(item)"
                     *ngFor="let item of assignedList"
@@ -325,6 +327,7 @@
                     [href]="'/conversation/chat/' + item.id"
                     nz-menu-item
                     class="conversation-item"
+                    [style]="loading ? 'cursor: not-allowed' : ''"
                     [nzSelected]="item && selectId == item.id"
                     (click)="to(item)"
                     *ngFor="let item of historyList"

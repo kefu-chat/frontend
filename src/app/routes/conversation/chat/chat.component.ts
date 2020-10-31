@@ -32,6 +32,7 @@ export class ChatComponent implements OnInit {
   institutionId: string;
   currentTab: number;
   keyword: string;
+  loading = true;
 
   get user(): SystemUser | User {
     return this.settings.user;
@@ -71,6 +72,7 @@ export class ChatComponent implements OnInit {
       return;
     }
     this.selectId = (this.route.children[0].params as any).getValue().id;
+    this.loading = false;
   }
 
   initCount(): void {
@@ -268,8 +270,13 @@ export class ChatComponent implements OnInit {
   }
 
   to(item: { id: any }): boolean {
+    if (this.loading) {
+      return false;
+    }
+
     this.selectId = item.id;
     this.router.navigateByUrl(`/conversation/chat/${item.id}`);
+    this.loading = true;
     return false;
   }
 
@@ -280,6 +287,7 @@ export class ChatComponent implements OnInit {
 
   getConversationLoad(conversation: Conversation): void {
     this.selectId = conversation.id;
+    this.loading = false;
 
     if (conversation.status) {
       if (conversation.user_id || conversation.user) {
