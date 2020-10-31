@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { SettingsService, User as SystemUser, _HttpClient } from "@delon/theme";
 import {
@@ -203,29 +203,60 @@ export class ChatComponent implements OnInit {
         // );
         this.assignedList.unshift(conversation);
       })
+      .listen(`.conversation.terminated`, (message: MessageModel) => {
+        const arr = ["assigned", "unassigned"];
+        let conversations: Conversation[] = [];
+        for (const i of arr) {
+          conversations = this[i + 'List'].filter(
+            (item: Conversation) => item.id === message.conversation_id
+          );
+
+          if (conversations.length == 0) {
+            continue;
+          } else {
+            const conversation = conversations[0];
+            this[i + 'Count']--;
+            this[i + 'List'] = this[i + 'List'].filter((conversation: Conversation) => conversation.id !== message.conversation_id);
+
+            this.historyCount++;
+            this.historyList.unshift(conversation);
+            if (this.selectId == conversation.id) {
+              this.currentTab = 2;
+            }
+            break;
+          }
+        }
+      })
       .listen(`.message.created`, (message: MessageModel) => {
         const arr = ["assignedList", "unassignedList"];
         let conversations: Conversation[] = [];
         for (const i of arr) {
-          console.log([this[i], message])
           conversations = this[i].filter(
             (item: Conversation) => item.id === message.conversation_id
           );
           if (conversations.length == 0) {
             continue;
-          }
-        }
+          } else {
+            const conversation = conversations[0];
 
-        const conversation = conversations[0];
-
-        conversation.last_message = message;
-        conversation.updated_at = conversation.last_reply_at =
-          message.created_at;
-        if (message.sender_type_text == "user") {
-          if (!conversation.user) {
-            this.unassignedCount--;
+            conversation.last_message = message;
+            conversation.updated_at = conversation.last_reply_at = message.created_at;
+            if (message.sender_type_text == "user") {
+              if (!conversation.user) {
+                this.unassignedCount--;
+                this.assignedCount ++;
+              }
+              conversation.user = message.sender as User;
+            }
+            if (i === 'unassignedList') {
+              this.unassignedList = this.unassignedList.filter((conversation: Conversation) => conversation.id !== message.conversation_id);
+              this.assignedList.unshift(conversation);
+              if (this.selectId == conversation.id) {
+                this.currentTab = 1;
+              }
+            }
+            break;
           }
-          conversation.user = message.sender as User;
         }
       });
   }
