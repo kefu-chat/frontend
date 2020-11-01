@@ -35,11 +35,11 @@ self.addEventListener('fetch', function (event) {
       }
 
       var urls = [
-        '/conversation/chat',
-        '/conversation/visitor',
-        '/login',
-        '/register',
-        '/email/',
+        location.origin + '/conversation/chat',
+        location.origin + '/conversation/visitor',
+        location.origin + '/login',
+        location.origin + '/register',
+        location.origin + '/email/',
       ];
 
       for (let index = 0; index < urls.length; index++) {
@@ -51,7 +51,7 @@ self.addEventListener('fetch', function (event) {
             return response;
           }
 
-          var req = new Request('/index.html', {
+          var req = new Request(location.origin + '/index.html', {
             method: 'GET',
           });
           return fetch(req).then(function (response) {
