@@ -36,6 +36,7 @@ self.addEventListener('fetch', function (event) {
 
       var urls = [
         location.origin + '/conversation/chat',
+        location.origin + '/conversation/visitor',
         location.origin + '/login',
         location.origin + '/register',
         location.origin + '/email/',
