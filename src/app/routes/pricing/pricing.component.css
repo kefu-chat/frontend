@@ -454,7 +454,7 @@ a {
 }
 
 .service-package .package-box .enterprise .info {
-  margin: 12px 0 40px
+  margin: 32px 0 40px
 }
 
 .service-package .package-box .enterprise .info .info-yellow {
@@ -2715,7 +2715,6 @@ a {
 }
 
 .x-number__icon {
-  float: left;
   display: inline-block;
   width: 29px;
   line-height: 28px;
@@ -3227,7 +3226,7 @@ a {
   background: linear-gradient(270deg, rgba(255, 113, 20, 1) 0, rgba(255, 189, 5, 1) 100%);
   -webkit-box-shadow: 0 4px 16px 0 rgba(0, 0, 0, .04), 0px 2px 0 0 rgba(0, 0, 0, .08);
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, .04), 0px 2px 0 0 rgba(0, 0, 0, .08);
-  background-color: #ff7114\9\0
+  background-color: #ff7114;
 }
 
 .package-item .icon-currPkg[data-v-3222d430] {
