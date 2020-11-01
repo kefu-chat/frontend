@@ -35,18 +35,23 @@ self.addEventListener('fetch', function (event) {
       }
 
       var urls = [
-        location.origin + '/conversation/chat',
-        location.origin + '/conversation/visitor',
-        location.origin + '/login',
-        location.origin + '/register',
-        location.origin + '/email/',
+        '/conversation/chat',
+        '/conversation/visitor',
+        '/login',
+        '/register',
+        '/email/',
       ];
 
       for (let index = 0; index < urls.length; index++) {
         var url = urls[index];
 
         if (event.request.url.includes(url)) {
-          var req = new Request(location.origin + '/index.html', {
+          // Cache hit - return response
+          if (response) {
+            return response;
+          }
+
+          var req = new Request('/index.html', {
             method: 'GET',
           });
           return fetch(req).then(function (response) {

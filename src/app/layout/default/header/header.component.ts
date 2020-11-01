@@ -42,12 +42,19 @@ export class HeaderComponent {
     this.registerWebSocket();
     // this.loadKefuChat();
 
-    this.registerServiceWorker('/sw.js?a=3', (subscription: PushSubscriptionJSON) => {
-      localStorage.setItem(`can_push`, 'yes');
-      this.http.post(`api/push/subscribe`, {subscription}).subscribe(console.log);
-    }, () => {
-      localStorage.setItem(`can_push`, 'no');
-    });
+    const dt = new Date();
+    this.registerServiceWorker(
+      `/sw.js?_t=` + (dt.getTime() - (dt.getTime() % 600000)) / 100000,
+      (subscription: PushSubscriptionJSON) => {
+        localStorage.setItem(`can_push`, "yes");
+        this.http
+          .post(`api/push/subscribe`, { subscription })
+          .subscribe(console.log);
+      },
+      () => {
+        localStorage.setItem(`can_push`, "no");
+      }
+    );
   }
 
   toggleCollapsedSidebar(): void {
@@ -158,7 +165,22 @@ export class HeaderComponent {
     if ('serviceWorker' in navigator && 'PushManager' in window) {
       navigator.serviceWorker.register(js)
       .then((swRegistration: ServiceWorkerRegistration) => {
-        console.log('Service Worker is registered', swRegistration);
+        swRegistration.addEventListener(`updatefound`, () => {
+          const newWorker = swRegistration.installing;
+          if (newWorker.state === `redundant`) {
+            caches.open(`static`).then((cache) => {
+              cache.keys().then(requests => requests.forEach((request) => {
+                cache.match(request).then(response => {
+                  if ((response.headers.get(`content-type`) || response.headers.get(`Content-Type`)).indexOf('text/html') === 0) {
+                    if ((new Date(response.headers.get(`date`) || response.headers.get(`Date`))).getTime() - (new Date).getTime() > 1000 * 60 * 10) {
+                      cache.delete(request);
+                    }
+                  }
+                });
+              }));
+            });
+          }
+        });
 
         const onSubscribed = (subscription: PushSubscription) => {
           console.log('User is subscribed.', subscription);
