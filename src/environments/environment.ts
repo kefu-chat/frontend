@@ -4,10 +4,9 @@
 
 export const environment = {
   SERVER_URL: `./`,
-  // apiUrl: `http://localhost/`,
-  apiUrl: `http://dev.fastsupport.cn/`,
-  socketHost: `http://dev.fastsupport.cn:6001/`,
-  widgetHost: `http://dev.fastsupport.cn:5000/`,
+  apiUrl: `http://kefu.ssl.digital/`,
+  socketHost: `http://kefu.ssl.digital:6003/`,
+  widgetHost: `http://kefu.ssl.digital:5000/`,
   production: false,
   useHash: false,
   hmr: false,
