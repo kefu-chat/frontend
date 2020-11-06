@@ -51,8 +51,6 @@ export class EchoService {
           ],
         }),
       });
-
-      console.log(this.Echo)
     }
   }
 }
