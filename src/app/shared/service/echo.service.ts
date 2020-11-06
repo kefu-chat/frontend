@@ -14,19 +14,6 @@ export class EchoService {
     const store = JSON.parse(localStorage.getItem("_token"));
     if (store) {
       const token = store.token;
-      console.log({
-        // broadcaster: "socket.io",
-        // host: environment.socketHost,
-        // auth: {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //   },
-        // },
-        wsHost: new URL(environment.socketHost).hostname,
-        wsPort: parseInt(new URL(environment.socketHost).port, 10),
-        disableStats: true,
-        forceTLS: new URL(environment.socketHost).protocol == "https:",
-      });
 
       this.Echo = new Echo({
         // broadcaster: "socket.io",
@@ -37,7 +24,6 @@ export class EchoService {
         //   },
         // },
         broadcaster: "pusher",
-        key: "test",
         client: new Pusher(`test`, {
           // broadcaster: "socket.io",
           // host: environment.socketHost,
@@ -46,10 +32,12 @@ export class EchoService {
           //     Authorization: `Bearer ${token}`,
           //   },
           // },
-          wsHost: new URL(environment.socketHost).hostname,
-          wsPort: parseInt(new URL(environment.socketHost).port, 10),
+          wsHost: (new URL(environment.socketHost)).hostname,
+          wsPort: parseInt((new URL(environment.socketHost)).port, 10),
+          wssPort: parseInt((new URL(environment.socketHost)).port, 10),
           disableStats: true,
-          forceTLS: new URL(environment.socketHost).protocol == "https:",
+          forceTLS: (new URL(environment.socketHost)).protocol == "https:",
+          enabledTransports: [(new URL(environment.socketHost)).protocol == "https:" ? 'wss': 'ws'], // <- added this param
         }),
       });
     }
