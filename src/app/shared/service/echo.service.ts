@@ -32,14 +32,27 @@ export class EchoService {
           //     Authorization: `Bearer ${token}`,
           //   },
           // },
-          wsHost: (new URL(environment.socketHost)).hostname,
-          wsPort: parseInt((new URL(environment.socketHost)).port, 10),
-          wssPort: parseInt((new URL(environment.socketHost)).port, 10),
+          auth: {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+          authEndpoint: environment.apiUrl + "broadcasting/auth",
+          httpHost: new URL(environment.apiUrl).hostname,
+          httpPort: parseInt(new URL(environment.apiUrl).port, 10),
+          httpsPort: parseInt(new URL(environment.apiUrl).port, 10),
+          wsHost: new URL(environment.socketHost).hostname,
+          wsPort: parseInt(new URL(environment.socketHost).port, 10),
+          wssPort: parseInt(new URL(environment.socketHost).port, 10),
           disableStats: true,
-          forceTLS: (new URL(environment.socketHost)).protocol == "https:",
-          enabledTransports: [(new URL(environment.socketHost)).protocol == "https:" ? 'wss': 'ws'], // <- added this param
+          forceTLS: new URL(environment.socketHost).protocol == "https:",
+          enabledTransports: [
+            new URL(environment.socketHost).protocol == "https:" ? "wss" : "ws",
+          ],
         }),
       });
+
+      console.log(this.Echo)
     }
   }
 }
