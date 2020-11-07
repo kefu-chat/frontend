@@ -105,6 +105,7 @@ export class ChatDetailComponent implements OnInit {
 
   has_previous: boolean;
   typing: boolean;
+  typingMessage: string | null;
   socket: any;
   constructor(
     public route: ActivatedRoute,
@@ -164,7 +165,8 @@ export class ChatDetailComponent implements OnInit {
           this.scrollTo();
         }, 200);
       })
-      .listenForWhisper("startTyping", (evt: {}) => {
+      .listenForWhisper("startTyping", (evt: {content: string}) => {
+        this.typingMessage = evt.content;
         this.typing = true;
       })
       .listenForWhisper("stopTyping", (evt: {}) => {
