@@ -28,4 +28,8 @@ export class LayoutPassportComponent implements OnInit {
   ngOnInit(): void {
     this.tokenService.clear();
   }
+
+  openComodoSeal(): void {
+    window.open(`https://comodo-status.digital-sign.com.cn/ttb_searcher/trustlogo?v_querytype=W&v_shortname=ENTEV&v_search=http://www.kefu.chat&x=6&y=5`, `_comodo_seal`);
+  }
 }

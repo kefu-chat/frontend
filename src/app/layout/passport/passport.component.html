@@ -15,10 +15,16 @@
         <a href="//www.kefu.chat">客服洽</a> 版权所有.
         <a href="//beian.miit.gov.cn/">沪ICP备20022337号-5</a>.
       </div>
-      <div>
-        <a class="d-block mt-sm" href="https://seal.trustasia.com/seal/detail?domain=www.kefu.chat" target="_seal">
-          <img src="./assets/seal-trustasia.svg" style="width: 80px;">
-        </a>
+      <div class="mt-sm">
+        <a class="d-inline-block" href="https://seal.trustasia.com/seal/detail?domain=kefu.chat" target="_seal">
+          <img class="img-seal" src="./assets/seal-trustasia.svg" style="width: 80px;">
+        </a> 
+        <button nz-button class="d-inline-block border-0 bg-transparent p0 m0 ml-sm" nz-popover nzPopoverTrigger="hover" nzPopoverPlacement="right" nzPopoverOverlayClassName="bg-transparent" [nzPopoverContent]="sealPreview" [nzPopoverTitle]="''" (click)="openComodoSeal()">
+          <img class="img-seal" src="./assets/seal-comodo.svg" style="width: 56px;">
+          <ng-template #sealPreview>
+            <iframe src="https://comodo-status.digital-sign.com.cn/ttb_searcher/trustlogo?v_querytype=C&v_shortname=POSEV&v_search=http://www.kefu.chat&x=6&y=5" class="w-100 border-0"></iframe>
+          </ng-template>
+        </button>
       </div>
     </global-footer>
   </div>
