@@ -69,6 +69,7 @@ export class ProAccountSettingsComponent implements AfterViewInit, OnDestroy {
     if (item.key == "logout") {
       this.tokenService.clear();
       this.router.navigateByUrl(this.tokenService.login_url);
+      caches.delete('static');
       return;
     }
     this.router.navigateByUrl(`/pro/account/settings/${item.key}`);

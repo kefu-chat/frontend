@@ -11,10 +11,11 @@ self.addEventListener('notificationclick', function (event) {
   if (action === 'close') {
     console.log('action close for notification', ourKey);
     notification.close();
-  } else if (action === 'go') {
+  } else if (action === 'view') {
     console.log('action go for notification', ourKey);
     console.log(notification);
-    clients.openWindow('https://d3v.one/blog/');
+    var conversation_id = notification.data.conversation_id
+    clients.openWindow(location.origin + '/conversation/chat/' + conversation_id);
   } else {
     notification.close();
   }
@@ -40,6 +41,7 @@ self.addEventListener('fetch', function (event) {
         location.origin + '/login',
         location.origin + '/register',
         location.origin + '/email/',
+        location.origin + '/pricing',
       ];
 
       for (let index = 0; index < urls.length; index++) {
@@ -83,6 +85,10 @@ self.addEventListener('fetch', function (event) {
           event.request.url.includes('/sockjs-node/')
           ||
           event.request.url.includes('/socket.io/')
+          ||
+          event.request.url.includes('/version.txt')
+          ||
+          event.request.url.includes('/sw.js')
         ) {
           return response;
         }
