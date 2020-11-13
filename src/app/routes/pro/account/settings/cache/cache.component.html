@@ -1,0 +1,21 @@
+<nz-list nzItemLayout="horizontal">
+  <nz-list-item>
+    <nz-list-item-meta nzTitle="缓存版本" [nzDescription]="passwordDesc">
+      <ng-template #passwordDesc>
+        当前缓存版本：<span class="text-green">{{environment.version}}</span>
+      </ng-template>
+    </nz-list-item-meta>
+  </nz-list-item>
+  <nz-list-item [nzActions]="[phoneOp]">
+    <ng-template #phoneOp>
+      <a (click)="caches.delete('static') && msg.success('清除缓存成功, 请手动刷新页面')">清除</a>
+    </ng-template>
+    <nz-list-item-meta nzTitle="清理缓存" [nzDescription]="phoneDesc">
+      <ng-template #phoneDesc>
+        <span>
+          若发生功能异常，请尝试清理缓存
+        </span>
+      </ng-template>
+    </nz-list-item-meta>
+  </nz-list-item>
+</nz-list>

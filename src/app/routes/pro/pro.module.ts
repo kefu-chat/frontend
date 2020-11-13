@@ -11,6 +11,7 @@ import { ProAccountSettingsBaseComponent } from "./account/settings/base/base.co
 import { ProAccountSettingsBindingComponent } from "./account/settings/binding/binding.component";
 import { ProAccountSettingsNotificationComponent } from "./account/settings/notification/notification.component";
 import { ProAccountSettingsSecurityComponent } from "./account/settings/security/security.component";
+import { ProAccountSettingsCacheComponent } from "./account/settings/cache/cache.component";
 import { ProAccountSettingsComponent } from "./account/settings/settings.component";
 import { ProEnterpriseCenterApplicationsComponent } from "./enterprise/center/applications/applications.component";
 import { ProEnterpriseCenterArticlesComponent } from "./enterprise/center/articles/articles.component";
@@ -35,6 +36,7 @@ const COMPONENTS = [
   ProAccountSettingsComponent,
   ProAccountSettingsBaseComponent,
   ProAccountSettingsSecurityComponent,
+  ProAccountSettingsCacheComponent,
   ProAccountSettingsBindingComponent,
   ProAccountSettingsNotificationComponent,
   ProEnterpriseCenterComponent,

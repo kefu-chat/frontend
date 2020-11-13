@@ -42,6 +42,10 @@ export class ProAccountSettingsComponent implements AfterViewInit, OnDestroy {
       title: "新消息通知",
     },
     {
+      key: "cache",
+      title: "缓存设置",
+    },
+    {
       key: "logout",
       title: "退出登录",
     },

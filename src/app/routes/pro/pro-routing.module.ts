@@ -9,6 +9,7 @@ import { ProAccountSettingsBaseComponent } from "./account/settings/base/base.co
 import { ProAccountSettingsBindingComponent } from "./account/settings/binding/binding.component";
 import { ProAccountSettingsNotificationComponent } from "./account/settings/notification/notification.component";
 import { ProAccountSettingsSecurityComponent } from "./account/settings/security/security.component";
+import { ProAccountSettingsCacheComponent } from "./account/settings/cache/cache.component";
 import { ProAccountSettingsComponent } from "./account/settings/settings.component";
 import { ProEnterpriseCenterApplicationsComponent } from "./enterprise/center/applications/applications.component";
 import { ProEnterpriseCenterArticlesComponent } from "./enterprise/center/articles/articles.component";
@@ -69,17 +70,22 @@ const routes: Routes = [
           {
             path: "security",
             component: ProAccountSettingsSecurityComponent,
-            data: { titleI18n: "pro-account-settings" },
+            data: { titleI18n: "pro-account-settings-security" },
           },
           {
             path: "binding",
             component: ProAccountSettingsBindingComponent,
-            data: { titleI18n: "pro-account-settings" },
+            data: { titleI18n: "pro-account-settings-binding" },
           },
           {
             path: "notification",
             component: ProAccountSettingsNotificationComponent,
-            data: { titleI18n: "pro-account-settings" },
+            data: { titleI18n: "pro-account-settings-notification" },
+          },
+          {
+            path: "cache",
+            component: ProAccountSettingsCacheComponent,
+            data: { titleI18n: "pro-account-settings-cache" },
           },
         ],
       },
