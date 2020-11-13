@@ -47,7 +47,8 @@ export class EchoService {
           disableStats: true,
           forceTLS: new URL(environment.socketHost).protocol == "https:",
           enabledTransports: [
-            new URL(environment.socketHost).protocol == "https:" ? "wss" : "ws",
+            'ws', 'wss'
+            // new URL(environment.socketHost).protocol == "https:" ? "wss" : "ws",
           ],
         }),
       });
