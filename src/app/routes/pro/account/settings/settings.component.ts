@@ -1,7 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   Inject,
@@ -17,7 +15,6 @@ import { debounceTime, filter } from "rxjs/operators";
   selector: "app-account-settings",
   templateUrl: "./settings.component.html",
   styleUrls: ["./settings.component.less"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProAccountSettingsComponent implements AfterViewInit, OnDestroy {
   private resize$: Subscription;
@@ -52,7 +49,6 @@ export class ProAccountSettingsComponent implements AfterViewInit, OnDestroy {
   ];
   constructor(
     private router: Router,
-    private cdr: ChangeDetectorRef,
     private el: ElementRef<HTMLElement>,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
   ) {
@@ -90,8 +86,6 @@ export class ProAccountSettingsComponent implements AfterViewInit, OnDestroy {
       mode = "horizontal";
     }
     this.mode = mode;
-    this.cdr.markForCheck();
-    this.cdr.detectChanges();
   }
 
   ngAfterViewInit(): void {

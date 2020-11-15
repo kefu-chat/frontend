@@ -1,7 +1,8 @@
 <nz-list nzItemLayout="horizontal">
   <nz-list-item [nzActions]="[qywechatOp]">
     <ng-template #qywechatOp>
-      <a (click)="msg.success('Edit')">修改</a>
+      <a (click)="msg.success('Edit')" *ngIf="!loading">绑定</a>
+      <a *ngIf="loading">加载中</a>
     </ng-template>
     <nz-list-item-meta
       nzTitle="绑定企业微信"
@@ -41,7 +42,8 @@
   </nz-list-item>
   <nz-list-item [nzActions]="[wechatOp]">
     <ng-template #wechatOp>
-      <a (click)="msg.success('Edit')">修改</a>
+      <a (click)="bind('wechat', qrCode)" *ngIf="!loading">绑定</a>
+      <a *ngIf="loading">加载中</a>
     </ng-template>
     <nz-list-item-meta
       nzTitle="绑定微信"
@@ -53,9 +55,10 @@
       </ng-template>
     </nz-list-item-meta>
   </nz-list-item>
-  <nz-list-item [nzActions]="[taobaoOp]">
-    <ng-template #taobaoOp>
-      <a (click)="msg.success('Edit')">修改</a>
+  <nz-list-item [nzActions]="[dingtalkOp]">
+    <ng-template #dingtalkOp>
+      <a (click)="bind('dingtalk', qrCode)" *ngIf="!loading">绑定</a>
+      <a *ngIf="loading">加载中</a>
     </ng-template>
     <nz-list-item-meta
       nzTitle="绑定钉钉"
@@ -69,7 +72,8 @@
   </nz-list-item>
   <nz-list-item [nzActions]="[alipayOp]">
     <ng-template #alipayOp>
-      <a (click)="msg.success('Edit')">修改</a>
+      <a (click)="msg.success('Edit')" *ngIf="!loading">绑定</a>
+      <a *ngIf="loading">加载中</a>
     </ng-template>
     <nz-list-item-meta
       nzTitle="绑定支付宝"
@@ -82,3 +86,8 @@
     </nz-list-item-meta>
   </nz-list-item>
 </nz-list>
+<ng-template  #qrCode>
+  <div class="text-center">
+    <img [src]="'data:image/jpeg;base64,' + bindSrc" style="width: 210px;"/>
+  </div>
+</ng-template>
