@@ -88,6 +88,6 @@
 </nz-list>
 <ng-template  #qrCode>
   <div class="text-center">
-    <img [src]="'data:image/jpeg;base64,' + bindSrc" style="width: 210px;"/>
+    <qrcode [qrdata]="bindSrc" [width]="210" [errorCorrectionLevel]="'M'"></qrcode>
   </div>
 </ng-template>
