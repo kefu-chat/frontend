@@ -55,13 +55,14 @@ export class ProAccountSettingsBindingComponent implements OnInit {
 
   unbind(type: `wechat` | `wecom` | `dingtalk`): void {
     this.loading = true;
-    this.http.get(`api/security/binding/${type}/unbind`).subscribe((res: {success: boolean, message?: string, data?: {qr: string}}) => {
+    this.http.post(`api/security/binding/${type}/unbind`).subscribe((res: {success: boolean, message?: string, data?: {qr: string}}) => {
       if (!res.success) {
         this.msg.error(res.message);
         return;
       }
 
       this.loading = false;
+      this.ngOnInit();
     }, () => {
       this.loading = false;
     });
