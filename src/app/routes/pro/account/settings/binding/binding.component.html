@@ -40,7 +40,7 @@
       </ng-template>
     </nz-list-item-meta>
   </nz-list-item>
-  <nz-list-item [nzActions]="[wechatOp]">
+  <nz-list-item [nzActions]="[wechatOp]" *ngIf="!bindings.includes('wxapp')">
     <ng-template #wechatOp>
       <a (click)="bind('wechat', qrCode)" *ngIf="!loading">绑定</a>
       <a *ngIf="loading">加载中</a>
@@ -49,6 +49,35 @@
       nzTitle="绑定微信"
       [nzAvatar]="wechatAvatar"
       nzDescription="当前未绑定微信账号"
+    >
+      <ng-template #wechatAvatar>
+        <i nz-icon nzType="wechat" class="icon-sm"></i>
+      </ng-template>
+    </nz-list-item-meta>
+  </nz-list-item>
+  <nz-list-item [nzActions]="[wechatOp]" *ngIf="bindings.includes('wxapp')">
+    <ng-template #wechatOp>
+      <a 
+        nz-popconfirm
+        nzPopconfirmTitle="确认退出?"
+        nzOkText="仍要退出"
+        nzOkType="danger"
+        nzPopconfirmPlacement="right"
+        [nzIcon]="iconTpl"
+        (nzOnConfirm)="unbind('wechat')"
+        *ngIf="!loading"
+      >
+        <ng-template #iconTpl>
+          <i nz-icon nzType="question-circle-o" style="color: red"></i>
+        </ng-template>
+        解绑
+      </a>
+      <a *ngIf="loading">加载中</a>
+    </ng-template>
+    <nz-list-item-meta
+      nzTitle="绑定微信"
+      [nzAvatar]="wechatAvatar"
+      nzDescription="当前已绑定微信账号"
     >
       <ng-template #wechatAvatar>
         <i nz-icon nzType="wechat" class="icon-sm"></i>
