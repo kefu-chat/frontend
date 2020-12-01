@@ -27,6 +27,7 @@ export class ProAccountSettingsBindingComponent implements OnInit {
         return;
       }
 
+      this.loading = false;
       this.bindings = res.data.list;      
     }, () => {
       this.loading = false;
