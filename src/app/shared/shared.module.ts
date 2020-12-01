@@ -18,7 +18,6 @@ import { UEditorModule } from "ngx-ueditor";
 
 import { PickerModule } from "@shared/lib/ngx-emoji-mart";
 import { EmojiModule } from "@shared/lib/ngx-emoji-mart/ngx-emoji";
-import { QRCodeModule } from "angularx-qrcode";
 
 const THIRDMODULES = [
   CountdownModule,
@@ -26,7 +25,6 @@ const THIRDMODULES = [
   NgxTinymceModule,
   PickerModule,
   EmojiModule,
-  QRCodeModule,
 ];
 // #endregion
 

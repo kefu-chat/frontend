@@ -2,6 +2,7 @@ import { Component, TemplateRef } from "@angular/core";
 import { _HttpClient } from "@delon/theme";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { QRModule } from '@delon/abc/qr';
 
 @Component({
   selector: "app-account-settings-binding",

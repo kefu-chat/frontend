@@ -88,6 +88,6 @@
 </nz-list>
 <ng-template  #qrCode>
   <div class="text-center">
-    <qrcode [qrdata]="bindSrc" [width]="210" [errorCorrectionLevel]="'M'"></qrcode>
+    <qr [value]="bindSrc" [size]="210" [level]="'M'"></qr>
   </div>
 </ng-template>
