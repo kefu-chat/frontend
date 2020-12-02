@@ -60,7 +60,12 @@ export class ProAccountSettingsBindingComponent implements OnInit {
       }
 
       this.loading = false;
-      this.ngOnInit();
+
+      this.modal.success({
+        nzContent: '解绑成功',
+        nzTitle: `成功`,
+        nzOnOk: () => this.ngOnInit(),
+      });
     }, () => {
       this.loading = false;
     });
