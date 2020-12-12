@@ -5,7 +5,7 @@
 export const environment = {
   SERVER_URL: `./`,
   apiUrl: `http://kefu.ssl.digital/`,
-  socketHost: `http://kefu.ssl.digital:6003/`,
+  socketHost: `http://kefu.ssl.digital:6001/`,
   widgetHost: `http://kefu.ssl.digital:5000/`,
   production: false,
   useHash: false,
