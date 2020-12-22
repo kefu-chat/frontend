@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { Router } from '@angular/router';
 import { _HttpClient } from "@delon/theme";
 
@@ -10,7 +11,18 @@ import { _HttpClient } from "@delon/theme";
 export class IndexComponent {
   constructor(
     private http: _HttpClient,
-    public router: Router
+    public router: Router,
+    private deviceService: DeviceDetectorService
   ) {
+  }
+
+  toLogin() {
+    const isMobile = this.deviceService.isMobile();
+    if (isMobile) {
+      location.href = '//h5.kefu.chat';
+    } else {
+      this.router.navigateByUrl('/login');
+    }
+    return;
   }
 }
