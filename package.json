@@ -69,6 +69,7 @@
     "ng-deploy-oss": "^9.0.1",
     "ng-zorro-antd": "^10.0.0",
     "ngx-countdown": "^10.0.0",
+    "ngx-device-detector": "^2.0.4",
     "ngx-tinymce": "^10.0.0",
     "ngx-ueditor": "^10.0.0",
     "qrious": "^4.0.2",
