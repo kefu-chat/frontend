@@ -42,4 +42,4 @@
 
 ### License
 
-知识产权软件，不开源.
+[MIT License](LICENSE)
