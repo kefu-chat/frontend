@@ -40,6 +40,9 @@
 ![PC](https://kf-img.ssls.com.cn/upload/1548d0a3913f4f99a854d36363ba7f89.png)
 ![Mobile](https://kf-img.ssls.com.cn/upload/7f37b5f344516c8e17905522f8e81f0b.png)
 
+## How to Use it
+首页-> 管理 -> 站点/人员 -> 获取安装代码 -> 将代码嵌入至自己的站点
+
 ### License
 
 [MIT License](LICENSE)
