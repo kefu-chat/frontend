@@ -66,7 +66,7 @@
     "ajv": "^6.12.4",
     "file-saver": "^2.0.2",
     "laravel-echo": "^1.8.1",
-    "ng-deploy-oss": "^9.0.1",
+    "ng-deploy-oss": "^14.0.0",
     "ng-zorro-antd": "^10.0.0",
     "ngx-countdown": "^10.0.0",
     "ngx-device-detector": "^2.0.4",
@@ -81,7 +81,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~14.2.2",
-    "@angular/cli": "~10.1.4",
+    "@angular/cli": "~10.2.4",
     "@angular/compiler-cli": "~10.1.4",
     "@angular/language-service": "~10.0.4",
     "@angularclass/hmr": "^3.0.0",
